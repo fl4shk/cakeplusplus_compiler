@@ -1,7 +1,8 @@
 digit						[0-9]
 letter						[A-Za-z]
-ident_non_start_char		{letter}|{digit}|[_]
-ident_start_char			{letter}|[_]
+__ident_non_start_char		{letter}|{digit}|[_]
+__ident_start_char			{letter}|[_]
+ident					{__ident_start_char}({__ident_non_start_char})*
 
 %{
 	typedef uint8_t u8;
@@ -17,7 +18,7 @@ ident_start_char			{letter}|[_]
 
 %%
 	/* match identifier */
-{ident_start_char}({ident_non_start_char})*		inc_count();
+{ident}		inc_count();
 
 %%
 

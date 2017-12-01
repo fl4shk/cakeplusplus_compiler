@@ -156,10 +156,10 @@ all_pre_asmout :
 
 
 
-# Here's where things get really messy.
 gen_src/lex.yy.c : gen_src/lexicals.l
 	cd gen_src && lex lexicals.l
 
+# Here's where things get really messy.
 $(CXX_OFILES) : $(OBJDIR)/%.o : %.cpp 
 	@#echo "Generating dependency information for "$@"...." 
 	@echo $@" was updated or has no object file.  (Re)Compiling...." 

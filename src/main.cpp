@@ -18,7 +18,7 @@ int real_main(int argc, char** argv)
 
 void inc_count()
 {
-	printout("Nice\n");
+	//printout("Nice\n");
 	++count;
 }
 }
