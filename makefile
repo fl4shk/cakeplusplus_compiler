@@ -156,8 +156,8 @@ all_pre_asmout :
 
 
 
-gen_src/lex.yy.c : gen_src/lexicals.l
-	cd gen_src && lex lexicals.l
+gen_src/lex.yy.c : src/lexicals.l
+	lex src/lexicals.l && mv lex.yy.c gen_src
 
 # Here's where things get really messy.
 $(CXX_OFILES) : $(OBJDIR)/%.o : %.cpp 
