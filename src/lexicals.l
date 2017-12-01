@@ -34,7 +34,7 @@ int yywrap()
 	return 1;
 }
 
-int main(int argc, char** argv)
-{
-	return real_main(argc, argv);
-}
+//int main(int argc, char** argv)
+//{
+//	return real_main(argc, argv);
+//}
