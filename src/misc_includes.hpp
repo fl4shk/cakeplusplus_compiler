@@ -21,7 +21,6 @@ extern "C"
 {
 
 extern void yylex();
-extern u64 count;
 
 }
 
