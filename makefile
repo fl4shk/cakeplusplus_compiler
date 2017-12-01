@@ -1,7 +1,7 @@
 # These directories specify where source code files are located.
 # Edit these variables if more directories are needed.  
 # Separate each entry by spaces.
-SHARED_SRC_DIRS:=$(CURDIR) src
+SHARED_SRC_DIRS:=$(CURDIR) src gen_src
 CXX_DIRS:=$(SHARED_SRC_DIRS)
 C_DIRS:=$(SHARED_SRC_DIRS)
 S_DIRS:=$(SHARED_SRC_DIRS)
@@ -130,7 +130,7 @@ CXX_EFILES:=$(CXX_SOURCES:%.cpp=$(PREPROCDIR)/%.E)
 EFILES:=$(CXX_EFILES)
 
 
-all : all_pre $(OFILES)
+all : all_pre $(OFILES) gen_src/lex.yy.c
 	$(LD) $(OBJDIR)/*.o -o $(PROJ) $(LD_FLAGS)
 
 # all_objs is ENTIRELY optional.
@@ -150,6 +150,8 @@ all_pre_asmout :
 
 
 # Here's where things get really messy.
+gen_src/lex.yy.c : gen_src/lexicals.l
+	cd gen_src && lex lexicals.l
 
 $(CXX_OFILES) : $(OBJDIR)/%.o : %.cpp 
 	@#echo "Generating dependency information for "$@"...." 
