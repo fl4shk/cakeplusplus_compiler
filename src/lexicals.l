@@ -35,7 +35,6 @@ dec_num		{digit}({digit})*
 
 {ident}			{
 					yylval.name = set_curr_var_name(yytext);
-					set_curr_var_name(yytext);
 					make_curr_var();
 					//printf("Here is an ident:  %s\n", yylval.name);
 					return TokIdent;
