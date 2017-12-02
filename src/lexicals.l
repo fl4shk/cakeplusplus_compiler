@@ -3,38 +3,56 @@ letter		[A-Za-z]
 __ident_non_start_char		{letter}|{digit}|[_]
 __ident_start_char			{letter}|[_]
 ident		{__ident_start_char}({__ident_non_start_char})*
-num			{digit}({digit})*
+dec_num		{digit}({digit})*
+
 
 %{
-	typedef uint8_t u8;
-	typedef uint16_t u16;
-	typedef uint32_t u32;
-	typedef uint64_t u64;
-	typedef int8_t s8;
-	typedef int16_t s16;
-	typedef int32_t s32;
-	typedef int64_t s64;
-	extern u64 ident_count, num_count;
+	/*
+	typedef uint8_t u8; typedef int8_t s8;
+	typedef uint16_t u16; typedef int16_t s16;
+	typedef uint32_t u32; typedef int32_t s32;
+	typedef uint64_t u64; typedef int64_t s64;
+	*/
 
-	extern int real_main(int argc, char** argv);
-	extern void inc_ident_count();
-	extern void inc_num_count();
+	#include <stdlib.h>
+	#include "grammar.tab.hh"
+	int yylex(void);
+	extern void yyerror(char* msg);
+
 %}
 
 %%
-	/* match identifier */
-{ident}			inc_ident_count();
-{num}			inc_num_count();
+"+"				{ return *yytext; }
+"-"				{ return *yytext; }
+"*"				{ return *yytext; }
+"/"				{ return *yytext; }
+"%"				{ return *yytext; }
+"("				{ return *yytext; }
+")"				{ return *yytext; }
+"["				{ return *yytext; }
+"]"				{ return *yytext;}
+"{"				{ return *yytext; }
+"}"				{ return *yytext; }
+"\n"			{ return *yytext; }
+
+
+[ \t]			; /* skip whitespace */
+
+
+{ident}			{ return TokIdent; }
+{dec_num}		{
+					yylval = atoi(yytext);
+					return TokDecNum;
+				}
+
+<<EOF>>			{ return TokEof; }
+
+.				{ yyerror("Eek!"); }
 
 %%
 
 
-int yywrap()
+int yywrap(void)
 {
 	return 1;
 }
-
-//int main(int argc, char** argv)
-//{
-//	return real_main(argc, argv);
-//}

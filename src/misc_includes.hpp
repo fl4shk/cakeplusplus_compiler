@@ -17,12 +17,7 @@ using namespace liborangepower::integer_types;
 using namespace liborangepower::misc_util;
 using namespace liborangepower::bitwise;
 
-extern "C"
-{
-
-extern void yylex();
-
-}
+#include "../gen_src/grammar.tab.hh"
 
 
 #endif		// misc_includes_hpp

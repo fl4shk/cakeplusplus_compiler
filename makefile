@@ -130,7 +130,7 @@ CXX_EFILES:=$(CXX_SOURCES:%.cpp=$(PREPROCDIR)/%.E)
 EFILES:=$(CXX_EFILES)
 
 
-GENERATED_SOURCES:=gen_src/lex.yy.c
+GENERATED_SOURCES:=gen_src/lex.yy.c gen_src/grammar.tab.cpp gen_src/grammar.tab.hh 
 
 #all : all_pre $(OFILES) $(GENERATED_SOURCES)
 #	$(LD) $(OBJDIR)/*.o -o $(PROJ) $(LD_FLAGS)
@@ -158,6 +158,11 @@ all_pre_asmout :
 
 gen_src/lex.yy.c : src/lexicals.l
 	cd src && flex lexicals.l && mv lex.yy.c ../gen_src/lex.yy.c
+gen_src/grammar.tab.cpp : src/grammar.yy
+	cd src && bison -d grammar.yy \
+	&& mv grammar.tab.cc ../gen_src/grammar.tab.cpp
+gen_src/grammar.tab.hh : gen_src/grammar.tab.cpp
+	mv src/grammar.tab.hh gen_src/grammar.tab.hh
 
 # Here's where things get really messy.
 $(CXX_OFILES) : $(OBJDIR)/%.o : %.cpp 

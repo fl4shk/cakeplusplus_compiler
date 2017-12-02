@@ -1,34 +1,19 @@
 #include "misc_includes.hpp"
 
-extern "C"
-{
-u64 ident_count, num_count;
-
-void inc_ident_count()
-{
-	//printout("Nice\n");
-	++ident_count;
-}
-
-void inc_num_count()
-{
-	++num_count;
-}
-
-}
 
 
 int main(int argc, char** argv)
 {
-	yylex();
-	//for (s64 i=0; i<3; ++i)
-	//{
-	//	printout("i == ", i, "\n");
-	//}
+	//yylex();
+	////for (s64 i=0; i<3; ++i)
+	////{
+	////	printout("i == ", i, "\n");
+	////}
 
-	printout("Here is my funky amount of identifiers:  ", ident_count, 
-		"\n");
-	printout("Here is my funky amount of numbers:  ", num_count, 
-		"\n");
+	//printout("Here is my funky amount of identifiers:  ", ident_count, 
+	//	"\n");
+	//printout("Here is my funky amount of dec_numbers:  ", dec_num_count, 
+	//	"\n");
+	yyparse();
 	return 0;
 }
