@@ -47,7 +47,16 @@ extern int yydebug;
   {
     TokIdent = 258,
     TokDecNum = 259,
-    TokEof = 260
+    TokLsl = 260,
+    TokLsr = 261,
+    TokAsr = 262,
+    TokLogicalAnd = 263,
+    TokLogicalOr = 264,
+    TokCmpEq = 265,
+    TokCmpNe = 266,
+    TokCmpLe = 267,
+    TokCmpGe = 268,
+    TokEof = 269
   };
 #endif
 
@@ -60,8 +69,9 @@ union YYSTYPE
 
 	int num;
 	const char* name;
+	int code;			// an index into the generated code
 
-#line 65 "grammar.tab.hh" /* yacc.c:1909  */
+#line 75 "grammar.tab.hh" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
