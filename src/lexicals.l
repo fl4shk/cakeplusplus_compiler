@@ -17,26 +17,41 @@ dec_num		{digit}({digit})*
 	#include <stdlib.h>
 	#include "grammar.tab.hh"
 	int yylex(void);
+	extern const char* set_curr_var_name(char* some_var_name);
+	extern void make_curr_var();
 	extern void yyerror(char* msg);
 
 %}
 
 %%
-[+\-*/%()\[\]\{\}\n]			{ return *yytext; }
+
+[=+\-*/%()\[\]\{\}\n]		{
+								return *yytext;
+							}
 
 
 [ \t]			; /* skip whitespace */
 
 
-{ident}			{ return TokIdent; }
+{ident}			{
+					yylval.name = set_curr_var_name(yytext);
+					set_curr_var_name(yytext);
+					make_curr_var();
+					printf("Here is an ident:  %s\n", yylval.name);
+					return TokIdent;
+				}
 {dec_num}		{
-					yylval = atoi(yytext);
+					yylval.num = atoi(yytext);
 					return TokDecNum;
 				}
 
-<<EOF>>			{ return TokEof; }
+<<EOF>>			{
+					return TokEof;
+				}
 
-.				{ yyerror("Eek!"); }
+.				{
+					yyerror("Eek!");
+				}
 
 %%
 
