@@ -49,12 +49,12 @@ program:
 	;
 
 statement:
-	expr					{ printf("%d\n", $1); }
+	expr							{ printf("%d\n", $1); }
 	| assign_ident '=' expr		{
-								printout("Assignment:  ", assign_ident_str,
-									" = ", $3, "\n");
-								set_var_val(assign_ident_str, $3);
-							}
+									//printout("Assignment:  ", 
+									//	assign_ident_str, " = ", $3, "\n");
+									set_var_val(assign_ident_str, $3);
+								}
 	| TokEof
 	;
 
@@ -73,7 +73,7 @@ expr_add_sub:
 
 expr_mul_div_mod:
 	ident					{
-								printout("TokIdent:  ", $1, "\n");
+								//printout("TokIdent:  ", $1, "\n");
 								$$ = get_var_val($1);
 							}
 	| TokDecNum				{ $$ = $1; }
@@ -82,14 +82,14 @@ expr_mul_div_mod:
 
 ident:
 	TokIdent				{
-								printout("ident thing:  ", $1, "\n");
+								//printout("ident thing:  ", $1, "\n");
 								$$ = $1;
 							}
 	;
 
 assign_ident:
 	TokIdent				{
-								printout("assign_ident:  ", $1, "\n");
+								//printout("assign_ident:  ", $1, "\n");
 								$$ = $1;
 								assign_ident_str = $1;
 							}

@@ -1249,10 +1249,10 @@ yyreduce:
   case 6:
 #line 53 "grammar.yy" /* yacc.c:1646  */
     {
-								printout("Assignment:  ", assign_ident_str,
-									" = ", (yyvsp[0].num), "\n");
-								set_var_val(assign_ident_str, (yyvsp[0].num));
-							}
+									//printout("Assignment:  ", 
+									//	assign_ident_str, " = ", $3, "\n");
+									set_var_val(assign_ident_str, (yyvsp[0].num));
+								}
 #line 1257 "grammar.tab.cc" /* yacc.c:1646  */
     break;
 
@@ -1301,7 +1301,7 @@ yyreduce:
   case 15:
 #line 75 "grammar.yy" /* yacc.c:1646  */
     {
-								printout("TokIdent:  ", (yyvsp[0].name), "\n");
+								//printout("TokIdent:  ", $1, "\n");
 								(yyval.num) = get_var_val((yyvsp[0].name));
 							}
 #line 1308 "grammar.tab.cc" /* yacc.c:1646  */
@@ -1322,7 +1322,7 @@ yyreduce:
   case 18:
 #line 84 "grammar.yy" /* yacc.c:1646  */
     {
-								printout("ident thing:  ", (yyvsp[0].name), "\n");
+								//printout("ident thing:  ", $1, "\n");
 								(yyval.name) = (yyvsp[0].name);
 							}
 #line 1329 "grammar.tab.cc" /* yacc.c:1646  */
@@ -1331,7 +1331,7 @@ yyreduce:
   case 19:
 #line 91 "grammar.yy" /* yacc.c:1646  */
     {
-								printout("assign_ident:  ", (yyvsp[0].name), "\n");
+								//printout("assign_ident:  ", $1, "\n");
 								(yyval.name) = (yyvsp[0].name);
 								assign_ident_str = (yyvsp[0].name);
 							}

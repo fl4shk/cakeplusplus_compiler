@@ -23,14 +23,14 @@ void SymbolTable::make_var(const std::string& some_var_name)
 
 s32 get_var_val(const std::string& some_var_name)
 {
-	printout("Grabbing ", some_var_name, "'s value of ");
+	//printout("Grabbing ", some_var_name, "'s value of ");
 	const auto ret = sym_tbl.__table.at(some_var_name).val;
-	printout(ret, "\n");
+	//printout(ret, "\n");
 	return ret;
 }
 void set_var_val(const std::string& some_var_name, s32 n_val)
 {
-	printout("Setting ", some_var_name, " to ", n_val, "\n");
+	//printout("Setting ", some_var_name, " to ", n_val, "\n");
 	sym_tbl.__table.at(some_var_name).val = n_val;
 }
 const std::string& get_curr_var_name()
