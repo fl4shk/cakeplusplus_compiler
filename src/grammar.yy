@@ -18,8 +18,10 @@
 	#endif		// __cplusplus
 
 	#ifdef __cplusplus
-	#include "../src/symbol_table_extern_funcs.hpp"
+	#include "../src/symbol_table_class.hpp"
+	#include "../src/code_generator_class.hpp"
 	extern std::string assign_ident_str;
+
 	#endif		// __cplusplus
 %}
 
@@ -50,7 +52,7 @@
 %type <code> expr_logical
 %type <code> expr_compare
 %type <code> expr_add_sub
-%type <code> expr_mul_div_mod
+%type <code> expr_mul_div_mod_etc
 
 
 %%
@@ -67,7 +69,7 @@ program:
 statement:
 	assign_ident '=' expr
 		{
-			codegen.gen_store($1, $3);
+			codegen.gen_store($3);
 		}
 	;
 
@@ -117,8 +119,11 @@ expr_logical:
 		}
 
 expr_compare:
-	expr_add_sub						{ $$ = $1; }
-	| expr_compare '+' expr_add_sub		
+	expr_add_sub
+		{
+			$$ = $1;
+		}
+	| expr_compare '+' expr_add_sub
 		{
 			$$ = codegen.gen_add($1, $3);
 		}
@@ -129,25 +134,37 @@ expr_compare:
 	;
 
 expr_add_sub:
-	expr_mul_div_mod
+	expr_mul_div_mod_etc
 		{
 			$$ = $1;
 		}
-	| expr_add_sub '*' expr_mul_div_mod
-		{ 
-			$$ = $1 * $3;
+	| expr_add_sub '*' expr_mul_div_mod_etc
+		{
+			$$ = codegen.gen_mul($1, $3);
 		}
-	| expr_add_sub '/' expr_mul_div_mod
-		{ 
-			$$ = $1 / $3;
+	| expr_add_sub '/' expr_mul_div_mod_etc
+		{
+			$$ = codegen.gen_div($1, $3);
 		}
-	| expr_add_sub '%' expr_mul_div_mod
-		{ 
-			$$ = $1 % $3;
+	| expr_add_sub '%' expr_mul_div_mod_etc
+		{
+			$$ = codegen.gen_mod($1, $3);
+		}
+	| expr_add_sub '&' expr_mul_div_mod_etc
+		{
+			$$ = codegen.gen_bitwise_and($1, $3);
+		}
+	| expr_add_sub '|' expr_mul_div_mod_etc
+		{
+			$$ = codegen.gen_bitwise_or($1, $3);
+		}
+	| expr_add_sub '^' expr_mul_div_mod_etc
+		{
+			$$ = codegen.gen_bitwise_xor($1, $3);
 		}
 	;
 
-expr_mul_div_mod:
+expr_mul_div_mod_etc:
 	ident
 		{
 			//printout("TokIdent:  ", $1, "\n");

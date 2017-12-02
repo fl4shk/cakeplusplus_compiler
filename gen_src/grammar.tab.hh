@@ -65,7 +65,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 27 "grammar.yy" /* yacc.c:1909  */
+#line 29 "grammar.yy" /* yacc.c:1909  */
 
 	int num;
 	const char* name;

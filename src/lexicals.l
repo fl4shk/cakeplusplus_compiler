@@ -1,6 +1,6 @@
 digit		[0-9]
 letter		[A-Za-z]
-single_char_builtin		[=<>+\-*/%()\[\]\{\};]
+single_char_builtin		[=<>+\-*/%&|^()\[\]\{\};]
 
 __ident_non_start_char		{letter}|{digit}|[_]
 __ident_start_char			{letter}|[_]
@@ -61,7 +61,7 @@ dec_num		{digit}({digit})*
 				}
 
 .				{
-					yyerror("Eek!");
+					yyerror("Lexer Eek!");
 				}
 
 %%
