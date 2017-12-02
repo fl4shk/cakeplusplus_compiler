@@ -22,18 +22,7 @@ dec_num		{digit}({digit})*
 %}
 
 %%
-"+"				{ return *yytext; }
-"-"				{ return *yytext; }
-"*"				{ return *yytext; }
-"/"				{ return *yytext; }
-"%"				{ return *yytext; }
-"("				{ return *yytext; }
-")"				{ return *yytext; }
-"["				{ return *yytext; }
-"]"				{ return *yytext;}
-"{"				{ return *yytext; }
-"}"				{ return *yytext; }
-"\n"			{ return *yytext; }
+[+\-*/%()\[\]\{\}\n]			{ return *yytext; }
 
 
 [ \t]			; /* skip whitespace */

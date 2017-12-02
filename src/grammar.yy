@@ -32,7 +32,6 @@ expr_add_sub:
 	| expr_add_sub '%' expr_mul_div_mod			{ $$ = $1 % $3; }
 	;
 
-
 expr_mul_div_mod:
 	expr_dec_num								{ $$ = $1; }
 	| '(' expr ')'								{ $$ = $2; }
