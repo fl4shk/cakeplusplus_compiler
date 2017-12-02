@@ -42,4 +42,4 @@ bison_test_1_debug
 bison_test_*
 bison_test_*_debug
 *.elf
-gen_src/lex.yy.c
+gen_src/*
