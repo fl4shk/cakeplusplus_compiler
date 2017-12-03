@@ -49,7 +49,6 @@
 %token TokCmpNe
 %token TokCmpLe
 %token TokCmpGe
-%token TokEof
 
 %type <name> assign_ident
 %type <name> ident
