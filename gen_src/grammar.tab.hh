@@ -65,11 +65,11 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 29 "grammar.yy" /* yacc.c:1909  */
+#line 34 "grammar.yy" /* yacc.c:1909  */
 
 	int num;
 	const char* name;
-	int code;			// an index into the generated code
+	void* code;			// an index into the generated code
 
 #line 75 "grammar.tab.hh" /* yacc.c:1909  */
 };

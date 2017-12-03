@@ -11,7 +11,7 @@
 	#endif		// __cplusplus
 
 	extern int yylex(void);
-	extern void yyerror(char* msg);
+	extern void yy_c_error(char* msg);
 
 	#ifdef __cplusplus
 	}
@@ -19,17 +19,22 @@
 
 	#ifdef __cplusplus
 	#include "../src/symbol_table_class.hpp"
-	#include "../src/code_generator_class.hpp"
+	#include "../src/ir_code_generator_class.hpp"
 	extern std::string assign_ident_str;
 
 	#endif		// __cplusplus
+
+	#define YYERROR_VERBOSE 1
+
+	extern void yyerror(const char* msg);
+	extern void yyerror(char* msg);
 %}
 
 %union
 {
 	int num;
 	const char* name;
-	int code;			// an index into the generated code
+	void* code;			// an index into the generated code
 }
 
 
@@ -58,18 +63,20 @@
 %%
 
 program:
-	program statement ';'
-	| TokEof
-		{
-			return 0;
-		}
+	program pre_statement
 	|
 	;
 
+pre_statement:
+	pre_statement statement
+	| statement
+	;
+
+
 statement:
-	assign_ident '=' expr
+	assign_ident '=' expr ';'
 		{
-			codegen.gen_store($3);
+			ircodegen.gen_store($3);
 		}
 	;
 
@@ -80,11 +87,11 @@ expr:
 		}
 	| expr TokLogicalAnd expr_logical	
 		{
-			$$ = codegen.gen_logical_and($1, $3);
+			$$ = ircodegen.gen_logical_and($1, $3);
 		}
 	| expr TokLogicalOr expr_logical
 		{
-			$$ = codegen.gen_logical_or($1, $3);
+			$$ = ircodegen.gen_logical_or($1, $3);
 		}
 	;
 
@@ -95,27 +102,27 @@ expr_logical:
 		}
 	| expr_logical TokCmpEq expr_compare
 		{
-			$$ = codegen.gen_cmp_eq($1, $3);
+			$$ = ircodegen.gen_cmp_eq($1, $3);
 		}
 	| expr_logical TokCmpNe expr_compare
 		{
-			$$ = codegen.gen_cmp_ne($1, $3);
+			$$ = ircodegen.gen_cmp_ne($1, $3);
 		}
 	| expr_logical '<' expr_compare
 		{
-			$$ = codegen.gen_cmp_lt($1, $3);
+			$$ = ircodegen.gen_cmp_lt($1, $3);
 		}
 	| expr_logical '>' expr_compare
 		{
-			$$ = codegen.gen_cmp_gt($1, $3);
+			$$ = ircodegen.gen_cmp_gt($1, $3);
 		}
 	| expr_logical TokCmpLe expr_compare
 		{
-			$$ = codegen.gen_cmp_le($1, $3);
+			$$ = ircodegen.gen_cmp_le($1, $3);
 		}
 	| expr_logical TokCmpGe expr_compare
 		{
-			$$ = codegen.gen_cmp_ge($1, $3);
+			$$ = ircodegen.gen_cmp_ge($1, $3);
 		}
 
 expr_compare:
@@ -125,11 +132,11 @@ expr_compare:
 		}
 	| expr_compare '+' expr_add_sub
 		{
-			$$ = codegen.gen_add($1, $3);
+			$$ = ircodegen.gen_add($1, $3);
 		}
 	| expr_compare '-' expr_add_sub
 		{
-			$$ = codegen.gen_sub($1, $3);
+			$$ = ircodegen.gen_sub($1, $3);
 		}
 	;
 
@@ -140,27 +147,39 @@ expr_add_sub:
 		}
 	| expr_add_sub '*' expr_mul_div_mod_etc
 		{
-			$$ = codegen.gen_mul($1, $3);
+			$$ = ircodegen.gen_mul($1, $3);
 		}
 	| expr_add_sub '/' expr_mul_div_mod_etc
 		{
-			$$ = codegen.gen_div($1, $3);
+			$$ = ircodegen.gen_div($1, $3);
 		}
 	| expr_add_sub '%' expr_mul_div_mod_etc
 		{
-			$$ = codegen.gen_mod($1, $3);
+			$$ = ircodegen.gen_mod($1, $3);
 		}
 	| expr_add_sub '&' expr_mul_div_mod_etc
 		{
-			$$ = codegen.gen_bitwise_and($1, $3);
+			$$ = ircodegen.gen_bitwise_and($1, $3);
 		}
 	| expr_add_sub '|' expr_mul_div_mod_etc
 		{
-			$$ = codegen.gen_bitwise_or($1, $3);
+			$$ = ircodegen.gen_bitwise_or($1, $3);
 		}
 	| expr_add_sub '^' expr_mul_div_mod_etc
 		{
-			$$ = codegen.gen_bitwise_xor($1, $3);
+			$$ = ircodegen.gen_bitwise_xor($1, $3);
+		}
+	| expr_add_sub TokLsl expr_mul_div_mod_etc
+		{
+			$$ = ircodegen.gen_lsl($1, $3);
+		}
+	| expr_add_sub TokLsr expr_mul_div_mod_etc
+		{
+			$$ = ircodegen.gen_lsr($1, $3);
+		}
+	| expr_add_sub TokAsr expr_mul_div_mod_etc
+		{
+			$$ = ircodegen.gen_asr($1, $3);
 		}
 	;
 
@@ -169,11 +188,11 @@ expr_mul_div_mod_etc:
 		{
 			//printout("TokIdent:  ", $1, "\n");
 			//$$ = get_var_val($1); 
-			$$ = codegen.gen_load($1);
+			$$ = ircodegen.gen_load($1);
 		}
 	| TokDecNum
 		{
-			$$ = codegen.gen_constant($1);
+			$$ = ircodegen.gen_constant($1);
 		}
 	| '(' expr ')'
 		{
@@ -201,10 +220,20 @@ assign_ident:
 
 extern "C"
 {
-void yyerror(char* msg)
+void yy_c_error(char* msg)
 {
 	fprintf(stderr, "%s\n", msg);
 }
+}
+
+void yyerror(const char* msg)
+{
+	fprintf(stderr, "%s\n", msg);
+}
+
+void yyerror(char* msg)
+{
+	fprintf(stderr, "%s\n", msg);
 }
 
 std::string assign_ident_str;

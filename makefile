@@ -135,7 +135,7 @@ GENERATED_SOURCES:=gen_src/lex.yy.c gen_src/grammar.tab.cpp gen_src/grammar.tab.
 #all : all_pre $(OFILES) $(GENERATED_SOURCES)
 #	$(LD) $(OBJDIR)/*.o -o $(PROJ) $(LD_FLAGS)
 all : all_pre $(GENERATED_SOURCES)
-	@make next
+	@make -j8 next
 
 next : all_pre $(OFILES)
 	$(LD) $(OBJDIR)/*.o -o $(PROJ) $(LD_FLAGS)

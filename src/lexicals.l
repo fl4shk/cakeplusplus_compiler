@@ -57,11 +57,11 @@ dec_num		{digit}({digit})*
 				}
 
 <<EOF>>			{
-					return TokEof;
+					return EOF;
 				}
 
 .				{
-					yyerror("Lexer Eek!");
+					yy_c_error("Lexer Eek!");
 				}
 
 %%
