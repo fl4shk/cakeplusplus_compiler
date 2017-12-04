@@ -72,7 +72,8 @@ public:		// functions
 	void* gen_constant(int some_num);
 	void* gen_load(const std::string& some_var_name);
 
-	// gen_store() implicitly uses assign_ident_str for the destination.
+	// gen_store() implicitly uses assign_ident_str for the name of the
+	// destination variable.
 	void* gen_store(void* arg);
 
 
@@ -120,6 +121,16 @@ protected:		// functions
 	{
 		(p->prev)->next = p->next;
 		(p->next)->prev = p->prev;
+	}
+
+	inline void __relink_tuple(Tuple* p, Tuple* to_link_after)
+	{
+		Tuple* old_next = to_link_after->next;
+
+		to_link_after->next = p;
+		p->prev = to_link_after;
+		p->next = old_next;
+		old_next->prev = p;
 	}
 
 	inline void* binop(IrCodeOp some_op, void* a, void* b)

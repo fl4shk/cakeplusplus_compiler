@@ -18,6 +18,7 @@
 	#endif		// __cplusplus
 
 	#ifdef __cplusplus
+	#include "../src/misc_int_types.h"
 	#include "../src/symbol_table_class.hpp"
 	#include "../src/ir_code_generator_class.hpp"
 	extern std::string assign_ident_str;
@@ -33,49 +34,66 @@
 %union
 {
 	int num;
-	const char* name;
+	char* name;
 	void* code;			// an index into the generated code
 }
 
 
+%token TokU8 TokU16 TokU32 TokU64 TokS8 TokS16 TokS32 TokS64
 %token <name> TokIdent
 %token <num> TokDecNum
-%token TokLsl
-%token TokLsr
-%token TokAsr
-%token TokLogicalAnd
-%token TokLogicalOr
-%token TokCmpEq
-%token TokCmpNe
-%token TokCmpLe
-%token TokCmpGe
+%token TokLsl TokLsr TokAsr
+%token TokLogicalAnd TokLogicalOr
+%token TokCmpEq TokCmpNe TokCmpLe TokCmpGe
 
-%type <name> assign_ident
-%type <name> ident
-%type <code> expr
-%type <code> expr_logical
-%type <code> expr_compare
-%type <code> expr_add_sub
-%type <code> expr_mul_div_mod_etc
+%type <name> assign_ident ident
+%type <code> expr expr_logical expr_compare
+%type <code> expr_add_sub expr_mul_div_mod_etc
 
 
 %%
 
 program:
-	program pre_statement
-	|
-	;
-
-pre_statement:
-	pre_statement statement
+	program statement
 	| statement
 	;
 
 
 statement:
-	assign_ident '=' expr ';'
+	var_decl ';'
+	| assign_ident '=' expr ';'
 		{
 			ircodegen.gen_store($3);
+		}
+	| start_block inside_block end_block
+		{
+			//printout("<block detected>\n");
+		}
+	;
+
+var_decl:
+	TokU8 var_decl_ident
+		{
+			ircodegen.
+		}
+	;
+
+start_block:
+	'{'
+		{
+			mkscope();
+		}
+	;
+
+inside_block:
+	inside_block statement
+	| statement
+	;
+
+end_block:
+	'}'
+		{
+			rmscope();
 		}
 	;
 
@@ -186,7 +204,6 @@ expr_mul_div_mod_etc:
 	ident
 		{
 			//printout("TokIdent:  ", $1, "\n");
-			//$$ = get_var_val($1); 
 			$$ = ircodegen.gen_load($1);
 		}
 	| TokDecNum
@@ -209,11 +226,18 @@ ident:
 
 assign_ident:
 	TokIdent
-	{
-		//printout("assign_ident:  ", $1, "\n");
-		//$$ = $1;
-		assign_ident_str = $1;
-	}
+		{
+			//printout("assign_ident:  ", $1, "\n");
+			//$$ = $1;
+			assign_ident_str = $1;
+		}
+	;
+
+var_decl_ident:
+	TokIdent
+		{
+		}
+	;
 
 %%
 

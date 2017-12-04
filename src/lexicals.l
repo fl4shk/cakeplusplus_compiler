@@ -1,6 +1,6 @@
 digit		[0-9]
 letter		[A-Za-z]
-single_char_builtin		[=<>+\-*/%&|^()\[\]\{\};]
+operator		[=<>+\-*/%&|^()\[\]\{\};]
 
 __ident_non_start_char		{letter}|{digit}|[_]
 __ident_start_char			{letter}|[_]
@@ -19,18 +19,27 @@ dec_num		{digit}({digit})*
 	#include <stdlib.h>
 	#include "grammar.tab.hh"
 	int yylex(void);
-	extern const char* set_curr_var_name(char* some_var_name);
-	extern void make_curr_var();
+	//extern const char* set_curr_var_name(char* some_var_name);
+	//extern void make_curr_var();
+	//extern const char* make_curr_var(char* some_var_name);
 	extern void yyerror(char* msg);
 
 %}
 
 %%
 
-{single_char_builtin}		{
-								// Operators
-								return *yytext;
-							}
+"u8"			{ return TokU8; }
+"u16"			{ return TokU16; }
+"u32"			{ return TokU32; }
+"u64"			{ return TokU64; }
+"s8"			{ return TokS8; }
+"s16"			{ return TokS16; }
+"s32"			{ return TokS32; }
+"s64"			{ return TokS64; }
+{operator}		{
+					// Operators
+					return *yytext;
+				}
 "<<"			{ return TokLsl; }
 ">>"			{ return TokLsr; }
 ">>>"			{ return TokAsr; }
@@ -47,8 +56,9 @@ dec_num		{digit}({digit})*
 
 
 {ident}			{
-					yylval.name = set_curr_var_name(yytext);
-					make_curr_var();
+					//yylval.name = set_curr_var_name(yytext);
+					//yylval.name = make_curr_var();
+					yylval.name = yytext;
 					return TokIdent;
 				}
 {dec_num}		{

@@ -176,7 +176,8 @@ void* IrCodeGenerator::gen_load(const std::string& some_var_name)
 	return mktuple(p);
 }
 
-// gen_store() implicitly uses assign_ident_str for the destination.
+// gen_store() implicitly uses assign_ident_str for the name of the
+// destination variable.
 void* IrCodeGenerator::gen_store(void* arg)
 {
 	Tuple p;
