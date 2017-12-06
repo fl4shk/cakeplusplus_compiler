@@ -28,27 +28,36 @@ dec_num		{digit}({digit})*
 
 %%
 
-"u8"			{ return TokU8; }
-"u16"			{ return TokU16; }
-"u32"			{ return TokU32; }
-"u64"			{ return TokU64; }
-"s8"			{ return TokS8; }
-"s16"			{ return TokS16; }
-"s32"			{ return TokS32; }
-"s64"			{ return TokS64; }
-{operator}		{
-					// Operators
-					return *yytext;
-				}
-"<<"			{ return TokLsl; }
-">>"			{ return TokLsr; }
-">>>"			{ return TokAsr; }
-"&&"			{ return TokLogicalAnd; }
-"||"			{ return TokLogicalOr; }
-"=="			{ return TokCmpEq; }
-"!="			{ return TokCmpNe; }
-"<="			{ return TokCmpLe; }
-">="			{ return TokCmpGe; }
+"u8"|"u16"|"u32"|"u64"			{
+									yylval.name = yytext;
+									return TokBuiltinTypename;
+								}
+"s8"|"s16"|"s32"|"s64"			{
+									yylval.name = yytext;
+									return TokBuiltinTypename;
+								}
+
+"&&"|"||"						{
+									yylval.name = yytext;
+									return TokOpLogical;
+								}
+"&"|"|"|"^""<<"|">>"|">>>"		{
+									yylval.name = yytext;
+									return TokOpBitwise;
+								}
+"=="|"!="|"<"|">"|"<="|">="		{
+									yylval.name = yytext;
+									return TokOpCompare;
+								}
+"+"|"-"							{
+									yylval.name = yytext;
+									return TokOpAddSub;
+								}
+"*"|"/"|"%"						{
+									yylval.name = yytext;
+									return TokOpMulDivMod;
+								}
+
 
 
 

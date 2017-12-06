@@ -20,8 +20,7 @@
 	#ifdef __cplusplus
 	#include "../src/misc_int_types.h"
 	#include "../src/symbol_table_class.hpp"
-	#include "../src/ir_code_generator_class.hpp"
-	extern std::string assign_ident_str;
+	#include "../src/abstract_syntax_tree_class.hpp"
 
 	#endif		// __cplusplus
 
@@ -35,20 +34,18 @@
 {
 	int num;
 	char* name;
-	void* code;			// an index into the generated code
+	void* node;			// node of the abstract syntax tree
 }
 
 
-%token TokU8 TokU16 TokU32 TokU64 TokS8 TokS16 TokS32 TokS64
+%token <name> TokBuiltinTypename
 %token <name> TokIdent
 %token <num> TokDecNum
-%token TokLsl TokLsr TokAsr
-%token TokLogicalAnd TokLogicalOr
-%token TokCmpEq TokCmpNe TokCmpLe TokCmpGe
+%token <name> TokOpLogical TokOpCompare TokOpAddSub 
+%token <name> TokOpBitwise TokOpMulDivMod
 
-%type <name> assign_ident ident
-%type <code> expr expr_logical expr_compare
-%type <code> expr_add_sub expr_mul_div_mod_etc
+%type <node> expr expr_logical expr_compare
+%type <node> expr_add_sub expr_mul_div_mod_etc
 
 
 %%
@@ -61,27 +58,27 @@ program:
 
 statement:
 	var_decl ';'
-	| assign_ident '=' expr ';'
+	| TokIdent '=' expr ';'
 		{
-			ircodegen.gen_store($3);
+			ast.gen_assign($1, $3);
 		}
 	| start_block inside_block end_block
 		{
-			//printout("<block detected>\n");
+			printout("<block detected>\n");
 		}
 	;
 
 var_decl:
-	TokU8 var_decl_ident
+	TokBuiltinTypename TokIdent
 		{
-			ircodegen.
+			ast.gen_var_decl($1, $2);
 		}
 	;
 
 start_block:
 	'{'
 		{
-			mkscope();
+			ast.gen_mkscope();
 		}
 	;
 
@@ -93,22 +90,20 @@ inside_block:
 end_block:
 	'}'
 		{
-			rmscope();
+			ast.gen_rmscope();
 		}
 	;
+
+
 
 expr:
 	expr_logical
 		{
 			$$ = $1;
 		}
-	| expr TokLogicalAnd expr_logical	
+	| expr TokOpLogical expr_logical
 		{
-			$$ = ircodegen.gen_logical_and($1, $3);
-		}
-	| expr TokLogicalOr expr_logical
-		{
-			$$ = ircodegen.gen_logical_or($1, $3);
+			$$ = ast.gen_op_binary($1, $2, $3);
 		}
 	;
 
@@ -117,43 +112,20 @@ expr_logical:
 		{
 			$$ = $1;
 		}
-	| expr_logical TokCmpEq expr_compare
+	| expr_logical TokOpCompare expr_compare
 		{
-			$$ = ircodegen.gen_cmp_eq($1, $3);
+			$$ = ast.gen_op_binary($1, $2, $3);
 		}
-	| expr_logical TokCmpNe expr_compare
-		{
-			$$ = ircodegen.gen_cmp_ne($1, $3);
-		}
-	| expr_logical '<' expr_compare
-		{
-			$$ = ircodegen.gen_cmp_lt($1, $3);
-		}
-	| expr_logical '>' expr_compare
-		{
-			$$ = ircodegen.gen_cmp_gt($1, $3);
-		}
-	| expr_logical TokCmpLe expr_compare
-		{
-			$$ = ircodegen.gen_cmp_le($1, $3);
-		}
-	| expr_logical TokCmpGe expr_compare
-		{
-			$$ = ircodegen.gen_cmp_ge($1, $3);
-		}
+	;
 
 expr_compare:
 	expr_add_sub
 		{
 			$$ = $1;
 		}
-	| expr_compare '+' expr_add_sub
+	| expr_compare TokOpAddSub expr_add_sub
 		{
-			$$ = ircodegen.gen_add($1, $3);
-		}
-	| expr_compare '-' expr_add_sub
-		{
-			$$ = ircodegen.gen_sub($1, $3);
+			$$ = ast.gen_op_binary($1, $2, $3);
 		}
 	;
 
@@ -162,53 +134,26 @@ expr_add_sub:
 		{
 			$$ = $1;
 		}
-	| expr_add_sub '*' expr_mul_div_mod_etc
+	| expr_add_sub TokOpMulDivMod expr_mul_div_mod_etc
 		{
-			$$ = ircodegen.gen_mul($1, $3);
+			$$ = ast.gen_op_binary($1, $2, $3);
 		}
-	| expr_add_sub '/' expr_mul_div_mod_etc
+	| expr_add_sub TokOpBitwise expr_mul_div_mod_etc
 		{
-			$$ = ircodegen.gen_div($1, $3);
-		}
-	| expr_add_sub '%' expr_mul_div_mod_etc
-		{
-			$$ = ircodegen.gen_mod($1, $3);
-		}
-	| expr_add_sub '&' expr_mul_div_mod_etc
-		{
-			$$ = ircodegen.gen_bitwise_and($1, $3);
-		}
-	| expr_add_sub '|' expr_mul_div_mod_etc
-		{
-			$$ = ircodegen.gen_bitwise_or($1, $3);
-		}
-	| expr_add_sub '^' expr_mul_div_mod_etc
-		{
-			$$ = ircodegen.gen_bitwise_xor($1, $3);
-		}
-	| expr_add_sub TokLsl expr_mul_div_mod_etc
-		{
-			$$ = ircodegen.gen_lsl($1, $3);
-		}
-	| expr_add_sub TokLsr expr_mul_div_mod_etc
-		{
-			$$ = ircodegen.gen_lsr($1, $3);
-		}
-	| expr_add_sub TokAsr expr_mul_div_mod_etc
-		{
-			$$ = ircodegen.gen_asr($1, $3);
+			$$ = ast.gen_op_binary($1, $2, $3);
 		}
 	;
 
 expr_mul_div_mod_etc:
-	ident
+	TokIdent
 		{
 			//printout("TokIdent:  ", $1, "\n");
-			$$ = ircodegen.gen_load($1);
+			//$$ = ircodegen.gen_load($1);
+			$$ = $1;
 		}
 	| TokDecNum
 		{
-			$$ = ircodegen.gen_constant($1);
+			$$ = ast.gen_op_constant($1);
 		}
 	| '(' expr ')'
 		{
@@ -216,28 +161,6 @@ expr_mul_div_mod_etc:
 		}
 	;
 
-ident:
-	TokIdent
-		{
-			//printout("ident thing:  ", $1, "\n");
-			$$ = $1;
-		}
-	;
-
-assign_ident:
-	TokIdent
-		{
-			//printout("assign_ident:  ", $1, "\n");
-			//$$ = $1;
-			assign_ident_str = $1;
-		}
-	;
-
-var_decl_ident:
-	TokIdent
-		{
-		}
-	;
 
 %%
 
@@ -258,5 +181,3 @@ void yyerror(char* msg)
 {
 	fprintf(stderr, "%s\n", msg);
 }
-
-std::string assign_ident_str;

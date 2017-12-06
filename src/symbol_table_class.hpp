@@ -45,11 +45,11 @@ public:		// functions
 		: __name(s_name), __type(s_type)
 	{
 	}
-	inline Symbol(const std::string& s_name,
-		BuiltinVarType s_var_type)
-		: __name(s_name), __type(s_type)
-	{
-	}
+	//inline Symbol(const std::string& s_name,
+	//	BuiltinVarType s_var_type)
+	//	: __name(s_name), __type(s_type)
+	//{
+	//}
 	inline Symbol(const Symbol& to_copy) = default;
 	inline Symbol(Symbol&& to_move) = default;
 

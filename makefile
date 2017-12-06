@@ -19,6 +19,8 @@ NS_DIRS:=$(SHARED_SRC_DIRS)
 DEBUG_OPTIMIZATION_LEVEL:=-O0
 REGULAR_OPTIMIZATION_LEVEL:=-O2
 
+NUM_JOBS:=1
+
 ALWAYS_DEBUG_SUFFIX:=_debug
 ifdef DEBUG
 	DEBUG_SUFFIX:=$(ALWAYS_DEBUG_SUFFIX)
@@ -135,7 +137,7 @@ GENERATED_SOURCES:=gen_src/lex.yy.c gen_src/grammar.tab.cpp gen_src/grammar.tab.
 #all : all_pre $(OFILES) $(GENERATED_SOURCES)
 #	$(LD) $(OBJDIR)/*.o -o $(PROJ) $(LD_FLAGS)
 all : all_pre $(GENERATED_SOURCES)
-	@make -j8 next
+	@make -j$(NUM_JOBS) next
 
 next : all_pre $(OFILES)
 	$(LD) $(OBJDIR)/*.o -o $(PROJ) $(LD_FLAGS)

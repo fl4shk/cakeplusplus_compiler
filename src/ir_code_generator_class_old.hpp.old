@@ -2,12 +2,12 @@
 #define ir_code_generator_class_hpp
 
 #include "misc_includes.hpp"
-#include "../gen_src/grammar.tab.hh"
-#include "symbol_table_extern_funcs.hpp"
 
 
 enum class IrCodeOp : int
 {
+	FuncBegin,
+	FuncEnd,
 	Constant,
 	Load,
 	Store,
