@@ -1,6 +1,6 @@
 digit		[0-9]
 letter		[A-Za-z]
-operator		[=<>+\-*/%&|^()\[\]\{\};]
+other_operator		[=()\[\]\{\};]
 
 __ident_non_start_char		{letter}|{digit}|[_]
 __ident_start_char			{letter}|[_]
@@ -27,6 +27,10 @@ dec_num		{digit}({digit})*
 %}
 
 %%
+
+{other_operator}	{
+						return *yytext;
+					}
 
 "u8"|"u16"|"u32"|"u64"			{
 									yylval.name = yytext;

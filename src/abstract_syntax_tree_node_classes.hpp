@@ -5,6 +5,11 @@
 #include "../gen_src/grammar.tab.hh"
 
 
+class AstNodeBase
+{
+public:		// variables
+};
+
 
 
 #endif		// abstract_syntax_tree_node_classes_hpp

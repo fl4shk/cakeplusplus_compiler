@@ -60,7 +60,7 @@ statement:
 	var_decl ';'
 	| TokIdent '=' expr ';'
 		{
-			ast.gen_assign($1, $3);
+			ast.gen_op_assign($1, $3);
 		}
 	| start_block inside_block end_block
 		{
@@ -71,14 +71,14 @@ statement:
 var_decl:
 	TokBuiltinTypename TokIdent
 		{
-			ast.gen_var_decl($1, $2);
+			ast.gen_op_var_decl($1, $2);
 		}
 	;
 
 start_block:
 	'{'
 		{
-			ast.gen_mkscope();
+			ast.gen_op_mkscope();
 		}
 	;
 
@@ -90,7 +90,7 @@ inside_block:
 end_block:
 	'}'
 		{
-			ast.gen_rmscope();
+			ast.gen_op_rmscope();
 		}
 	;
 
@@ -103,7 +103,7 @@ expr:
 		}
 	| expr TokOpLogical expr_logical
 		{
-			$$ = ast.gen_op_binary($1, $2, $3);
+			$$ = ast.gen_op_binary($2, $1, $3);
 		}
 	;
 
@@ -114,7 +114,7 @@ expr_logical:
 		}
 	| expr_logical TokOpCompare expr_compare
 		{
-			$$ = ast.gen_op_binary($1, $2, $3);
+			$$ = ast.gen_op_binary($2, $1, $3);
 		}
 	;
 
@@ -125,7 +125,7 @@ expr_compare:
 		}
 	| expr_compare TokOpAddSub expr_add_sub
 		{
-			$$ = ast.gen_op_binary($1, $2, $3);
+			$$ = ast.gen_op_binary($2, $1, $3);
 		}
 	;
 
@@ -136,11 +136,11 @@ expr_add_sub:
 		}
 	| expr_add_sub TokOpMulDivMod expr_mul_div_mod_etc
 		{
-			$$ = ast.gen_op_binary($1, $2, $3);
+			$$ = ast.gen_op_binary($2, $1, $3);
 		}
 	| expr_add_sub TokOpBitwise expr_mul_div_mod_etc
 		{
-			$$ = ast.gen_op_binary($1, $2, $3);
+			$$ = ast.gen_op_binary($2, $1, $3);
 		}
 	;
 
