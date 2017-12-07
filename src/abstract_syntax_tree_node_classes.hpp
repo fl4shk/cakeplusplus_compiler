@@ -2,12 +2,15 @@
 #define abstract_syntax_tree_node_classes_hpp
 
 #include "misc_includes.hpp"
-#include "../gen_src/grammar.tab.hh"
 
 
 class AstNodeBase
 {
 public:		// variables
+	
+
+	// Circular linked list links
+	AstNodeBase * next, * prev;
 };
 
 

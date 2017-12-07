@@ -1,8 +1,10 @@
 %{
 	#include <stdio.h>
+
 	#ifdef __cplusplus
 	#include "../src/misc_includes.hpp"
 	#endif		// __cplusplus
+
 	#include "../src/misc_int_types.h"
 
 	#ifdef __cplusplus
@@ -18,10 +20,8 @@
 	#endif		// __cplusplus
 
 	#ifdef __cplusplus
-	#include "../src/misc_int_types.h"
 	#include "../src/symbol_table_class.hpp"
 	#include "../src/abstract_syntax_tree_class.hpp"
-
 	#endif		// __cplusplus
 
 	#define YYERROR_VERBOSE 1
@@ -34,7 +34,13 @@
 {
 	int num;
 	char* name;
-	void* node;			// node of the abstract syntax tree
+
+
+	#ifdef __cplusplus
+	AstNodeBase* node;			// node of the abstract syntax tree
+	#else
+	void* node;
+	#endif
 }
 
 
@@ -44,6 +50,8 @@
 %token <name> TokOpLogical TokOpCompare TokOpAddSub 
 %token <name> TokOpBitwise TokOpMulDivMod
 
+%type <node> statement var_decl
+%type <node> start_block inside_block end_block
 %type <node> expr expr_logical expr_compare
 %type <node> expr_add_sub expr_mul_div_mod_etc
 
@@ -52,45 +60,61 @@
 
 program:
 	program statement
+		{
+			ast.prepend($2);
+		}
 	| statement
+		{
+			ast.prepend($1);
+		}
 	;
 
 
 statement:
 	var_decl ';'
+		{
+			$$ = $1;
+		}
 	| TokIdent '=' expr ';'
 		{
-			ast.gen_op_assign($1, $3);
+			$$ = ast.gen_op_assign($1, $3);
 		}
 	| start_block inside_block end_block
 		{
 			printout("<block detected>\n");
+			$$ = ast.gen_op_block($1, $2, $3);
 		}
 	;
 
 var_decl:
 	TokBuiltinTypename TokIdent
 		{
-			ast.gen_op_var_decl($1, $2);
+			$$ = ast.gen_op_var_decl($1, $2);
 		}
 	;
 
 start_block:
 	'{'
 		{
-			ast.gen_op_mkscope();
+			$$ = ast.gen_op_mkscope();
 		}
 	;
 
 inside_block:
 	inside_block statement
+		{
+			$$ = $2;
+		}
 	| statement
+		{
+			$$ = $1;
+		}
 	;
 
 end_block:
 	'}'
 		{
-			ast.gen_op_rmscope();
+			$$ = ast.gen_op_rmscope();
 		}
 	;
 
@@ -149,7 +173,7 @@ expr_mul_div_mod_etc:
 		{
 			//printout("TokIdent:  ", $1, "\n");
 			//$$ = ircodegen.gen_load($1);
-			$$ = $1;
+			$$ = ast.gen_op_ident($1);
 		}
 	| TokDecNum
 		{

@@ -21,7 +21,7 @@ using namespace liborangepower::misc_util;
 using namespace liborangepower::bitwise;
 
 
-#include "../gen_src/grammar.tab.hh"
+//#include "../gen_src/grammar.tab.hh"
 
 
 #endif		// misc_includes_hpp
