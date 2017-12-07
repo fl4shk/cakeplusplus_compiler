@@ -25,35 +25,35 @@ AbstractSyntaxTree::~AbstractSyntaxTree()
 	}
 }
 
-AstNodeBase* AbstractSyntaxTree::gen_op_mkscope()
+AstNode* AbstractSyntaxTree::gen_op_constant(int some_num)
 {
 }
-AstNodeBase* AbstractSyntaxTree::gen_op_rmscope()
+AstNode* AbstractSyntaxTree::gen_op_ident(char* a)
 {
 }
-AstNodeBase* AbstractSyntaxTree::gen_op_var_decl
-	(char* some_type_name, char* some_ident)
+AstNode* AbstractSyntaxTree::gen_op_var_decl(char* some_type_name, 
+	char* some_ident)
 {
 }
-AstNodeBase* AbstractSyntaxTree::gen_op_assign
-	(char* some_ident, AstNodeBase* some_expr)
+AstNode* AbstractSyntaxTree::gen_op_mkscope()
 {
 }
-AstNodeBase* AbstractSyntaxTree::gen_op_constant(int some_num)
+AstNode* AbstractSyntaxTree::gen_op_rmscope()
 {
 }
-AstNodeBase* AbstractSyntaxTree::gen_op_binary(char* some_op, 
-	AstNodeBase* a, AstNodeBase* b)
+AstNode* AbstractSyntaxTree::gen_op_block(AstNode* start_node, 
+	AstNode* inner_node, AstNode* end_node)
 {
 }
-AstNodeBase* AbstractSyntaxTree::gen_op_block(AstNodeBase* start_node, 
-	AstNodeBase* inner_node, AstNodeBase* end_node)
+AstNode* AbstractSyntaxTree::gen_op_assign(char* some_ident, 
+	AstNode* some_expr)
 {
 }
-AstNodeBase* AbstractSyntaxTree::gen_op_ident(char* a)
+AstNode* AbstractSyntaxTree::gen_op_binary(char* some_op, AstNode* a, 
+	AstNode* b)
 {
 }
-void AbstractSyntaxTree::prepend(AstNodeBase* to_prepend)
+void AbstractSyntaxTree::prepend(AstNode* to_prepend)
 {
 	Tree* p = new Tree();
 	p->start = to_prepend;

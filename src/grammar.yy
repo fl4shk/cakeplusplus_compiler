@@ -37,7 +37,7 @@
 
 
 	#ifdef __cplusplus
-	AstNodeBase* node;			// node of the abstract syntax tree
+	AstNode* node;			// node of the abstract syntax tree
 	#else
 	void* node;
 	#endif

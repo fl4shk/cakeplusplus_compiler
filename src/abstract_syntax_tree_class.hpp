@@ -1,7 +1,7 @@
 #ifndef abstract_syntax_tree_class_hpp
 #define abstract_syntax_tree_class_hpp
 
-#include "abstract_syntax_tree_node_classes.hpp"
+#include "ast_node_classes.hpp"
 
 
 class AbstractSyntaxTree
@@ -11,48 +11,48 @@ public:		// classes
 	class Tree
 	{
 	public:		// variables
-		AstNodeBase* start;
+		AstNode* start;
 		Tree * next, * prev;
 	};
 
 protected:		// variables
-	AstNodeBase __nodes;
+	AstNode __nodes;
 	Tree __tree;
 
 public:		// functions
 	AbstractSyntaxTree();
 	virtual ~AbstractSyntaxTree();
 
-	AstNodeBase* gen_op_mkscope();
-	AstNodeBase* gen_op_rmscope();
-	AstNodeBase* gen_op_var_decl(char* some_type_name, char* some_ident);
-	AstNodeBase* gen_op_assign(char* some_ident, AstNodeBase* some_expr);
-	AstNodeBase* gen_op_constant(int some_num);
-	AstNodeBase* gen_op_binary(char* some_op, AstNodeBase* a, 
-		AstNodeBase* b);
-	AstNodeBase* gen_op_block(AstNodeBase* start_node, 
-		AstNodeBase* inner_node, AstNodeBase* end_node);
-	AstNodeBase* gen_op_ident(char* a);
-	void prepend(AstNodeBase* to_prepend);
+	AstNode* gen_op_constant(int some_num);
+	AstNode* gen_op_ident(char* a);
+	AstNode* gen_op_var_decl(char* some_type_name, char* some_ident);
+	AstNode* gen_op_mkscope();
+	AstNode* gen_op_rmscope();
+	AstNode* gen_op_block(AstNode* start_node, 
+		AstNode* inner_node, AstNode* end_node);
+	AstNode* gen_op_assign(char* some_ident, AstNode* some_expr);
+	AstNode* gen_op_binary(char* some_op, AstNode* a, 
+		AstNode* b);
+	void prepend(AstNode* to_prepend);
 
 	void print() const;
 
 protected:		// functions
-	inline AstNodeBase* mknode(const AstNodeBase& to_append)
+	inline AstNode* mknode(const AstNode& to_append)
 	{
-		AstNodeBase* p = new AstNodeBase();
+		AstNode* p = new AstNode();
 		*p = to_append;
 		p->next = &__nodes;
 		(p->prev = __nodes.prev)->next = p;
 		return(__nodes.prev = p);
 	}
-	inline void rmnode(AstNodeBase* p)
+	inline void rmnode(AstNode* p)
 	{
 		__delink_node(p);
 		delete p;
 	}
 
-	inline void __delink_node(AstNodeBase* p)
+	inline void __delink_node(AstNode* p)
 	{
 		(p->prev)->next = p->next;
 		(p->next)->prev = p->prev;
@@ -61,9 +61,9 @@ protected:		// functions
 
 
 
-	inline void __relink_node(AstNodeBase* p, AstNodeBase* to_link_after)
+	inline void __relink_node(AstNode* p, AstNode* to_link_after)
 	{
-		AstNodeBase* old_next = to_link_after->next;
+		AstNode* old_next = to_link_after->next;
 
 		to_link_after->next = p;
 		p->prev = to_link_after;
@@ -71,7 +71,7 @@ protected:		// functions
 		old_next->prev = p;
 	}
 
-	//inline Tree* mktree(AstNodeBase* s_start)
+	//inline Tree* mktree(AstNode* s_start)
 	//{
 	//	Tree* p = new Tree();
 	//	p->start = s_start;
@@ -100,13 +100,13 @@ protected:		// functions
 		old_next->prev = p;
 	}
 
-	//inline AstNodeBase* binop(IrCodeOp some_op, AstNodeBase* a, 
-	//	AstNodeBase* b)
+	//inline AstNode* binop(IrCodeOp some_op, AstNode* a, 
+	//	AstNode* b)
 	//{
-	//	AstNodeBase p;
+	//	AstNode p;
 	//	p.op = some_op;
-	//	p.args[0] = (AstNodeBase*)a;
-	//	p.args[1] = (AstNodeBase*)b;
+	//	p.args[0] = (AstNode*)a;
+	//	p.args[1] = (AstNode*)b;
 	//	return mknode(p);
 	//}
 };
