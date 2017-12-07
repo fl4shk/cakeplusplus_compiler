@@ -6,15 +6,6 @@
 
 class AbstractSyntaxTree
 {
-public:		// classes
-	// Circular linked list of "subtrees".
-	class Tree
-	{
-	public:		// variables
-		AstNode* start;
-		Tree * next, * prev;
-	};
-
 protected:		// variables
 	AstNode __nodes;
 	Tree __tree;
@@ -28,8 +19,8 @@ public:		// functions
 	AstNode* gen_op_var_decl(char* some_type_name, char* some_ident);
 	AstNode* gen_op_mkscope();
 	AstNode* gen_op_rmscope();
-	AstNode* gen_op_block(AstNode* start_node, 
-		AstNode* inner_node, AstNode* end_node);
+	//AstNode* gen_op_block(AstNode* start_node, 
+	//	AstNode* inner_node, AstNode* end_node);
 	AstNode* gen_op_assign(char* some_ident, AstNode* some_expr);
 	AstNode* gen_op_binary(char* some_op, AstNode* a, 
 		AstNode* b);

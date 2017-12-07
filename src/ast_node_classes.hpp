@@ -15,6 +15,14 @@ enum class AstNodeOp
 	Binary,
 };
 
+// Circular linked list of "subtrees".
+class Tree
+{
+public:		// variables
+	AstNode* start;
+	Tree * next, * prev;
+};
+
 class AstNode
 {
 public:		// variables

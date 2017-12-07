@@ -41,10 +41,10 @@ AstNode* AbstractSyntaxTree::gen_op_mkscope()
 AstNode* AbstractSyntaxTree::gen_op_rmscope()
 {
 }
-AstNode* AbstractSyntaxTree::gen_op_block(AstNode* start_node, 
-	AstNode* inner_node, AstNode* end_node)
-{
-}
+//AstNode* AbstractSyntaxTree::gen_op_block(AstNode* start_node, 
+//	AstNode* inner_node, AstNode* end_node)
+//{
+//}
 AstNode* AbstractSyntaxTree::gen_op_assign(char* some_ident, 
 	AstNode* some_expr)
 {

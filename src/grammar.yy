@@ -51,7 +51,7 @@
 %token <name> TokOpBitwise TokOpMulDivMod
 
 %type <node> statement var_decl
-%type <node> start_block inside_block end_block
+%type <node> start_block inside_block end_block inside_inside_block
 %type <node> expr expr_logical expr_compare
 %type <node> expr_add_sub expr_mul_div_mod_etc
 
@@ -59,66 +59,29 @@
 %%
 
 program:
-	program statement
-		{
-			ast.prepend($2);
-		}
-	| statement
-		{
-			ast.prepend($1);
-		}
+	statements
 	;
 
 
-statement:
-	var_decl ';'
+statements:
+	'{' 
 		{
-			$$ = $1;
-		}
-	| TokIdent '=' expr ';'
-		{
-			$$ = ast.gen_op_assign($1, $3);
-		}
-	| start_block inside_block end_block
-		{
-			printout("<block detected>\n");
-			$$ = ast.gen_op_block($1, $2, $3);
-		}
-	;
-
-var_decl:
-	TokBuiltinTypename TokIdent
-		{
-			$$ = ast.gen_op_var_decl($1, $2);
-		}
-	;
-
-start_block:
-	'{'
-		{
+			$$ = ast.gen_op_block(
 			$$ = ast.gen_op_mkscope();
 		}
-	;
 
-inside_block:
-	inside_block statement
+		statement1 
 		{
-			$$ = $2;
+			ast.append_to_block($$, $2);
 		}
-	| statement
+		'}'
 		{
-			$$ = $1;
+			ast.append_to_block($$, ast.gen_op_rmscope());
 		}
 	;
 
-end_block:
-	'}'
-		{
-			$$ = ast.gen_op_rmscope();
-		}
-	;
-
-
+statement1:
+	
 
 expr:
 	expr_logical
@@ -205,3 +168,5 @@ void yyerror(char* msg)
 {
 	fprintf(stderr, "%s\n", msg);
 }
+
+int num_blocks;
