@@ -57,17 +57,17 @@ protected:		// functions
 	//}
 
 
-	AstNode* binop(AstNodeBinop some_binop, AstNode* a, AstNode* b)
-	{
-		AstNode p;
-		p.op = AstNodeOp::Binop;
-		p.binop = some_binop;
-		//p.args[0] = (AstNode*)a;
-		//p.args[1] = (AstNode*)b;
-		p.append_child(a);
-		p.append_child(b);
-		return mknode(p);
-	}
+	//AstNode* binop(AstNodeBinop some_binop, AstNode* a, AstNode* b)
+	//{
+	//	AstNode p;
+	//	p.op = AstNodeOp::Binop;
+	//	p.binop = some_binop;
+	//	//p.args[0] = (AstNode*)a;
+	//	//p.args[1] = (AstNode*)b;
+	//	p.append_child(a);
+	//	p.append_child(b);
+	//	return mknode(p);
+	//}
 };
 
 extern AbstractSyntaxTree ast;
