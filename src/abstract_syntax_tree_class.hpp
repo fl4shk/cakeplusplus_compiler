@@ -21,11 +21,9 @@ public:		// functions
 	AstNode* gen_statement();
 	AstNode* gen_constant(int some_num);
 	AstNode* gen_ident(char* a);
-	AstNode* gen_var_decl(char* some_type_name, char* some_ident);
+	//AstNode* gen_var_decl(char* some_type_name, char* some_ident);
 	AstNode* gen_mkscope();
 	AstNode* gen_rmscope();
-	//AstNode* gen_block(AstNode* start_node, 
-	//	AstNode* inner_node, AstNode* end_node);
 	AstNode* gen_assign(char* some_ident, AstNode* some_expr);
 	AstNode* gen_binop(char* some_op, AstNode* a, AstNode* b);
 
