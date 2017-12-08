@@ -50,7 +50,7 @@
 %token <name> TokOpLogical TokOpCompare TokOpAddSub 
 %token <name> TokOpBitwise TokOpMulDivMod
 
-%type <node> program statements list_statement statement
+%type <node> statements list_statement statement
 %type <node> expr expr_logical expr_compare
 %type <node> expr_add_sub expr_mul_div_mod_etc
 
@@ -60,18 +60,17 @@
 program:
 	statements
 		{
-			$$ = ast.gen_program($1);
+			ast.gen_program($1);
 		}
+	|
 	;
 
 
 statements:
-	{
-		$$ = ast.gen_statements(ast.gen_mkscope(), ast.gen_rmscope());
-	}
 	'{' list_statement '}'
 		{
-			$$->append_child($2);
+			$$ = ast.gen_statements(ast.gen_mkscope(), $2, 
+				ast.gen_rmscope());
 		}
 	;
 
@@ -79,7 +78,7 @@ list_statement:
 	{
 		$$ = ast.gen_list_statement();
 	}
-	list_statement statement
+	| list_statement statement
 		{
 			$$->append_to_list($2);
 		}
@@ -87,12 +86,12 @@ list_statement:
 
 statement:
 	statements
-		{
-			$$ = $1;
-		}
+	{
+		$$ = $1;
+	}
 	| TokIdent '=' expr ';'
 		{
-			ast.gen_assign($1, $3);
+			$$ = ast.gen_assign($1, $3);
 		}
 	;
 

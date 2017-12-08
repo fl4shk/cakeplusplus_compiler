@@ -16,7 +16,7 @@ public:		// functions
 
 	AstNode* gen_program(AstNode* some_statements);
 	AstNode* gen_statements(AstNode* some_mkscope, 
-		AstNode* some_rmscope);
+		AstNode* some_list_statements, AstNode* some_rmscope);
 	AstNode* gen_list_statement();
 	AstNode* gen_statement();
 	AstNode* gen_constant(int some_num);
@@ -64,8 +64,10 @@ protected:		// functions
 		AstNode p;
 		p.op = AstNodeOp::Binop;
 		p.binop = some_binop;
-		p.args[0] = (AstNode*)a;
-		p.args[1] = (AstNode*)b;
+		//p.args[0] = (AstNode*)a;
+		//p.args[1] = (AstNode*)b;
+		p.append_child(a);
+		p.append_child(b);
 		return mknode(p);
 	}
 };
