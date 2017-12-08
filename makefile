@@ -150,7 +150,7 @@ do_asmouts : all_pre all_pre_asmout $(ASMOUTS)
 	@#
 
 all_pre :
-	mkdir -p $(OBJDIR) $(DEPDIR)
+	mkdir -p $(OBJDIR) $(DEPDIR) gen_src
 
 all_pre_asmout :
 	mkdir -p $(ASMOUTDIR)
