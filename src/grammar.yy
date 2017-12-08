@@ -50,8 +50,7 @@
 %token <name> TokOpLogical TokOpCompare TokOpAddSub 
 %token <name> TokOpBitwise TokOpMulDivMod
 
-%type <node> statement var_decl
-%type <node> start_block inside_block end_block inside_inside_block
+%type <node> program statements list_statement statement
 %type <node> expr expr_logical expr_compare
 %type <node> expr_add_sub expr_mul_div_mod_etc
 
@@ -60,28 +59,43 @@
 
 program:
 	statements
+		{
+			$$ = ast.gen_program($1);
+		}
 	;
 
 
 statements:
-	'{' 
+	{
+		$$ = ast.gen_statements(ast.gen_mkscope(), ast.gen_rmscope());
+	}
+	'{' list_statement '}'
 		{
-			$$ = ast.gen_op_block(
-			$$ = ast.gen_op_mkscope();
-		}
-
-		statement1 
-		{
-			ast.append_to_block($$, $2);
-		}
-		'}'
-		{
-			ast.append_to_block($$, ast.gen_op_rmscope());
+			$$->append_child($2);
 		}
 	;
 
-statement1:
-	
+list_statement:
+	{
+		$$ = ast.gen_list_statement();
+	}
+	list_statement statement
+		{
+			$$->append_to_list($2);
+		}
+	;
+
+statement:
+	statements
+		{
+			$$ = $1;
+		}
+	| TokIdent '=' expr ';'
+		{
+			ast.gen_assign($1, $3);
+		}
+	;
+
 
 expr:
 	expr_logical
@@ -90,7 +104,7 @@ expr:
 		}
 	| expr TokOpLogical expr_logical
 		{
-			$$ = ast.gen_op_binary($2, $1, $3);
+			$$ = ast.gen_binop($2, $1, $3);
 		}
 	;
 
@@ -101,7 +115,7 @@ expr_logical:
 		}
 	| expr_logical TokOpCompare expr_compare
 		{
-			$$ = ast.gen_op_binary($2, $1, $3);
+			$$ = ast.gen_binop($2, $1, $3);
 		}
 	;
 
@@ -112,7 +126,7 @@ expr_compare:
 		}
 	| expr_compare TokOpAddSub expr_add_sub
 		{
-			$$ = ast.gen_op_binary($2, $1, $3);
+			$$ = ast.gen_binop($2, $1, $3);
 		}
 	;
 
@@ -123,24 +137,22 @@ expr_add_sub:
 		}
 	| expr_add_sub TokOpMulDivMod expr_mul_div_mod_etc
 		{
-			$$ = ast.gen_op_binary($2, $1, $3);
+			$$ = ast.gen_binop($2, $1, $3);
 		}
 	| expr_add_sub TokOpBitwise expr_mul_div_mod_etc
 		{
-			$$ = ast.gen_op_binary($2, $1, $3);
+			$$ = ast.gen_binop($2, $1, $3);
 		}
 	;
 
 expr_mul_div_mod_etc:
 	TokIdent
 		{
-			//printout("TokIdent:  ", $1, "\n");
-			//$$ = ircodegen.gen_load($1);
-			$$ = ast.gen_op_ident($1);
+			$$ = ast.gen_ident($1);
 		}
 	| TokDecNum
 		{
-			$$ = ast.gen_op_constant($1);
+			$$ = ast.gen_constant($1);
 		}
 	| '(' expr ')'
 		{
@@ -168,5 +180,3 @@ void yyerror(char* msg)
 {
 	fprintf(stderr, "%s\n", msg);
 }
-
-int num_blocks;

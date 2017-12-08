@@ -5,6 +5,9 @@
 
 enum class AstNodeOp
 {
+	Statements,
+	ListStatements,
+
 	Constant,
 	Ident,
 	VarDecl,
@@ -12,36 +15,54 @@ enum class AstNodeOp
 	RmScope,
 	Block,
 	Assign,
-	Binary,
+	Binop,
 };
 
-// Circular linked list of "subtrees".
-class Tree
+// Binary operator ("+", "-", "*", "/", etc.)
+enum class AstNodeBinop
 {
-public:		// variables
-	AstNode* start;
-	Tree * next, * prev;
+	Plus,
+	Minus,
+	Multiplies,
+	Divides,
+	Modulo,
+	CmpEq,
+	CmpNe,
+	CmpLt,
+	CmpGt,
+	CmpLe,
+	CmpGe,
+	LogicAnd,
+	LogicOr,
+	BitAnd,
+	BitOr,
+	BitXor,
+	BitLsl,
+	BitLsr,
+	BitAsr,
 };
 
 class AstNode
 {
-public:		// variables
+public:		// variables and constants
 	AstNodeOp op;
+	AstNodeBinop binop;
 	int num;
 	std::vector<std::string> text;
 
 
 	// The childrens
-	std::set<AstNode*> children;
+	std::vector<AstNode*> children;
 
-	// Circular linked list links
-	AstNode * next, * prev;
+
+	std::vector<AstNode*> list;
 
 public:		// functions
 	AstNode();
 	virtual ~AstNode();
 
 	void append_child(AstNode* some_child);
+	void append_to_list(AstNode* to_append);
 };
 
 
