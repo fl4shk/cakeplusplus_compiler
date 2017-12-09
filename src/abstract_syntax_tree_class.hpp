@@ -20,12 +20,12 @@ public:		// functions
 	AstNode* gen_list_statement();
 	AstNode* gen_statement();
 	AstNode* gen_constant(int some_num);
-	AstNode* gen_ident(char* some_ident);
+	AstNode* gen_ident(const char* some_ident);
 	//AstNode* gen_var_decl(char* some_type_name, char* some_ident);
 	AstNode* gen_mkscope();
 	AstNode* gen_rmscope();
-	AstNode* gen_assign(char* some_ident, AstNode* some_expr);
-	AstNode* gen_binop(char* some_op, AstNode* a, AstNode* b);
+	AstNode* gen_assign(const char* some_ident, AstNode* some_expr);
+	AstNode* gen_binop(const char* some_op, AstNode* a, AstNode* b);
 
 	void print() const;
 

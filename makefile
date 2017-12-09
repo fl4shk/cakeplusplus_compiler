@@ -1,7 +1,8 @@
 # These directories specify where source code files are located.
 # Edit these variables if more directories are needed.  
 # Separate each entry by spaces.
-SHARED_SRC_DIRS:=$(CURDIR) src gen_src
+#SHARED_SRC_DIRS:=$(CURDIR) src gen_src
+SHARED_SRC_DIRS:=src gen_src
 CXX_DIRS:=$(SHARED_SRC_DIRS)
 C_DIRS:=$(SHARED_SRC_DIRS)
 S_DIRS:=$(SHARED_SRC_DIRS)

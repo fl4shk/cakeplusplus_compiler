@@ -56,6 +56,8 @@ public:		// variables and constants
 
 	// The childrens
 	std::vector<AstNode*> children;
+
+	// I don't think any nodes that are lists will have childrens.
 	std::vector<AstNode*>& list = children;
 
 public:		// functions
@@ -70,6 +72,8 @@ public:		// functions
 	void append_child(AstNode* some_child);
 	void append_to_list(AstNode* to_append);
 };
+
+std::ostream& operator << (std::ostream& os, const AstNode& to_print);
 
 
 

@@ -54,7 +54,7 @@ AstNode* AbstractSyntaxTree::gen_constant(int some_num)
 
 	return p;
 }
-AstNode* AbstractSyntaxTree::gen_ident(char* some_ident)
+AstNode* AbstractSyntaxTree::gen_ident(const char* some_ident)
 {
 	AstNode* p = mknode();
 	p->op = AstNodeOp::Ident;
@@ -77,7 +77,7 @@ AstNode* AbstractSyntaxTree::gen_rmscope()
 
 	return p;
 }
-AstNode* AbstractSyntaxTree::gen_assign(char* some_ident, 
+AstNode* AbstractSyntaxTree::gen_assign(const char* some_ident, 
 	AstNode* some_expr)
 {
 	AstNode* ident_node = gen_ident(some_ident);
@@ -89,13 +89,16 @@ AstNode* AbstractSyntaxTree::gen_assign(char* some_ident,
 
 	return p;
 }
-AstNode* AbstractSyntaxTree::gen_binop(char* some_op, AstNode* a, 
+AstNode* AbstractSyntaxTree::gen_binop(const char* some_op, AstNode* a, 
 	AstNode* b)
 {
 	AstNode* p = mknode();
 	p->op = AstNodeOp::Binop;
 	p->append_child(a);
 	p->append_child(b);
+
+	//printout("AbstractSyntaxTree::gen_binop():  some_op ==  ", some_op,
+	//	"\n");
 
 	if (some_op == std::string("+"))
 	{
@@ -183,10 +186,6 @@ AstNode* AbstractSyntaxTree::gen_binop(char* some_op, AstNode* a,
 }
 
 
-void AbstractSyntaxTree::print() const
-{
-	//printout("Beefs\n");
-}
 
 AstNode* AbstractSyntaxTree::mknode()
 {

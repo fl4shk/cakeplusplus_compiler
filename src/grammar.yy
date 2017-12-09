@@ -33,7 +33,7 @@
 %union
 {
 	int num;
-	char* name;
+	const char* name;
 
 
 	#ifdef __cplusplus
@@ -76,10 +76,12 @@ statements:
 
 list_statement:
 	{
+		printout("For the childrens.\n");
 		$$ = ast.gen_list_statement();
 	}
 	| list_statement statement
 		{
+			printout("Appending statement\n");
 			$1->append_to_list($2);
 			$$ = $1;
 		}
@@ -163,12 +165,24 @@ expr_mul_div_mod_etc:
 
 %%
 
+std::set<std::string> pool_for_cstm_strdup;
+
 extern "C"
 {
 void yy_c_error(char* msg)
 {
 	fprintf(stderr, "%s\n", msg);
 }
+const char* cstm_strdup(char* some_c_str)
+{
+	//pool_for_cstm_strdup.push_back(std::string(some_c_str));
+
+	pool_for_cstm_strdup.insert(std::string(some_c_str));
+
+	//return pool_for_cstm_strdup.back().c_str();
+	return pool_for_cstm_strdup.find(std::string(some_c_str))->c_str();
+}
+
 }
 
 void yyerror(const char* msg)

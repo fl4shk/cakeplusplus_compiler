@@ -23,6 +23,7 @@ dec_num		{digit}({digit})*
 	//extern void make_curr_var();
 	//extern const char* make_curr_var(char* some_var_name);
 	extern void yyerror(char* msg);
+	extern const char* cstm_strdup(char* some_c_str);
 
 %}
 
@@ -33,32 +34,32 @@ dec_num		{digit}({digit})*
 					}
 
 "u8"|"u16"|"u32"|"u64"			{
-									yylval.name = yytext;
+									yylval.name = cstm_strdup(yytext);
 									return TokBuiltinTypename;
 								}
 "s8"|"s16"|"s32"|"s64"			{
-									yylval.name = yytext;
+									yylval.name = cstm_strdup(yytext);
 									return TokBuiltinTypename;
 								}
 
 "&&"|"||"						{
-									yylval.name = yytext;
+									yylval.name = cstm_strdup(yytext);
 									return TokOpLogical;
 								}
 "&"|"|"|"^""<<"|">>"|">>>"		{
-									yylval.name = yytext;
+									yylval.name = cstm_strdup(yytext);
 									return TokOpBitwise;
 								}
 "=="|"!="|"<"|">"|"<="|">="		{
-									yylval.name = yytext;
+									yylval.name = cstm_strdup(yytext);
 									return TokOpCompare;
 								}
 "+"|"-"							{
-									yylval.name = yytext;
+									yylval.name = cstm_strdup(yytext);
 									return TokOpAddSub;
 								}
 "*"|"/"|"%"						{
-									yylval.name = yytext;
+									yylval.name = cstm_strdup(yytext);
 									return TokOpMulDivMod;
 								}
 
@@ -71,7 +72,7 @@ dec_num		{digit}({digit})*
 {ident}			{
 					//yylval.name = set_curr_var_name(yytext);
 					//yylval.name = make_curr_var();
-					yylval.name = yytext;
+					yylval.name = cstm_strdup(yytext);
 					return TokIdent;
 				}
 {dec_num}		{
