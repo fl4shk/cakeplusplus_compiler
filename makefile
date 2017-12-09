@@ -134,11 +134,13 @@ CXX_EFILES:=$(CXX_SOURCES:%.cpp=$(PREPROCDIR)/%.E)
 EFILES:=$(CXX_EFILES)
 
 
-GENERATED_SOURCES:=gen_src/lex.yy.c gen_src/grammar.tab.cpp gen_src/grammar.tab.hh 
+REGULAR_GENERATED_SOURCES:=gen_src/lex.yy.c gen_src/grammar.tab.cc
+MODIFED_GENERATED_SOURCES:=gen_src/grammar.tab.cpp gen_src/grammar.tab.hh
 
-#all : all_pre $(OFILES) $(GENERATED_SOURCES)
-#	$(LD) $(OBJDIR)/*.o -o $(PROJ) $(LD_FLAGS)
-all : all_pre $(GENERATED_SOURCES)
+all : all_pre $(REGULAR_GENERATED_SOURCES)
+	@make -j$(NUM_JOBS) first
+
+first : all_pre $(MODIFED_GENERATED_SOURCES)
 	@make -j$(NUM_JOBS) next
 
 next : all_pre $(OFILES)
@@ -162,13 +164,15 @@ all_pre_asmout :
 
 gen_src/lex.yy.c : src/lexicals.l
 	cd src && flex lexicals.l && mv lex.yy.c ../gen_src/lex.yy.c
-gen_src/grammar.tab.cpp : src/grammar.yy
+
+gen_src/grammar.tab.cc : src/grammar.yy
 	cd src && bison -d grammar.yy \
-	&& mv grammar.tab.cc ../gen_src/grammar.tab.cpp \
-	&& cd ../gen_src \
-	&& find . -type f -iname "grammar.tab.cpp" -print0 \
-	| xargs -0 sed -i 's/grammar\.tab\.cc/grammar.tab.cpp/g'
-gen_src/grammar.tab.hh : gen_src/grammar.tab.cpp
+	&& find . -type f -iname "grammar.tab.cc" -print0 \
+	| xargs -0 sed -i 's/grammar\.tab\.cc/grammar.tab.cpp/g' \
+	&& mv grammar.tab.cc ../gen_src/grammar.tab.cc
+gen_src/grammar.tab.cpp : src/grammar.yy
+	cd gen_src && mv grammar.tab.cc grammar.tab.cpp
+gen_src/grammar.tab.hh : src/grammar.yy
 	mv src/grammar.tab.hh gen_src/grammar.tab.hh
 
 # Here's where things get really messy.
@@ -246,7 +250,7 @@ $(CXX_EFILES) : $(PREPROCDIR)/%.E : %.cpp
 
 .PHONY : clean
 clean :
-	rm -rfv $(OBJDIR) $(DEPDIR) $(ASMOUTDIR) $(PREPROCDIR) $(PROJ) tags *.taghl gmon.out $(GENERATED_SOURCES)
+	rm -rfv $(OBJDIR) $(DEPDIR) $(ASMOUTDIR) $(PREPROCDIR) $(PROJ) tags *.taghl gmon.out $(REGULAR_GENERATED_SOURCES) $(MODIFED_GENERATED_SOURCES)
 
 # Flags for make disassemble*
 DISASSEMBLE_FLAGS:=$(DISASSEMBLE_BASE_FLAGS) -C -d 
