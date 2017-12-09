@@ -22,7 +22,6 @@ public:		// functions
 	AstNode* gen_statement();
 	AstNode* gen_constant(int some_num);
 	AstNode* gen_ident(const char* some_ident);
-	//AstNode* gen_var_decl(char* some_type_name, char* some_ident);
 	AstNode* gen_mkscope();
 	AstNode* gen_rmscope();
 	AstNode* gen_assign(const char* some_ident, AstNode* some_expr);
@@ -37,6 +36,10 @@ public:		// functions
 	AstNode* gen_do_while_statement(AstNode* some_statement,
 		AstNode* some_expr);
 
+	AstNode* gen_builtin_typename(const char* some_type_name);
+	AstNode* gen_var_decl_simple(const char* some_type_name, 
+		const char* some_ident);
+
 	inline void print() const
 	{
 		printout(__program);
@@ -44,37 +47,13 @@ public:		// functions
 
 protected:		// functions
 	template<typename NodeType>
-	AstNode* mknode()
+	inline AstNode* mknode()
 	{
 		std::unique_ptr<AstNode> p;
 		p.reset(new NodeType());
 		__nodes.push_back(std::move(p));
 		return __nodes.back().get();
 	}
-	//inline void rmnode(AstNode* p)
-	//{
-	//	__delink_node(p);
-	//	delete p;
-	//}
-
-	//inline void __delink_node(AstNode* p)
-	//{
-	//	(p->prev)->next = p->next;
-	//	(p->next)->prev = p->prev;
-	//}
-
-
-
-
-	//inline void __relink_node(AstNode* p, AstNode* to_link_after)
-	//{
-	//	AstNode* old_next = to_link_after->next;
-
-	//	to_link_after->next = p;
-	//	p->prev = to_link_after;
-	//	p->next = old_next;
-	//	old_next->prev = p;
-	//}
 
 };
 

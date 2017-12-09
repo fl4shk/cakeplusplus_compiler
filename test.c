@@ -1,4 +1,9 @@
 {
+	int a;
+	int b;
+	int c;
+	int d;
+
 	if (b == (a == 0))
 	{
 		c = 9;

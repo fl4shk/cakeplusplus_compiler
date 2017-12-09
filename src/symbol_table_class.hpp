@@ -5,10 +5,10 @@
 
 #include "scoped_ident_table_class.hpp"
 
-enum class SymType
+enum class SymType : int
 {
 	Keyword,
-	BuiltinVarType,
+	BuiltinTypename,
 
 
 	// Used by the lexer, fixed by the parser
@@ -19,7 +19,7 @@ enum class SymType
 	StructName,
 };
 
-enum class BuiltinVarType
+enum class BuiltinTypename : int
 {
 	Blank,
 
@@ -35,7 +35,7 @@ private:		// variables
 	std::string __name;
 
 	SymType __type;
-	BuiltinVarType __var_type;
+	BuiltinTypename __var_type;
 
 public:		// functions
 	inline Symbol()
@@ -45,11 +45,6 @@ public:		// functions
 		: __name(s_name), __type(s_type)
 	{
 	}
-	//inline Symbol(const std::string& s_name,
-	//	BuiltinVarType s_var_type)
-	//	: __name(s_name), __type(s_type)
-	//{
-	//}
 	inline Symbol(const Symbol& to_copy) = default;
 	inline Symbol(Symbol&& to_move) = default;
 

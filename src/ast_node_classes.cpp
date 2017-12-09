@@ -22,15 +22,6 @@ void AstNode::append_child(AstNode* some_child)
 	children.push_back(some_child);
 }
 
-//void AstNode::append_next(AstNode* some_next);
-//{
-//	if (has_next())
-//	{
-//		printerr("AstNode::append_next():  Eek!\n");
-//		exit(1);
-//	}
-//	next = some_next;
-//}
 
 void AstNode::append_to_list(AstNode* to_append)
 {

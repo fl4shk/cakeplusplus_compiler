@@ -8,9 +8,12 @@
 
 int main(int argc, char** argv)
 {
-	if (!yyparse())
+	if (yyparse())
 	{
-		ast.print();
+		return 1;
 	}
+	ast.print();
+
+	//codegen.generate();
 	return 0;
 }
