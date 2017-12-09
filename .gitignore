@@ -44,3 +44,5 @@ cake++_compiler
 cake++_compiler_debug
 *.elf
 src/lex.yy.c
+*.json
+*.json.ignore

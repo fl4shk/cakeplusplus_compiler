@@ -37,6 +37,22 @@ void AstNode::append_to_list(AstNode* to_append)
 }
 
 
+void AstNode::output_to_json(Json::Value& json_node) const
+{
+	json_node["_node"] = to_string();
+
+	if (children.size() != 0)
+	{
+		auto& recursive_node = json_node["children"];
+
+		for (size_t i=0; i<children.size(); ++i)
+		{
+			const Json::ArrayIndex index_i = i;
+			children.at(i)->output_to_json(recursive_node[index_i]);
+		}
+	}
+}
+
 std::ostream& operator << (std::ostream& os, AstNode* to_print)
 {
 	osprintout(os, "[");

@@ -61,11 +61,8 @@ public:		// functions
 	void append_child(AstNode* some_child);
 	void append_to_list(AstNode* to_append);
 
-	inline std::ostream& osprint(std::ostream& os)
+	inline std::ostream& osprint(std::ostream& os) const
 	{
-		//printerr("AstNode::osprint():  Eek!\n");
-		//exit(1);
-		//return os;
 		return osprintout(os, to_string());
 	}
 
@@ -75,6 +72,8 @@ public:		// functions
 		exit(1);
 		return std::string("");
 	}
+
+	void output_to_json(Json::Value& json_node) const;
 
 protected:		// functions
 	inline AstNode* at(size_t index)
