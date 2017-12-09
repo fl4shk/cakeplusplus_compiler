@@ -46,7 +46,7 @@ dec_num		{digit}({digit})*
 									yylval.name = cstm_strdup(yytext);
 									return TokOpLogical;
 								}
-"&"|"|"|"^""<<"|">>"|">>>"		{
+"&"|"|"|"^"|"<<"|">>"|">>>"		{
 									yylval.name = cstm_strdup(yytext);
 									return TokOpBitwise;
 								}
@@ -63,6 +63,10 @@ dec_num		{digit}({digit})*
 									return TokOpMulDivMod;
 								}
 
+"if"		{ return TokIf; }
+"else"		{ return TokElse; }
+"while"		{ return TokWhile; }
+"do"		{ return TokDo; }
 
 
 
@@ -79,6 +83,8 @@ dec_num		{digit}({digit})*
 					yylval.num = atoi(yytext);
 					return TokDecNum;
 				}
+
+
 
 <<EOF>>			{
 					return EOF;

@@ -14,18 +14,23 @@ AbstractSyntaxTree::~AbstractSyntaxTree()
 
 AstNode* AbstractSyntaxTree::gen_program(AstNode* some_statements)
 {
-	AstNode* p = mknode();
-	p->op = AstNodeOp::Program;
+	AstNode* p = mknode<AstProgram>();
 
 	p->append_child(some_statements);
+
+	if (__program != nullptr)
+	{
+		printerr("AbstractSyntaxTree::gen_program():  Eek!\n");
+		exit(1);
+	}
+	__program = p;
 
 	return p;
 }
 AstNode* AbstractSyntaxTree::gen_statements(AstNode* some_mkscope, 
 	AstNode* some_list_statements, AstNode* some_rmscope)
 {
-	AstNode* p = mknode();
-	p->op = AstNodeOp::Statements;
+	AstNode* p = mknode<AstStatements>();
 	p->append_child(some_mkscope);
 	p->append_child(some_list_statements);
 	p->append_child(some_rmscope);
@@ -34,31 +39,27 @@ AstNode* AbstractSyntaxTree::gen_statements(AstNode* some_mkscope,
 }
 AstNode* AbstractSyntaxTree::gen_list_statement()
 {
-	AstNode* p = mknode();
-	p->op = AstNodeOp::ListStatements;
+	AstNode* p = mknode<AstListStatement>();
 
 	return p;
 }
 AstNode* AbstractSyntaxTree::gen_statement()
 {
-	AstNode* p = mknode();
-	p->op = AstNodeOp::Statement;
+	AstNode* p = mknode<AstStatement>();
 
 	return p;
 }
 AstNode* AbstractSyntaxTree::gen_constant(int some_num)
 {
-	AstNode* p = mknode();
-	p->op = AstNodeOp::Constant;
+	AstNode* p = mknode<AstConstant>();
 	p->num = some_num;
 
 	return p;
 }
 AstNode* AbstractSyntaxTree::gen_ident(const char* some_ident)
 {
-	AstNode* p = mknode();
-	printout("AbstractSyntaxTree::gen_ident():  ", some_ident, "\n");
-	p->op = AstNodeOp::Ident;
+	AstNode* p = mknode<AstIdent>();
+	//printout("AbstractSyntaxTree::gen_ident():  ", some_ident, "\n");
 
 	p->text.push_back(std::string(some_ident));
 
@@ -66,15 +67,13 @@ AstNode* AbstractSyntaxTree::gen_ident(const char* some_ident)
 }
 AstNode* AbstractSyntaxTree::gen_mkscope()
 {
-	AstNode* p = mknode();
-	p->op = AstNodeOp::MkScope;
+	AstNode* p = mknode<AstMkScope>();
 
 	return p;
 }
 AstNode* AbstractSyntaxTree::gen_rmscope()
 {
-	AstNode* p = mknode();
-	p->op = AstNodeOp::RmScope;
+	AstNode* p = mknode<AstRmScope>();
 
 	return p;
 }
@@ -83,8 +82,7 @@ AstNode* AbstractSyntaxTree::gen_assign(const char* some_ident,
 {
 	AstNode* ident_node = gen_ident(some_ident);
 
-	AstNode* p = mknode();
-	p->op = AstNodeOp::Assign;
+	AstNode* p = mknode<AstAssign>();
 	p->append_child(ident_node);
 	p->append_child(some_expr);
 
@@ -93,13 +91,13 @@ AstNode* AbstractSyntaxTree::gen_assign(const char* some_ident,
 AstNode* AbstractSyntaxTree::gen_binop(const char* some_op, AstNode* a, 
 	AstNode* b)
 {
-	AstNode* p = mknode();
-	p->op = AstNodeOp::Binop;
+	AstNode* p = mknode<AstBinop>();
+	p->text.push_back(some_op);
 	p->append_child(a);
 	p->append_child(b);
 
-	printout("AbstractSyntaxTree::gen_binop():  some_op ==  ", some_op,
-		"\n");
+	//printout("AbstractSyntaxTree::gen_binop():  some_op ==  ", some_op,
+	//	"\n");
 
 	if (some_op == std::string("+"))
 	{
@@ -186,12 +184,46 @@ AstNode* AbstractSyntaxTree::gen_binop(const char* some_op, AstNode* a,
 	return p;
 }
 
-
-
-AstNode* AbstractSyntaxTree::mknode()
+AstNode* AbstractSyntaxTree::gen_if_statement(AstNode* some_expr, 
+	AstNode* some_statement)
 {
-	std::unique_ptr<AstNode> p;
-	p.reset(new AstNode());
-	__nodes.push_back(std::move(p));
-	return __nodes.back().get();
+	AstNode* p = mknode<AstIf>();
+
+	p->append_child(some_expr);
+	p->append_child(some_statement);
+
+	return p;
 }
+AstNode* AbstractSyntaxTree::gen_if_chain_statement(AstNode* some_expr,
+	AstNode* some_statement_if, AstNode* some_statement_else)
+{
+	AstNode* p = mknode<AstIfChain>();
+
+	p->append_child(some_expr);
+	p->append_child(some_statement_if);
+	p->append_child(some_statement_else);
+
+	return p;
+}
+AstNode* AbstractSyntaxTree::gen_while_statement(AstNode* some_expr,
+	AstNode* some_statement)
+{
+	AstNode* p = mknode<AstWhile>();
+
+	p->append_child(some_expr);
+	p->append_child(some_statement);
+
+	return p;
+}
+AstNode* AbstractSyntaxTree::gen_do_while_statement
+	(AstNode* some_statement, AstNode* some_expr)
+{
+	AstNode* p = mknode<AstDoWhile>();
+
+	p->append_child(some_statement);
+	p->append_child(some_expr);
+
+	return p;
+}
+
+

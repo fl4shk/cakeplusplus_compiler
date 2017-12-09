@@ -7,7 +7,8 @@
 class AbstractSyntaxTree
 {
 protected:		// variables
-	AstNode __tree;
+	//AstNode __tree;
+	AstNode* __program = nullptr;
 	std::vector<std::unique_ptr<AstNode>> __nodes;
 
 public:		// functions
@@ -27,10 +28,29 @@ public:		// functions
 	AstNode* gen_assign(const char* some_ident, AstNode* some_expr);
 	AstNode* gen_binop(const char* some_op, AstNode* a, AstNode* b);
 
-	void print() const;
+	AstNode* gen_if_statement(AstNode* some_expr, 
+		AstNode* some_statement);
+	AstNode* gen_if_chain_statement(AstNode* some_expr,
+		AstNode* some_statement_if, AstNode* some_statement_else);
+	AstNode* gen_while_statement(AstNode* some_expr,
+		AstNode* some_statement);
+	AstNode* gen_do_while_statement(AstNode* some_statement,
+		AstNode* some_expr);
+
+	inline void print() const
+	{
+		printout(__program);
+	}
 
 protected:		// functions
-	AstNode* mknode();
+	template<typename NodeType>
+	AstNode* mknode()
+	{
+		std::unique_ptr<AstNode> p;
+		p.reset(new NodeType());
+		__nodes.push_back(std::move(p));
+		return __nodes.back().get();
+	}
 	//inline void rmnode(AstNode* p)
 	//{
 	//	__delink_node(p);

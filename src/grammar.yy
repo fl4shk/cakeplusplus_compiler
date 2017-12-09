@@ -49,10 +49,13 @@
 %token <num> TokDecNum
 %token <name> TokOpLogical TokOpCompare TokOpAddSub 
 %token <name> TokOpBitwise TokOpMulDivMod
+%token TokIf TokElse TokWhile TokDo
 
-%type <node> statements list_statement statement
 %type <node> expr expr_logical expr_compare
 %type <node> expr_add_sub expr_mul_div_mod_etc
+%type <node> statements list_statement statement
+%type <node> if_statement if_chain_statement 
+%type <node> while_statement do_while_statement
 
 
 %%
@@ -96,8 +99,51 @@ statement:
 		{
 			$$ = ast.gen_assign($1, $3);
 		}
+	| if_statement
+		{
+			$$ = $1;
+		}
+	| if_chain_statement
+		{
+			$$ = $1;
+		}
+	| while_statement
+		{
+			$$ = $1;
+		}
+	| do_while_statement
+		{
+			$$ = $1;
+		}
 	;
 
+if_statement:
+	TokIf '(' expr ')' statement
+		{
+			$$ = ast.gen_if_statement($3, $5);
+		}
+	;
+
+if_chain_statement:
+	TokIf '(' expr ')' statement TokElse statement
+		{
+			$$ = ast.gen_if_chain_statement($3, $5, $7);
+		}
+	;
+
+while_statement:
+	TokWhile '(' expr ')' statement
+		{
+			$$ = ast.gen_while_statement($3, $5);
+		}
+	;
+
+do_while_statement:
+	TokDo statement TokWhile '(' expr ')'
+		{
+			$$ = ast.gen_do_while_statement($2, $5);
+		}
+	;
 
 expr:
 	expr_logical

@@ -46,6 +46,17 @@ void AstNode::append_to_list(AstNode* to_append)
 }
 
 
-//std::ostream& operator << (std::ostream& os, AstNode* to_print)
-//{
-//}
+std::ostream& operator << (std::ostream& os, AstNode* to_print)
+{
+	osprintout(os, "[");
+
+	to_print->osprint(os);
+
+	for (auto* iter : to_print->children)
+	{
+		osprintout(os, iter);
+	}
+	osprintout(os, "]");
+
+	return os;
+}
