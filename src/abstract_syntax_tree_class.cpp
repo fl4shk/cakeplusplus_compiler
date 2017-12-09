@@ -232,35 +232,35 @@ AstNode* AbstractSyntaxTree::gen_builtin_typename
 	auto p = mknode<AstBuiltinTypename>();
 	p->text.push_back(some_type_name);
 
-	if (some_type_name == "u8")
+	if (some_type_name == std::string("u8"))
 	{
 		p->builtin_typename = BuiltinTypename::U8;
 	}
-	else if (some_type_name == "u16")
+	else if (some_type_name == std::string("u16"))
 	{
 		p->builtin_typename = BuiltinTypename::U16;
 	}
-	else if (some_type_name == "u32")
+	else if (some_type_name == std::string("u32"))
 	{
 		p->builtin_typename = BuiltinTypename::U32;
 	}
-	else if (some_type_name == "u64")
+	else if (some_type_name == std::string("u64"))
 	{
 		p->builtin_typename = BuiltinTypename::U64;
 	}
-	else if (some_type_name == "s8")
+	else if (some_type_name == std::string("s8"))
 	{
 		p->builtin_typename = BuiltinTypename::S8;
 	}
-	else if (some_type_name == "s16")
+	else if (some_type_name == std::string("s16"))
 	{
 		p->builtin_typename = BuiltinTypename::S16;
 	}
-	else if (some_type_name == "s32")
+	else if (some_type_name == std::string("s32"))
 	{
 		p->builtin_typename = BuiltinTypename::S32;
 	}
-	else if (some_type_name == "s64")
+	else if (some_type_name == std::string("s64"))
 	{
 		p->builtin_typename = BuiltinTypename::S64;
 	}

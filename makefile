@@ -2,7 +2,7 @@
 # Edit these variables if more directories are needed.  
 # Separate each entry by spaces.
 #SHARED_SRC_DIRS:=$(CURDIR) src gen_src
-SHARED_SRC_DIRS:=src gen_src
+SHARED_SRC_DIRS:=src src/liborangepower_src gen_src
 CXX_DIRS:=$(SHARED_SRC_DIRS)
 C_DIRS:=$(SHARED_SRC_DIRS)
 S_DIRS:=$(SHARED_SRC_DIRS)
@@ -37,7 +37,8 @@ PROJ:=$(shell basename $(CURDIR))$(DEBUG_SUFFIX)
 
 # Compilers and initial compiler flags
 CXX:=$(PREFIX)g++
-CXX_FLAGS:=$(CXX_FLAGS) -std=c++17 -Wall
+CXX_FLAGS:=$(CXX_FLAGS) -std=c++17 -Wall \
+	$(shell pkg-config --cflags jsoncpp)
 
 CC:=$(PREFIX)gcc
 C_FLAGS:=$(C_FLAGS) -std=c11 -Wall
@@ -52,7 +53,7 @@ OBJDUMP:=$(PREFIX)objdump
 LD:=$(CXX)
 
 # Initial linker flags
-LD_FLAGS:=$(LD_FLAGS) -lm
+LD_FLAGS:=$(LD_FLAGS) -lm -ljsoncpp
 
 
 

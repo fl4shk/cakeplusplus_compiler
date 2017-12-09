@@ -4,9 +4,9 @@
 
 struct AstProgram : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "program");
+		return sconcat("program");
 	}
 
 	inline auto statements()
@@ -17,9 +17,9 @@ struct AstProgram : public AstNode
 
 struct AstStatements : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "statements");
+		return sconcat("statements");
 	}
 
 	inline auto mkscope()
@@ -38,59 +38,59 @@ struct AstStatements : public AstNode
 
 struct AstListStatement : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "list_statement");
+		return sconcat("list_statement");
 	}
 };
 
 
 struct AstStatement : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "statement");
+		return sconcat("statement");
 	}
 };
 
 struct AstConstant : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "constant(", num, ")");
+		return sconcat("constant(", num, ")");
 	}
 };
 
 
 struct AstIdent : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "ident(", text.front(), ")");
+		return sconcat("ident(", text.front(), ")");
 	}
 };
 
 struct AstMkScope : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "mkscope");
+		return sconcat("mkscope");
 	}
 };
 
 struct AstRmScope : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "rmscope");
+		return sconcat("rmscope");
 	}
 };
 
 struct AstAssign : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "assign");
+		return sconcat("assign");
 	}
 
 	inline auto ident_node()
@@ -105,9 +105,9 @@ struct AstAssign : public AstNode
 
 struct AstBinop : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "binop(", text.front(), ")");
+		return sconcat("binop(", text.front(), ")");
 	}
 
 	inline auto arg_a()
@@ -122,9 +122,9 @@ struct AstBinop : public AstNode
 
 struct AstIf : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "if");
+		return sconcat("if");
 	}
 
 	inline auto expr()
@@ -140,9 +140,9 @@ struct AstIf : public AstNode
 
 struct AstIfChain : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "if_chain");
+		return sconcat("if_chain");
 	}
 
 	inline auto expr()
@@ -161,9 +161,9 @@ struct AstIfChain : public AstNode
 
 struct AstWhile : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "while");
+		return sconcat("while");
 	}
 
 	inline auto expr()
@@ -180,9 +180,9 @@ struct AstWhile : public AstNode
 
 struct AstDoWhile : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "do_while");
+		return sconcat("do_while");
 	}
 
 	inline auto statement()
@@ -197,17 +197,17 @@ struct AstDoWhile : public AstNode
 
 struct AstBuiltinTypename : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "builtin_typename(", text.front(), ")");
+		return sconcat("builtin_typename(", text.front(), ")");
 	}
 };
 
 struct AstVarDeclSimple : public AstNode
 {
-	virtual std::ostream& osprint(std::ostream& os)
+	virtual std::string to_string() const
 	{
-		return osprintout(os, "var_decl_simple");
+		return sconcat("var_decl_simple");
 	}
 
 	inline auto builtin_typename_node()

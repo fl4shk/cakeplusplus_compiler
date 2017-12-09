@@ -3,6 +3,7 @@
 
 #include "misc_includes.hpp"
 #include "symbol_table_class.hpp"
+#include "liborangepower_src/json_stuff.hpp"
 
 // Binary operator ("+", "-", "*", "/", etc.)
 enum class AstNodeBinop : int
@@ -60,11 +61,19 @@ public:		// functions
 	void append_child(AstNode* some_child);
 	void append_to_list(AstNode* to_append);
 
-	virtual std::ostream& osprint(std::ostream& os)
+	inline std::ostream& osprint(std::ostream& os)
 	{
-		printerr("AstNode::osprint():  Eek!\n");
+		//printerr("AstNode::osprint():  Eek!\n");
+		//exit(1);
+		//return os;
+		return osprintout(os, to_string());
+	}
+
+	virtual std::string to_string() const
+	{
+		printerr("AstNode::to_string():  Eek!\n");
 		exit(1);
-		return os;
+		return std::string("");
 	}
 
 protected:		// functions

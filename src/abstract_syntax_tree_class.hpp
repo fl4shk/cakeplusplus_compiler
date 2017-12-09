@@ -45,6 +45,8 @@ public:		// functions
 		printout(__program);
 	}
 
+	void print_json() const;
+
 protected:		// functions
 	template<typename NodeType>
 	inline AstNode* mknode()

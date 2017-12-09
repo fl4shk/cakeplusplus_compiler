@@ -114,7 +114,7 @@ statement:
 		{
 			$$ = ast.gen_do_while_statement($2, $5);
 		}
-	| var_decl
+	| var_decl ';'
 		{
 			$$ = $1;
 		}

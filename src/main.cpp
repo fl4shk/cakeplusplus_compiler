@@ -13,6 +13,7 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	ast.print();
+	//ast.print_json();
 
 	//codegen.generate();
 	return 0;

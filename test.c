@@ -1,8 +1,8 @@
 {
-	int a;
-	int b;
-	int c;
-	int d;
+	u32 a;
+	u32 b;
+	u32 c;
+	u32 d;
 
 	if (b == (a == 0))
 	{
