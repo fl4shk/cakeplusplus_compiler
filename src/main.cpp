@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 {
 	if (!yyparse())
 	{
-		//ast.print();
+		ast.print();
 	}
 	return 0;
 }

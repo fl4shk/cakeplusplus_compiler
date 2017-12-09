@@ -22,7 +22,7 @@ dec_num		{digit}({digit})*
 	//extern const char* set_curr_var_name(char* some_var_name);
 	//extern void make_curr_var();
 	//extern const char* make_curr_var(char* some_var_name);
-	extern void yyerror(char* msg);
+	extern void yy_c_error(char* msg);
 	extern const char* cstm_strdup(char* some_c_str);
 
 %}
