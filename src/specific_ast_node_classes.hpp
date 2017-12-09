@@ -9,10 +9,7 @@ struct AstProgram : public AstNode
 		return sconcat("program");
 	}
 
-	inline auto statements()
-	{
-		return at(0);
-	}
+	inline auto statements() { return at(0); }
 };
 
 struct AstStatements : public AstNode
@@ -22,18 +19,9 @@ struct AstStatements : public AstNode
 		return sconcat("statements");
 	}
 
-	inline auto mkscope()
-	{
-		return at(0);
-	}
-	inline auto list_statement()
-	{
-		return at(1);
-	}
-	inline auto rmscope()
-	{
-		return at(2);
-	}
+	inline auto mkscope() { return at(0); }
+	inline auto list_statement() { return at(1); }
+	inline auto rmscope() { return at(2); }
 };
 
 struct AstListStatement : public AstNode
@@ -70,6 +58,17 @@ struct AstIdent : public AstNode
 	}
 };
 
+struct AstIndexedLoad : public AstNode
+{
+	virtual std::string to_string() const
+	{
+		return sconcat("indexed_load");
+	}
+
+	inline auto ident_node() { return at(0); }
+	inline auto index_node() { return at(1); }
+};
+
 struct AstMkScope : public AstNode
 {
 	virtual std::string to_string() const
@@ -93,14 +92,20 @@ struct AstAssign : public AstNode
 		return sconcat("assign");
 	}
 
-	inline auto ident_node()
+	inline auto ident_node() { return at(0); }
+	inline auto expr() { return at(1); }
+};
+
+struct AstIndexedAssign : public AstNode
+{
+	virtual std::string to_string() const
 	{
-		return at(0);
+		return sconcat("indexed_assign");
 	}
-	inline auto expr()
-	{
-		return at(1);
-	}
+
+	inline auto ident_node() { return at(0); }
+	inline auto index_node() { return at(1); }
+	inline auto rhs_node() { return at(2); }
 };
 
 struct AstBinop : public AstNode
@@ -110,14 +115,8 @@ struct AstBinop : public AstNode
 		return sconcat("binop(", text.front(), ")");
 	}
 
-	inline auto arg_a()
-	{
-		return at(0);
-	}
-	inline auto arg_b()
-	{
-		return at(1);
-	}
+	inline auto arg_a() { return at(0); }
+	inline auto arg_b() { return at(1); }
 };
 
 struct AstIf : public AstNode
@@ -127,14 +126,8 @@ struct AstIf : public AstNode
 		return sconcat("if");
 	}
 
-	inline auto expr()
-	{
-		return at(0);
-	}
-	inline auto statement()
-	{
-		return at(1);
-	}
+	inline auto expr() { return at(0); }
+	inline auto statement() { return at(1); }
 };
 
 
@@ -145,18 +138,9 @@ struct AstIfChain : public AstNode
 		return sconcat("if_chain");
 	}
 
-	inline auto expr()
-	{
-		return at(0);
-	}
-	inline auto statement_if()
-	{
-		return at(1);
-	}
-	inline auto statement_else()
-	{
-		return at(2);
-	}
+	inline auto expr() { return at(0); }
+	inline auto statement_if() { return at(1); }
+	inline auto statement_else() { return at(2); }
 };
 
 struct AstWhile : public AstNode
@@ -166,14 +150,8 @@ struct AstWhile : public AstNode
 		return sconcat("while");
 	}
 
-	inline auto expr()
-	{
-		return at(0);
-	}
-	inline auto statement()
-	{
-		return at(1);
-	}
+	inline auto expr() { return at(0); }
+	inline auto statement() { return at(1); }
 
 };
 
@@ -185,14 +163,8 @@ struct AstDoWhile : public AstNode
 		return sconcat("do_while");
 	}
 
-	inline auto statement()
-	{
-		return at(0);
-	}
-	inline auto expr()
-	{
-		return at(1);
-	}
+	inline auto statement() { return at(0); }
+	inline auto expr() { return at(1); }
 };
 
 struct AstBuiltinTypename : public AstNode
@@ -210,14 +182,8 @@ struct AstVarDeclSimple : public AstNode
 		return sconcat("var_decl_simple");
 	}
 
-	inline auto builtin_typename_node()
-	{
-		return at(0);
-	}
-	inline auto ident_node()
-	{
-		return at(1);
-	}
+	inline auto builtin_typename_node() { return at(0); }
+	inline auto ident_node() { return at(1); }
 };
 
 struct AstVarDeclArray : public AstNode
@@ -227,18 +193,9 @@ struct AstVarDeclArray : public AstNode
 		return sconcat("var_decl_array");
 	}
 
-	inline auto builtin_typename_node()
-	{
-		return at(0);
-	}
-	inline auto ident_node()
-	{
-		return at(1);
-	}
-	inline auto dim_node()
-	{
-		return at(2);
-	}
+	inline auto builtin_typename_node() { return at(0); }
+	inline auto ident_node() { return at(1); }
+	inline auto dim_node() { return at(2); }
 };
 
 

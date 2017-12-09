@@ -22,9 +22,13 @@ public:		// functions
 	AstNode* gen_statement();
 	AstNode* gen_constant(int some_num);
 	AstNode* gen_ident(const char* some_ident);
+	AstNode* gen_indexed_load(const char* some_ident, 
+		AstNode* some_index);
 	AstNode* gen_mkscope();
 	AstNode* gen_rmscope();
 	AstNode* gen_assign(const char* some_ident, AstNode* some_expr);
+	AstNode* gen_indexed_assign(const char* some_ident,
+		AstNode* some_index, AstNode* some_rhs);
 	AstNode* gen_binop(const char* some_op, AstNode* a, AstNode* b);
 
 	AstNode* gen_if_statement(AstNode* some_expr, 

@@ -65,6 +65,19 @@ AstNode* AbstractSyntaxTree::gen_ident(const char* some_ident)
 
 	return p;
 }
+
+AstNode* AbstractSyntaxTree::gen_indexed_load(const char* some_ident, 
+	AstNode* some_index)
+{
+	auto ident_node = gen_ident(some_ident);
+
+	auto p = mknode<AstIndexedLoad>();
+	p->append_child(ident_node);
+	p->append_child(some_index);
+
+	return p;
+}
+
 AstNode* AbstractSyntaxTree::gen_mkscope()
 {
 	auto p = mknode<AstMkScope>();
@@ -85,6 +98,18 @@ AstNode* AbstractSyntaxTree::gen_assign(const char* some_ident,
 	auto p = mknode<AstAssign>();
 	p->append_child(ident_node);
 	p->append_child(some_expr);
+
+	return p;
+}
+AstNode* AbstractSyntaxTree::gen_indexed_assign(const char* some_ident,
+	AstNode* some_index, AstNode* some_rhs)
+{
+	auto ident_node = gen_ident(some_ident);
+
+	auto p = mknode<AstIndexedAssign>();
+	p->append_child(ident_node);
+	p->append_child(some_index);
+	p->append_child(some_rhs);
 
 	return p;
 }

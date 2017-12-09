@@ -98,6 +98,10 @@ statement:
 		{
 			$$ = ast.gen_assign($1, $3);
 		}
+	| TokIdent '[' expr ']' '=' expr ';'
+		{
+			$$ = ast.gen_indexed_assign($1, $3, $6);
+		}
 	| TokIf '(' expr ')' statement
 		{
 			$$ = ast.gen_if_statement($3, $5);
@@ -197,6 +201,10 @@ expr_mul_div_mod_etc:
 	TokIdent
 		{
 			$$ = ast.gen_ident($1);
+		}
+	| TokIdent '[' expr ']'
+		{
+			$$ = ast.gen_indexed_load($1, $3);
 		}
 	| TokDecNum
 		{
