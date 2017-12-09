@@ -39,6 +39,8 @@ public:		// functions
 	AstNode* gen_builtin_typename(const char* some_type_name);
 	AstNode* gen_var_decl_simple(const char* some_type_name, 
 		const char* some_ident);
+	AstNode* gen_var_decl_array(const char* some_type_name, 
+		const char* some_ident, int some_dim);
 
 	inline void print() const
 	{

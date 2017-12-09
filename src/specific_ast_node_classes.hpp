@@ -220,5 +220,26 @@ struct AstVarDeclSimple : public AstNode
 	}
 };
 
+struct AstVarDeclArray : public AstNode
+{
+	virtual std::string to_string() const
+	{
+		return sconcat("var_decl_array");
+	}
+
+	inline auto builtin_typename_node()
+	{
+		return at(0);
+	}
+	inline auto ident_node()
+	{
+		return at(1);
+	}
+	inline auto dim_node()
+	{
+		return at(2);
+	}
+};
+
 
 #endif		// specific_ast_node_classes_hpp

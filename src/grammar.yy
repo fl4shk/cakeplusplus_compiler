@@ -54,7 +54,7 @@
 %type <node> expr expr_logical expr_compare
 %type <node> expr_add_sub expr_mul_div_mod_etc
 %type <node> statements list_statement statement
-%type <node> var_decl var_decl_simple
+%type <node> var_decl var_decl_simple var_decl_array
 
 
 %%
@@ -125,12 +125,23 @@ var_decl:
 		{
 			$$ = $1;
 		}
+	| var_decl_array
+		{
+			$$ = $1;
+		}
 	;
 
 var_decl_simple:
 	TokBuiltinTypename TokIdent
 		{
 			$$ = ast.gen_var_decl_simple($1, $2);
+		}
+	;
+
+var_decl_array:
+	TokBuiltinTypename TokIdent '[' TokDecNum ']'
+		{
+			$$ = ast.gen_var_decl_array($1, $2, $4);
 		}
 	;
 

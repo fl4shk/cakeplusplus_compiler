@@ -286,3 +286,19 @@ AstNode* AbstractSyntaxTree::gen_var_decl_simple
 	return p;
 }
 
+AstNode* AbstractSyntaxTree::gen_var_decl_array
+	(const char* some_type_name, const char* some_ident, int some_dim)
+{
+	auto builtin_typename_node 
+		= gen_builtin_typename(some_type_name);
+	auto ident_node = gen_ident(some_ident);
+	auto dim_node = gen_constant(some_dim);
+	auto p = mknode<AstVarDeclArray>();
+
+	p->append_child(builtin_typename_node);
+	p->append_child(ident_node);
+	p->append_child(dim_node);
+
+	return p;
+}
+
