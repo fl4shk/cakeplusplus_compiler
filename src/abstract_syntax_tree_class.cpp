@@ -57,6 +57,7 @@ AstNode* AbstractSyntaxTree::gen_constant(int some_num)
 AstNode* AbstractSyntaxTree::gen_ident(const char* some_ident)
 {
 	AstNode* p = mknode();
+	printout("AbstractSyntaxTree::gen_ident():  ", some_ident, "\n");
 	p->op = AstNodeOp::Ident;
 
 	p->text.push_back(std::string(some_ident));
@@ -97,8 +98,8 @@ AstNode* AbstractSyntaxTree::gen_binop(const char* some_op, AstNode* a,
 	p->append_child(a);
 	p->append_child(b);
 
-	//printout("AbstractSyntaxTree::gen_binop():  some_op ==  ", some_op,
-	//	"\n");
+	printout("AbstractSyntaxTree::gen_binop():  some_op ==  ", some_op,
+		"\n");
 
 	if (some_op == std::string("+"))
 	{

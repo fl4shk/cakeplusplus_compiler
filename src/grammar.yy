@@ -76,12 +76,12 @@ statements:
 
 list_statement:
 	{
-		printout("For the childrens.\n");
+		//printout("For the childrens.\n");
 		$$ = ast.gen_list_statement();
 	}
 	| list_statement statement
 		{
-			printout("Appending statement\n");
+			//printout("Appending statement\n");
 			$1->append_to_list($2);
 			$$ = $1;
 		}

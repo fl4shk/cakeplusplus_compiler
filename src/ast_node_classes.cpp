@@ -44,3 +44,8 @@ void AstNode::append_to_list(AstNode* to_append)
 
 	list.push_back(to_append);
 }
+
+
+//std::ostream& operator << (std::ostream& os, AstNode* to_print)
+//{
+//}

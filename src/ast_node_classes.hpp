@@ -73,7 +73,7 @@ public:		// functions
 	void append_to_list(AstNode* to_append);
 };
 
-std::ostream& operator << (std::ostream& os, const AstNode& to_print);
+//std::ostream& operator << (std::ostream& os, AstNode* to_print);
 
 
 
