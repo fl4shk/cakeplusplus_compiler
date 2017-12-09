@@ -15,7 +15,7 @@ NS_DIRS:=$(SHARED_SRC_DIRS)
 
 # Comment out or un-comment out the next line to enable debugging stuff to
 # be generated
-#DEBUG:=yeah do debug
+DEBUG:=yeah do debug
 
 DEBUG_OPTIMIZATION_LEVEL:=-O0
 REGULAR_OPTIMIZATION_LEVEL:=-O2
@@ -164,7 +164,10 @@ gen_src/lex.yy.c : src/lexicals.l
 	cd src && flex lexicals.l && mv lex.yy.c ../gen_src/lex.yy.c
 gen_src/grammar.tab.cpp : src/grammar.yy
 	cd src && bison -d grammar.yy \
-	&& mv grammar.tab.cc ../gen_src/grammar.tab.cpp
+	&& mv grammar.tab.cc ../gen_src/grammar.tab.cpp \
+	&& cd ../gen_src \
+	&& find . -type f -iname "grammar.tab.cpp" -print0 \
+	| xargs -0 sed -i 's/grammar\.tab\.cc/grammar.tab.cpp/g'
 gen_src/grammar.tab.hh : gen_src/grammar.tab.cpp
 	mv src/grammar.tab.hh gen_src/grammar.tab.hh
 

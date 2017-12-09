@@ -20,7 +20,7 @@ public:		// functions
 		AstNode* some_list_statement, AstNode* some_rmscope);
 	AstNode* gen_list_statement();
 	AstNode* gen_statement();
-	AstNode* gen_constant(int some_num);
+	AstNode* gen_constant(const int* some_num);
 	AstNode* gen_ident(const char* some_ident);
 	AstNode* gen_indexed_load(const char* some_ident, 
 		AstNode* some_index);
@@ -44,7 +44,7 @@ public:		// functions
 	AstNode* gen_var_decl_simple(const char* some_type_name, 
 		const char* some_ident);
 	AstNode* gen_var_decl_array(const char* some_type_name, 
-		const char* some_ident, int some_dim);
+		const char* some_ident, const int* some_dim);
 
 	inline void print() const
 	{

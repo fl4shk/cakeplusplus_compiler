@@ -49,10 +49,16 @@ AstNode* AbstractSyntaxTree::gen_statement()
 
 	return p;
 }
-AstNode* AbstractSyntaxTree::gen_constant(int some_num)
+AstNode* AbstractSyntaxTree::gen_constant(const int* some_num)
 {
+	if (some_num == nullptr)
+	{
+		printerr("AbstractSyntaxTree::gen_constant():  Eek!\n");
+		exit(1);
+	}
+
 	auto p = mknode<AstConstant>();
-	p->num = some_num;
+	p->num = *some_num;
 
 	return p;
 }
@@ -312,8 +318,11 @@ AstNode* AbstractSyntaxTree::gen_var_decl_simple
 }
 
 AstNode* AbstractSyntaxTree::gen_var_decl_array
-	(const char* some_type_name, const char* some_ident, int some_dim)
+	(const char* some_type_name, const char* some_ident, 
+	const int* some_dim)
 {
+	printout("AbstractSyntaxTree::gen_var_decl_array():  ",
+		some_type_name, "\n");
 	auto builtin_typename_node 
 		= gen_builtin_typename(some_type_name);
 	auto ident_node = gen_ident(some_ident);
