@@ -5,8 +5,10 @@
 
 enum class AstNodeOp
 {
+	Program,
 	Statements,
 	ListStatements,
+	Statement,
 
 	Constant,
 	Ident,
@@ -51,15 +53,19 @@ public:		// variables and constants
 	std::vector<std::string> text;
 
 
+
 	// The childrens
 	std::vector<AstNode*> children;
-
-
-	std::vector<AstNode*> list;
+	std::vector<AstNode*>& list = children;
 
 public:		// functions
 	AstNode();
+	AstNode(const AstNode& to_copy) = default;
+	AstNode(AstNode&& to_move) = default;
 	virtual ~AstNode();
+
+	AstNode& operator = (const AstNode& to_copy) = default;
+	AstNode& operator = (AstNode&& to_move) = default;
 
 	void append_child(AstNode* some_child);
 	void append_to_list(AstNode* to_append);

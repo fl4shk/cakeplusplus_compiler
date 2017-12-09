@@ -80,7 +80,8 @@ list_statement:
 	}
 	| list_statement statement
 		{
-			$$->append_to_list($2);
+			$1->append_to_list($2);
+			$$ = $1;
 		}
 	;
 

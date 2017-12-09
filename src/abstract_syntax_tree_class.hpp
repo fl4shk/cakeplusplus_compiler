@@ -20,7 +20,7 @@ public:		// functions
 	AstNode* gen_list_statement();
 	AstNode* gen_statement();
 	AstNode* gen_constant(int some_num);
-	AstNode* gen_ident(char* a);
+	AstNode* gen_ident(char* some_ident);
 	//AstNode* gen_var_decl(char* some_type_name, char* some_ident);
 	AstNode* gen_mkscope();
 	AstNode* gen_rmscope();
@@ -30,7 +30,7 @@ public:		// functions
 	void print() const;
 
 protected:		// functions
-	AstNode* mknode(const AstNode& to_append);
+	AstNode* mknode();
 	//inline void rmnode(AstNode* p)
 	//{
 	//	__delink_node(p);
@@ -56,18 +56,6 @@ protected:		// functions
 	//	old_next->prev = p;
 	//}
 
-
-	//AstNode* binop(AstNodeBinop some_binop, AstNode* a, AstNode* b)
-	//{
-	//	AstNode p;
-	//	p.op = AstNodeOp::Binop;
-	//	p.binop = some_binop;
-	//	//p.args[0] = (AstNode*)a;
-	//	//p.args[1] = (AstNode*)b;
-	//	p.append_child(a);
-	//	p.append_child(b);
-	//	return mknode(p);
-	//}
 };
 
 extern AbstractSyntaxTree ast;
