@@ -17,7 +17,7 @@ public:		// functions
 
 	AstNode* gen_program(AstNode* some_statements);
 	AstNode* gen_statements(AstNode* some_mkscope, 
-		AstNode* some_list_statements, AstNode* some_rmscope);
+		AstNode* some_list_statement, AstNode* some_rmscope);
 	AstNode* gen_list_statement();
 	AstNode* gen_statement();
 	AstNode* gen_constant(int some_num);

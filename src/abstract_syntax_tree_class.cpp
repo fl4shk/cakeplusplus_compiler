@@ -28,11 +28,11 @@ AstNode* AbstractSyntaxTree::gen_program(AstNode* some_statements)
 	return p;
 }
 AstNode* AbstractSyntaxTree::gen_statements(AstNode* some_mkscope, 
-	AstNode* some_list_statements, AstNode* some_rmscope)
+	AstNode* some_list_statement, AstNode* some_rmscope)
 {
 	AstNode* p = mknode<AstStatements>();
 	p->append_child(some_mkscope);
-	p->append_child(some_list_statements);
+	p->append_child(some_list_statement);
 	p->append_child(some_rmscope);
 
 	return p;

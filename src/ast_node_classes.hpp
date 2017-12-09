@@ -3,23 +3,6 @@
 
 #include "misc_includes.hpp"
 
-//enum class AstNodeOp
-//{
-//	Program,
-//	Statements,
-//	ListStatement,
-//	Statement,
-//
-//	Constant,
-//	Ident,
-//	//VarDecl,
-//	MkScope, RmScope,
-//	Assign,
-//	Binop,
-//
-//	If, IfChain, While, DoWhile,
-//};
-
 // Binary operator ("+", "-", "*", "/", etc.)
 enum class AstNodeBinop
 {
@@ -79,6 +62,12 @@ public:		// functions
 		return os;
 	}
 
+protected:		// functions
+	inline AstNode* at(size_t index)
+	{
+		return children.at(index);
+	}
+
 };
 
 
@@ -92,6 +81,11 @@ public:		// Functions
 	{
 		return osprintout(os, "program");
 	}
+
+	inline auto statements()
+	{
+		return at(0);
+	}
 };
 
 class AstStatements : public AstNode
@@ -100,6 +94,19 @@ public:		// Functions
 	virtual std::ostream& osprint(std::ostream& os)
 	{
 		return osprintout(os, "statements");
+	}
+
+	inline auto mkscope()
+	{
+		return at(0);
+	}
+	inline auto list_statement()
+	{
+		return at(1);
+	}
+	inline auto rmscope()
+	{
+		return at(2);
 	}
 };
 
@@ -166,6 +173,15 @@ public:		// Functions
 	{
 		return osprintout(os, "assign");
 	}
+
+	inline auto ident_node()
+	{
+		return at(0);
+	}
+	inline auto expr()
+	{
+		return at(1);
+	}
 };
 
 class AstBinop : public AstNode
@@ -175,6 +191,15 @@ public:		// Functions
 	{
 		return osprintout(os, "binop(", text.front(), ")");
 	}
+
+	inline auto arg_a()
+	{
+		return at(0);
+	}
+	inline auto arg_b()
+	{
+		return at(1);
+	}
 };
 
 class AstIf : public AstNode
@@ -183,6 +208,15 @@ public:		// functions
 	virtual std::ostream& osprint(std::ostream& os)
 	{
 		return osprintout(os, "if");
+	}
+
+	inline auto expr()
+	{
+		return at(0);
+	}
+	inline auto statement()
+	{
+		return at(1);
 	}
 };
 
@@ -194,6 +228,19 @@ public:		// functions
 	{
 		return osprintout(os, "if_chain");
 	}
+
+	inline auto expr()
+	{
+		return at(0);
+	}
+	inline auto statement_if()
+	{
+		return at(1);
+	}
+	inline auto statement_else()
+	{
+		return at(2);
+	}
 };
 
 class AstWhile : public AstNode
@@ -203,6 +250,16 @@ public:		// functions
 	{
 		return osprintout(os, "while");
 	}
+
+	inline auto expr()
+	{
+		return at(0);
+	}
+	inline auto statement()
+	{
+		return at(1);
+	}
+
 };
 
 
@@ -212,6 +269,15 @@ public:		// functions
 	virtual std::ostream& osprint(std::ostream& os)
 	{
 		return osprintout(os, "do_while");
+	}
+
+	inline auto statement()
+	{
+		return at(0);
+	}
+	inline auto expr()
+	{
+		return at(1);
 	}
 };
 
