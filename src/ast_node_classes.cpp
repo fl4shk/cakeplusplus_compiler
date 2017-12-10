@@ -39,15 +39,19 @@ void AstNode::append_to_list(AstNode* to_append)
 
 void AstNode::output_to_json(Json::Value& json_node) const
 {
-	json_node["_node"] = to_string();
+	//json_node["_node"] = to_string();
+	json_node[0] = to_string();
 
 	if (children.size() != 0)
 	{
-		auto& recursive_node = json_node["for_the_childrens"];
+		//auto& recursive_node = json_node["for_the_childrens"];
+		//auto& recursive_node = json_node[1][0];
+		auto& recursive_node = json_node[1];
 
 		for (size_t i=0; i<children.size(); ++i)
 		{
 			const Json::ArrayIndex index_i = i;
+			//const Json::ArrayIndex index_i = i + 1;
 			children.at(i)->output_to_json(recursive_node[index_i]);
 		}
 	}
