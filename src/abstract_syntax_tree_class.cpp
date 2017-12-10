@@ -341,7 +341,7 @@ AstNode* AbstractSyntaxTree::gen_var_decl_with_init
 {
 	auto builtin_typename_node = gen_builtin_typename(some_typename);
 	auto ident_node = gen_ident(some_ident);
-	auto p = mknode<AstVarDeclSimple>();
+	auto p = mknode<AstVarDeclWithInit>();
 
 	p->append_child(builtin_typename_node);
 	p->append_child(ident_node);

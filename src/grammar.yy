@@ -38,35 +38,6 @@
 
 %}
 
-
-/*
-%union
-{
-	const int* num;
-	const char* name;
-
-
-	#ifdef __cplusplus
-	AstNode* node;			// node of the abstract syntax tree
-	#else
-	void* node;
-	#endif
-}
-
-
-%token <name> TokBuiltinTypename
-%token <name> TokIdent
-%token <num> TokDecNum
-%token <name> TokOpLogical TokOpCompare TokOpAddSub 
-%token <name> TokOpBitwise TokOpMulDivMod
-%token TokIf TokElse TokWhile TokDo
-
-%type <node> expr expr_logical expr_compare
-%type <node> expr_add_sub expr_mul_div_mod_etc
-%type <node> statements list_statement statement
-%type <node> var_decl var_decl_simple var_decl_array
-*/
-
 %token TokBuiltinTypename
 %token TokIdent
 %token TokDecNum
@@ -101,7 +72,7 @@ list_statement:
 	| list_statement statement
 		{
 			//printout("Appending statement\n");
-			$1.node->append_to_list($2);
+			$1.append_to_list($2);
 			$$ = $1;
 		}
 	;
@@ -119,20 +90,20 @@ statement:
 		{
 			$$ = ast.gen_indexed_assign($1.name, $3, $6);
 		}
-	| TokIf '(' expr ')' statement
+	| TokIf '(' expr ')' statements
 		{
 			$$ = ast.gen_if_statement($3, $5);
 		}
-	| TokIf '(' expr ')' statement TokElse statement
+	| TokIf '(' expr ')' statements TokElse statements
 		{
 			$$ = ast.gen_if_chain_statement($3, $5, 
 				$7);
 		}
-	| TokWhile '(' expr ')' statement
+	| TokWhile '(' expr ')' statements
 		{
 			$$ = ast.gen_while_statement($3, $5);
 		}
-	| TokDo statement TokWhile '(' expr ')'
+	| TokDo statements TokWhile '(' expr ')'
 		{
 			$$ = ast.gen_do_while_statement($2, $5);
 		}
@@ -143,38 +114,15 @@ statement:
 	;
 
 var_decl:
-	var_decl_simple
-		{
-			$$ = $1;
-		}
-	| var_decl_array
-		{
-			$$ = $1;
-		}
-	| var_decl_with_init
-		{
-			$$ = $1;
-		}
-	;
-
-var_decl_simple:
 	TokBuiltinTypename TokIdent
 		{
-			//printout("var_decl_simple:  ", 
-			//	strappcom2($1.name, $2.name), "\n");
 			$$ = ast.gen_var_decl_simple($1.name, $2.name);
 		}
-	;
-
-var_decl_array:
-	TokBuiltinTypename TokIdent '[' TokDecNum ']'
+	| TokBuiltinTypename TokIdent '[' TokDecNum ']'
 		{
 			$$ = ast.gen_var_decl_array($1.name, $2.name, $4.num);
 		}
-	;
-
-var_decl_with_init:
-	TokBuiltinTypename TokIdent '=' expr
+	| TokBuiltinTypename TokIdent '=' expr
 		{
 			$$ = ast.gen_var_decl_with_init($1.name, $2.name, $4);
 		}

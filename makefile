@@ -134,22 +134,18 @@ CXX_EFILES:=$(CXX_SOURCES:%.cpp=$(PREPROCDIR)/%.E)
 EFILES:=$(CXX_EFILES)
 
 
-REGULAR_GENERATED_SOURCES:=gen_src/grammar.tab.cc
 MODIFED_GENERATED_SOURCES:=gen_src/grammar.tab.cpp
 FINAL_GENERATED_SOURCES:=gen_src/lex.yy.c gen_src/grammar.tab.hh
-GENERATED_SOURCES:=$(REGULAR_GENERATED_SOURCES) \
-	$(MODIFED_GENERATED_SOURCES) $(FINAL_GENERATED_SOURCES)
+GENERATED_SOURCES:=$(MODIFED_GENERATED_SOURCES) \
+	$(FINAL_GENERATED_SOURCES)
 
-all : all_pre $(REGULAR_GENERATED_SOURCES)
-	@make -j$(NUM_JOBS) first
+all : all_pre $(MODIFED_GENERATED_SOURCES)
+	@make -j$(NUM_JOBS) final_generated
 
-first : all_pre $(MODIFED_GENERATED_SOURCES)
-	@make -j$(NUM_JOBS) last
+final_generated : all_pre $(FINAL_GENERATED_SOURCES)
+	@make -j$(NUM_JOBS) non_generated
 
-last : all_pre $(FINAL_GENERATED_SOURCES)
-	@make -j$(NUM_JOBS) next
-
-next : all_pre $(OFILES)
+non_generated : all_pre $(OFILES)
 	$(LD) $(OBJDIR)/*.o -o $(PROJ) $(LD_FLAGS)
 
 # all_objs is ENTIRELY optional.
@@ -168,16 +164,14 @@ all_pre_asmout :
 
 
 
-gen_src/lex.yy.c : src/lexicals.l gen_src/grammar.tab.hh
+gen_src/lex.yy.c : src/lexicals.l
 	cd src && flex lexicals.l && mv lex.yy.c ../gen_src/lex.yy.c
 
-gen_src/grammar.tab.cc : src/grammar.yy src/misc_bison_stuff.hpp
+gen_src/grammar.tab.cpp : src/grammar.yy src/misc_bison_stuff.hpp
 	cd src && bison -d grammar.yy \
 	&& find . -type f -iname "grammar.tab.cc" -print0 \
 	| xargs -0 sed -i 's/grammar\.tab\.cc/grammar.tab.cpp/g' \
-	&& mv grammar.tab.cc ../gen_src/grammar.tab.cc
-gen_src/grammar.tab.cpp : src/grammar.yy src/misc_bison_stuff.hpp
-	cd gen_src && mv grammar.tab.cc grammar.tab.cpp
+	&& mv grammar.tab.cc ../gen_src/grammar.tab.cpp
 gen_src/grammar.tab.hh : src/grammar.yy src/misc_bison_stuff.hpp
 	mv src/grammar.tab.hh gen_src/grammar.tab.hh
 

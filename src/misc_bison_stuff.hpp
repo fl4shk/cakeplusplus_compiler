@@ -23,6 +23,10 @@ union YySType
 	{
 		return node;
 	}
+	inline void append_to_list(AstNode* to_append)
+	{
+		node->append_to_list(to_append);
+	}
 	#endif
 
 };
