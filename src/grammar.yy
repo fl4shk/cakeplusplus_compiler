@@ -156,8 +156,8 @@ var_decl:
 var_decl_simple:
 	TokBuiltinTypename TokIdent
 		{
-			printout("var_decl_simple:  ", 
-				strappcom2($1.name, $2.name), "\n");
+			//printout("var_decl_simple:  ", 
+			//	strappcom2($1.name, $2.name), "\n");
 			$$.node = ast.gen_var_decl_simple($1.name, $2.name);
 		}
 	;

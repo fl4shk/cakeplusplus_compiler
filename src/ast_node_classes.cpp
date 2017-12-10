@@ -43,7 +43,7 @@ void AstNode::output_to_json(Json::Value& json_node) const
 
 	if (children.size() != 0)
 	{
-		auto& recursive_node = json_node["children"];
+		auto& recursive_node = json_node["for_the_childrens"];
 
 		for (size_t i=0; i<children.size(); ++i)
 		{

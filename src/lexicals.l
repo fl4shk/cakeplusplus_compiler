@@ -83,8 +83,7 @@ dec_num		{digit}({digit})*
 					//printf("{ident}:  %s\n", (const char*)yylval);
 
 
-					printf("{ident}:  %i\n", 
-						strlen(yylval.name));
+					//printf("{ident}:  %i\n", strlen(yylval.name));
 					return TokIdent;
 				}
 {dec_num}		{
