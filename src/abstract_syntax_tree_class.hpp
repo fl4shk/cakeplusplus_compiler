@@ -40,11 +40,13 @@ public:		// functions
 	AstNode* gen_do_while_statement(AstNode* some_statement,
 		AstNode* some_expr);
 
-	AstNode* gen_builtin_typename(const char* some_type_name);
-	AstNode* gen_var_decl_simple(const char* some_type_name, 
+	AstNode* gen_builtin_typename(const char* some_typename);
+	AstNode* gen_var_decl_simple(const char* some_typename, 
 		const char* some_ident);
-	AstNode* gen_var_decl_array(const char* some_type_name, 
+	AstNode* gen_var_decl_array(const char* some_typename, 
 		const char* some_ident, const int* some_dim);
+	AstNode* gen_var_decl_with_init(const char* some_typename,
+		const char* some_ident, AstNode* some_expr);
 
 	inline void print() const
 	{

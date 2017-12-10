@@ -198,5 +198,17 @@ struct AstVarDeclArray : public AstNode
 	inline auto dim_node() { return at(2); }
 };
 
+struct AstVarDeclWithInit : public AstNode
+{
+	virtual std::string to_string() const
+	{
+		return sconcat("var_decl_with_init");
+	}
+
+	inline auto builtin_typename_node() { return at(0); }
+	inline auto ident_node() { return at(1); }
+	inline auto expr() { return at(2); }
+};
+
 
 #endif		// specific_ast_node_classes_hpp

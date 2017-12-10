@@ -258,40 +258,40 @@ AstNode* AbstractSyntaxTree::gen_do_while_statement
 }
 
 AstNode* AbstractSyntaxTree::gen_builtin_typename
-	(const char* some_type_name)
+	(const char* some_typename)
 {
 	auto p = mknode<AstBuiltinTypename>();
-	p->text.push_back(some_type_name);
+	p->text.push_back(some_typename);
 
-	if (some_type_name == std::string("u8"))
+	if (some_typename == std::string("u8"))
 	{
 		p->builtin_typename = BuiltinTypename::U8;
 	}
-	else if (some_type_name == std::string("u16"))
+	else if (some_typename == std::string("u16"))
 	{
 		p->builtin_typename = BuiltinTypename::U16;
 	}
-	else if (some_type_name == std::string("u32"))
+	else if (some_typename == std::string("u32"))
 	{
 		p->builtin_typename = BuiltinTypename::U32;
 	}
-	else if (some_type_name == std::string("u64"))
+	else if (some_typename == std::string("u64"))
 	{
 		p->builtin_typename = BuiltinTypename::U64;
 	}
-	else if (some_type_name == std::string("s8"))
+	else if (some_typename == std::string("s8"))
 	{
 		p->builtin_typename = BuiltinTypename::S8;
 	}
-	else if (some_type_name == std::string("s16"))
+	else if (some_typename == std::string("s16"))
 	{
 		p->builtin_typename = BuiltinTypename::S16;
 	}
-	else if (some_type_name == std::string("s32"))
+	else if (some_typename == std::string("s32"))
 	{
 		p->builtin_typename = BuiltinTypename::S32;
 	}
-	else if (some_type_name == std::string("s64"))
+	else if (some_typename == std::string("s64"))
 	{
 		p->builtin_typename = BuiltinTypename::S64;
 	}
@@ -304,10 +304,9 @@ AstNode* AbstractSyntaxTree::gen_builtin_typename
 	return p;
 }
 AstNode* AbstractSyntaxTree::gen_var_decl_simple
-	(const char* some_type_name, const char* some_ident)
+	(const char* some_typename, const char* some_ident)
 {
-	auto builtin_typename_node 
-		= gen_builtin_typename(some_type_name);
+	auto builtin_typename_node = gen_builtin_typename(some_typename);
 	auto ident_node = gen_ident(some_ident);
 	auto p = mknode<AstVarDeclSimple>();
 
@@ -317,14 +316,14 @@ AstNode* AbstractSyntaxTree::gen_var_decl_simple
 	return p;
 }
 
+
 AstNode* AbstractSyntaxTree::gen_var_decl_array
-	(const char* some_type_name, const char* some_ident, 
+	(const char* some_typename, const char* some_ident, 
 	const int* some_dim)
 {
-	printout("AbstractSyntaxTree::gen_var_decl_array():  ",
-		some_type_name, "\n");
-	auto builtin_typename_node 
-		= gen_builtin_typename(some_type_name);
+	//printout("AbstractSyntaxTree::gen_var_decl_array():  ",
+	//	some_typename, "\n");
+	auto builtin_typename_node = gen_builtin_typename(some_typename);
 	auto ident_node = gen_ident(some_ident);
 	auto dim_node = gen_constant(some_dim);
 	auto p = mknode<AstVarDeclArray>();
@@ -336,3 +335,17 @@ AstNode* AbstractSyntaxTree::gen_var_decl_array
 	return p;
 }
 
+AstNode* AbstractSyntaxTree::gen_var_decl_with_init
+	(const char* some_typename, const char* some_ident, 
+	AstNode* some_expr)
+{
+	auto builtin_typename_node = gen_builtin_typename(some_typename);
+	auto ident_node = gen_ident(some_ident);
+	auto p = mknode<AstVarDeclSimple>();
+
+	p->append_child(builtin_typename_node);
+	p->append_child(ident_node);
+	p->append_child(some_expr);
+
+	return p;
+}

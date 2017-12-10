@@ -2,7 +2,7 @@
 #define misc_bison_stuff_hpp
 
 
-typedef union
+union YySType
 {
 	const int* num;
 	const char* name;
@@ -13,10 +13,21 @@ typedef union
 	void* node;
 	#endif
 
-} YySType;
+	#ifdef __cplusplus
+	inline YySType& operator = (AstNode* some_node)
+	{
+		node = some_node;
+	}
+	inline operator AstNode* ()
+	{
+		return node;
+	}
+	#endif
+
+};
 
 //#undef YYSTYPE
-#define YYSTYPE YySType
+#define YYSTYPE union YySType
 
 //#define YY_DECL uintptr_t yylex(void)
 //#define YY_DECL int yylex(void)

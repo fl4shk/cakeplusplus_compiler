@@ -79,7 +79,7 @@
 program:
 	statements
 		{
-			ast.gen_program($1.node);
+			ast.gen_program($1);
 		}
 	|
 	;
@@ -88,7 +88,7 @@ program:
 statements:
 	'{' list_statement '}'
 		{
-			$$.node = ast.gen_statements(ast.gen_mkscope(), $2.node, 
+			$$ = ast.gen_statements(ast.gen_mkscope(), $2, 
 				ast.gen_rmscope());
 		}
 	;
@@ -96,60 +96,64 @@ statements:
 list_statement:
 	{
 		//printout("For the childrens.\n");
-		$$.node = ast.gen_list_statement();
+		$$ = ast.gen_list_statement();
 	}
 	| list_statement statement
 		{
 			//printout("Appending statement\n");
-			$1.node->append_to_list($2.node);
-			$$.node = $1.node;
+			$1.node->append_to_list($2);
+			$$ = $1;
 		}
 	;
 
 statement:
 	statements
 	{
-		$$.node = $1.node;
+		$$ = $1;
 	}
 	| TokIdent '=' expr ';'
 		{
-			$$.node = ast.gen_assign($1.name, $3.node);
+			$$ = ast.gen_assign($1.name, $3);
 		}
 	| TokIdent '[' expr ']' '=' expr ';'
 		{
-			$$.node = ast.gen_indexed_assign($1.name, $3.node, $6.node);
+			$$ = ast.gen_indexed_assign($1.name, $3, $6);
 		}
 	| TokIf '(' expr ')' statement
 		{
-			$$.node = ast.gen_if_statement($3.node, $5.node);
+			$$ = ast.gen_if_statement($3, $5);
 		}
 	| TokIf '(' expr ')' statement TokElse statement
 		{
-			$$.node = ast.gen_if_chain_statement($3.node, $5.node, 
-				$7.node);
+			$$ = ast.gen_if_chain_statement($3, $5, 
+				$7);
 		}
 	| TokWhile '(' expr ')' statement
 		{
-			$$.node = ast.gen_while_statement($3.node, $5.node);
+			$$ = ast.gen_while_statement($3, $5);
 		}
 	| TokDo statement TokWhile '(' expr ')'
 		{
-			$$.node = ast.gen_do_while_statement($2.node, $5.node);
+			$$ = ast.gen_do_while_statement($2, $5);
 		}
 	| var_decl ';'
 		{
-			$$.node = $1.node;
+			$$ = $1;
 		}
 	;
 
 var_decl:
 	var_decl_simple
 		{
-			$$.node = $1.node;
+			$$ = $1;
 		}
 	| var_decl_array
 		{
-			$$.node = $1.node;
+			$$ = $1;
+		}
+	| var_decl_with_init
+		{
+			$$ = $1;
 		}
 	;
 
@@ -158,15 +162,21 @@ var_decl_simple:
 		{
 			//printout("var_decl_simple:  ", 
 			//	strappcom2($1.name, $2.name), "\n");
-			$$.node = ast.gen_var_decl_simple($1.name, $2.name);
+			$$ = ast.gen_var_decl_simple($1.name, $2.name);
 		}
 	;
 
 var_decl_array:
 	TokBuiltinTypename TokIdent '[' TokDecNum ']'
 		{
-			$$.node = ast.gen_var_decl_array($1.name, $2.name, 
-				$4.num);
+			$$ = ast.gen_var_decl_array($1.name, $2.name, $4.num);
+		}
+	;
+
+var_decl_with_init:
+	TokBuiltinTypename TokIdent '=' expr
+		{
+			$$ = ast.gen_var_decl_with_init($1.name, $2.name, $4);
 		}
 	;
 
