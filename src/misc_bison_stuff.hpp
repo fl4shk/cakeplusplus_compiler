@@ -17,6 +17,7 @@ union YySType
 	inline YySType& operator = (AstNode* some_node)
 	{
 		node = some_node;
+		return *this;
 	}
 	inline operator AstNode* ()
 	{
