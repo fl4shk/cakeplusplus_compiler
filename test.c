@@ -1,10 +1,12 @@
 {
-	u32 i = 9;
+	u32 struct[7];
 
-	if (a == 9)
+	i = 0;
+
+	while (i < 8)
 	{
-		b = 6;
-		d = 8;
-		d[d[d[7]]] = 6;
+		struct[i] = i;
+		i = i + 1;
 	}
+
 }
