@@ -1,6 +1,8 @@
 #include "misc_includes.hpp"
-//#include "ir_code_generator_class.hpp"
 #include "abstract_syntax_tree_class.hpp"
+//#include "semantic_analyzer_class.hpp"
+//#include "ir_code_generator_class.hpp"
+//#include "code_generator_class.hpp"
 
 #include "../gen_src/grammar.tab.hh"
 
@@ -13,8 +15,13 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	//ast.print();
-	ast.print_json();
+	//ast.print_json();
 
-	//codegen.generate();
+	//if (semantic_analyzer.analyze())
+	//{
+	//	return 1;
+	//}
+
+	//ircodegen.generate();
 	return 0;
 }

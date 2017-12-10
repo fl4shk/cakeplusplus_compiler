@@ -55,6 +55,8 @@ public:		// functions
 
 	void print_json() const;
 
+	gen_getter_by_val(program);
+
 protected:		// functions
 	template<typename NodeType>
 	inline AstNode* mknode()
