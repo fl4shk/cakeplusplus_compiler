@@ -13,23 +13,17 @@
 	#include "../src/abstract_syntax_tree_class.hpp"
 	#endif		// __cplusplus
 
-	#ifdef __cplusplus
-	#define YYSTYPE AstNode*
-	#else
-	#define YYSTYPE void*
-
-	#endif		// __cplusplus
-	//#define YYSTYPE void*
+	#include "../src/misc_bison_stuff.hpp"
 
 
-	#define YY_DECL uintptr_t yylex(void)
 
 	#ifdef __cplusplus
 	extern "C"
 	{
 	#endif		// __cplusplus
 
-	extern YY_DECL;
+	//extern YY_DECL;
+	extern int yylex(void);
 	extern void yy_c_error(char* msg);
 
 	#ifdef __cplusplus
@@ -42,18 +36,13 @@
 	extern void yyerror(const char* msg);
 	extern void yyerror(char* msg);
 
-	typedef const char* Ident;
-	typedef const char* Binop;
-	typedef const char* Keyword;
-	typedef int* DecNum;
-
 %}
 
 
 /*
 %union
 {
-	int num;
+	const int* num;
 	const char* name;
 
 
@@ -63,6 +52,7 @@
 	void* node;
 	#endif
 }
+
 
 %token <name> TokBuiltinTypename
 %token <name> TokIdent
@@ -77,13 +67,6 @@
 %type <node> var_decl var_decl_simple var_decl_array
 */
 
-/*
-%union
-{
-	YYSTYPE data;
-}
-*/
-
 %token TokBuiltinTypename
 %token TokIdent
 %token TokDecNum
@@ -96,7 +79,7 @@
 program:
 	statements
 		{
-			ast.gen_program($1);
+			ast.gen_program($1.node);
 		}
 	|
 	;
@@ -105,7 +88,7 @@ program:
 statements:
 	'{' list_statement '}'
 		{
-			$$ = ast.gen_statements(ast.gen_mkscope(), $2, 
+			$$.node = ast.gen_statements(ast.gen_mkscope(), $2.node, 
 				ast.gen_rmscope());
 		}
 	;
@@ -113,59 +96,60 @@ statements:
 list_statement:
 	{
 		//printout("For the childrens.\n");
-		$$ = ast.gen_list_statement();
+		$$.node = ast.gen_list_statement();
 	}
 	| list_statement statement
 		{
 			//printout("Appending statement\n");
-			$1->append_to_list($2);
-			$$ = $1;
+			$1.node->append_to_list($2.node);
+			$$.node = $1.node;
 		}
 	;
 
 statement:
 	statements
 	{
-		$$ = $1;
+		$$.node = $1.node;
 	}
 	| TokIdent '=' expr ';'
 		{
-			$$ = ast.gen_assign((Ident)$1, $3);
+			$$.node = ast.gen_assign($1.name, $3.node);
 		}
 	| TokIdent '[' expr ']' '=' expr ';'
 		{
-			$$ = ast.gen_indexed_assign((Ident)$1, $3, $6);
+			$$.node = ast.gen_indexed_assign($1.name, $3.node, $6.node);
 		}
 	| TokIf '(' expr ')' statement
 		{
-			$$ = ast.gen_if_statement($3, $5);
+			$$.node = ast.gen_if_statement($3.node, $5.node);
 		}
 	| TokIf '(' expr ')' statement TokElse statement
 		{
-			$$ = ast.gen_if_chain_statement($3, $5, $7);
+			$$.node = ast.gen_if_chain_statement($3.node, $5.node, 
+				$7.node);
 		}
 	| TokWhile '(' expr ')' statement
 		{
-			$$ = ast.gen_while_statement($3, $5);
+			$$.node = ast.gen_while_statement($3.node, $5.node);
 		}
 	| TokDo statement TokWhile '(' expr ')'
 		{
-			$$ = ast.gen_do_while_statement($2, $5);
+			$$.node = ast.gen_do_while_statement($2.node, $5.node);
 		}
 	| var_decl ';'
 		{
-			$$ = $1;
+			$$.node = $1.node;
 		}
 	;
 
 var_decl:
 	var_decl_simple
 		{
-			$$ = $1;
+			$$.node = $1.node;
 		}
 	| var_decl_array
 		{
-			$$ = $1;
+			$$.node = $1.node;
 		}
 	;
 
@@ -173,83 +157,83 @@ var_decl_simple:
 	TokBuiltinTypename TokIdent
 		{
 			printout("var_decl_simple:  ", 
-				strappcom2((Keyword)$1, (Ident)$2), "\n");
-			$$ = ast.gen_var_decl_simple((Keyword)$1, (Ident)$2);
+				strappcom2($1.name, $2.name), "\n");
+			$$.node = ast.gen_var_decl_simple($1.name, $2.name);
 		}
 	;
 
 var_decl_array:
 	TokBuiltinTypename TokIdent '[' TokDecNum ']'
 		{
-			$$ = ast.gen_var_decl_array((Keyword)$1, (Ident)$2, 
-				(DecNum)$4);
+			$$.node = ast.gen_var_decl_array($1.name, $2.name, 
+				$4.num);
 		}
 	;
 
 expr:
 	expr_logical
 		{
-			$$ = $1;
+			$$.node = $1.node;
 		}
 	| expr TokOpLogical expr_logical
 		{
-			$$ = ast.gen_binop((Binop)$2, $1, $3);
+			$$.node = ast.gen_binop($2.name, $1.node, $3.node);
 		}
 	;
 
 expr_logical:
 	expr_compare
 		{
-			$$ = $1;
+			$$.node = $1.node;
 		}
 	| expr_logical TokOpCompare expr_compare
 		{
-			$$ = ast.gen_binop((Binop)$2, $1, $3);
+			$$.node = ast.gen_binop($2.name, $1.node, $3.node);
 		}
 	;
 
 expr_compare:
 	expr_add_sub
 		{
-			$$ = $1;
+			$$.node = $1.node;
 		}
 	| expr_compare TokOpAddSub expr_add_sub
 		{
-			$$ = ast.gen_binop((Binop)$2, $1, $3);
+			$$.node = ast.gen_binop($2.name, $1.node, $3.node);
 		}
 	;
 
 expr_add_sub:
 	expr_mul_div_mod_etc
 		{
-			$$ = $1;
+			$$.node = $1.node;
 		}
 	| expr_add_sub TokOpMulDivMod expr_mul_div_mod_etc
 		{
-			$$ = ast.gen_binop((Binop)$2, $1, $3);
+			$$.node = ast.gen_binop($2.name, $1.node, $3.node);
 		}
 	| expr_add_sub TokOpBitwise expr_mul_div_mod_etc
 		{
-			$$ = ast.gen_binop((Binop)$2, $1, $3);
+			$$.node = ast.gen_binop($2.name, $1.node, $3.node);
 		}
 	;
 
 expr_mul_div_mod_etc:
 	TokIdent
 		{
-			$$ = ast.gen_ident((Ident)$1);
+			$$.node = ast.gen_ident($1.name);
 		}
 	| TokIdent '[' expr ']'
 		{
-			$$ = ast.gen_indexed_load((Ident)$1, $3);
+			$$.node = ast.gen_indexed_load($1.name, $3.node);
 		}
 	| TokDecNum
 		{
-			$$ = ast.gen_constant((DecNum)$1);
+			$$.node = ast.gen_constant($1.num);
 		}
 	| '(' expr ')'
 		{
-			$$ = $2;
+			$$.node = $2.node;
 		}
 	;
 
@@ -263,6 +247,7 @@ void yy_c_error(char* msg)
 {
 	fprintf(stderr, "%s\n", msg);
 }
+
 
 }
 
