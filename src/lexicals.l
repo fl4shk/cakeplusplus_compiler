@@ -23,21 +23,10 @@ dec_num		{digit}({digit})*
 	#include <stdlib.h>
 	#include "../src/misc_bison_stuff.hpp"
 	#include "grammar.tab.hh"
-	//uintptr_t yylex(void);
-	//extern const char* set_curr_var_name(char* some_var_name);
-	//extern void make_curr_var();
-	//extern const char* make_curr_var(char* some_var_name);
 	extern void yy_c_error(char* msg);
 	extern const char* cstm_strdup(char* some_c_str);
 	extern const int* cstm_intdup(int num);
 
-	////#define YYSTYPE void*
-	//extern YYSTYPE yylval;
-	////YY_DECL;
-	//#define YYSTYPE YySType
-	//extern YySType yylval;
-
-	//YY_DECL;
 
 %}
 

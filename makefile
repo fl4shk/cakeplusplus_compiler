@@ -135,8 +135,8 @@ EFILES:=$(CXX_EFILES)
 
 
 REGULAR_GENERATED_SOURCES:=gen_src/grammar.tab.cc
-MODIFED_GENERATED_SOURCES:=gen_src/grammar.tab.cpp gen_src/grammar.tab.hh
-FINAL_GENERATED_SOURCES:=gen_src/lex.yy.c
+MODIFED_GENERATED_SOURCES:=gen_src/grammar.tab.cpp
+FINAL_GENERATED_SOURCES:=gen_src/lex.yy.c gen_src/grammar.tab.hh
 GENERATED_SOURCES:=$(REGULAR_GENERATED_SOURCES) \
 	$(MODIFED_GENERATED_SOURCES) $(FINAL_GENERATED_SOURCES)
 
@@ -176,9 +176,9 @@ gen_src/grammar.tab.cc : src/grammar.yy src/misc_bison_stuff.hpp
 	&& find . -type f -iname "grammar.tab.cc" -print0 \
 	| xargs -0 sed -i 's/grammar\.tab\.cc/grammar.tab.cpp/g' \
 	&& mv grammar.tab.cc ../gen_src/grammar.tab.cc
-gen_src/grammar.tab.cpp : src/grammar.yy gen_src/grammar.tab.cc
+gen_src/grammar.tab.cpp : src/grammar.yy src/misc_bison_stuff.hpp
 	cd gen_src && mv grammar.tab.cc grammar.tab.cpp
-gen_src/grammar.tab.hh : src/grammar.yy gen_src/grammar.tab.cpp
+gen_src/grammar.tab.hh : src/grammar.yy src/misc_bison_stuff.hpp
 	mv src/grammar.tab.hh gen_src/grammar.tab.hh
 
 # Here's where things get really messy.
