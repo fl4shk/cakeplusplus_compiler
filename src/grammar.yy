@@ -72,7 +72,7 @@ list_statement:
 	| list_statement statement
 		{
 			//printout("Appending statement\n");
-			$1.append_to_list($2);
+			$1->append_to_list($2);
 			$$ = $1;
 		}
 	;
@@ -84,11 +84,11 @@ statement:
 	}
 	| TokIdent '=' expr ';'
 		{
-			$$ = ast.gen_assign($1.name, $3);
+			$$ = ast.gen_assign($1, $3);
 		}
 	| TokIdent '[' expr ']' '=' expr ';'
 		{
-			$$ = ast.gen_indexed_assign($1.name, $3, $6);
+			$$ = ast.gen_indexed_assign($1, $3, $6);
 		}
 	| TokIf '(' expr ')' statements
 		{
@@ -116,82 +116,84 @@ statement:
 var_decl:
 	TokBuiltinTypename TokIdent
 		{
-			$$ = ast.gen_var_decl_simple($1.name, $2.name);
+			$$ = ast.gen_var_decl_simple($1, $2);
 		}
 	| TokBuiltinTypename TokIdent '[' TokDecNum ']'
 		{
-			$$ = ast.gen_var_decl_array($1.name, $2.name, $4.num);
+			$$ = ast.gen_var_decl_array($1, $2, $4);
 		}
 	| TokBuiltinTypename TokIdent '=' expr
 		{
-			$$ = ast.gen_var_decl_with_init($1.name, $2.name, $4);
+			$$ = ast.gen_var_decl_with_init($1, $2, $4);
 		}
 	;
 
 expr:
 	expr_logical
 		{
-			$$.node = $1.node;
+			$$ = $1;
 		}
 	| expr TokOpLogical expr_logical
 		{
-			$$.node = ast.gen_binop($2.name, $1.node, $3.node);
+			$$ = ast.gen_finished_binop($2, $1, $3);
 		}
 	;
 
 expr_logical:
 	expr_compare
 		{
-			$$.node = $1.node;
+			$$ = $1;
 		}
 	| expr_logical TokOpCompare expr_compare
 		{
-			$$.node = ast.gen_binop($2.name, $1.node, $3.node);
+			$$ = ast.gen_finished_binop($2, $1, $3);
 		}
 	;
 
 expr_compare:
 	expr_add_sub
 		{
-			$$.node = $1.node;
+			$$ = $1;
 		}
 	| expr_compare TokOpAddSub expr_add_sub
 		{
-			$$.node = ast.gen_binop($2.name, $1.node, $3.node);
+			$$ = ast.gen_finished_binop($2, $1, $3);
 		}
 	;
 
 expr_add_sub:
 	expr_mul_div_mod_etc
 		{
-			$$.node = $1.node;
+			$$ = $1;
 		}
 	| expr_add_sub TokOpMulDivMod expr_mul_div_mod_etc
 		{
-			$$.node = ast.gen_binop($2.name, $1.node, $3.node);
+			$$ = ast.gen_finished_binop($2, $1, $3);
 		}
 	| expr_add_sub TokOpBitwise expr_mul_div_mod_etc
 		{
-			$$.node = ast.gen_binop($2.name, $1.node, $3.node);
+			$$ = ast.gen_finished_binop($2, $1, $3);
 		}
 	;
 
 expr_mul_div_mod_etc:
 	TokIdent
 		{
-			$$.node = ast.gen_ident($1.name);
+			//$$ = ast.gen_ident($1);
+			$$ = $1;
 		}
 	| TokIdent '[' expr ']'
 		{
-			$$.node = ast.gen_indexed_load($1.name, $3.node);
+			$$ = ast.gen_indexed_load($1, $3);
 		}
 	| TokDecNum
 		{
-			$$.node = ast.gen_constant($1.num);
+			//$$ = ast.gen_constant($1);
+			$$ = $1;
 		}
 	| '(' expr ')'
 		{
-			$$.node = $2.node;
+			$$ = $2;
 		}
 	;
 

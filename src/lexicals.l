@@ -24,8 +24,6 @@ dec_num		{digit}({digit})*
 	#include "../src/misc_bison_stuff.hpp"
 	#include "grammar.tab.hh"
 	extern void yy_c_error(char* msg);
-	extern const char* cstm_strdup(char* some_c_str);
-	extern const int* cstm_intdup(int num);
 
 
 %}
@@ -37,32 +35,46 @@ dec_num		{digit}({digit})*
 					}
 
 "u8"|"u16"|"u32"|"u64"			{
-									yylval.name = cstm_strdup(yytext);
+									//yylval = cstm_strdup(yytext);
+									yylval = ast_gen_builtin_typename
+										(yytext);
 									return TokBuiltinTypename;
 								}
 "s8"|"s16"|"s32"|"s64"			{
-									yylval.name = cstm_strdup(yytext);
+									//yylval.name = cstm_strdup(yytext);
+									yylval = ast_gen_builtin_typename
+										(yytext);
 									return TokBuiltinTypename;
 								}
 
 "&&"|"||"						{
-									yylval.name = cstm_strdup(yytext);
+									//yylval.name = cstm_strdup(yytext);
+									yylval = ast_gen_initial_binop
+										(yytext);
 									return TokOpLogical;
 								}
 "&"|"|"|"^"|"<<"|">>"|">>>"		{
-									yylval.name = cstm_strdup(yytext);
+									//yylval.name = cstm_strdup(yytext);
+									yylval = ast_gen_initial_binop
+										(yytext);
 									return TokOpBitwise;
 								}
 "=="|"!="|"<"|">"|"<="|">="		{
-									yylval.name = cstm_strdup(yytext);
+									//yylval.name = cstm_strdup(yytext);
+									yylval = ast_gen_initial_binop
+										(yytext);
 									return TokOpCompare;
 								}
 "+"|"-"							{
-									yylval.name = cstm_strdup(yytext);
+									//yylval.name = cstm_strdup(yytext);
+									yylval = ast_gen_initial_binop
+										(yytext);
 									return TokOpAddSub;
 								}
 "*"|"/"|"%"						{
-									yylval.name = cstm_strdup(yytext);
+									//yylval.name = cstm_strdup(yytext);
+									yylval = ast_gen_initial_binop
+										(yytext);
 									return TokOpMulDivMod;
 								}
 
@@ -79,16 +91,21 @@ dec_num		{digit}({digit})*
 {ident}			{
 					//yylval.name = set_curr_var_name(yytext);
 					//yylval.name = make_curr_var();
-					yylval.name = cstm_strdup(yytext);
+					//yylval.name = cstm_strdup(yytext);
 					//printf("{ident}:  %s\n", (const char*)yylval);
 
-
 					//printf("{ident}:  %i\n", strlen(yylval.name));
+
+					yylval = ast_gen_ident(yytext);
+
+
 					return TokIdent;
 				}
 {dec_num}		{
 					//yylval.num = atoi(yytext);
-					yylval.num = cstm_intdup(atoi(yytext));
+					//yylval.num = cstm_intdup(atoi(yytext));
+
+					yylval = ast_gen_constant(atoi(yytext));
 					return TokDecNum;
 				}
 

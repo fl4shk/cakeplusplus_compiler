@@ -1,6 +1,8 @@
 #include "abstract_syntax_tree_class.hpp"
+#include "misc_bison_stuff.hpp"
 
 AbstractSyntaxTree ast;
+
 
 
 AbstractSyntaxTree::AbstractSyntaxTree()
@@ -49,36 +51,36 @@ AstNode* AbstractSyntaxTree::gen_statement()
 
 	return p;
 }
-AstNode* AbstractSyntaxTree::gen_constant(const int* some_num)
+AstNode* AbstractSyntaxTree::gen_constant(int some_num)
 {
-	if (some_num == nullptr)
-	{
-		printerr("AbstractSyntaxTree::gen_constant():  Eek!\n");
-		exit(1);
-	}
+	//if (some_num == nullptr)
+	//{
+	//	printerr("AbstractSyntaxTree::gen_constant():  Eek!\n");
+	//	exit(1);
+	//}
 
 	auto p = mknode<AstConstant>();
-	p->num = *some_num;
+	p->num = some_num;
 
 	return p;
 }
 AstNode* AbstractSyntaxTree::gen_ident(const char* some_ident)
 {
 	auto p = mknode<AstIdent>();
-	//printout("AbstractSyntaxTree::gen_ident():  ", some_ident, "\n");
+	//printout("AbstractSyntaxTree::gen_ident():  ", some_ident_node, "\n");
 
 	p->text.push_back(std::string(some_ident));
 
 	return p;
 }
 
-AstNode* AbstractSyntaxTree::gen_indexed_load(const char* some_ident, 
+AstNode* AbstractSyntaxTree::gen_indexed_load(AstNode* some_ident_node, 
 	AstNode* some_index)
 {
-	auto ident_node = gen_ident(some_ident);
+	//auto some_ident_node = gen_ident(some_ident_node);
 
 	auto p = mknode<AstIndexedLoad>();
-	p->append_child(ident_node);
+	p->append_child(some_ident_node);
 	p->append_child(some_index);
 
 	return p;
@@ -96,121 +98,116 @@ AstNode* AbstractSyntaxTree::gen_rmscope()
 
 	return p;
 }
-AstNode* AbstractSyntaxTree::gen_assign(const char* some_ident, 
+AstNode* AbstractSyntaxTree::gen_assign(AstNode* some_ident_node, 
 	AstNode* some_expr)
 {
-	auto ident_node = gen_ident(some_ident);
+	//auto some_ident_node = gen_ident(some_ident_node);
 
 	auto p = mknode<AstAssign>();
-	p->append_child(ident_node);
+	p->append_child(some_ident_node);
 	p->append_child(some_expr);
 
 	return p;
 }
-AstNode* AbstractSyntaxTree::gen_indexed_assign(const char* some_ident,
+AstNode* AbstractSyntaxTree::gen_indexed_assign(AstNode* some_ident_node,
 	AstNode* some_index, AstNode* some_rhs)
 {
-	auto ident_node = gen_ident(some_ident);
+	//auto some_ident_node = gen_ident(some_ident_node);
 
 	auto p = mknode<AstIndexedAssign>();
-	p->append_child(ident_node);
+	p->append_child(some_ident_node);
 	p->append_child(some_index);
 	p->append_child(some_rhs);
 
 	return p;
 }
-AstNode* AbstractSyntaxTree::gen_binop(const char* some_op, AstNode* a, 
-	AstNode* b)
+AstNode* AbstractSyntaxTree::gen_finished_binop
+	(AstNode* some_incomplete_binop, AstNode* a, AstNode* b)
 {
-	auto p = mknode<AstBinop>();
-	p->text.push_back(some_op);
-	p->append_child(a);
-	p->append_child(b);
-
-	//printout("AbstractSyntaxTree::gen_binop():  some_op ==  ", some_op,
-	//	"\n");
-
-	if (some_op == std::string("+"))
+	auto p = some_incomplete_binop;
+	if (p->text.front() == std::string("+"))
 	{
 		p->binop = AstNodeBinop::Plus;
 	}
-	else if (some_op == std::string("-"))
+	else if (p->text.front() == std::string("-"))
 	{
 		p->binop = AstNodeBinop::Minus;
 	}
-	else if (some_op == std::string("*"))
+	else if (p->text.front() == std::string("*"))
 	{
 		p->binop = AstNodeBinop::Multiplies;
 	}
-	else if (some_op == std::string("/"))
+	else if (p->text.front() == std::string("/"))
 	{
 		p->binop = AstNodeBinop::Divides;
 	}
-	else if (some_op == std::string("%"))
+	else if (p->text.front() == std::string("%"))
 	{
 		p->binop = AstNodeBinop::Modulo;
 	}
-	else if (some_op == std::string("=="))
+	else if (p->text.front() == std::string("=="))
 	{
 		p->binop = AstNodeBinop::CmpEq;
 	}
-	else if (some_op == std::string("!="))
+	else if (p->text.front() == std::string("!="))
 	{
 		p->binop = AstNodeBinop::CmpNe;
 	}
-	else if (some_op == std::string("<"))
+	else if (p->text.front() == std::string("<"))
 	{
 		p->binop = AstNodeBinop::CmpLt;
 	}
-	else if (some_op == std::string(">"))
+	else if (p->text.front() == std::string(">"))
 	{
 		p->binop = AstNodeBinop::CmpGt;
 	}
-	else if (some_op == std::string("<="))
+	else if (p->text.front() == std::string("<="))
 	{
 		p->binop = AstNodeBinop::CmpLe;
 	}
-	else if (some_op == std::string(">="))
+	else if (p->text.front() == std::string(">="))
 	{
 		p->binop = AstNodeBinop::CmpGe;
 	}
-	else if (some_op == std::string("&&"))
+	else if (p->text.front() == std::string("&&"))
 	{
 		p->binop = AstNodeBinop::LogicAnd;
 	}
-	else if (some_op == std::string("||"))
+	else if (p->text.front() == std::string("||"))
 	{
 		p->binop = AstNodeBinop::LogicOr;
 	}
-	else if (some_op == std::string("&"))
+	else if (p->text.front() == std::string("&"))
 	{
 		p->binop = AstNodeBinop::BitAnd;
 	}
-	else if (some_op == std::string("|"))
+	else if (p->text.front() == std::string("|"))
 	{
 		p->binop = AstNodeBinop::BitOr;
 	}
-	else if (some_op == std::string("^"))
+	else if (p->text.front() == std::string("^"))
 	{
 		p->binop = AstNodeBinop::BitXor;
 	}
-	else if (some_op == std::string("<<"))
+	else if (p->text.front() == std::string("<<"))
 	{
 		p->binop = AstNodeBinop::BitLsl;
 	}
-	else if (some_op == std::string(">>"))
+	else if (p->text.front() == std::string(">>"))
 	{
 		p->binop = AstNodeBinop::BitLsr;
 	}
-	else if (some_op == std::string(">>>"))
+	else if (p->text.front() == std::string(">>>"))
 	{
 		p->binop = AstNodeBinop::BitAsr;
 	}
 	else
 	{
-		printerr("AbstractSyntaxTree::gen_binop():  Eek!\n");
+		printerr("ast():  Eek!\n");
 		exit(1);
 	}
+	p->append_child(a);
+	p->append_child(b);
 
 	return p;
 }
@@ -258,40 +255,40 @@ AstNode* AbstractSyntaxTree::gen_do_while_statement
 }
 
 AstNode* AbstractSyntaxTree::gen_builtin_typename
-	(const char* some_typename)
+	(char* some_typename_node)
 {
 	auto p = mknode<AstBuiltinTypename>();
-	p->text.push_back(some_typename);
+	p->text.push_back(std::string(some_typename_node));
 
-	if (some_typename == std::string("u8"))
+	if (some_typename_node == std::string("u8"))
 	{
 		p->builtin_typename = BuiltinTypename::U8;
 	}
-	else if (some_typename == std::string("u16"))
+	else if (some_typename_node == std::string("u16"))
 	{
 		p->builtin_typename = BuiltinTypename::U16;
 	}
-	else if (some_typename == std::string("u32"))
+	else if (some_typename_node == std::string("u32"))
 	{
 		p->builtin_typename = BuiltinTypename::U32;
 	}
-	else if (some_typename == std::string("u64"))
+	else if (some_typename_node == std::string("u64"))
 	{
 		p->builtin_typename = BuiltinTypename::U64;
 	}
-	else if (some_typename == std::string("s8"))
+	else if (some_typename_node == std::string("s8"))
 	{
 		p->builtin_typename = BuiltinTypename::S8;
 	}
-	else if (some_typename == std::string("s16"))
+	else if (some_typename_node == std::string("s16"))
 	{
 		p->builtin_typename = BuiltinTypename::S16;
 	}
-	else if (some_typename == std::string("s32"))
+	else if (some_typename_node == std::string("s32"))
 	{
 		p->builtin_typename = BuiltinTypename::S32;
 	}
-	else if (some_typename == std::string("s64"))
+	else if (some_typename_node == std::string("s64"))
 	{
 		p->builtin_typename = BuiltinTypename::S64;
 	}
@@ -304,48 +301,71 @@ AstNode* AbstractSyntaxTree::gen_builtin_typename
 	return p;
 }
 AstNode* AbstractSyntaxTree::gen_var_decl_simple
-	(const char* some_typename, const char* some_ident)
+	(AstNode* some_typename_node, AstNode* some_ident_node)
 {
-	auto builtin_typename_node = gen_builtin_typename(some_typename);
-	auto ident_node = gen_ident(some_ident);
+	//auto some_typename_node = gen_builtin_typename(some_typename_node);
+	//auto some_ident_node = gen_ident(some_ident_node);
 	auto p = mknode<AstVarDeclSimple>();
 
-	p->append_child(builtin_typename_node);
-	p->append_child(ident_node);
+	p->append_child(some_typename_node);
+	p->append_child(some_ident_node);
 
 	return p;
 }
 
 
 AstNode* AbstractSyntaxTree::gen_var_decl_array
-	(const char* some_typename, const char* some_ident, 
-	const int* some_dim)
+	(AstNode* some_typename_node, AstNode* some_ident_node, 
+	AstNode* some_dim_node)
 {
-	//printout("AbstractSyntaxTree::gen_var_decl_array():  ",
-	//	some_typename, "\n");
-	auto builtin_typename_node = gen_builtin_typename(some_typename);
-	auto ident_node = gen_ident(some_ident);
-	auto dim_node = gen_constant(some_dim);
 	auto p = mknode<AstVarDeclArray>();
 
-	p->append_child(builtin_typename_node);
-	p->append_child(ident_node);
-	p->append_child(dim_node);
+	p->append_child(some_typename_node);
+	p->append_child(some_ident_node);
+	p->append_child(some_dim_node);
 
 	return p;
 }
 
 AstNode* AbstractSyntaxTree::gen_var_decl_with_init
-	(const char* some_typename, const char* some_ident, 
+	(AstNode* some_typename_node, AstNode* some_ident_node, 
 	AstNode* some_expr)
 {
-	auto builtin_typename_node = gen_builtin_typename(some_typename);
-	auto ident_node = gen_ident(some_ident);
+	//auto some_typename_node = gen_builtin_typename(some_typename_node);
+	//auto some_ident_node = gen_ident(some_ident_node);
 	auto p = mknode<AstVarDeclWithInit>();
 
-	p->append_child(builtin_typename_node);
-	p->append_child(ident_node);
+	p->append_child(some_typename_node);
+	p->append_child(some_ident_node);
 	p->append_child(some_expr);
 
 	return p;
+}
+
+
+extern "C"
+{
+extern const char* cstm_strdup(char* some_c_str);
+extern const int* cstm_intdup(int num);
+
+YYSTYPE ast_gen_builtin_typename(char* some_typename)
+{
+	return ast.gen_builtin_typename(some_typename);
+}
+YYSTYPE ast_gen_ident(char* some_ident)
+{
+	return ast.gen_ident(some_ident);
+}
+YYSTYPE ast_gen_constant(int some_num)
+{
+	return ast.gen_constant(some_num);
+}
+YYSTYPE ast_gen_initial_binop(char* some_op)
+{
+	auto p = ast.make_initial_binop_node();
+	p->text.push_back(std::string(some_op));
+
+	return p;
+}
+
 }

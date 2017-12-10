@@ -20,16 +20,17 @@ public:		// functions
 		AstNode* some_list_statement, AstNode* some_rmscope);
 	AstNode* gen_list_statement();
 	AstNode* gen_statement();
-	AstNode* gen_constant(const int* some_num);
+	AstNode* gen_constant(int some_num);
 	AstNode* gen_ident(const char* some_ident);
-	AstNode* gen_indexed_load(const char* some_ident, 
+	AstNode* gen_indexed_load(AstNode* some_ident_node, 
 		AstNode* some_index);
 	AstNode* gen_mkscope();
 	AstNode* gen_rmscope();
-	AstNode* gen_assign(const char* some_ident, AstNode* some_expr);
-	AstNode* gen_indexed_assign(const char* some_ident,
+	AstNode* gen_assign(AstNode* some_ident_node, AstNode* some_expr);
+	AstNode* gen_indexed_assign(AstNode* some_ident_node,
 		AstNode* some_index, AstNode* some_rhs);
-	AstNode* gen_binop(const char* some_op, AstNode* a, AstNode* b);
+	AstNode* gen_finished_binop(AstNode* some_incomplete_binop, 
+		AstNode* a, AstNode* b);
 
 	AstNode* gen_if_statement(AstNode* some_expr, 
 		AstNode* some_statement);
@@ -40,13 +41,13 @@ public:		// functions
 	AstNode* gen_do_while_statement(AstNode* some_statement,
 		AstNode* some_expr);
 
-	AstNode* gen_builtin_typename(const char* some_typename);
-	AstNode* gen_var_decl_simple(const char* some_typename, 
-		const char* some_ident);
-	AstNode* gen_var_decl_array(const char* some_typename, 
-		const char* some_ident, const int* some_dim);
-	AstNode* gen_var_decl_with_init(const char* some_typename,
-		const char* some_ident, AstNode* some_expr);
+	AstNode* gen_builtin_typename(char* some_typename_node);
+	AstNode* gen_var_decl_simple(AstNode* some_typename_node, 
+		AstNode* some_ident_node);
+	AstNode* gen_var_decl_array(AstNode* some_typename_node, 
+		AstNode* some_ident_node, AstNode* some_dim);
+	AstNode* gen_var_decl_with_init(AstNode* some_typename_node,
+		AstNode* some_ident_node, AstNode* some_expr);
 
 	inline void print() const
 	{
@@ -57,6 +58,12 @@ public:		// functions
 
 	gen_getter_by_val(program);
 
+	inline AstNode* make_initial_binop_node()
+	{
+		return mknode<AstBinop>();
+	}
+
+
 protected:		// functions
 	template<typename NodeType>
 	inline AstNode* mknode()
@@ -66,6 +73,9 @@ protected:		// functions
 		__nodes.push_back(std::move(p));
 		return __nodes.back().get();
 	}
+
+
+
 
 };
 
