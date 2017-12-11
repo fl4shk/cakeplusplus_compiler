@@ -29,11 +29,11 @@ void Interpreter::visit_list_statement(AstListStatement* p)
 }
 void Interpreter::visit_constant(AstConstant* p)
 {
-	__num_stack.push(p->num);
+	push_num(p->num);
 }
 void Interpreter::visit_ident(AstIdent* p)
 {
-	__ident_stack.push(&p->text.front());
+	push_ident(&p->text.front());
 }
 void Interpreter::visit_load(AstLoad* p)
 {
@@ -60,7 +60,16 @@ void Interpreter::visit_indexed_load(AstIndexedLoad* p)
 	}
 
 	p->index_node()->accept(this);
-	const auto num = pop_num();
+	const auto index = pop_num();
+
+	if ((u32)index > sym->data().size())
+	{
+		printerr("visit_indexed_load():  Index ", index, 
+			" out of range!\n");
+		exit(1);
+	}
+
+	push_num(sym->data().at(index));
 }
 void Interpreter::visit_mk_scope(AstMkScope* p)
 {

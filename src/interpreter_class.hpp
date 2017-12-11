@@ -38,11 +38,19 @@ public:		// functions
 	void visit_var_decl_with_init(AstVarDeclWithInit* p);
 
 protected:		// functions
+	inline void push_num(int to_push)
+	{
+		__num_stack.push(to_push);
+	}
 	inline auto pop_num()
 	{
 		const auto num = __num_stack.top();
 		__num_stack.pop();
 		return num;
+	}
+	inline void push_ident(std::string* to_push)
+	{
+		__ident_stack.push(to_push);
 	}
 	inline auto pop_ident()
 	{
