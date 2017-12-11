@@ -18,8 +18,6 @@ public:		// typedefs and constants
 protected:		// variables
 	std::vector<OneLevelTable> __table;
 
-	std::vector<OneLevelTable> __old_table;
-
 
 	// The number of scopes that have been made - 1
 	s64 __scope_num = -1;
@@ -52,7 +50,6 @@ public:		// functions
 	{
 		if (scope_lev() > builtin_scope_level)
 		{
-			__old_table.push_back(std::move(table().back()));
 			table().pop_back();
 		}
 		else
