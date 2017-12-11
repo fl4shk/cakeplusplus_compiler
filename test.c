@@ -1,10 +1,13 @@
 {
-	int aaaaa[7];
-	int i;
-	i = 1;
+	int arr[7];
+	int i = 1;
 
-	while (i < 8)
+	int a, b, c;
+
+	while (i < 2)
 	{
+		i = i + 1;
+		arr[i] = i;
 	}
 
 }

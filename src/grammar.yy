@@ -64,18 +64,39 @@ statements:
 		}
 	;
 
+/* List rules all function similarly */
 list_statement:
 	{
-		//printout("For the childrens.\n");
+		// This rule executes first
 		$$ = ast.gen_list_statement();
 	}
 	| list_statement statement
 		{
-			//printout("Appending statement\n");
 			$1->append_to_list($2);
 			$$ = $1;
 		}
 	;
+
+list_ident:
+	TokIdent
+	{
+		printout("list_ident:  single TokIdent\n");
+		$$ = ast.gen_list_ident();
+		$$->append_to_list($1);
+	}
+	| list_ident ',' TokIdent
+		{
+			printout("list_ident:  more than one TokIdent\n");
+			$1->append_to_list($3);
+			$$ = $1;
+		}
+	;
+
+list_no_type_decl:
+	TokIdent
+	{
+	}
+	| TokIdent '[' TokDecNum ']'
 
 statement:
 	statements
@@ -110,6 +131,14 @@ statement:
 		{
 			$$ = $1;
 		}
+	| extra_var_decl ';'
+		{
+			$$ = $1;
+		}
+	| multi_var_decl ';'
+		{
+			$$ = $1;
+		}
 	;
 
 var_decl:
@@ -121,11 +150,26 @@ var_decl:
 		{
 			$$ = ast.gen_var_decl_array($1, $2, $4);
 		}
-	| TokBuiltinTypename TokIdent '=' expr
+	;
+
+extra_var_decl:
+	TokBuiltinTypename TokIdent '=' expr
 		{
 			$$ = ast.gen_var_decl_with_init($1, $2, $4);
 		}
 	;
+
+multi_var_decl:
+	TokBuiltinTypename list_no_type_decl
+		{
+			$$ = ast.gen_multi_var_decl($1);
+			for (auto* p : $2->list)
+			{
+				//$$->append_to_list(p);
+			}
+		}
+	;
+
 
 expr:
 	expr_logical

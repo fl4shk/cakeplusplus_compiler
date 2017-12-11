@@ -8,7 +8,7 @@ class Visitor;
 struct AstProgram : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("program");
 	}
@@ -19,7 +19,7 @@ struct AstProgram : public AstNode
 struct AstStatements : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("statements");
 	}
@@ -32,18 +32,27 @@ struct AstStatements : public AstNode
 struct AstListStatement : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("list_statement");
 	}
 };
 
 
+struct AstListIdent : public AstNode
+{
+	void accept(Visitor* v);
+	std::string to_string() const
+	{
+		return sconcat("list_ident");
+	}
+};
+
 
 struct AstConstant : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("constant(", num, ")");
 	}
@@ -53,7 +62,7 @@ struct AstConstant : public AstNode
 struct AstIdent : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("ident(", text.front(), ")");
 	}
@@ -62,7 +71,7 @@ struct AstIdent : public AstNode
 struct AstLoad : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("load");
 	}
@@ -72,7 +81,7 @@ struct AstLoad : public AstNode
 struct AstIndexedLoad : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("indexed_load");
 	}
@@ -84,7 +93,7 @@ struct AstIndexedLoad : public AstNode
 struct AstMkScope : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("mkscope");
 	}
@@ -93,7 +102,7 @@ struct AstMkScope : public AstNode
 struct AstRmScope : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("rmscope");
 	}
@@ -102,7 +111,7 @@ struct AstRmScope : public AstNode
 struct AstAssign : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("assign");
 	}
@@ -114,7 +123,7 @@ struct AstAssign : public AstNode
 struct AstIndexedAssign : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("indexed_assign");
 	}
@@ -127,7 +136,7 @@ struct AstIndexedAssign : public AstNode
 struct AstBinop : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("binop(", text.front(), ")");
 	}
@@ -139,7 +148,7 @@ struct AstBinop : public AstNode
 struct AstIf : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("if");
 	}
@@ -152,7 +161,7 @@ struct AstIf : public AstNode
 struct AstIfChain : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("if_chain");
 	}
@@ -165,7 +174,7 @@ struct AstIfChain : public AstNode
 struct AstWhile : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("while");
 	}
@@ -179,7 +188,7 @@ struct AstWhile : public AstNode
 struct AstDoWhile : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("do_while");
 	}
@@ -191,7 +200,7 @@ struct AstDoWhile : public AstNode
 struct AstBuiltinTypename : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("builtin_typename(", text.front(), ")");
 	}
@@ -200,7 +209,7 @@ struct AstBuiltinTypename : public AstNode
 struct AstVarDeclSimple : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("var_decl_simple");
 	}
@@ -212,7 +221,7 @@ struct AstVarDeclSimple : public AstNode
 struct AstVarDeclArray : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("var_decl_array");
 	}
@@ -225,7 +234,7 @@ struct AstVarDeclArray : public AstNode
 struct AstVarDeclWithInit : public AstNode
 {
 	void accept(Visitor* v);
-	virtual std::string to_string() const
+	std::string to_string() const
 	{
 		return sconcat("var_decl_with_init");
 	}
@@ -234,6 +243,17 @@ struct AstVarDeclWithInit : public AstNode
 	inline auto ident_node() { return at(1); }
 	inline auto expr() { return at(2); }
 
+};
+
+struct AstMultiVarDecl : public AstNode
+{
+	void accept(Visitor* v);
+	std::string to_string() const
+	{
+		return sconcat("multi_var_decl");
+	}
+
+	inline auto builtin_typename_node() { return at(0); }
 };
 
 

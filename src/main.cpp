@@ -15,11 +15,11 @@ int main(int argc, char** argv)
 	{
 		return 1;
 	}
-	//ast.print_json();
+	ast.print_json();
 
 
 
-	interpreter.interpret();
+	//interpreter.interpret();
 
 	return 0;
 }

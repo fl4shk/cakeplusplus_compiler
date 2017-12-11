@@ -1,6 +1,6 @@
 digit		[0-9]
 letter		[A-Za-z]
-other_operator		[=()\[\]\{\};]
+other_operator		[=()\[\]\{\};,]
 
 __ident_non_start_char		{letter}|{digit}|[_]
 __ident_start_char			{letter}|[_]

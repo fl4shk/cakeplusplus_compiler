@@ -19,6 +19,7 @@ public:		// functions
 	AstNode* gen_statements(AstNode* some_mkscope, 
 		AstNode* some_list_statement, AstNode* some_rmscope);
 	AstNode* gen_list_statement();
+	AstNode* gen_list_ident();
 	AstNode* gen_constant(int some_num);
 	AstNode* gen_ident(const char* some_ident);
 	AstNode* gen_load(AstNode* some_ident_node);
