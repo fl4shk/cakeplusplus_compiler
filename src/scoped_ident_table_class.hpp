@@ -110,6 +110,16 @@ public:		// functions
 		return nullptr;
 	}
 
+	inline Type* find_in_this_level(const std::string& some_name)
+	{
+		if (table().at(scope_lev()).contains(some_name))
+		{
+			return &table().at(scope_lev()).at(some_name);
+		}
+
+		return nullptr;
+	}
+
 	//inline bool contains(const std::string& some_name) const
 	//{
 	//	return (find(some_name) != nullptr);

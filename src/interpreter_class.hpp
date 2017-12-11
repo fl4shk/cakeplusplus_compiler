@@ -9,7 +9,7 @@
 class Interpreter : public Visitor
 {
 protected:		// variables
-	std::stack<std::string*> __ident_stack;
+	std::stack<std::string*> __str_stack;
 	std::stack<int> __num_stack;
 
 public:		// functions
@@ -48,15 +48,15 @@ protected:		// functions
 		__num_stack.pop();
 		return num;
 	}
-	inline void push_ident(std::string* to_push)
+	inline void push_str(std::string* to_push)
 	{
-		__ident_stack.push(to_push);
+		__str_stack.push(to_push);
 	}
-	inline auto pop_ident()
+	inline auto pop_str()
 	{
-		auto ident_str = __ident_stack.top();
-		__ident_stack.pop();
-		return ident_str;
+		auto str_str = __str_stack.top();
+		__str_stack.pop();
+		return str_str;
 	}
 
 };

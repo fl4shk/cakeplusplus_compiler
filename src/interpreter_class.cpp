@@ -33,12 +33,12 @@ void Interpreter::visit_constant(AstConstant* p)
 }
 void Interpreter::visit_ident(AstIdent* p)
 {
-	push_ident(&p->text.front());
+	push_str(&p->text.front());
 }
 void Interpreter::visit_load(AstLoad* p)
 {
 	p->ident_node()->accept(this);
-	auto ident_str = pop_ident();
+	auto ident_str = pop_str();
 	auto sym = sym_tbl.find(*ident_str);
 	if (sym == nullptr)
 	{
@@ -58,7 +58,7 @@ void Interpreter::visit_load(AstLoad* p)
 void Interpreter::visit_indexed_load(AstIndexedLoad* p)
 {
 	p->ident_node()->accept(this);
-	auto ident_str = pop_ident();
+	auto ident_str = pop_str();
 	auto sym = sym_tbl.find(*ident_str);
 	if (sym == nullptr)
 	{
@@ -90,7 +90,7 @@ void Interpreter::visit_rm_scope(AstRmScope* p)
 void Interpreter::visit_assign(AstAssign* p)
 {
 	p->ident_node()->accept(this);
-	auto ident_str = pop_ident();
+	auto ident_str = pop_str();
 	auto sym = sym_tbl.find(*ident_str);
 	if (sym == nullptr)
 	{
@@ -102,12 +102,14 @@ void Interpreter::visit_assign(AstAssign* p)
 	p->expr()->accept(this);
 	const auto expr = pop_num();
 
+	printout("Assigning ", expr, " to \"", *ident_str, "\"\n");
 	sym->data().front() = expr;
 }
+
 void Interpreter::visit_indexed_assign(AstIndexedAssign* p)
 {
 	p->ident_node()->accept(this);
-	auto ident_str = pop_ident();
+	auto ident_str = pop_str();
 	auto sym = sym_tbl.find(*ident_str);
 	if (sym == nullptr)
 	{
@@ -129,6 +131,8 @@ void Interpreter::visit_indexed_assign(AstIndexedAssign* p)
 	p->rhs_node()->accept(this);
 	const auto rhs = pop_num();
 
+	printout("Assigning ", rhs, " to \"", *ident_str, 
+		"\" at index ", index, "\n");
 	sym->data().at(index) = rhs;
 }
 void Interpreter::visit_binop(AstBinop* p)
@@ -262,12 +266,64 @@ void Interpreter::visit_do_while(AstDoWhile* p)
 }
 void Interpreter::visit_builtin_typename(AstBuiltinTypename* p)
 {
+	//push_str(&p->text.front());
 }
 void Interpreter::visit_var_decl_simple(AstVarDeclSimple* p)
 {
+	//switch (p->builtin_typename_node()->builtin_typename)
+	p->builtin_typename_node()->accept(this);
+
+	p->ident_node()->accept(this);
+	auto ident_str = pop_str();
+
+	auto sym = sym_tbl.find_in_this_level(*ident_str);
+
+	if (sym != nullptr)
+	{
+		printerr("visit_var_decl_simple():  ",
+			"There is already a symbol with name \"", ident_str,
+			"\"!\n");
+		exit(1);
+	}
+
+	Symbol to_insert_or_assign(*ident_str, SymType::VarName);
+	to_insert_or_assign.data().push_back(0);
+	sym_tbl.insert_or_assign(std::move(to_insert_or_assign));
 }
 void Interpreter::visit_var_decl_array(AstVarDeclArray* p)
 {
+	//switch (p->builtin_typename_node()->builtin_typename)
+	p->builtin_typename_node()->accept(this);
+
+	p->ident_node()->accept(this);
+	auto ident_str = pop_str();
+
+	auto sym = sym_tbl.find_in_this_level(*ident_str);
+
+	if (sym != nullptr)
+	{
+		printerr("visit_var_decl_simple():  ",
+			"There is already a symbol with name \"", ident_str,
+			"\"!\n");
+		exit(1);
+	}
+
+	p->dim_node()->accept(this);
+	const auto dim = pop_num();
+	if (dim <= 0)
+	{
+		printerr("visit_var_decl_simple():  Can't have an array ",
+			"dimension smaller than 1!\n");
+		exit(1);
+	}
+
+	Symbol to_insert_or_assign(*ident_str, SymType::VarName);
+
+	for (int i=0; i<dim; ++i)
+	{
+		to_insert_or_assign.data().push_back(0);
+	}
+	sym_tbl.insert_or_assign(std::move(to_insert_or_assign));
 }
 void Interpreter::visit_var_decl_with_init(AstVarDeclWithInit* p)
 {
