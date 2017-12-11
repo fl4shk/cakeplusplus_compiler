@@ -38,7 +38,8 @@ private:		// variables
 
 	SymType __type;
 	BuiltinTypename __var_type;
-	int __val;
+	//int __val;
+	std::vector<int> __data;
 
 public:		// functions
 	inline Symbol()
@@ -58,7 +59,7 @@ public:		// functions
 	gen_setter_by_rval_ref(name);
 	gen_getter_and_setter_by_val(type);
 	gen_getter_and_setter_by_val(var_type);
-	gen_getter_and_setter_by_val(val);
+	gen_getter_by_ref(data);
 };
 
 //typedef IdentTable<Symbol> SymbolTable;

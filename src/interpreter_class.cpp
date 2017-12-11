@@ -33,23 +33,34 @@ void Interpreter::visit_constant(AstConstant* p)
 }
 void Interpreter::visit_ident(AstIdent* p)
 {
-	//__ident_stack.push(&p->text.front());
-	__ident_str = &p->text.front();
+	__ident_stack.push(&p->text.front());
 }
 void Interpreter::visit_load(AstLoad* p)
 {
 	p->ident_node()->accept(this);
-	//__num_stack.push();
+	auto ident_str = pop_ident();
+	auto sym = sym_tbl.find(*ident_str);
+	if (sym == nullptr)
+	{
+		printerr("visit_load():  No symbol with name \"",
+			*ident_str, "\"\n");
+		exit(1);
+	}
 }
 void Interpreter::visit_indexed_load(AstIndexedLoad* p)
 {
-	printerr("Interpreter::visit_indexed_load() is incomplete!\n");
-	exit(1);
-
 	p->ident_node()->accept(this);
-	p->index_node()->accept(this);
+	auto ident_str = pop_ident();
+	auto sym = sym_tbl.find(*ident_str);
+	if (sym == nullptr)
+	{
+		printerr("visit_indexed_load():  No symbol with name \"",
+			*ident_str, "\"\n");
+		exit(1);
+	}
 
-	//__num_stack.push();
+	p->index_node()->accept(this);
+	const auto num = pop_num();
 }
 void Interpreter::visit_mk_scope(AstMkScope* p)
 {

@@ -9,8 +9,7 @@
 class Interpreter : public Visitor
 {
 protected:		// variables
-	//std::stack<std::string*> __ident_stack;
-	std::string* __ident_str;
+	std::stack<std::string*> __ident_stack;
 	std::stack<int> __num_stack;
 
 public:		// functions
@@ -37,6 +36,20 @@ public:		// functions
 	void visit_var_decl_simple(AstVarDeclSimple* p);
 	void visit_var_decl_array(AstVarDeclArray* p);
 	void visit_var_decl_with_init(AstVarDeclWithInit* p);
+
+protected:		// functions
+	inline auto pop_num()
+	{
+		const auto num = __num_stack.top();
+		__num_stack.pop();
+		return num;
+	}
+	inline auto pop_ident()
+	{
+		auto ident_str = __ident_stack.top();
+		__ident_stack.pop();
+		return ident_str;
+	}
 
 };
 
