@@ -9,8 +9,8 @@
 class Interpreter : public Visitor
 {
 protected:		// variables
-	std::stack<std::string*> __str_stack;
-	std::stack<int> __num_stack;
+	std::vector<std::string*> __str_vec;
+	std::vector<int> __num_vec;
 
 public:		// functions
 	void interpret();
@@ -40,23 +40,23 @@ public:		// functions
 protected:		// functions
 	inline void push_num(int to_push)
 	{
-		__num_stack.push(to_push);
+		__num_vec.push_back(to_push);
 	}
 	inline auto pop_num()
 	{
-		const auto num = __num_stack.top();
-		__num_stack.pop();
+		const auto num = __num_vec.back();
+		__num_vec.pop_back();
 		return num;
 	}
 	inline void push_str(std::string* to_push)
 	{
-		__str_stack.push(to_push);
+		__str_vec.push_back(to_push);
 	}
 	inline auto pop_str()
 	{
-		auto str_str = __str_stack.top();
-		__str_stack.pop();
-		return str_str;
+		auto str = __str_vec.back();
+		__str_vec.pop_back();
+		return str;
 	}
 
 };
