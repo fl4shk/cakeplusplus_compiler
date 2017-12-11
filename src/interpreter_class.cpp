@@ -1,6 +1,6 @@
 #include "interpreter_class.hpp"
 
-std::unique_ptr<Interpreter> interpreter(new Interpreter());
+Interpreter interpreter;
 
 
 void Interpreter::interpret()

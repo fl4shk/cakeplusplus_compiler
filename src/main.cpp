@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 
 
 
-	interpreter->interpret();
+	interpreter.interpret();
 
 	return 0;
 }

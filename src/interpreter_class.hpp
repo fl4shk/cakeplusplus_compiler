@@ -4,12 +4,14 @@
 #include "visitor_class.hpp"
 #include "abstract_syntax_tree_class.hpp"
 #include "symbol_table_class.hpp"
+#include <stack>
 
 class Interpreter : public Visitor
 {
 protected:		// variables
 	std::string __ident_name;
 	//std::vector<int> __expr_values;
+	std::stack<int> __val_stack;
 
 public:		// functions
 	void interpret();
@@ -35,8 +37,12 @@ public:		// functions
 	void visit_var_decl_array(AstVarDeclArray* p);
 	void visit_var_decl_with_init(AstVarDeclWithInit* p);
 
+//protected:		// functions
+//	void push_val();
+//	void pop_val();
+
 };
 
-extern std::unique_ptr<Interpreter> interpreter;
+extern Interpreter interpreter;
 
 #endif		// interpreter_class_hpp
