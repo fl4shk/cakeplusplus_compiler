@@ -96,8 +96,7 @@ statement:
 		}
 	| TokIf '(' expr ')' statements TokElse statements
 		{
-			$$ = ast.gen_if_chain_statement($3, $5, 
-				$7);
+			$$ = ast.gen_if_chain_statement($3, $5, $7);
 		}
 	| TokWhile '(' expr ')' statements
 		{

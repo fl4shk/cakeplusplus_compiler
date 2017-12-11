@@ -209,15 +209,56 @@ void Interpreter::visit_binop(AstBinop* p)
 }
 void Interpreter::visit_if(AstIf* p)
 {
+	p->expr()->accept(this);
+	const auto expr = pop_num();
+
+	if (expr)
+	{
+		p->statement()->accept(this);
+	}
 }
 void Interpreter::visit_if_chain(AstIfChain* p)
 {
+	p->expr()->accept(this);
+	const auto expr = pop_num();
+
+	if (expr)
+	{
+		p->statement_if()->accept(this);
+	}
+	else
+	{
+		p->statement_else()->accept(this);
+	}
 }
 void Interpreter::visit_while(AstWhile* p)
 {
+	int expr;
+
+	for (;;)
+	{
+		p->expr()->accept(this);
+		expr = pop_num();
+
+		if (!expr)
+		{
+			break;
+		}
+
+		p->statement()->accept(this);
+	}
 }
 void Interpreter::visit_do_while(AstDoWhile* p)
 {
+	int expr;
+
+	do
+	{
+		p->statement()->accept(this);
+
+		p->expr()->accept(this);
+		expr = pop_num();
+	} while (expr);
 }
 void Interpreter::visit_builtin_typename(AstBuiltinTypename* p)
 {
