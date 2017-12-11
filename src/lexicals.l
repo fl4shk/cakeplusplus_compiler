@@ -34,25 +34,19 @@ dec_num		{digit}({digit})*
 						return *yytext;
 					}
 
-"u8"|"u16"|"u32"|"u64"			{
-									//yylval = cstm_strdup(yytext);
-									yylval = ast_gen_builtin_typename
-										(yytext);
-									return TokBuiltinTypename;
-								}
-"s8"|"s16"|"s32"|"s64"			{
-									//yylval.name = cstm_strdup(yytext);
-									yylval = ast_gen_builtin_typename
-										(yytext);
-									return TokBuiltinTypename;
-								}
+"int"			{
+					//yylval = cstm_strdup(yytext);
+					yylval = ast_gen_builtin_typename
+						(yytext);
+					return TokBuiltinTypename;
+				}
 
-"&&"|"||"						{
-									//yylval.name = cstm_strdup(yytext);
-									yylval = ast_gen_initial_binop
-										(yytext);
-									return TokOpLogical;
-								}
+"&&"|"||"		{
+					//yylval.name = cstm_strdup(yytext);
+					yylval = ast_gen_initial_binop
+						(yytext);
+					return TokOpLogical;
+				}
 "&"|"|"|"^"|"<<"|">>"|">>>"		{
 									//yylval.name = cstm_strdup(yytext);
 									yylval = ast_gen_initial_binop

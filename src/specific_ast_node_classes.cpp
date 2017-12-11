@@ -27,6 +27,11 @@ void AstIdent::accept(Visitor* v)
 	v->visit_ident(this);
 }
 
+void AstLoad::accept(Visitor* v)
+{
+	v->visit_load(this);
+}
+
 void AstIndexedLoad::accept(Visitor* v)
 {
 	v->visit_indexed_load(this);

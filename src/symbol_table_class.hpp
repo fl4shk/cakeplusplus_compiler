@@ -7,25 +7,27 @@
 
 enum class SymType : int
 {
-	Keyword,
-	BuiltinTypename,
+	//Keyword,
+	//BuiltinTypename,
 
 
-	// Used by the lexer, fixed by the parser
-	UnknownUserIdent,
+	//// Used by the lexer, fixed by the parser
+	//UnknownUserIdent,
 
 	VarName,
-	FuncName,
-	StructName,
+	//FuncName,
+	//StructName,
 };
 
 enum class BuiltinTypename : int
 {
 	Blank,
 
-	// u8, u16, u32, etc.
-	U8, U16, U32, U64,
-	S8, S16, S32, S64,
+	//// u8, u16, u32, etc.
+	//U8, U16, U32, U64,
+	//S8, S16, S32, S64,
+
+	Int,
 };
 
 
@@ -36,6 +38,7 @@ private:		// variables
 
 	SymType __type;
 	BuiltinTypename __var_type;
+	int __val;
 
 public:		// functions
 	inline Symbol()
@@ -55,6 +58,7 @@ public:		// functions
 	gen_setter_by_rval_ref(name);
 	gen_getter_and_setter_by_val(type);
 	gen_getter_and_setter_by_val(var_type);
+	gen_getter_and_setter_by_val(val);
 };
 
 //typedef IdentTable<Symbol> SymbolTable;

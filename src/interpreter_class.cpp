@@ -29,12 +29,27 @@ void Interpreter::visit_list_statement(AstListStatement* p)
 }
 void Interpreter::visit_constant(AstConstant* p)
 {
+	__num_stack.push(p->num);
 }
 void Interpreter::visit_ident(AstIdent* p)
 {
+	//__ident_stack.push(&p->text.front());
+	__ident_str = &p->text.front();
+}
+void Interpreter::visit_load(AstLoad* p)
+{
+	p->ident_node()->accept(this);
+	//__num_stack.push();
 }
 void Interpreter::visit_indexed_load(AstIndexedLoad* p)
 {
+	printerr("Interpreter::visit_indexed_load() is incomplete!\n");
+	exit(1);
+
+	p->ident_node()->accept(this);
+	p->index_node()->accept(this);
+
+	//__num_stack.push();
 }
 void Interpreter::visit_mk_scope(AstMkScope* p)
 {

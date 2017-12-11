@@ -59,6 +59,16 @@ struct AstIdent : public AstNode
 	}
 };
 
+struct AstLoad : public AstNode
+{
+	void accept(Visitor* v);
+	virtual std::string to_string() const
+	{
+		return sconcat("load");
+	}
+
+	inline auto ident_node() { return at(0); }
+};
 struct AstIndexedLoad : public AstNode
 {
 	void accept(Visitor* v);

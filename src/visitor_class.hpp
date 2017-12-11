@@ -19,6 +19,7 @@ public:		// functions
 	virtual void visit_list_statement(AstListStatement* p) = 0;
 	virtual void visit_constant(AstConstant* p) = 0;
 	virtual void visit_ident(AstIdent* p) = 0;
+	virtual void visit_load(AstLoad* p) = 0;
 	virtual void visit_indexed_load(AstIndexedLoad* p) = 0;
 	virtual void visit_mk_scope(AstMkScope* p) = 0;
 	virtual void visit_rm_scope(AstRmScope* p) = 0;

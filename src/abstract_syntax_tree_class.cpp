@@ -68,6 +68,13 @@ AstNode* AbstractSyntaxTree::gen_ident(const char* some_ident)
 	return p;
 }
 
+AstNode* AbstractSyntaxTree::gen_load(AstNode* some_ident_node)
+{
+	auto p = mknode<AstLoad>();
+	p->append_child(some_ident_node);
+
+	return p;
+}
 AstNode* AbstractSyntaxTree::gen_indexed_load(AstNode* some_ident_node, 
 	AstNode* some_index)
 {
@@ -249,42 +256,46 @@ AstNode* AbstractSyntaxTree::gen_do_while_statement
 }
 
 AstNode* AbstractSyntaxTree::gen_builtin_typename
-	(char* some_typename_node)
+	(char* some_typename)
 {
 	auto p = mknode<AstBuiltinTypename>();
-	p->text.push_back(std::string(some_typename_node));
+	p->text.push_back(std::string(some_typename));
 
-	if (some_typename_node == std::string("u8"))
+	//if (some_typename == std::string("u8"))
+	//{
+	//	p->builtin_typename = BuiltinTypename::U8;
+	//}
+	//else if (some_typename == std::string("u16"))
+	//{
+	//	p->builtin_typename = BuiltinTypename::U16;
+	//}
+	//else if (some_typename == std::string("u32"))
+	//{
+	//	p->builtin_typename = BuiltinTypename::U32;
+	//}
+	//else if (some_typename == std::string("u64"))
+	//{
+	//	p->builtin_typename = BuiltinTypename::U64;
+	//}
+	//else if (some_typename == std::string("s8"))
+	//{
+	//	p->builtin_typename = BuiltinTypename::S8;
+	//}
+	//else if (some_typename == std::string("s16"))
+	//{
+	//	p->builtin_typename = BuiltinTypename::S16;
+	//}
+	//else if (some_typename == std::string("s32"))
+	//{
+	//	p->builtin_typename = BuiltinTypename::S32;
+	//}
+	//else if (some_typename == std::string("s64"))
+	//{
+	//	p->builtin_typename = BuiltinTypename::S64;
+	//}
+	if (some_typename == std::string("int"))
 	{
-		p->builtin_typename = BuiltinTypename::U8;
-	}
-	else if (some_typename_node == std::string("u16"))
-	{
-		p->builtin_typename = BuiltinTypename::U16;
-	}
-	else if (some_typename_node == std::string("u32"))
-	{
-		p->builtin_typename = BuiltinTypename::U32;
-	}
-	else if (some_typename_node == std::string("u64"))
-	{
-		p->builtin_typename = BuiltinTypename::U64;
-	}
-	else if (some_typename_node == std::string("s8"))
-	{
-		p->builtin_typename = BuiltinTypename::S8;
-	}
-	else if (some_typename_node == std::string("s16"))
-	{
-		p->builtin_typename = BuiltinTypename::S16;
-	}
-	else if (some_typename_node == std::string("s32"))
-	{
-		p->builtin_typename = BuiltinTypename::S32;
-	}
-	else if (some_typename_node == std::string("s64"))
-	{
-		p->builtin_typename = BuiltinTypename::S64;
+		p->builtin_typename = BuiltinTypename::Int;
 	}
 	else
 	{

@@ -9,9 +9,9 @@
 class Interpreter : public Visitor
 {
 protected:		// variables
-	std::string __ident_name;
-	//std::vector<int> __expr_values;
-	std::stack<int> __val_stack;
+	//std::stack<std::string*> __ident_stack;
+	std::string* __ident_str;
+	std::stack<int> __num_stack;
 
 public:		// functions
 	void interpret();
@@ -22,6 +22,7 @@ public:		// functions
 	void visit_list_statement(AstListStatement* p);
 	void visit_constant(AstConstant* p);
 	void visit_ident(AstIdent* p);
+	void visit_load(AstLoad* p);
 	void visit_indexed_load(AstIndexedLoad* p);
 	void visit_mk_scope(AstMkScope* p);
 	void visit_rm_scope(AstRmScope* p);
@@ -36,10 +37,6 @@ public:		// functions
 	void visit_var_decl_simple(AstVarDeclSimple* p);
 	void visit_var_decl_array(AstVarDeclArray* p);
 	void visit_var_decl_with_init(AstVarDeclWithInit* p);
-
-//protected:		// functions
-//	void push_val();
-//	void pop_val();
 
 };
 

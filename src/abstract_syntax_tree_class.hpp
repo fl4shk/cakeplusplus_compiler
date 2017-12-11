@@ -21,6 +21,7 @@ public:		// functions
 	AstNode* gen_list_statement();
 	AstNode* gen_constant(int some_num);
 	AstNode* gen_ident(const char* some_ident);
+	AstNode* gen_load(AstNode* some_ident_node);
 	AstNode* gen_indexed_load(AstNode* some_ident_node, 
 		AstNode* some_index);
 	AstNode* gen_mkscope();
@@ -40,7 +41,7 @@ public:		// functions
 	AstNode* gen_do_while_statement(AstNode* some_statement,
 		AstNode* some_expr);
 
-	AstNode* gen_builtin_typename(char* some_typename_node);
+	AstNode* gen_builtin_typename(char* some_typename);
 	AstNode* gen_var_decl_simple(AstNode* some_typename_node, 
 		AstNode* some_ident_node);
 	AstNode* gen_var_decl_array(AstNode* some_typename_node, 

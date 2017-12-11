@@ -180,7 +180,7 @@ expr_mul_div_mod_etc:
 	TokIdent
 		{
 			//$$ = ast.gen_ident($1);
-			$$ = $1;
+			$$ = ast.gen_load($1);
 		}
 	| TokIdent '[' expr ']'
 		{
