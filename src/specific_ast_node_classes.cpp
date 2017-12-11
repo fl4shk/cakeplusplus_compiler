@@ -16,10 +16,6 @@ void AstListStatement::accept(Visitor* v)
 	v->visit_list_statement(this);
 }
 
-void AstStatement::accept(Visitor* v)
-{
-	v->visit_statement(this);
-}
 
 void AstConstant::accept(Visitor* v)
 {

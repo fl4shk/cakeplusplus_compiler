@@ -17,7 +17,6 @@ public:		// functions
 	virtual void visit_program(AstProgram* p) = 0;
 	virtual void visit_statements(AstStatements* p) = 0;
 	virtual void visit_list_statement(AstListStatement* p) = 0;
-	virtual void visit_statement(AstStatement* p) = 0;
 	virtual void visit_constant(AstConstant* p) = 0;
 	virtual void visit_ident(AstIdent* p) = 0;
 	virtual void visit_indexed_load(AstIndexedLoad* p) = 0;

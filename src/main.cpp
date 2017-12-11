@@ -15,15 +15,9 @@ int main(int argc, char** argv)
 	{
 		return 1;
 	}
-	//ast.print();
-	ast.print_json();
+	//ast.print_json();
 
-	//if (semantic_analyzer.analyze())
-	//{
-	//	return 1;
-	//}
 
-	//ircodegen.generate();
 
 	interpreter->interpret();
 

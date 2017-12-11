@@ -6,20 +6,26 @@ std::unique_ptr<Interpreter> interpreter(new Interpreter());
 void Interpreter::interpret()
 {
 	printout("connected to dedicated RAM\n");
+	ast.program()->accept(this);
 }
 
 
 void Interpreter::visit_program(AstProgram* p)
 {
+	p->statements()->accept(this);
 }
 void Interpreter::visit_statements(AstStatements* p)
 {
+	p->mkscope()->accept(this);
+	p->list_statement()->accept(this);
+	p->rmscope()->accept(this);
 }
 void Interpreter::visit_list_statement(AstListStatement* p)
 {
-}
-void Interpreter::visit_statement(AstStatement* p)
-{
+	for (auto iter : p->list)
+	{
+		iter->accept(this);
+	}
 }
 void Interpreter::visit_constant(AstConstant* p)
 {
@@ -32,9 +38,11 @@ void Interpreter::visit_indexed_load(AstIndexedLoad* p)
 }
 void Interpreter::visit_mk_scope(AstMkScope* p)
 {
+	sym_tbl.mkscope();
 }
 void Interpreter::visit_rm_scope(AstRmScope* p)
 {
+	sym_tbl.rmscope();
 }
 void Interpreter::visit_assign(AstAssign* p)
 {

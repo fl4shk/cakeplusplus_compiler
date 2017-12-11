@@ -39,14 +39,6 @@ struct AstListStatement : public AstNode
 };
 
 
-struct AstStatement : public AstNode
-{
-	void accept(Visitor* v);
-	virtual std::string to_string() const
-	{
-		return sconcat("statement");
-	}
-};
 
 struct AstConstant : public AstNode
 {

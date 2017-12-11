@@ -3,11 +3,13 @@
 
 #include "visitor_class.hpp"
 #include "abstract_syntax_tree_class.hpp"
+#include "symbol_table_class.hpp"
 
 class Interpreter : public Visitor
 {
 protected:		// variables
-	
+	std::string __ident_name;
+	//std::vector<int> __expr_values;
 
 public:		// functions
 	void interpret();
@@ -16,7 +18,6 @@ public:		// functions
 	void visit_program(AstProgram* p);
 	void visit_statements(AstStatements* p);
 	void visit_list_statement(AstListStatement* p);
-	void visit_statement(AstStatement* p);
 	void visit_constant(AstConstant* p);
 	void visit_ident(AstIdent* p);
 	void visit_indexed_load(AstIndexedLoad* p);

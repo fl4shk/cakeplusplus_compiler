@@ -5,6 +5,8 @@
 #include "symbol_table_class.hpp"
 #include "liborangepower_src/json_stuff.hpp"
 
+class Visitor;
+
 // Binary operator ("+", "-", "*", "/", etc.)
 enum class AstNodeBinop : int
 {
@@ -57,6 +59,8 @@ public:		// functions
 
 	AstNode& operator = (const AstNode& to_copy) = default;
 	AstNode& operator = (AstNode&& to_move) = default;
+
+	virtual void accept(Visitor* v);
 
 	void append_child(AstNode* some_child);
 	void append_to_list(AstNode* to_append);

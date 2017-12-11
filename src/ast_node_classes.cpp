@@ -1,4 +1,5 @@
 #include "ast_node_classes.hpp"
+#include "visitor_class.hpp"
 
 
 AstNode::AstNode()
@@ -8,6 +9,11 @@ AstNode::~AstNode()
 {
 }
 
+void AstNode::accept(Visitor* v)
+{
+	printerr("AstNode::accept():  Eek!\n");
+	exit(1);
+}
 void AstNode::append_child(AstNode* some_child)
 {
 	for (AstNode* iter : children)

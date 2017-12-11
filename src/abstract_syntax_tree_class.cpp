@@ -45,12 +45,6 @@ AstNode* AbstractSyntaxTree::gen_list_statement()
 
 	return p;
 }
-AstNode* AbstractSyntaxTree::gen_statement()
-{
-	auto p = mknode<AstStatement>();
-
-	return p;
-}
 AstNode* AbstractSyntaxTree::gen_constant(int some_num)
 {
 	//if (some_num == nullptr)
