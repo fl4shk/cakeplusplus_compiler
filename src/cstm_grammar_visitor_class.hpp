@@ -6,11 +6,14 @@
 #include "gen_src/GrammarParser.h"
 #include "gen_src/GrammarVisitor.h"
 
+#include <stack>
+
 
 class CstmGrammarVisitor : public GrammarVisitor
 {
 protected:		// variables
 	Json::Value __output_root;
+	std::stack<int> __num_stack;
 
 public:		// functions
 	virtual ~CstmGrammarVisitor();
@@ -55,6 +58,17 @@ public:		// functions
 	antlrcpp::Any visitIdentExpr
 		(GrammarParser::IdentExprContext *ctx);
 
+protected:		// functions
+	inline void push_num(int to_push)
+	{
+		__num_stack.push(to_push);
+	}
+	inline int pop_num()
+	{
+		auto ret = __num_stack.top(); 
+		__num_stack.pop();
+		return ret;
+	}
 
 };
 

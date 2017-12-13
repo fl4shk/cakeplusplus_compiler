@@ -1,4 +1,5 @@
 #include "cstm_grammar_visitor_class.hpp"
+#include "allocation_stuff.hpp"
 
 CstmGrammarVisitor::~CstmGrammarVisitor()
 {
@@ -9,46 +10,33 @@ antlrcpp::Any CstmGrammarVisitor::visitProgram
 	(GrammarParser::ProgramContext *ctx)
 {
 	printout("visitProgram()\n");
-	////ctx->accept(this);
-	const int ret = ctx->statements()->accept(this);
-
-	//for (auto p=ctx->start; p!=ctx->stop; ++p)
-	//{
-	//	//printout(p->getText(), "\n");
-	//	//printout("a");
-	//	printout(p->toString(), "\n");
-	//}
-	//for (auto p : ctx->children)
-	//{
-	//}
-	printout("visitProgram():  ", ret, "\n");
-
-	return ret;
+	ctx->statements()->accept(this);
+	return 0;
 }
 
 antlrcpp::Any CstmGrammarVisitor::visitStatements
 	(GrammarParser::StatementsContext *ctx)
 {
 	printout("visitStatements()\n");
-	const int ret = ctx->listStatement()->accept(this);
-
-	return ret;
+	ctx->listStatement()->accept(this);
+	return 0;
 }
 
 antlrcpp::Any CstmGrammarVisitor::visitListStatement
 	(GrammarParser::ListStatementContext *ctx)
 {
 	printout("visitListStatement()\n");
-	//ctx->listStatement()->accept(this);
 
 	
 	if (ctx->listStatement())
 	{
 		// Early statement first
+		printout("visitListStatement():  listStatement()\n");
 		ctx->listStatement()->accept(this);
 	}
 	if (ctx->statement())
 	{
+		printout("visitListStatement():  statement()\n");
 		ctx->statement()->accept(this);
 	}
 
@@ -63,15 +51,13 @@ antlrcpp::Any CstmGrammarVisitor::visitStatement
 
 	if (ctx->statements())
 	{
-		const int ret = ctx->statements()->accept(this);
-		printout("visitStatement():  statements():  ", ret, "\n");
-		return ret;
+		printout("visitStatement():  statements()\n");
+		ctx->statements()->accept(this);
 	}
 	else if (ctx->expr())
 	{
-		const int ret = ctx->expr()->accept(this);
-		printout("visitStatement():  expr():  ", ret, "\n");
-		return ret;
+		ctx->expr()->accept(this);
+		printout("visitStatement():  expr():  ", pop_num(), "\n");
 	}
 	else
 	{
@@ -79,92 +65,247 @@ antlrcpp::Any CstmGrammarVisitor::visitStatement
 		exit(1);
 	}
 
-	//if (ctx->assignment())
-	//{
-	//	ctx->assignment()_
-	//}
-
-	return 1;
+	return 0;
 }
 
 antlrcpp::Any CstmGrammarVisitor::visitAssignment
 	(GrammarParser::AssignmentContext *ctx)
 {
-	return 9000;
+	return 0;
 }
 
 
 antlrcpp::Any CstmGrammarVisitor::visitIfStatement
 	(GrammarParser::IfStatementContext *ctx)
 {
-	return 9000;
+	return 0;
 }
 antlrcpp::Any CstmGrammarVisitor::visitIfChainStatement
 	(GrammarParser::IfChainStatementContext *ctx)
 {
-	return 9000;
+	return 0;
 }
 antlrcpp::Any CstmGrammarVisitor::visitElseStatements
 	(GrammarParser::ElseStatementsContext *ctx)
 {
+	return 0;
 }
 antlrcpp::Any CstmGrammarVisitor::visitWhileStatement
 	(GrammarParser::WhileStatementContext *ctx)
 {
-	return 9000;
+	return 0;
 }
 antlrcpp::Any CstmGrammarVisitor::visitDoWhileStatement
 	(GrammarParser::DoWhileStatementContext *ctx)
 {
-	return 9000;
+	return 0;
 }
 
 
 antlrcpp::Any CstmGrammarVisitor::visitExpr
 	(GrammarParser::ExprContext *ctx)
 {
-	if (!ctx->expr())
+	if (ctx->expr())
 	{
-		//const int expr_ret = ctx->expr()->accept(this);
-		//const int expr_logical_ret = ctx->exprLogical()->accept(this);
+		ctx->expr()->accept(this);
+		const int left = pop_num();
+		ctx->exprLogical()->accept(this);
+		const int right = pop_num();
 
-		const auto& tok_str = ctx->TokOpLogical().getText();
+		const auto tok_str = std::move(ctx->TokOpLogical()->toString());
 
-		printout("visitExpr():  tok_str:  ", tok_str, "\n");
+		if (tok_str == "&&")
+		{
+			push_num(left && right);
+		}
+		else if (tok_str == "||")
+		{
+			push_num(left || right);
+		}
+		else
+		{
+			printerr("visitExpr():  Eek!\n");
+			exit(1);
+		}
 	}
 	else
 	{
-		return ctx->exprLogical()->accept(this);
+		ctx->exprLogical()->accept(this);
 	}
-	return 9000;
+
+	return 0;
 }
 
 antlrcpp::Any CstmGrammarVisitor::visitExprLogical
 	(GrammarParser::ExprLogicalContext *ctx)
 {
-	return 9000;
+	if (ctx->exprLogical())
+	{
+		ctx->exprLogical()->accept(this);
+		const int left = pop_num();
+		ctx->exprCompare()->accept(this);
+		const int right = pop_num();
+
+		const auto tok_str = std::move(ctx->TokOpCompare()->toString());
+
+		if (tok_str == "==")
+		{
+			push_num(left == right);
+		}
+		else if (tok_str == "!=")
+		{
+			push_num(left != right);
+		}
+		else if (tok_str == "<")
+		{
+			push_num(left < right);
+		}
+		else if (tok_str == ">")
+		{
+			push_num(left > right);
+		}
+		else if (tok_str == "<=")
+		{
+			push_num(left <= right);
+		}
+		else if (tok_str == ">=")
+		{
+			push_num(left >= right);
+		}
+		else
+		{
+			printerr("visitExprLogical():  Eek!\n");
+			exit(1);
+		}
+	}
+	else
+	{
+		return (int)ctx->exprCompare()->accept(this);
+	}
 }
 
 antlrcpp::Any CstmGrammarVisitor::visitExprCompare
 	(GrammarParser::ExprCompareContext *ctx)
 {
-	return 9000;
+	if (ctx->exprCompare())
+	{
+		ctx->exprCompare()->accept(this);
+		const int left = pop_num();
+		ctx->exprAddSub()->accept(this);
+		const int right = pop_num();
+
+		const auto tok_str = std::move(ctx->TokOpAddSub()->toString());
+
+		if (tok_str == "+")
+		{
+			push_num(left + right);
+		}
+		else if (tok_str == "-")
+		{
+			push_num(left - right);
+		}
+		else
+		{
+			printerr("visitExprCompare():  Eek!\n");
+			exit(1);
+		}
+	}
+	else
+	{
+		ctx->exprAddSub()->accept(this);
+	}
+	return 0;
 }
 
 antlrcpp::Any CstmGrammarVisitor::visitExprAddSub
 	(GrammarParser::ExprAddSubContext *ctx)
 {
-	return 9000;
+	if (ctx->exprAddSub())
+	{
+		ctx->exprAddSub()->accept(this);
+		const int left = pop_num();
+		ctx->exprMulDivModEtc()->accept(this);
+		const int right = pop_num();
+
+		std::string tok_str;
+
+		if (ctx->TokOpMulDivMod())
+		{
+			tok_str = std::move(ctx->TokOpMulDivMod()->toString());
+		}
+		else
+		{
+			tok_str = std::move(ctx->TokOpBitwise()->toString());
+		}
+
+		if (tok_str == "*")
+		{
+			push_num(left * right);
+		}
+		else if (tok_str == "/")
+		{
+			push_num(left / right);
+		}
+		else if (tok_str == "%")
+		{
+			push_num(left % right);
+		}
+		else if (tok_str == "&")
+		{
+			push_num(left & right);
+		}
+		else if (tok_str == "|")
+		{
+			push_num(left | right);
+		}
+		else if (tok_str == "^")
+		{
+			push_num(left ^ right);
+		}
+		else if (tok_str == "<<")
+		{
+			push_num(left << right);
+		}
+		else if (tok_str == ">>")
+		{
+			const unsigned int left_u = left;
+			const unsigned int right_u = right;
+			const unsigned int to_push = left_u >> right_u;
+			push_num(to_push);
+		}
+		else if (tok_str == ">>>")
+		{
+			push_num(left >> right);
+		}
+		else
+		{
+			printerr("visitExprAddSub():  Eek!\n");
+			exit(1);
+		}
+	}
+	else
+	{
+		ctx->exprMulDivModEtc()->accept(this);
+	}
+	return 0;
 }
 
 antlrcpp::Any CstmGrammarVisitor::visitExprMulDivModEtc
 	(GrammarParser::ExprMulDivModEtcContext *ctx)
 {
-	return 9000;
+	if (ctx->TokDecNum())
+	{
+		push_num(atoi(ctx->TokDecNum()->toString().c_str()));
+	}
+	else
+	{
+		ctx->expr()->accept(this);
+	}
+	return 0;
 }
 
 antlrcpp::Any CstmGrammarVisitor::visitIdentExpr
 	(GrammarParser::IdentExprContext *ctx)
 {
-	return 9000;
+	return 0;
 }
