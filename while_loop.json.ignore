@@ -1,0 +1,77 @@
+[
+	"program",
+	[
+		[
+			"statements",
+			[
+				[ "mkscope" ],
+				[
+					"list_statement",
+					[
+						[
+							"var_decl_array",
+							[
+								[ "builtin_typename(u32)" ],
+								[ "ident(struct)" ],
+								[ "constant(7)" ]
+							]
+						],
+						[
+							"assign",
+							[
+								[ "ident(i)" ],
+								[ "constant(0)" ]
+							]
+						],
+						[
+							"while",
+							[
+								[
+									"binop(<)",
+									[
+										[ "ident(i)" ],
+										[ "constant(8)" ]
+									]
+								],
+								[
+									"statements",
+									[
+										[ "mkscope" ],
+										[
+											"list_statement",
+											[
+												[
+													"indexed_assign",
+													[
+														[ "ident(struct)" ],
+														[ "ident(i)" ],
+														[ "ident(i)" ]
+													]
+												],
+												[
+													"assign",
+													[
+														[ "ident(i)" ],
+														[
+															"binop(+)",
+															[
+																[ "ident(i)" ],
+																[ "constant(1)" ]
+															]
+														]
+													]
+												]
+											]
+										],
+										[ "rmscope" ]
+									]
+								]
+							]
+						]
+					]
+				],
+				[ "rmscope" ]
+			]
+		]
+	]
+]

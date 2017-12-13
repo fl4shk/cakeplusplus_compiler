@@ -1,0 +1,83 @@
+[
+	"program",
+	[
+		[
+			"statements",
+			[
+				[ "mkscope" ],
+				[
+					"list_statement",
+					[
+						[
+							"var_decl_with_init",
+							[
+								[ "builtin_typename(u32)" ],
+								[ "ident(i)" ],
+								[ "constant(9)" ]
+							]
+						],
+						[
+							"if",
+							[
+								[
+									"binop(==)",
+									[
+										[ "ident(a)" ],
+										[ "constant(9)" ]
+									]
+								],
+								[
+									"statements",
+									[
+										[ "mkscope" ],
+										[
+											"list_statement",
+											[
+												[
+													"assign",
+													[
+														[ "ident(b)" ],
+														[ "constant(6)" ]
+													]
+												],
+												[
+													"assign",
+													[
+														[ "ident(d)" ],
+														[ "constant(8)" ]
+													]
+												],
+												[
+													"indexed_assign",
+													[
+														[ "ident(d)" ],
+														[
+															"indexed_load",
+															[
+																[ "ident(d)" ],
+																[
+																	"indexed_load",
+																	[
+																		[ "ident(d)" ],
+																		[ "constant(7)" ]
+																	]
+																]
+															]
+														],
+														[ "constant(6)" ]
+													]
+												]
+											]
+										],
+										[ "rmscope" ]
+									]
+								]
+							]
+						]
+					]
+				],
+				[ "rmscope" ]
+			]
+		]
+	]
+]

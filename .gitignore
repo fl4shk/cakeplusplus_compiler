@@ -23,7 +23,6 @@ testing/preprocs_debug/*
 testing/testing
 testing/testing_debug
 small_code_testing_things/*
-gen_src/*
 *.elf
 *.gba
 disassembly_all_2.armasm
@@ -38,11 +37,7 @@ disassembly*.armasm
 */tags
 */types_*.taghl
 *.txt.ignore
-bison_test_1
-bison_test_1_debug
 cake++_compiler
 cake++_compiler_debug
 *.elf
-src/lex.yy.c
-*.json
-*.json.ignore
+src/gen_src/*
