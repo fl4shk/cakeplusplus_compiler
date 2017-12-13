@@ -19,9 +19,9 @@ antlrcpp::Any Interpreter::visitStatements
 	(GrammarParser::StatementsContext *ctx)
 {
 	//printout("visitStatements()\n");
-	__sym_tbl.mkscope();
+	sym_tbl().mkscope();
 	ctx->listStatement()->accept(this);
-	__sym_tbl.rmscope();
+	sym_tbl().rmscope();
 	return nullptr;
 }
 
@@ -102,15 +102,27 @@ antlrcpp::Any Interpreter::visitVarDecl
 {
 	ctx->identDecl()->accept(this);
 	auto some_ident = pop_str();
+	const int has_subscript = pop_num();
 	const int subscript = pop_num();
 
-	if (__sym_tbl.find(*some_ident) != nullptr)
+	if (sym_tbl().find(*some_ident) != nullptr)
 	{
 		printerr("A variable called \"", *some_ident,
 			"\" already exists in this scope!\n");
 		exit(1);
 	}
-	Symbol to_insert(*some_ident, SymType::VarName);
+	//Symbol to_insert(*some_ident, SymType::ScalarVarName);
+	Symbol to_insert;
+	to_insert.set_name(*some_ident);
+
+	if (!has_subscript)
+	{
+		to_insert.set_type(SymType::ScalarVarName);
+	}
+	else
+	{
+		to_insert.set_type(SymType::ArrayVarName);
+	}
 	to_insert.set_var_type(BuiltinTypename::Int);
 
 	if (subscript <= 0)
@@ -124,7 +136,7 @@ antlrcpp::Any Interpreter::visitVarDecl
 	{
 		to_insert.data().push_back(0);
 	}
-	__sym_tbl.insert_or_assign(std::move(to_insert));
+	sym_tbl().insert_or_assign(std::move(to_insert));
 
 	return nullptr;
 }
@@ -137,7 +149,7 @@ antlrcpp::Any Interpreter::visitAssignment
 	auto some_ident = pop_str();
 	const unsigned int subscript = pop_num();
 
-	auto sym = __sym_tbl.find(*some_ident);
+	auto sym = sym_tbl().find(*some_ident);
 
 	if (sym == nullptr)
 	{
@@ -146,11 +158,11 @@ antlrcpp::Any Interpreter::visitAssignment
 		exit(1);
 	}
 
-	if (subscript >= sym->data().size())
+	if (subscript >= sym->size())
 	{
 		printerr("Subscript of ", subscript, 
 			" is out of range for array called \"", *some_ident, 
-			"\"!  Note:  array has size of ", sym->data().size(), 
+			"\"!  Note:  array has size of ", sym->size(), 
 			".\n");
 		exit(1);
 	}
@@ -462,7 +474,7 @@ antlrcpp::Any Interpreter::visitExprMulDivModEtc
 		auto some_ident = pop_str();
 		const unsigned int subscript = pop_num();
 
-		auto sym = __sym_tbl.find(*some_ident);
+		auto sym = sym_tbl().find(*some_ident);
 
 		if (sym == nullptr)
 		{
@@ -471,11 +483,11 @@ antlrcpp::Any Interpreter::visitExprMulDivModEtc
 			exit(1);
 		}
 
-		if (subscript >= sym->data().size())
+		if (subscript >= sym->size())
 		{
 			printerr("Subscript of ", subscript, 
 				" is out of range for array called \"", *some_ident, 
-				"\"!  Note:  array has size of ", sym->data().size(), 
+				"\"!  Note:  array has size of ", sym->size(), 
 				".\n");
 		}
 
@@ -548,12 +560,32 @@ antlrcpp::Any Interpreter::visitIdentExpr
 {
 	ctx->identName()->accept(this);
 
+	auto sym = sym_tbl().find(*get_top_str());
+
 	if (ctx->subscriptExpr())
 	{
+		if (sym != nullptr)
+		{
+			if (sym->type() != SymType::ArrayVarName)
+			{
+				printerr("Variable called \"", *get_top_str(),
+					"\" does not appear to be an array!\n");
+				exit(1);
+			}
+		}
 		ctx->subscriptExpr()->accept(this);
 	}
 	else
 	{
+		if (sym != nullptr)
+		{
+			if (sym->type() == SymType::ArrayVarName)
+			{
+				printerr("Variable called \"", *get_top_str(),
+					"\" appears to be an array!\n");
+				exit(1);
+			}
+		}
 		push_num(0);
 	}
 
@@ -569,10 +601,18 @@ antlrcpp::Any Interpreter::visitIdentDecl
 	if (ctx->subscriptConst())
 	{
 		ctx->subscriptConst()->accept(this);
+
+
+		// This is an array
+		push_num(1);
 	}
 	else
 	{
 		push_num(1);
+
+
+		// This is not an array
+		push_num(0);
 	}
 
 	return nullptr;

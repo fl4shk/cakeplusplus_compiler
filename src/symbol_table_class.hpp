@@ -14,8 +14,9 @@ enum class SymType : int
 	//// Used by the lexer, fixed by the parser
 	//UnknownUserIdent,
 
-	VarName,
-	//FuncName,
+	ScalarVarName,
+	ArrayVarName,
+	FuncName,
 	//StructName,
 };
 
@@ -45,8 +46,9 @@ public:		// functions
 	inline Symbol()
 	{
 	}
-	inline Symbol(const std::string& s_name, SymType s_type)
-		: __name(s_name), __type(s_type)
+	inline Symbol(const std::string& s_name, SymType s_type,
+		BuiltinTypename s_var_type)
+		: __name(s_name), __type(s_type), __var_type(s_var_type)
 	{
 	}
 	inline Symbol(const Symbol& to_copy) = default;
@@ -54,6 +56,11 @@ public:		// functions
 
 	inline Symbol& operator = (const Symbol& to_copy) = default;
 	inline Symbol& operator = (Symbol&& to_move) = default;
+
+	inline auto size() const
+	{
+		return __data.size();
+	}
 
 	gen_getter_and_setter_by_con_ref(name);
 	gen_setter_by_rval_ref(name);

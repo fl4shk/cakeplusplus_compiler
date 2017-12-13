@@ -109,6 +109,10 @@ protected:		// functions
 		__num_stack.pop();
 		return ret;
 	}
+	inline auto get_top_num()
+	{
+		return __num_stack.top();
+	}
 
 	inline void push_str(std::string* to_push)
 	{
@@ -120,8 +124,17 @@ protected:		// functions
 		__str_stack.pop();
 		return ret;
 	}
+	inline auto get_top_str()
+	{
+		return __str_stack.top();
+	}
 
 	//void get_subscript(std::vector<int>& ret);
+
+	inline auto& sym_tbl()
+	{
+		return __sym_tbl;
+	}
 
 };
 
