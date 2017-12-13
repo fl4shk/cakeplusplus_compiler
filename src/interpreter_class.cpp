@@ -137,6 +137,8 @@ antlrcpp::Any Interpreter::visitPutNStatement
 {
 	ctx->expr()->accept(this);
 	printout(pop_num(), "\n");
+
+	return nullptr;
 }
 antlrcpp::Any Interpreter::visitAssignment
 	(GrammarParser::AssignmentContext *ctx)
@@ -231,6 +233,7 @@ antlrcpp::Any Interpreter::visitWhileStatement
 	(GrammarParser::WhileStatementContext *ctx)
 {
 	//printout("visitWhileStatement()\n");
+
 
 	for (;;)
 	{
@@ -348,6 +351,8 @@ antlrcpp::Any Interpreter::visitExprLogical
 	{
 		return ctx->exprCompare()->accept(this);
 	}
+
+	return nullptr;
 }
 
 antlrcpp::Any Interpreter::visitExprCompare

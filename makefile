@@ -15,7 +15,7 @@ NS_DIRS:=$(SHARED_SRC_DIRS)
 
 # Comment out or un-comment out the next line to enable debugging stuff to
 # be generated
-DEBUG:=yeah do debug
+#DEBUG:=yeah do debug
 
 DEBUG_OPTIMIZATION_LEVEL:=-O0
 REGULAR_OPTIMIZATION_LEVEL:=-O2
@@ -165,7 +165,8 @@ all_pre_asmout :
 
 
 
-src/gen_src/GrammarParser.h : all_pre src/Grammar.g4
+src/gen_src/GrammarParser.h : src/Grammar.g4
+	if [ ! -d src/gen_src ]; then make all_pre; fi; \
 	cp src/Grammar.g4 src/gen_src \
 	&& cd src/gen_src \
 	&& antlr4 -no-listener -visitor -Dlanguage=Cpp Grammar.g4 \
