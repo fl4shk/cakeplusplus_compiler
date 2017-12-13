@@ -1,63 +1,88 @@
-#include "cstm_grammar_visitor_class.hpp"
+#include "interpreter_class.hpp"
+
 #include "allocation_stuff.hpp"
 
-CstmGrammarVisitor::~CstmGrammarVisitor()
+Interpreter::~Interpreter()
 {
-	//printout("~CstmGrammarVisitor()\n");
+	//printout("~Interpreter()\n");
 }
 
-antlrcpp::Any CstmGrammarVisitor::visitProgram
+antlrcpp::Any Interpreter::visitProgram
 	(GrammarParser::ProgramContext *ctx)
 {
 	printout("visitProgram()\n");
 	ctx->statements()->accept(this);
-	return 0;
+	return nullptr;
 }
 
-antlrcpp::Any CstmGrammarVisitor::visitStatements
+antlrcpp::Any Interpreter::visitStatements
 	(GrammarParser::StatementsContext *ctx)
 {
-	printout("visitStatements()\n");
+	//printout("visitStatements()\n");
+	__sym_tbl.mkscope();
 	ctx->listStatement()->accept(this);
-	return 0;
+	__sym_tbl.rmscope();
+	return nullptr;
 }
 
-antlrcpp::Any CstmGrammarVisitor::visitListStatement
+antlrcpp::Any Interpreter::visitListStatement
 	(GrammarParser::ListStatementContext *ctx)
 {
-	printout("visitListStatement()\n");
+	//printout("visitListStatement()\n");
 
 	
 	if (ctx->listStatement())
 	{
 		// Early statement first
-		printout("visitListStatement():  listStatement()\n");
+		//printout("visitListStatement():  listStatement()\n");
 		ctx->listStatement()->accept(this);
 	}
 	if (ctx->statement())
 	{
-		printout("visitListStatement():  statement()\n");
+		//printout("visitListStatement():  statement()\n");
 		ctx->statement()->accept(this);
 	}
 
-	return 0;
+	return nullptr;
 
 }
 
-antlrcpp::Any CstmGrammarVisitor::visitStatement
+antlrcpp::Any Interpreter::visitStatement
 	(GrammarParser::StatementContext *ctx)
 {
-	printout("visitStatement()\n");
+	//printout("visitStatement()\n");
 
 	if (ctx->statements())
 	{
-		printout("visitStatement():  statements()\n");
+		//printout("visitStatement():  statements()\n");
 		ctx->statements()->accept(this);
 	}
 	else if (ctx->expr())
 	{
+		//printout("visitStatement():  expr()\n");
 		ctx->expr()->accept(this);
-		printout("visitStatement():  expr():  ", pop_num(), "\n");
+		const int temp = pop_num();
+		//printout("visitStatement():  expr():  ", temp, "\n");
+	}
+	else if (ctx->assignment())
+	{
+		ctx->assignment()->accept(this);
+	}
+	else if (ctx->ifStatement())
+	{
+		ctx->ifStatement()->accept(this);
+	}
+	else if (ctx->ifChainStatement())
+	{
+		ctx->ifChainStatement()->accept(this);
+	}
+	else if (ctx->whileStatement())
+	{
+		ctx->whileStatement()->accept(this);
+	}
+	else if (ctx->doWhileStatement())
+	{
+		ctx->doWhileStatement()->accept(this);
 	}
 	else
 	{
@@ -65,46 +90,84 @@ antlrcpp::Any CstmGrammarVisitor::visitStatement
 		exit(1);
 	}
 
-	return 0;
+	return nullptr;
 }
 
-antlrcpp::Any CstmGrammarVisitor::visitAssignment
+antlrcpp::Any Interpreter::visitVarDecl
+	(GrammarParser::VarDeclContext *ctx)
+{
+	ctx->identDecl()->accept(this);
+	auto some_ident = pop_str();
+	const int subscript = pop_num();
+
+	if (__sym_tbl.find(*some_ident) != nullptr)
+	{
+		printerr("A variable called \"", *some_ident,
+			"\" already exists in this scope!\n");
+		exit(1);
+	}
+	Symbol to_insert(*some_ident, SymType::VarName);
+	to_insert.set_var_type(BuiltinTypename::Int);
+
+	if (subscript <= 0)
+	{
+		printerr("An array size of less than or equal to zero is an ",
+			"error!\n");
+		exit(1);
+	}
+
+	for (int i=0; i<subscript; ++i)
+	{
+		to_insert.data().push_back(0);
+	}
+	__sym_tbl.insert_or_assign(std::move(to_insert));
+
+	return nullptr;
+}
+antlrcpp::Any Interpreter::visitAssignment
 	(GrammarParser::AssignmentContext *ctx)
 {
-	return 0;
+	//printout("visitAssignment()\n");
+	return nullptr;
 }
 
 
-antlrcpp::Any CstmGrammarVisitor::visitIfStatement
+antlrcpp::Any Interpreter::visitIfStatement
 	(GrammarParser::IfStatementContext *ctx)
 {
-	return 0;
+	//printout("visitIfStatement()\n");
+	return nullptr;
 }
-antlrcpp::Any CstmGrammarVisitor::visitIfChainStatement
+antlrcpp::Any Interpreter::visitIfChainStatement
 	(GrammarParser::IfChainStatementContext *ctx)
 {
-	return 0;
+	//printout("visitIfChainStatement()\n");
+	return nullptr;
 }
-antlrcpp::Any CstmGrammarVisitor::visitElseStatements
+antlrcpp::Any Interpreter::visitElseStatements
 	(GrammarParser::ElseStatementsContext *ctx)
 {
-	return 0;
+	//printout("visitElseStatements()\n");
+	return nullptr;
 }
-antlrcpp::Any CstmGrammarVisitor::visitWhileStatement
+antlrcpp::Any Interpreter::visitWhileStatement
 	(GrammarParser::WhileStatementContext *ctx)
 {
-	return 0;
+	//printout("visitWhileStatement()\n");
+	return nullptr;
 }
-antlrcpp::Any CstmGrammarVisitor::visitDoWhileStatement
+antlrcpp::Any Interpreter::visitDoWhileStatement
 	(GrammarParser::DoWhileStatementContext *ctx)
 {
-	return 0;
+	//printout("visitDoWhileStatement()\n");
+	return nullptr;
 }
 
 
-antlrcpp::Any CstmGrammarVisitor::visitExpr
+antlrcpp::Any Interpreter::visitExpr
 	(GrammarParser::ExprContext *ctx)
 {
+	//printout("visitExpr()\n");
 	if (ctx->expr())
 	{
 		ctx->expr()->accept(this);
@@ -133,12 +196,13 @@ antlrcpp::Any CstmGrammarVisitor::visitExpr
 		ctx->exprLogical()->accept(this);
 	}
 
-	return 0;
+	return nullptr;
 }
 
-antlrcpp::Any CstmGrammarVisitor::visitExprLogical
+antlrcpp::Any Interpreter::visitExprLogical
 	(GrammarParser::ExprLogicalContext *ctx)
 {
+	//printout("visitExprLogical()\n");
 	if (ctx->exprLogical())
 	{
 		ctx->exprLogical()->accept(this);
@@ -180,13 +244,14 @@ antlrcpp::Any CstmGrammarVisitor::visitExprLogical
 	}
 	else
 	{
-		return (int)ctx->exprCompare()->accept(this);
+		return ctx->exprCompare()->accept(this);
 	}
 }
 
-antlrcpp::Any CstmGrammarVisitor::visitExprCompare
+antlrcpp::Any Interpreter::visitExprCompare
 	(GrammarParser::ExprCompareContext *ctx)
 {
+	//printout("visitExprCompare()\n");
 	if (ctx->exprCompare())
 	{
 		ctx->exprCompare()->accept(this);
@@ -214,12 +279,13 @@ antlrcpp::Any CstmGrammarVisitor::visitExprCompare
 	{
 		ctx->exprAddSub()->accept(this);
 	}
-	return 0;
+	return nullptr;
 }
 
-antlrcpp::Any CstmGrammarVisitor::visitExprAddSub
+antlrcpp::Any Interpreter::visitExprAddSub
 	(GrammarParser::ExprAddSubContext *ctx)
 {
+	//printout("visitExprAddSub()\n");
 	if (ctx->exprAddSub())
 	{
 		ctx->exprAddSub()->accept(this);
@@ -287,25 +353,73 @@ antlrcpp::Any CstmGrammarVisitor::visitExprAddSub
 	{
 		ctx->exprMulDivModEtc()->accept(this);
 	}
-	return 0;
+	return nullptr;
 }
 
-antlrcpp::Any CstmGrammarVisitor::visitExprMulDivModEtc
+antlrcpp::Any Interpreter::visitExprMulDivModEtc
 	(GrammarParser::ExprMulDivModEtcContext *ctx)
 {
-	if (ctx->TokDecNum())
+	//printout("visitExprMulDivModEtc()\n");
+	if (ctx->identExpr())
 	{
+		ctx->identExpr()->accept(this);
+		auto some_ident = pop_str();
+		const unsigned int subscript = pop_num();
+
+		auto sym = __sym_tbl.find(*some_ident);
+
+		if (sym == nullptr)
+		{
+			printerr("No identifier called \"", *some_ident,
+				"\" exists in this scope!\n");
+			exit(1);
+		}
+
+		if (subscript >= sym->data().size())
+		{
+			printerr("Subscript of ", subscript, 
+				" is out of range for array called \"", *some_ident, 
+				"\"!  Note:  array has size of ", sym->data().size(), 
+				".\n");
+		}
+
+		push_num(sym->data().at(subscript));
+	}
+	else if (ctx->TokDecNum())
+	{
+		//printout("TokDecNum()\n");
 		push_num(atoi(ctx->TokDecNum()->toString().c_str()));
 	}
 	else
 	{
 		ctx->expr()->accept(this);
 	}
-	return 0;
+	return nullptr;
 }
 
-antlrcpp::Any CstmGrammarVisitor::visitIdentExpr
+antlrcpp::Any Interpreter::visitIdentExpr
 	(GrammarParser::IdentExprContext *ctx)
 {
-	return 0;
+	ctx->identName()->accept(this);
+
+	// Tempory subscript thing
+	push_num(0);
+	return nullptr;
+}
+
+antlrcpp::Any Interpreter::visitIdentDecl
+	(GrammarParser::IdentDeclContext *ctx)
+{
+	ctx->identName()->accept(this);
+
+	// Temporary subscript thing
+	push_num(1);
+
+	return nullptr;
+}
+antlrcpp::Any Interpreter::visitIdentName
+	(GrammarParser::IdentNameContext *ctx)
+{
+	push_str(cstm_strdup(ctx->TokIdent()->toString()));
+	return nullptr;
 }

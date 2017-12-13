@@ -27,6 +27,8 @@ public:
 
     virtual antlrcpp::Any visitStatement(GrammarParser::StatementContext *context) = 0;
 
+    virtual antlrcpp::Any visitVarDecl(GrammarParser::VarDeclContext *context) = 0;
+
     virtual antlrcpp::Any visitAssignment(GrammarParser::AssignmentContext *context) = 0;
 
     virtual antlrcpp::Any visitIfStatement(GrammarParser::IfStatementContext *context) = 0;
@@ -50,6 +52,10 @@ public:
     virtual antlrcpp::Any visitExprMulDivModEtc(GrammarParser::ExprMulDivModEtcContext *context) = 0;
 
     virtual antlrcpp::Any visitIdentExpr(GrammarParser::IdentExprContext *context) = 0;
+
+    virtual antlrcpp::Any visitIdentDecl(GrammarParser::IdentDeclContext *context) = 0;
+
+    virtual antlrcpp::Any visitIdentName(GrammarParser::IdentNameContext *context) = 0;
 
 
 };

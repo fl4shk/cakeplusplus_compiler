@@ -12,10 +12,10 @@
 class  GrammarLexer : public antlr4::Lexer {
 public:
   enum {
-    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, TokIf = 7, 
-    TokElse = 8, TokWhile = 9, TokDo = 10, LexWhitespace = 11, TokOpLogical = 12, 
-    TokOpCompare = 13, TokOpAddSub = 14, TokOpMulDivMod = 15, TokOpBitwise = 16, 
-    TokDecNum = 17, TokIdent = 18
+    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
+    TokIf = 8, TokElse = 9, TokWhile = 10, TokDo = 11, LexWhitespace = 12, 
+    TokOpLogical = 13, TokOpCompare = 14, TokOpAddSub = 15, TokOpMulDivMod = 16, 
+    TokOpBitwise = 17, TokDecNum = 18, TokIdent = 19
   };
 
   GrammarLexer(antlr4::CharStream *input);

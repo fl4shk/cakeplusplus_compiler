@@ -12,18 +12,18 @@
 class  GrammarParser : public antlr4::Parser {
 public:
   enum {
-    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, TokIf = 7, 
-    TokElse = 8, TokWhile = 9, TokDo = 10, LexWhitespace = 11, TokOpLogical = 12, 
-    TokOpCompare = 13, TokOpAddSub = 14, TokOpMulDivMod = 15, TokOpBitwise = 16, 
-    TokDecNum = 17, TokIdent = 18
+    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
+    TokIf = 8, TokElse = 9, TokWhile = 10, TokDo = 11, LexWhitespace = 12, 
+    TokOpLogical = 13, TokOpCompare = 14, TokOpAddSub = 15, TokOpMulDivMod = 16, 
+    TokOpBitwise = 17, TokDecNum = 18, TokIdent = 19
   };
 
   enum {
     RuleProgram = 0, RuleStatements = 1, RuleListStatement = 2, RuleStatement = 3, 
-    RuleAssignment = 4, RuleIfStatement = 5, RuleIfChainStatement = 6, RuleElseStatements = 7, 
-    RuleWhileStatement = 8, RuleDoWhileStatement = 9, RuleExpr = 10, RuleExprLogical = 11, 
-    RuleExprCompare = 12, RuleExprAddSub = 13, RuleExprMulDivModEtc = 14, 
-    RuleIdentExpr = 15
+    RuleVarDecl = 4, RuleAssignment = 5, RuleIfStatement = 6, RuleIfChainStatement = 7, 
+    RuleElseStatements = 8, RuleWhileStatement = 9, RuleDoWhileStatement = 10, 
+    RuleExpr = 11, RuleExprLogical = 12, RuleExprCompare = 13, RuleExprAddSub = 14, 
+    RuleExprMulDivModEtc = 15, RuleIdentExpr = 16, RuleIdentDecl = 17, RuleIdentName = 18
   };
 
   GrammarParser(antlr4::TokenStream *input);
@@ -40,6 +40,7 @@ public:
   class StatementsContext;
   class ListStatementContext;
   class StatementContext;
+  class VarDeclContext;
   class AssignmentContext;
   class IfStatementContext;
   class IfChainStatementContext;
@@ -51,7 +52,9 @@ public:
   class ExprCompareContext;
   class ExprAddSubContext;
   class ExprMulDivModEtcContext;
-  class IdentExprContext; 
+  class IdentExprContext;
+  class IdentDeclContext;
+  class IdentNameContext; 
 
   class  ProgramContext : public antlr4::ParserRuleContext {
   public:
@@ -95,6 +98,7 @@ public:
     StatementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     StatementsContext *statements();
+    VarDeclContext *varDecl();
     ExprContext *expr();
     AssignmentContext *assignment();
     IfStatementContext *ifStatement();
@@ -107,6 +111,18 @@ public:
   };
 
   StatementContext* statement();
+
+  class  VarDeclContext : public antlr4::ParserRuleContext {
+  public:
+    VarDeclContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IdentDeclContext *identDecl();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  VarDeclContext* varDecl();
 
   class  AssignmentContext : public antlr4::ParserRuleContext {
   public:
@@ -254,6 +270,7 @@ public:
   public:
     ExprMulDivModEtcContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    IdentExprContext *identExpr();
     antlr4::tree::TerminalNode *TokDecNum();
     ExprContext *expr();
 
@@ -267,13 +284,37 @@ public:
   public:
     IdentExprContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *TokIdent();
+    IdentNameContext *identName();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
   IdentExprContext* identExpr();
+
+  class  IdentDeclContext : public antlr4::ParserRuleContext {
+  public:
+    IdentDeclContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IdentNameContext *identName();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IdentDeclContext* identDecl();
+
+  class  IdentNameContext : public antlr4::ParserRuleContext {
+  public:
+    IdentNameContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *TokIdent();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  IdentNameContext* identName();
 
 
   virtual bool sempred(antlr4::RuleContext *_localctx, size_t ruleIndex, size_t predicateIndex) override;

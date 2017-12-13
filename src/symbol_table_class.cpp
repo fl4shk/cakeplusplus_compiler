@@ -1,8 +1,8 @@
 #include "symbol_table_class.hpp"
 
 
-// The symbol table
-SymbolTable sym_tbl;
+//// The symbol table
+//SymbolTable sym_tbl;
 
 
 //void mkscope()

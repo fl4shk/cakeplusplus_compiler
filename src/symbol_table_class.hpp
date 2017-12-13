@@ -104,6 +104,6 @@ public:		// functions
 
 //std::ostream& operator << (std::ostream& os, const SymType& to_print);
 
-extern SymbolTable sym_tbl;
+//extern SymbolTable sym_tbl;
 
 #endif		// symbol_table_class_hpp

@@ -1,22 +1,26 @@
-#ifndef cstm_grammar_visitor_class_hpp
-#define cstm_grammar_visitor_class_hpp
+#ifndef interpreter_class_hpp
+#define interpreter_class_hpp
 
 #include "misc_includes.hpp"
 #include "gen_src/GrammarLexer.h"
 #include "gen_src/GrammarParser.h"
 #include "gen_src/GrammarVisitor.h"
 
+#include "symbol_table_class.hpp"
+
 #include <stack>
 
 
-class CstmGrammarVisitor : public GrammarVisitor
+class Interpreter : public GrammarVisitor
 {
 protected:		// variables
 	Json::Value __output_root;
 	std::stack<int> __num_stack;
+	std::stack<std::string*> __str_stack;
+	SymbolTable __sym_tbl;
 
 public:		// functions
-	virtual ~CstmGrammarVisitor();
+	virtual ~Interpreter();
 	/**
 	* Visit parse trees produced by GrammarParser.
 	*/
@@ -32,6 +36,8 @@ public:		// functions
 	antlrcpp::Any visitStatement
 		(GrammarParser::StatementContext *ctx);
 
+    antlrcpp::Any visitVarDecl
+    	(GrammarParser::VarDeclContext *ctx);
 	antlrcpp::Any visitAssignment
 		(GrammarParser::AssignmentContext *ctx);
 	antlrcpp::Any visitIfStatement
@@ -58,19 +64,37 @@ public:		// functions
 	antlrcpp::Any visitIdentExpr
 		(GrammarParser::IdentExprContext *ctx);
 
+	antlrcpp::Any visitIdentDecl
+		(GrammarParser::IdentDeclContext *ctx);
+	antlrcpp::Any visitIdentName
+		(GrammarParser::IdentNameContext *ctx);
+
 protected:		// functions
 	inline void push_num(int to_push)
 	{
 		__num_stack.push(to_push);
 	}
-	inline int pop_num()
+	inline auto pop_num()
 	{
 		auto ret = __num_stack.top(); 
 		__num_stack.pop();
 		return ret;
 	}
 
+	inline void push_str(std::string* to_push)
+	{
+		__str_stack.push(to_push);
+	}
+	inline auto pop_str()
+	{
+		auto ret = __str_stack.top(); 
+		__str_stack.pop();
+		return ret;
+	}
+
+	void get_subscript(std::vector<int>& ret);
+
 };
 
 
-#endif		// cstm_grammar_visitor_class_hpp
+#endif		// interpreter_class_hpp

@@ -17,12 +17,17 @@ listStatement:
 
 statement:
 	statements
+	| varDecl ';'
 	| expr ';'
 	| assignment ';'
 	| ifStatement
 	| ifChainStatement 
 	| whileStatement 
 	| doWhileStatement
+	;
+
+varDecl:
+	'int' identDecl
 	;
 
 assignment:
@@ -75,12 +80,21 @@ exprAddSub:
 	;
 
 exprMulDivModEtc:
-	/* identExpr
-	| */ TokDecNum
+	identExpr
+	| TokDecNum
 	| '(' expr ')'
 	;
 
 identExpr:
+	identName
+	//| identName subscriptExpr
+	;
+identDecl:
+	identName
+	//| identName subscriptConst
+	;
+
+identName:
 	TokIdent
 	;
 

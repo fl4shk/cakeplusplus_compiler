@@ -31,6 +31,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitVarDecl(GrammarParser::VarDeclContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitAssignment(GrammarParser::AssignmentContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -76,6 +80,14 @@ public:
   }
 
   virtual antlrcpp::Any visitIdentExpr(GrammarParser::IdentExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitIdentDecl(GrammarParser::IdentDeclContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitIdentName(GrammarParser::IdentNameContext *ctx) override {
     return visitChildren(ctx);
   }
 
