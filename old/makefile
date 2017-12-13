@@ -1,8 +1,8 @@
 # These directories specify where source code files are located.
 # Edit these variables if more directories are needed.  
 # Separate each entry by spaces.
-#SHARED_SRC_DIRS:=$(CURDIR) src src/gen_src
-SHARED_SRC_DIRS:=src src/liborangepower_src src/gen_src
+#SHARED_SRC_DIRS:=$(CURDIR) src gen_src
+SHARED_SRC_DIRS:=src src/liborangepower_src gen_src
 CXX_DIRS:=$(SHARED_SRC_DIRS)
 C_DIRS:=$(SHARED_SRC_DIRS)
 S_DIRS:=$(SHARED_SRC_DIRS)
@@ -15,7 +15,7 @@ NS_DIRS:=$(SHARED_SRC_DIRS)
 
 # Comment out or un-comment out the next line to enable debugging stuff to
 # be generated
-DEBUG:=yeah do debug
+#DEBUG:=yeah do debug
 
 DEBUG_OPTIMIZATION_LEVEL:=-O0
 REGULAR_OPTIMIZATION_LEVEL:=-O2
@@ -38,7 +38,6 @@ PROJ:=$(shell basename $(CURDIR))$(DEBUG_SUFFIX)
 # Compilers and initial compiler flags
 CXX:=$(PREFIX)g++
 CXX_FLAGS:=$(CXX_FLAGS) -std=c++17 -Wall \
-	-I/home/fl4shk/local/include/antlr4-runtime/ \
 	$(shell pkg-config --cflags jsoncpp)
 
 CC:=$(PREFIX)gcc
@@ -54,8 +53,7 @@ OBJDUMP:=$(PREFIX)objdump
 LD:=$(CXX)
 
 # Initial linker flags
-LD_FLAGS:=$(LD_FLAGS) -L/home/fl4shk/local/lib -lm -ljsoncpp \
-	-lantlr4-runtime
+LD_FLAGS:=$(LD_FLAGS) -lm -ljsoncpp
 
 
 
@@ -136,8 +134,8 @@ CXX_EFILES:=$(CXX_SOURCES:%.cpp=$(PREPROCDIR)/%.E)
 EFILES:=$(CXX_EFILES)
 
 
-MODIFED_GENERATED_SOURCES:=
-FINAL_GENERATED_SOURCES:=src/gen_src/GrammarParser.h
+MODIFED_GENERATED_SOURCES:=gen_src/grammar.tab.cpp
+FINAL_GENERATED_SOURCES:=gen_src/lex.yy.c gen_src/grammar.tab.hh
 GENERATED_SOURCES:=$(MODIFED_GENERATED_SOURCES) \
 	$(FINAL_GENERATED_SOURCES)
 
@@ -158,19 +156,24 @@ do_asmouts : all_pre all_pre_asmout $(ASMOUTS)
 	@#
 
 all_pre :
-	mkdir -p $(OBJDIR) $(DEPDIR) src/gen_src/
+	mkdir -p $(OBJDIR) $(DEPDIR) gen_src
 
 all_pre_asmout :
 	mkdir -p $(ASMOUTDIR)
 
 
 
-src/gen_src/GrammarParser.h : all_pre src/Grammar.g4
-	cp src/Grammar.g4 src/gen_src \
-	&& cd src/gen_src \
-	&& antlr4 -no-listener -visitor -Dlanguage=Cpp Grammar.g4 \
-	&& rm Grammar.g4
 
+gen_src/lex.yy.c : src/lexicals.l
+	cd src && flex lexicals.l && mv lex.yy.c ../gen_src/lex.yy.c
+
+gen_src/grammar.tab.cpp : src/grammar.yy src/misc_bison_stuff.hpp
+	cd src && bison -d grammar.yy \
+	&& find . -type f -iname "grammar.tab.cc" -print0 \
+	| xargs -0 sed -i 's/grammar\.tab\.cc/grammar.tab.cpp/g' \
+	&& mv grammar.tab.cc ../gen_src/grammar.tab.cpp
+gen_src/grammar.tab.hh : src/grammar.yy src/misc_bison_stuff.hpp
+	mv src/grammar.tab.hh gen_src/grammar.tab.hh
 
 # Here's where things get really messy.
 $(CXX_OFILES) : $(OBJDIR)/%.o : %.cpp 
@@ -247,7 +250,7 @@ $(CXX_EFILES) : $(PREPROCDIR)/%.E : %.cpp
 
 .PHONY : clean
 clean :
-	rm -rfv $(OBJDIR) $(DEPDIR) $(ASMOUTDIR) $(PREPROCDIR) $(PROJ) tags *.taghl gmon.out $(GENERATED_SOURCES) src/gen_src
+	rm -rfv $(OBJDIR) $(DEPDIR) $(ASMOUTDIR) $(PREPROCDIR) $(PROJ) tags *.taghl gmon.out $(GENERATED_SOURCES)
 
 # Flags for make disassemble*
 DISASSEMBLE_FLAGS:=$(DISASSEMBLE_BASE_FLAGS) -C -d 

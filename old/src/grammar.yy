@@ -77,21 +77,6 @@ list_statement:
 		}
 	;
 
-list_ident:
-	TokIdent
-	{
-		printout("list_ident:  single TokIdent\n");
-		$$ = ast.gen_list_ident();
-		$$->append_to_list($1);
-	}
-	| list_ident ',' TokIdent
-		{
-			printout("list_ident:  more than one TokIdent\n");
-			$1->append_to_list($3);
-			$$ = $1;
-		}
-	;
-
 list_no_type_decl:
 	TokIdent
 	{
@@ -100,16 +85,12 @@ list_no_type_decl:
 
 statement:
 	statements
-	{
-		$$ = $1;
-	}
-	| TokIdent '=' expr ';'
 		{
-			$$ = ast.gen_assign($1, $3);
+			$$ = $1;
 		}
-	| TokIdent '[' expr ']' '=' expr ';'
+	| assignment ';'
 		{
-			$$ = ast.gen_indexed_assign($1, $3, $6);
+			$$ = $1;
 		}
 	| TokIf '(' expr ')' statements
 		{
@@ -131,45 +112,18 @@ statement:
 		{
 			$$ = $1;
 		}
-	| extra_var_decl ';'
-		{
-			$$ = $1;
-		}
-	| multi_var_decl ';'
-		{
-			$$ = $1;
-		}
 	;
+
+assignment:
+	{
+	}
+	;
+
 
 var_decl:
-	TokBuiltinTypename TokIdent
-		{
-			$$ = ast.gen_var_decl_simple($1, $2);
-		}
-	| TokBuiltinTypename TokIdent '[' TokDecNum ']'
-		{
-			$$ = ast.gen_var_decl_array($1, $2, $4);
-		}
+	{
+	}
 	;
-
-extra_var_decl:
-	TokBuiltinTypename TokIdent '=' expr
-		{
-			$$ = ast.gen_var_decl_with_init($1, $2, $4);
-		}
-	;
-
-multi_var_decl:
-	TokBuiltinTypename list_no_type_decl
-		{
-			$$ = ast.gen_multi_var_decl($1);
-			for (auto* p : $2->list)
-			{
-				//$$->append_to_list(p);
-			}
-		}
-	;
-
 
 expr:
 	expr_logical
@@ -220,14 +174,9 @@ expr_add_sub:
 	;
 
 expr_mul_div_mod_etc:
-	TokIdent
+	load_expr
 		{
-			//$$ = ast.gen_ident($1);
-			$$ = ast.gen_load($1);
-		}
-	| TokIdent '[' expr ']'
-		{
-			$$ = ast.gen_indexed_load($1, $3);
+			$$ = $1;
 		}
 	| TokDecNum
 		{

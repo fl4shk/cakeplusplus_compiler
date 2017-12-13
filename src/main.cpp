@@ -1,25 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "misc_includes.hpp"
-#include "abstract_syntax_tree_class.hpp"
-//#include "semantic_analyzer_class.hpp"
-//#include "ir_code_generator_class.hpp"
-//#include "code_generator_class.hpp"
-#include "interpreter_class.hpp"
 
-#include "../gen_src/grammar.tab.hh"
 
+//#include "gen_src/GrammarLexer.h"
+//#include "gen_src/GrammarParser.h"
+//static constexpr int some_eof = EOF;
+#include "cstm_grammar_visitor_class.hpp"
 
 
 int main(int argc, char** argv)
 {
-	if (yyparse())
-	{
-		return 1;
-	}
-	ast.print_json();
+	std::string from_stdin(get_stdin_from_file());;
+
+	antlr4::ANTLRInputStream input(from_stdin);
+	GrammarLexer lexer(&input);
+	antlr4::CommonTokenStream tokens(&lexer);
+	tokens.fill();
+
+	GrammarParser parser(&tokens);
+	//antlr4::tree::ParseTree* tree = parser.program();
+	auto program = parser.program();
+
+	//printout(tree->toStringTree(&parser), "\n", "\n");
+	CstmGrammarVisitor visitor;
+	visitor.visitProgram(program);
 
 
-
-	//interpreter.interpret();
 
 	return 0;
 }
