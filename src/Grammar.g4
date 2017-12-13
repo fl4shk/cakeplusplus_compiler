@@ -19,6 +19,7 @@ statement:
 	statements
 	| varDecl ';'
 	| expr ';'
+	| putNStatement ';'
 	| assignment ';'
 	| ifStatement
 	| ifChainStatement 
@@ -28,6 +29,10 @@ statement:
 
 varDecl:
 	'int' identDecl
+	;
+
+putNStatement:
+	'putn' expr
 	;
 
 assignment:
@@ -81,22 +86,35 @@ exprAddSub:
 
 exprMulDivModEtc:
 	identExpr
-	| TokDecNum
+	| numExpr
 	| '(' expr ')'
 	;
 
 identExpr:
 	identName
-	//| identName subscriptExpr
+	| identName subscriptExpr
 	;
 identDecl:
 	identName
-	//| identName subscriptConst
+	| identName subscriptConst
 	;
 
 identName:
 	TokIdent
 	;
+
+numExpr:
+	TokDecNum
+	;
+
+subscriptExpr:
+	'[' expr ']'
+	;
+
+subscriptConst:
+	'[' numExpr ']'
+	;
+
 
 
 // Lexer rules

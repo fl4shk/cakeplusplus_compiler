@@ -38,6 +38,8 @@ public:		// functions
 
     antlrcpp::Any visitVarDecl
     	(GrammarParser::VarDeclContext *ctx);
+    antlrcpp::Any visitPutNStatement
+    	(GrammarParser::PutNStatementContext *ctx);
 	antlrcpp::Any visitAssignment
 		(GrammarParser::AssignmentContext *ctx);
 	antlrcpp::Any visitIfStatement
@@ -69,6 +71,15 @@ public:		// functions
 	antlrcpp::Any visitIdentName
 		(GrammarParser::IdentNameContext *ctx);
 
+	antlrcpp::Any visitNumExpr
+		(GrammarParser::NumExprContext *ctx);
+
+	antlrcpp::Any visitSubscriptExpr
+		(GrammarParser::SubscriptExprContext *ctx);
+
+	antlrcpp::Any visitSubscriptConst
+		(GrammarParser::SubscriptConstContext *ctx);
+
 protected:		// functions
 	inline void push_num(int to_push)
 	{
@@ -92,7 +103,7 @@ protected:		// functions
 		return ret;
 	}
 
-	void get_subscript(std::vector<int>& ret);
+	//void get_subscript(std::vector<int>& ret);
 
 };
 

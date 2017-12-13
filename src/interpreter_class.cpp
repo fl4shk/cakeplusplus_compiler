@@ -10,7 +10,7 @@ Interpreter::~Interpreter()
 antlrcpp::Any Interpreter::visitProgram
 	(GrammarParser::ProgramContext *ctx)
 {
-	printout("visitProgram()\n");
+	//printout("visitProgram()\n");
 	ctx->statements()->accept(this);
 	return nullptr;
 }
@@ -56,6 +56,14 @@ antlrcpp::Any Interpreter::visitStatement
 	{
 		//printout("visitStatement():  statements()\n");
 		ctx->statements()->accept(this);
+	}
+	else if (ctx->varDecl())
+	{
+		ctx->varDecl()->accept(this);
+	}
+	else if (ctx->putNStatement())
+	{
+		ctx->putNStatement()->accept(this);
 	}
 	else if (ctx->expr())
 	{
@@ -124,10 +132,41 @@ antlrcpp::Any Interpreter::visitVarDecl
 
 	return nullptr;
 }
+antlrcpp::Any Interpreter::visitPutNStatement
+	(GrammarParser::PutNStatementContext *ctx)
+{
+	ctx->expr()->accept(this);
+	printout(pop_num(), "\n");
+}
 antlrcpp::Any Interpreter::visitAssignment
 	(GrammarParser::AssignmentContext *ctx)
 {
 	//printout("visitAssignment()\n");
+	ctx->identExpr()->accept(this);
+	auto some_ident = pop_str();
+	const unsigned int subscript = pop_num();
+
+	auto sym = __sym_tbl.find(*some_ident);
+
+	if (sym == nullptr)
+	{
+		printerr("No identifier called \"", *some_ident,
+			"\" exists in this scope!\n");
+		exit(1);
+	}
+
+	if (subscript >= sym->data().size())
+	{
+		printerr("Subscript of ", subscript, 
+			" is out of range for array called \"", *some_ident, 
+			"\"!  Note:  array has size of ", sym->data().size(), 
+			".\n");
+		exit(1);
+	}
+
+	ctx->expr()->accept(this);
+	sym->data().at(subscript) = pop_num();
+
 	return nullptr;
 }
 
@@ -385,10 +424,14 @@ antlrcpp::Any Interpreter::visitExprMulDivModEtc
 
 		push_num(sym->data().at(subscript));
 	}
-	else if (ctx->TokDecNum())
+	//else if (ctx->TokDecNum())
+	//{
+	//	//printout("TokDecNum()\n");
+	//	push_num(atoi(ctx->TokDecNum()->toString().c_str()));
+	//}
+	else if (ctx->numExpr())
 	{
-		//printout("TokDecNum()\n");
-		push_num(atoi(ctx->TokDecNum()->toString().c_str()));
+		ctx->numExpr()->accept(this);
 	}
 	else
 	{
@@ -402,8 +445,16 @@ antlrcpp::Any Interpreter::visitIdentExpr
 {
 	ctx->identName()->accept(this);
 
-	// Tempory subscript thing
-	push_num(0);
+	if (ctx->subscriptExpr())
+	{
+		ctx->subscriptExpr()->accept(this);
+	}
+	else
+	{
+		push_num(0);
+	}
+
+
 	return nullptr;
 }
 
@@ -412,8 +463,14 @@ antlrcpp::Any Interpreter::visitIdentDecl
 {
 	ctx->identName()->accept(this);
 
-	// Temporary subscript thing
-	push_num(1);
+	if (ctx->subscriptConst())
+	{
+		ctx->subscriptConst()->accept(this);
+	}
+	else
+	{
+		push_num(1);
+	}
 
 	return nullptr;
 }
@@ -421,5 +478,26 @@ antlrcpp::Any Interpreter::visitIdentName
 	(GrammarParser::IdentNameContext *ctx)
 {
 	push_str(cstm_strdup(ctx->TokIdent()->toString()));
+	return nullptr;
+}
+
+antlrcpp::Any Interpreter::visitNumExpr
+	(GrammarParser::NumExprContext* ctx)
+{
+	push_num(atoi(ctx->TokDecNum()->toString().c_str()));
+	return nullptr;
+}
+antlrcpp::Any Interpreter::visitSubscriptExpr
+	(GrammarParser::SubscriptExprContext* ctx)
+{
+	ctx->expr()->accept(this);
+	return nullptr;
+}
+
+
+antlrcpp::Any Interpreter::visitSubscriptConst
+	(GrammarParser::SubscriptConstContext* ctx)
+{
+	ctx->numExpr()->accept(this);
 	return nullptr;
 }
