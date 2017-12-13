@@ -175,30 +175,93 @@ antlrcpp::Any Interpreter::visitIfStatement
 	(GrammarParser::IfStatementContext *ctx)
 {
 	//printout("visitIfStatement()\n");
+
+	ctx->expr()->accept(this);
+	const int expr = pop_num();
+
+	if (expr)
+	{
+		ctx->statements()->accept(this);
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Interpreter::visitIfChainStatement
 	(GrammarParser::IfChainStatementContext *ctx)
 {
 	//printout("visitIfChainStatement()\n");
+
+	ctx->expr()->accept(this);
+	const int expr = pop_num();
+
+	if (expr)
+	{
+		ctx->statements()->accept(this);
+	}
+	else
+	{
+		ctx->elseStatements()->accept(this);
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Interpreter::visitElseStatements
 	(GrammarParser::ElseStatementsContext *ctx)
 {
 	//printout("visitElseStatements()\n");
+
+	if (ctx->ifChainStatement())
+	{
+		ctx->ifChainStatement()->accept(this);
+	}
+	else if (ctx->statements())
+	{
+		ctx->statements()->accept(this);
+	}
+	else
+	{
+		printerr("visitElseStatements():  Eek!\n");
+		exit(1);
+	}
+
+
 	return nullptr;
 }
 antlrcpp::Any Interpreter::visitWhileStatement
 	(GrammarParser::WhileStatementContext *ctx)
 {
 	//printout("visitWhileStatement()\n");
+
+	for (;;)
+	{
+		ctx->expr()->accept(this);
+
+		const int expr = pop_num();
+
+		if (!expr)
+		{
+			break;
+		}
+
+		ctx->statements()->accept(this);
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Interpreter::visitDoWhileStatement
 	(GrammarParser::DoWhileStatementContext *ctx)
 {
 	//printout("visitDoWhileStatement()\n");
+
+	int expr;
+	do
+	{
+		ctx->statements()->accept(this);
+
+		ctx->expr()->accept(this);
+		expr = pop_num();
+	} while (expr);
+
 	return nullptr;
 }
 

@@ -1,11 +1,13 @@
 {
-	int i = 1;
+	int i;
+	
+	i = 1;
+	putn i;
 
-	int a, b, c;
-
-	while (i < 2)
+	while (i < 9000)
 	{
 		i = i + 1;
+		putn i;
 	}
 
 }
