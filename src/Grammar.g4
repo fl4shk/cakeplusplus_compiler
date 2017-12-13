@@ -91,15 +91,15 @@ exprMulDivModEtc:
 
 
 builtinFunc:
-	putnFunc
-	| getnumFunc 
+	putnBuiltinFunc
+	| getnumBuiltinFunc 
 	;
 
-putnFunc:
+putnBuiltinFunc:
 	'putn' '(' expr ')'
 	;
 
-getnumFunc:
+getnumBuiltinFunc:
 	// force putting "()" right after "getnum" because I don't like other
 	// styles
 	'getnum()'

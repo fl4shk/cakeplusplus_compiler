@@ -504,13 +504,13 @@ antlrcpp::Any Interpreter::visitExprMulDivModEtc
 antlrcpp::Any Interpreter::visitBuiltinFunc
 	(GrammarParser::BuiltinFuncContext *ctx)
 {
-	if (ctx->putnFunc())
+	if (ctx->putnBuiltinFunc())
 	{
-		ctx->putnFunc()->accept(this);
+		ctx->putnBuiltinFunc()->accept(this);
 	}
-	else if (ctx->getnumFunc())
+	else if (ctx->getnumBuiltinFunc())
 	{
-		ctx->getnumFunc()->accept(this);
+		ctx->getnumBuiltinFunc()->accept(this);
 	}
 	else
 	{
@@ -520,8 +520,8 @@ antlrcpp::Any Interpreter::visitBuiltinFunc
 	return nullptr;
 }
 
-antlrcpp::Any Interpreter::visitPutnFunc
-	(GrammarParser::PutnFuncContext *ctx)
+antlrcpp::Any Interpreter::visitPutnBuiltinFunc
+	(GrammarParser::PutnBuiltinFuncContext *ctx)
 {
 	ctx->expr()->accept(this);
 
@@ -533,8 +533,8 @@ antlrcpp::Any Interpreter::visitPutnFunc
 	return nullptr;
 }
 
-antlrcpp::Any Interpreter::visitGetnumFunc
-	(GrammarParser::GetnumFuncContext *ctx)
+antlrcpp::Any Interpreter::visitGetnumBuiltinFunc
+	(GrammarParser::GetnumBuiltinFuncContext *ctx)
 {
 	int to_push;
 	cin >> to_push;

@@ -65,10 +65,10 @@ public:		// functions
 
 	antlrcpp::Any visitBuiltinFunc
 		(GrammarParser::BuiltinFuncContext *ctx);
-	antlrcpp::Any visitPutnFunc
-		(GrammarParser::PutnFuncContext *ctx);
-	antlrcpp::Any visitGetnumFunc
-		(GrammarParser::GetnumFuncContext *ctx);
+	antlrcpp::Any visitPutnBuiltinFunc
+		(GrammarParser::PutnBuiltinFuncContext *ctx);
+	antlrcpp::Any visitGetnumBuiltinFunc
+		(GrammarParser::GetnumBuiltinFuncContext *ctx);
 
 	antlrcpp::Any visitIdentExpr
 		(GrammarParser::IdentExprContext *ctx);
