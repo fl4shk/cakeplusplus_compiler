@@ -2,12 +2,12 @@
 	int i;
 	
 	i = 1;
-	putn i;
+	putn(i);
 
 	while (i < 9000)
 	{
 		i = i + 1;
-		putn i;
+		putn(i);
 	}
 
 }

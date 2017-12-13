@@ -19,7 +19,6 @@ statement:
 	statements
 	| varDecl ';'
 	| expr ';'
-	| putNStatement ';'
 	| assignment ';'
 	| ifStatement
 	| ifChainStatement 
@@ -29,10 +28,6 @@ statement:
 
 varDecl:
 	'int' identDecl
-	;
-
-putNStatement:
-	'putn' expr
 	;
 
 assignment:
@@ -85,10 +80,31 @@ exprAddSub:
 	;
 
 exprMulDivModEtc:
-	identExpr
-	| numExpr
+	numExpr
+
+	// builtinFunc before identExpr
+	| builtinFunc
+
+	| identExpr
 	| '(' expr ')'
 	;
+
+
+builtinFunc:
+	putnFunc
+	| getnumFunc 
+	;
+
+putnFunc:
+	'putn' '(' expr ')'
+	;
+
+getnumFunc:
+	// force putting "()" right after "getnum" because I don't like other
+	// styles
+	'getnum()'
+	;
+
 
 identExpr:
 	identName

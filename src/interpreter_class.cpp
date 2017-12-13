@@ -61,10 +61,6 @@ antlrcpp::Any Interpreter::visitStatement
 	{
 		ctx->varDecl()->accept(this);
 	}
-	else if (ctx->putNStatement())
-	{
-		ctx->putNStatement()->accept(this);
-	}
 	else if (ctx->expr())
 	{
 		//printout("visitStatement():  expr()\n");
@@ -132,14 +128,7 @@ antlrcpp::Any Interpreter::visitVarDecl
 
 	return nullptr;
 }
-antlrcpp::Any Interpreter::visitPutNStatement
-	(GrammarParser::PutNStatementContext *ctx)
-{
-	ctx->expr()->accept(this);
-	printout(pop_num(), "\n");
 
-	return nullptr;
-}
 antlrcpp::Any Interpreter::visitAssignment
 	(GrammarParser::AssignmentContext *ctx)
 {
@@ -497,6 +486,10 @@ antlrcpp::Any Interpreter::visitExprMulDivModEtc
 	//	//printout("TokDecNum()\n");
 	//	push_num(atoi(ctx->TokDecNum()->toString().c_str()));
 	//}
+	else if (ctx->builtinFunc())
+	{
+		ctx->builtinFunc()->accept(this);
+	}
 	else if (ctx->numExpr())
 	{
 		ctx->numExpr()->accept(this);
@@ -505,6 +498,48 @@ antlrcpp::Any Interpreter::visitExprMulDivModEtc
 	{
 		ctx->expr()->accept(this);
 	}
+	return nullptr;
+}
+
+antlrcpp::Any Interpreter::visitBuiltinFunc
+	(GrammarParser::BuiltinFuncContext *ctx)
+{
+	if (ctx->putnFunc())
+	{
+		ctx->putnFunc()->accept(this);
+	}
+	else if (ctx->getnumFunc())
+	{
+		ctx->getnumFunc()->accept(this);
+	}
+	else
+	{
+		printerr("visitBuiltinFunc():  Eek!\n");
+		exit(1);
+	}
+	return nullptr;
+}
+
+antlrcpp::Any Interpreter::visitPutnFunc
+	(GrammarParser::PutnFuncContext *ctx)
+{
+	ctx->expr()->accept(this);
+
+	const int to_print = pop_num();
+	printout(to_print, "\n");
+
+	push_num(to_print);
+
+	return nullptr;
+}
+
+antlrcpp::Any Interpreter::visitGetnumFunc
+	(GrammarParser::GetnumFuncContext *ctx)
+{
+	int to_push;
+	cin >> to_push;
+	push_num(to_push);
+
 	return nullptr;
 }
 

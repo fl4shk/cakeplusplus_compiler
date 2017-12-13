@@ -167,8 +167,7 @@ all_pre_asmout :
 
 src/gen_src/GrammarParser.h : src/Grammar.g4
 	if [ ! -d src/gen_src ]; then make all_pre; fi; \
-	cp src/Grammar.g4 src/gen_src \
-	&& cd src/gen_src \
+	cp src/Grammar.g4 src/gen_src && cd src/gen_src \
 	&& antlr4 -no-listener -visitor -Dlanguage=Cpp Grammar.g4 \
 	&& rm Grammar.g4
 

@@ -38,8 +38,6 @@ public:		// functions
 
     antlrcpp::Any visitVarDecl
     	(GrammarParser::VarDeclContext *ctx);
-    antlrcpp::Any visitPutNStatement
-    	(GrammarParser::PutNStatementContext *ctx);
 	antlrcpp::Any visitAssignment
 		(GrammarParser::AssignmentContext *ctx);
 	antlrcpp::Any visitIfStatement
@@ -63,6 +61,15 @@ public:		// functions
 		(GrammarParser::ExprAddSubContext *ctx);
 	antlrcpp::Any visitExprMulDivModEtc
 		(GrammarParser::ExprMulDivModEtcContext *ctx);
+
+
+	antlrcpp::Any visitBuiltinFunc
+		(GrammarParser::BuiltinFuncContext *ctx);
+	antlrcpp::Any visitPutnFunc
+		(GrammarParser::PutnFuncContext *ctx);
+	antlrcpp::Any visitGetnumFunc
+		(GrammarParser::GetnumFuncContext *ctx);
+
 	antlrcpp::Any visitIdentExpr
 		(GrammarParser::IdentExprContext *ctx);
 
@@ -81,6 +88,17 @@ public:		// functions
 		(GrammarParser::SubscriptConstContext *ctx);
 
 protected:		// functions
+	//template<typename ContextType>
+	//inline bool attempt_accept(ContextType* ctx)
+	//{
+	//	if (ctx)
+	//	{
+	//		ctx->accept(this);
+	//		return true;
+	//	}
+	//	return false;
+	//}
+
 	inline void push_num(int to_push)
 	{
 		__num_stack.push(to_push);

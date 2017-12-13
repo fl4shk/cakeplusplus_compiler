@@ -8,6 +8,7 @@
 	{
 		i = i + 1;
 		arr[i] = i;
+		putn(arr[i]);
 	}
 
 }
