@@ -70,9 +70,14 @@ public:		// functions
 	antlrcpp::Any visitGetnumBuiltinFunc
 		(GrammarParser::GetnumBuiltinFuncContext *ctx);
 
+	antlrcpp::Any visitFuncCall
+		(GrammarParser::FuncCallContext *ctx);
+	antlrcpp::Any visitFuncCallArgsList
+		(GrammarParser::FuncCallArgsListContext *ctx);
+
+
 	antlrcpp::Any visitIdentExpr
 		(GrammarParser::IdentExprContext *ctx);
-
 	antlrcpp::Any visitIdentDecl
 		(GrammarParser::IdentDeclContext *ctx);
 	antlrcpp::Any visitIdentName

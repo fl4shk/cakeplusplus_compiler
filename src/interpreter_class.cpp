@@ -493,14 +493,13 @@ antlrcpp::Any Interpreter::visitExprMulDivModEtc
 
 		push_num(sym->data().at(subscript));
 	}
-	//else if (ctx->TokDecNum())
-	//{
-	//	//printout("TokDecNum()\n");
-	//	push_num(atoi(ctx->TokDecNum()->toString().c_str()));
-	//}
 	else if (ctx->builtinFunc())
 	{
 		ctx->builtinFunc()->accept(this);
+	}
+	else if (ctx->funcCall())
+	{
+		ctx->funcCall()->accept(this);
 	}
 	else if (ctx->numExpr())
 	{
@@ -553,6 +552,25 @@ antlrcpp::Any Interpreter::visitGetnumBuiltinFunc
 	push_num(to_push);
 
 	return nullptr;
+}
+antlrcpp::Any Interpreter::visitFuncCall
+	(GrammarParser::FuncCallContext *ctx)
+{
+	ctx->identName()->accept(this);
+	const auto& func_ident = *pop_str();
+
+	auto sym = sym_tbl().find(func_ident);
+	if (sym == nullptr)
+	{
+		printerr("No known function called \"", func_ident, "\"\n");
+		exit(1);
+	}
+
+	ctx->funcCallArgsList()->accept(this);
+}
+antlrcpp::Any Interpreter::visitFuncCallArgsList
+	(GrammarParser::FuncCallArgsListContext *ctx)
+{
 }
 
 antlrcpp::Any Interpreter::visitIdentExpr

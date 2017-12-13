@@ -85,7 +85,7 @@ exprMulDivModEtc:
 	// builtinFunc before identExpr
 	| builtinFunc
 
-	//| funcCall
+	| funcCall
 	| identExpr
 	| '(' expr ')'
 	;
@@ -106,15 +106,15 @@ getnumBuiltinFunc:
 	'getnum()'
 	;
 
-//funcCall:
-//	identName '(' funcArgsList ')' 
-//	;
-//
-//funcArgsList:
-//	expr
-//	| funcArgsList ',' expr
-//	| // allow having nothing
-//	;
+funcCall:
+	identName '(' funcCallArgsList ')' 
+	;
+
+funcCallArgsList:
+	expr
+	| funcCallArgsList ',' expr
+	| // allow having nothing
+	;
 
 
 identExpr:
