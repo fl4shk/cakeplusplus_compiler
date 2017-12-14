@@ -87,7 +87,7 @@ public:		// functions
 		at(level).insert_or_assign(std::move(to_insert_or_assign));
 	}
 
-	Type* find(const std::string& some_name) __attribute__((noinline))
+	Type* find(Ident some_name) __attribute__((noinline))
 	{
 		// Check builtins first.
 		if (table().at(builtin_scope_level).contains(some_name))
@@ -107,7 +107,7 @@ public:		// functions
 		return nullptr;
 	}
 
-	inline Type* find_in_this_level(const std::string& some_name)
+	inline Type* find_in_this_level(Ident some_name)
 	{
 		if (table().at(scope_lev()).contains(some_name))
 		{
@@ -117,12 +117,12 @@ public:		// functions
 		return nullptr;
 	}
 
-	//inline bool contains(const std::string& some_name) const
+	//inline bool contains(Ident some_name) const
 	//{
 	//	return (find(some_name) != nullptr);
 	//}
 
-	bool name_is_builtin(const std::string& some_name) const
+	bool name_is_builtin(Ident some_name) const
 	{
 		return table().at(builtin_scope_level).contains(some_name);
 	}

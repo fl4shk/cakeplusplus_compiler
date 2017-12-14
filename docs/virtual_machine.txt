@@ -1,0 +1,104 @@
+For simplicity, this is a stack machine.
+However, it is a modified one.
+
+
+Registers:
+  pc:   program counter
+  sp:   stack pointer
+  fp:   frame pointer (points to the start of the stack frame)
+  ap:   arg pointer (points to 
+  num_args:  number of arguments
+  vp:   var pointer (points to fp + 4)
+
+
+Stack frame:
+  fp - arg_space - 4:  old fp
+  fp - arg_space - 3:  old vp
+  fp - arg_space - 2:  old ap
+  fp - arg_space - 1:  old arg_space
+  fp - arg_space:  ap
+  fp + 0:  return address
+  fp + 1:  return value
+  fp + 3:  how much space allocated for local variables
+  fp + 4:  local variables
+
+
+Instructions:
+  const(immediate):
+    {
+      push(immediate);
+    }
+
+  arg(offset):
+    {
+      push(ap + offset);
+    }
+  var(offset):
+    {
+      push(vp + offset);
+    }
+
+  binop(type):
+    {
+      a = pop();
+      b = pop();
+
+      switch (type)
+      {
+        case ...:
+          push(a op b);
+          break;
+          ...
+      }
+    }
+
+  beq(offset):
+    {
+      a = pop();
+
+      if (a == 0)
+      {
+        pc = pc + offset;
+      }
+    }
+  bne(offset):
+    {
+      a = pop();
+
+      if (a != 0)
+      {
+        pc = pc + offset;
+      }
+    }
+
+
+  ld:
+    {
+      base = pop();
+      push(mem[base]);
+    }
+
+
+  ldx:
+    {
+      base = pop();
+      index = pop();
+      push(mem[base + index]);
+    }
+
+
+  st:
+    {
+      base = pop();
+      data = pop();
+      mem[base] = data;
+    }
+
+
+  stx:
+    {
+      base = pop();
+      index = pop();
+      data = pop();
+      mem[base + index] = data;
+    }

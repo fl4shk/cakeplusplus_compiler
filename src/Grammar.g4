@@ -2,17 +2,20 @@ grammar Grammar;
 
 // Parser rules
 program:
-	statements
+	funcDecl*
 	;
+
+funcDecl:
+	'int' identName '(' ((varDecl ',')* varDecl)? ')' statements
+	;
+
+funcCall:
+	identName '(' ((expr ',')* expr)? ')' 
+	;
+
 
 statements:
-	'{' listStatement '}'
-	;
-
-listStatement:
-	statement
-	| listStatement statement
-	| // allow having nothing
+	'{' statement* '}'
 	;
 
 statement:
@@ -82,38 +85,13 @@ exprAddSub:
 exprMulDivModEtc:
 	numExpr
 
-	// builtinFunc before identExpr
-	| builtinFunc
 
 	| funcCall
 	| identExpr
 	| '(' expr ')'
-	;
-
-
-builtinFunc:
-	putnBuiltinFunc
-	| getnumBuiltinFunc 
-	;
-
-putnBuiltinFunc:
-	'putn' '(' expr ')'
-	;
-
-getnumBuiltinFunc:
-	// force putting "()" right after "getnum" because I don't like other
-	// styles
-	'getnum()'
-	;
-
-funcCall:
-	identName '(' funcCallArgsList ')' 
-	;
-
-funcCallArgsList:
-	expr
-	| funcCallArgsList ',' expr
-	| // allow having nothing
+	//| '~' expr
+	//| '-' expr
+	//| '!' expr
 	;
 
 

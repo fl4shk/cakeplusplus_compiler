@@ -4,12 +4,13 @@
 
 #include "misc_includes.hpp"
 
+typedef std::string* Ident;
 
 template<typename Type>
 class IdentTable
 {
 private:		// variables
-	std::map<std::string, Type> __table;
+	std::map<Ident, Type> __table;
 
 public:		// functions
 	inline IdentTable()
@@ -17,17 +18,17 @@ public:		// functions
 	}
 
 	// Type accessors
-	inline Type& at(const std::string& some_name)
+	inline Type& at(Ident some_name)
 	{
 		return __table[some_name];
 	}
 
-	inline const Type& at(const std::string& some_name) const
+	inline const Type& at(Ident some_name) const
 	{
 		return __table.at(some_name);
 	}
 
-	inline bool contains(const std::string& some_name) const
+	inline bool contains(Ident some_name) const
 	{
 		return (__table.count(some_name) == 1);
 	}

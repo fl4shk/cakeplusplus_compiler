@@ -6,7 +6,7 @@
 #include "gen_src/GrammarParser.h"
 #include "gen_src/GrammarVisitor.h"
 
-#include "symbol_table_class.hpp"
+#include "symbol_table_classes.hpp"
 
 #include <stack>
 

@@ -1,4 +1,4 @@
-#include "symbol_table_class.hpp"
+#include "symbol_table_classes.hpp"
 
 
 //// The symbol table
@@ -21,5 +21,14 @@ SymbolTable::SymbolTable()
 }
 
 SymbolTable::~SymbolTable()
+{
+}
+
+
+FunctionTable::FunctionTable()
+{
+}
+
+FunctionTable::~FunctionTable()
 {
 }

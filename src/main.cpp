@@ -7,7 +7,8 @@
 //#include "gen_src/GrammarLexer.h"
 //#include "gen_src/GrammarParser.h"
 //static constexpr int some_eof = EOF;
-#include "interpreter_class.hpp"
+//#include "interpreter_class.hpp"
+#include "compiler_class.hpp"
 
 
 int main(int argc, char** argv)
@@ -23,8 +24,11 @@ int main(int argc, char** argv)
 	//antlr4::tree::ParseTree* tree = parser.program();
 	auto program = parser.program();
 
-	//printout(tree->toStringTree(&parser), "\n", "\n");
-	Interpreter visitor;
+	////printout(tree->toStringTree(&parser), "\n", "\n");
+	//Interpreter visitor;
+	//visitor.visitProgram(program);
+
+	Compiler visitor;
 	visitor.visitProgram(program);
 
 
