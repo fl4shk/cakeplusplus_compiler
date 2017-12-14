@@ -1,5 +1,6 @@
 For simplicity, this is a stack machine.
-However, it is a modified one.
+It uses byte addressing.
+The basic integer type is implemented as int64_t.
 
 
 Registers:
@@ -17,8 +18,11 @@ Stack frame:
   fp:                   return address
   fp + 8:               local variables
 
+Encodings:
+  
 
 Instructions:
+  // Implemented as 10 bytes
   constant(immediate):
     {
       push(immediate);
@@ -28,6 +32,7 @@ Instructions:
   //  {
   //    push(arg_space);
   //  }
+  get_retval
   arg:
     {
       push(fp - arg_space);
@@ -46,35 +51,38 @@ Instructions:
     }
 
 
-  ld:
+  ld(type):
     {
       base = pop();
-      push(mem[base]);
+      push((s64)*((type*)(&mem[base])));
     }
-  ldx:
-    {
-      base = pop();
-      index = pop();
-      push(mem[base + index]);
-    }
-  st:
-    {
-      base = pop();
-      data = pop();
-      mem[base] = data;
-    }
-  stx:
+  ldx(type):
     {
       base = pop();
       index = pop();
-      data = pop();
-      mem[base + index] = data;
+      push((s64)*((type*)(&mem[base + index])));
     }
+  st(type):
+    {
+      base = pop();
+      data = pop();
+      *((type*)(&mem[base])) = data;
+    }
+  stx(type):
+    {
+      base = pop();
+      index = pop();
+      data = pop();
+      *((type*)(&mem[base + index])) = data;
+    }
+
+  // Display 64-bit integer
   dispnum:
     {
       cout << pop();
     }
 
+  // Get 64-bit integer from standard input
   getnum:
     {
       cin >> a;
@@ -82,6 +90,8 @@ Instructions:
     }
 
 
+
+  // Binary operator, such as math, logic, bitwise, and comparisons.
   binop(type):
     {
       a = pop();
@@ -96,22 +106,26 @@ Instructions:
       }
     }
 
+
+  // Branch if equal to zero
   beq:
     {
-      a = pop();
+      val = pop();
       offset = pop();
 
-      if (a == 0)
+      if (val == 0)
       {
         pc = pc + offset;
       }
     }
+
+  // Branch if not equal to zero
   bne:
     {
-      a = pop();
+      val = pop();
       offset = pop();
 
-      if (a != 0)
+      if (val != 0)
       {
         pc = pc + offset;
       }
