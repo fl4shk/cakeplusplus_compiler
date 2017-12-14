@@ -6,37 +6,81 @@ Registers:
   pc:   program counter
   sp:   stack pointer
   fp:   frame pointer (points to the start of the stack frame)
-  ap:   arg pointer (points to 
-  num_args:  number of arguments
-  vp:   var pointer (points to fp + 4)
+  arg_space:  size of space allocated for arguments
 
 
 Stack frame:
-  fp - arg_space - 4:  old fp
-  fp - arg_space - 3:  old vp
-  fp - arg_space - 2:  old ap
-  fp - arg_space - 1:  old arg_space
-  fp - arg_space:  ap
-  fp + 0:  return address
-  fp + 1:  return value
-  fp + 3:  how much space allocated for local variables
-  fp + 4:  local variables
+  fp - arg_space - 24:   old fp
+  fp - arg_space - 16:   old arg_space
+  fp - arg_space - 8:   return value
+  fp - arg_space:       ap points to this
+  fp:                   return address
+  fp + 8:               local variables
 
 
 Instructions:
-  const(immediate):
+  constant(immediate):
     {
       push(immediate);
     }
 
-  arg(offset):
+  //get_arg_space:
+  //  {
+  //    push(arg_space);
+  //  }
+  arg:
     {
-      push(ap + offset);
+      push(fp - arg_space);
     }
-  var(offset):
+  argx:
     {
-      push(vp + offset);
+      push(fp - arg_space + pop());
     }
+  var:
+    {
+      push(fp + 8);
+    }
+  varx:
+    {
+      push(fp + 8 + pop());
+    }
+
+
+  ld:
+    {
+      base = pop();
+      push(mem[base]);
+    }
+  ldx:
+    {
+      base = pop();
+      index = pop();
+      push(mem[base + index]);
+    }
+  st:
+    {
+      base = pop();
+      data = pop();
+      mem[base] = data;
+    }
+  stx:
+    {
+      base = pop();
+      index = pop();
+      data = pop();
+      mem[base + index] = data;
+    }
+  dispnum:
+    {
+      cout << pop();
+    }
+
+  getnum:
+    {
+      cin >> a;
+      push(a);
+    }
+
 
   binop(type):
     {
@@ -52,53 +96,23 @@ Instructions:
       }
     }
 
-  beq(offset):
+  beq:
     {
       a = pop();
+      offset = pop();
 
       if (a == 0)
       {
         pc = pc + offset;
       }
     }
-  bne(offset):
+  bne:
     {
       a = pop();
+      offset = pop();
 
       if (a != 0)
       {
         pc = pc + offset;
       }
-    }
-
-
-  ld:
-    {
-      base = pop();
-      push(mem[base]);
-    }
-
-
-  ldx:
-    {
-      base = pop();
-      index = pop();
-      push(mem[base + index]);
-    }
-
-
-  st:
-    {
-      base = pop();
-      data = pop();
-      mem[base] = data;
-    }
-
-
-  stx:
-    {
-      base = pop();
-      index = pop();
-      data = pop();
-      mem[base + index] = data;
     }

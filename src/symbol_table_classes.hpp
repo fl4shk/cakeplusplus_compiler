@@ -28,7 +28,8 @@ enum class BuiltinTypename : int
 	//U8, U16, U32, U64,
 	//S8, S16, S32, S64,
 
-	Int,
+	//Int,
+	S64,
 };
 
 

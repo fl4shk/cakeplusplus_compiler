@@ -6,7 +6,7 @@ program:
 	;
 
 funcDecl:
-	'int' identName '(' ((varDecl ',')* varDecl)? ')' statements
+	's64' identName '(' ((varDecl ',')* varDecl)? ')' statements
 	;
 
 funcCall:
@@ -30,7 +30,7 @@ statement:
 	;
 
 varDecl:
-	'int' identDecl
+	's64' identDecl
 	;
 
 assignment:
