@@ -141,6 +141,16 @@ Instructions:
     {
       cout << pop();
     }
+  disp_num_unsigned:
+    {
+      cout << (uint64_t)pop();
+    }
+
+  // Display character
+  disp_char:
+    {
+      cout << (char)pop();
+    }
 
   // Display string
   disp_str:

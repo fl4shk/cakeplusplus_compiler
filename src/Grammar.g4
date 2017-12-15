@@ -2,11 +2,11 @@ grammar Grammar;
 
 // Parser rules
 program:
-	funcDecl*
+	funcDecl+
 	;
 
 funcDecl:
-	's64' identName '(' ((funcVarDecl ',')* funcVarDecl)? ')' statements
+	identName '(' ((funcVarDecl ',')* funcVarDecl)? ')' statements
 	;
 
 funcCall:
