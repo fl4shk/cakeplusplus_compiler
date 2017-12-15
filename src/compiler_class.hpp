@@ -28,19 +28,22 @@ public:		// functions
 
 	antlrcpp::Any visitFuncDecl
 		(GrammarParser::FuncDeclContext *ctx);
-
 	antlrcpp::Any visitFuncCall
 		(GrammarParser::FuncCallContext *ctx);
-
+	antlrcpp::Any visitFuncArgExpr
+		(GrammarParser::FuncArgExprContext *ctx);
 
 	antlrcpp::Any visitStatements
 		(GrammarParser::StatementsContext *ctx);
-
 	antlrcpp::Any visitStatement
 		(GrammarParser::StatementContext *ctx);
 
-    antlrcpp::Any visitVarDecl
-    	(GrammarParser::VarDeclContext *ctx);
+	antlrcpp::Any visitVarDecl
+		(GrammarParser::VarDeclContext *ctx);
+	antlrcpp::Any visitFuncVarDecl
+		(GrammarParser::FuncVarDeclContext *ctx);
+	antlrcpp::Any visitNonSizedArrayIdentName
+		(GrammarParser::NonSizedArrayIdentNameContext *ctx);
 	antlrcpp::Any visitAssignment
 		(GrammarParser::AssignmentContext *ctx);
 	antlrcpp::Any visitIfStatement
@@ -75,6 +78,11 @@ public:		// functions
 
 	antlrcpp::Any visitNumExpr
 		(GrammarParser::NumExprContext *ctx);
+
+	antlrcpp::Any visitLenExpr
+		(GrammarParser::LenExprContext *ctx);
+	antlrcpp::Any visitSizeofExpr
+		(GrammarParser::SizeofExprContext *ctx);
 
 	antlrcpp::Any visitSubscriptExpr
 		(GrammarParser::SubscriptExprContext *ctx);

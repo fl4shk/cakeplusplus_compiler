@@ -21,6 +21,11 @@ antlrcpp::Any Compiler::visitFuncCall
 	return nullptr;
 }
 
+antlrcpp::Any Compiler::visitFuncArgExpr
+	(GrammarParser::FuncArgExprContext *ctx)
+{
+	return nullptr;
+}
 
 antlrcpp::Any Compiler::visitStatements
 	(GrammarParser::StatementsContext *ctx)
@@ -36,6 +41,16 @@ antlrcpp::Any Compiler::visitStatement
 
 antlrcpp::Any Compiler::visitVarDecl
 	(GrammarParser::VarDeclContext *ctx)
+{
+	return nullptr;
+}
+antlrcpp::Any Compiler::visitFuncVarDecl
+	(GrammarParser::FuncVarDeclContext *ctx)
+{
+	return nullptr;
+}
+antlrcpp::Any Compiler::visitNonSizedArrayIdentName
+	(GrammarParser::NonSizedArrayIdentNameContext *ctx)
 {
 	return nullptr;
 }
@@ -119,6 +134,16 @@ antlrcpp::Any Compiler::visitNumExpr
 	return nullptr;
 }
 
+antlrcpp::Any Compiler::visitLenExpr
+	(GrammarParser::LenExprContext *ctx)
+{
+	return nullptr;
+}
+antlrcpp::Any Compiler::visitSizeofExpr
+	(GrammarParser::SizeofExprContext *ctx)
+{
+	return nullptr;
+}
 antlrcpp::Any Compiler::visitSubscriptExpr
 	(GrammarParser::SubscriptExprContext *ctx)
 {
