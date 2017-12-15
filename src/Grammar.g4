@@ -38,12 +38,16 @@ statement:
 	;
 
 varDecl:
-	's64' (identDecl ',')* identDecl
+	builtinTypename (identDecl ',')* identDecl
 	;
 
 funcVarDecl:
-	's64' identName
-	| 's64' nonSizedArrayIdentName
+	builtinTypename identName
+	| builtinTypename nonSizedArrayIdentName
+	;
+
+builtinTypename:
+	's64'
 	;
 
 

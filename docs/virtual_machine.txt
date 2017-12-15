@@ -82,8 +82,7 @@ Instructions:
 
   call:
     {
-      //call(pop());
-      call_sequence();
+      call_sequence(pop());
     }
 
   ret:

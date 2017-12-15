@@ -5,6 +5,8 @@
 
 #include "scoped_ident_table_class.hpp"
 
+#include "vm_code_class.hpp"
+
 enum class SymType : int
 {
 	//Keyword,
@@ -83,16 +85,20 @@ private:		// variables
 	// Local variables and stuff go into each Function's symbol table
 	SymbolTable __sym_tbl;
 
-	//VmCode* __code;
+	VmCode __code;
 
 
 public:		// functions
 	inline Function()
 	{
+		__code.next = &__code;
+		__code.prev = &__code;
 	}
 	inline Function(Ident s_name)
 		: __name(s_name)
 	{
+		__code.next = &__code;
+		__code.prev = &__code;
 	}
 	inline Function(Function&& to_move) = default;
 
@@ -101,6 +107,7 @@ public:		// functions
 	gen_getter_and_setter_by_val(name);
 	gen_getter_by_ref(sym_tbl);
 	//gen_getter_and_setter_by_val(code);
+	gen_getter_by_ref(code);
 };
 
 class FunctionTable : public IdentTable<Function>

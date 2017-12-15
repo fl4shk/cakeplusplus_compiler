@@ -49,6 +49,12 @@ antlrcpp::Any Compiler::visitFuncVarDecl
 {
 	return nullptr;
 }
+antlrcpp::Any Compiler::visitBuiltinTypename
+	(GrammarParser::BuiltinTypenameContext *ctx)
+{
+	return nullptr;
+}
+
 antlrcpp::Any Compiler::visitNonSizedArrayIdentName
 	(GrammarParser::NonSizedArrayIdentNameContext *ctx)
 {

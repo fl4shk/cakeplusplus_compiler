@@ -16,7 +16,7 @@ protected:		// variables
 
 	// Current function
 	Function* __curr_func;
-	//std::stack<VmCode*> __code_stack;
+	std::stack<VmCode*> __code_stack;
 
 public:		// functions
 	virtual ~Compiler();
@@ -42,6 +42,11 @@ public:		// functions
 		(GrammarParser::VarDeclContext *ctx);
 	antlrcpp::Any visitFuncVarDecl
 		(GrammarParser::FuncVarDeclContext *ctx);
+
+	antlrcpp::Any visitBuiltinTypename
+		(GrammarParser::BuiltinTypenameContext *ctx);
+
+
 	antlrcpp::Any visitNonSizedArrayIdentName
 		(GrammarParser::NonSizedArrayIdentNameContext *ctx);
 	antlrcpp::Any visitAssignment
