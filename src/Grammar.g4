@@ -6,7 +6,7 @@ program:
 	;
 
 funcDecl:
-	's64' identName '(' ((varDecl ',')* varDecl)? ')' statements
+	's64' identName '(' ((funcVarDecl ',')* funcVarDecl)? ')' statements
 	;
 
 funcCall:
@@ -31,6 +31,16 @@ statement:
 
 varDecl:
 	's64' identDecl
+	;
+
+funcVarDecl:
+	's64' identName
+	| 's64' nonSizedArrayIdentName
+	;
+
+
+nonSizedArrayIdentName:
+	identName '[' ']'
 	;
 
 assignment:

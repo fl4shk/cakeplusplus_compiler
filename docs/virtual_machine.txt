@@ -1,6 +1,7 @@
 For simplicity, this is a stack machine.
 It uses byte addressing.
 The basic integer type is implemented as int64_t.
+Other types of integers are supported for loads and stores.
 
 
 Registers:
@@ -11,28 +12,25 @@ Registers:
 
 
 Stack frame:
-  fp - arg_space - 24:   old fp
-  fp - arg_space - 16:   old arg_space
+  fp - arg_space - 24:  old fp
+  fp - arg_space - 16:  old arg_space
   fp - arg_space - 8:   return value
-  fp - arg_space:       ap points to this
+  fp - arg_space:       arguments to this specific call of the function
   fp:                   return address
-  fp + 8:               local variables
+  fp + 8:               local variables of this specific call of the
+                        function
 
 Encodings:
-  
+  No arguments:         Two bytes used, representing
+  constant(immediate):  
 
 Instructions:
-  // Implemented as 10 bytes
+  // Put constant value onto the stack
   constant(immediate):
     {
       push(immediate);
     }
 
-  //get_arg_space:
-  //  {
-  //    push(arg_space);
-  //  }
-  get_retval
   arg:
     {
       push(fp - arg_space);
@@ -48,6 +46,50 @@ Instructions:
   varx:
     {
       push(fp + 8 + pop());
+    }
+  get_pc:
+    {
+      push(pc);
+    }
+  jump:
+    {
+      pc = pop();
+    }
+
+  // Branch if equal to zero
+  beq:
+    {
+      val = pop();
+      offset = pop();
+
+      if (val == 0)
+      {
+        pc = pc + offset;
+      }
+    }
+
+  // Branch if not equal to zero
+  bne:
+    {
+      val = pop();
+      offset = pop();
+
+      if (val != 0)
+      {
+        pc = pc + offset;
+      }
+    }
+
+  call:
+    {
+      //call(pop());
+      call_sequence();
+    }
+
+  ret:
+    {
+      //return(pop());
+      return_sequence();
     }
 
 
@@ -76,22 +118,9 @@ Instructions:
       *((type*)(&mem[base + index])) = data;
     }
 
-  // Display 64-bit integer
-  dispnum:
-    {
-      cout << pop();
-    }
-
-  // Get 64-bit integer from standard input
-  getnum:
-    {
-      cin >> a;
-      push(a);
-    }
-
-
-
   // Binary operator, such as math, logic, bitwise, and comparisons.
+  // 
+  // Note:  there are both signed and unsigned comparisons
   binop(type):
     {
       a = pop();
@@ -107,26 +136,21 @@ Instructions:
     }
 
 
-  // Branch if equal to zero
-  beq:
+  // Display 64-bit integer
+  disp_num:
     {
-      val = pop();
-      offset = pop();
-
-      if (val == 0)
-      {
-        pc = pc + offset;
-      }
+      cout << pop();
     }
 
-  // Branch if not equal to zero
-  bne:
+  // Display string
+  disp_str:
     {
-      val = pop();
-      offset = pop();
+      cout << ((const char*)(&mem[pop()]));
+    }
 
-      if (val != 0)
-      {
-        pc = pc + offset;
-      }
+  // Get 64-bit integer from standard input
+  get_num:
+    {
+      cin >> a;
+      push(a);
     }
