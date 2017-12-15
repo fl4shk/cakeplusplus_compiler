@@ -1,4 +1,5 @@
 #include "compiler_class.hpp"
+#include "allocation_stuff.hpp"
 
 Compiler::~Compiler()
 {
@@ -7,12 +8,26 @@ Compiler::~Compiler()
 antlrcpp::Any Compiler::visitProgram
 	(GrammarParser::ProgramContext *ctx)
 {
+	auto&& funcDecl = ctx->funcDecl();
+
+	for (auto* decl : funcDecl)
+	{
+		decl->accept(this);
+	}
+
 	return nullptr;
 }
 
 antlrcpp::Any Compiler::visitFuncDecl
 	(GrammarParser::FuncDeclContext *ctx)
 {
+	ctx->identName()->accept(this);
+	auto ident = pop_str();
+
+	printout("I found this function:  ", *ident, "\n");
+
+	auto&& funcVarDecl = ctx->funcVarDecl();
+
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitFuncCall
@@ -131,6 +146,7 @@ antlrcpp::Any Compiler::visitIdentDecl
 antlrcpp::Any Compiler::visitIdentName
 	(GrammarParser::IdentNameContext *ctx)
 {
+	push_str(cstm_strdup(ctx->TokIdent()->toString()));
 	return nullptr;
 }
 

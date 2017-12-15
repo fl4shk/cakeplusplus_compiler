@@ -16,7 +16,10 @@ protected:		// variables
 
 	// Current function
 	Function* __curr_func;
-	std::stack<VmCode*> __code_stack;
+	//std::stack<VmCode*> __code_stack;
+
+	std::stack<s64> __num_stack;
+	std::stack<std::string*> __str_stack;
 
 public:		// functions
 	virtual ~Compiler();
@@ -94,6 +97,45 @@ public:		// functions
 
 	antlrcpp::Any visitSubscriptConst
 		(GrammarParser::SubscriptConstContext *ctx);
+
+protected:		// functions
+	inline void push_num(s64 to_push)
+	{
+		__num_stack.push(to_push);
+	}
+	inline auto pop_num()
+	{
+		auto ret = __num_stack.top(); 
+		__num_stack.pop();
+		return ret;
+	}
+	inline auto get_top_num()
+	{
+		return __num_stack.top();
+	}
+
+	inline void push_str(std::string* to_push)
+	{
+		__str_stack.push(to_push);
+	}
+	inline auto pop_str()
+	{
+		auto ret = __str_stack.top(); 
+		__str_stack.pop();
+		return ret;
+	}
+	inline auto get_top_str()
+	{
+		return __str_stack.top();
+	}
+	inline auto& curr_func()
+	{
+		return *__curr_func;
+	}
+	inline auto& sym_tbl()
+	{
+		return curr_func().sym_tbl();
+	}
 };
 
 #endif		// compiler_class_hpp
