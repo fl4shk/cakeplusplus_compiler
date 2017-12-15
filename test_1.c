@@ -1,8 +1,8 @@
 {
-	int arr[7];
-	int i = 1;
+	s64 arr[7];
+	s64 i = 1;
 
-	int a, b, c;
+	s64 a, b, c;
 
 	while (i < 2)
 	{

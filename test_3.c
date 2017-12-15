@@ -1,5 +1,5 @@
 {
-	int i;
+	s64 i;
 	
 	i = 1;
 	putn(i);

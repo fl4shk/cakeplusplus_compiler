@@ -10,7 +10,15 @@ funcDecl:
 	;
 
 funcCall:
-	identName '(' ((expr ',')* expr)? ')' 
+	identName '(' ((funcArgExpr ',')* funcArgExpr)? ')' 
+	;
+
+
+// Just so that there's a separate std::vector
+// Also, variables must be used for function arguments.  They are passed
+// by reference.
+funcArgExpr:
+	identName
 	;
 
 
@@ -30,7 +38,7 @@ statement:
 	;
 
 varDecl:
-	's64' identDecl
+	's64' (identDecl ',')* identDecl
 	;
 
 funcVarDecl:
@@ -98,10 +106,10 @@ exprMulDivModEtc:
 
 	| funcCall
 	| identExpr
+	| lenExpr
+	| sizeofExpr
 	| '(' expr ')'
-	//| '~' expr
-	//| '-' expr
-	//| '!' expr
+	| TokOpUnary expr
 	;
 
 
@@ -121,6 +129,14 @@ identName:
 
 numExpr:
 	TokDecNum
+	;
+
+lenExpr:
+	'len' '(' identExpr ')'
+	;
+
+sizeofExpr:
+	'sizeof' '(' identExpr ')'
 	;
 
 subscriptExpr:
@@ -144,5 +160,6 @@ TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
 TokOpAddSub: ('+' | '-') ;
 TokOpMulDivMod: ('*' | '/' | '%') ;
 TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
+TokOpUnary: ('~' | '-' | '!') ;
 TokDecNum: [0-9] ([0-9]*) ;
 TokIdent: [A-Za-z_] (([A-Za-z_] | [0-9])*) ;
