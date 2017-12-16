@@ -109,6 +109,7 @@ public:		// functions
 
 private:		// functions
 	// Generate data
+	void gen_no_ws(u16 data);
 	void gen_16(u16 data);
 	inline void gen_16(VmInstrOp data)
 	{

@@ -21,35 +21,65 @@ int Assembler::run()
 	return 0;
 }
 
-void Assembler::gen_16(u16 data)
+void Assembler::gen_no_ws(u16 data)
 {
 	if (__pass)
 	{
 		// Output big endian
 		printout(std::hex);
-		printout(get_bits_with_range(data, 15, 8), " ");
-		printout(get_bits_with_range(data, 7, 0), "\n");
+		//printout(get_bits_with_range(data, 15, 8), "");
+		//printout(get_bits_with_range(data, 7, 0), "\n");
+		const u32 a = get_bits_with_range(data, 15, 8);
+		const u32 b = get_bits_with_range(data, 7, 0);
+
+		if (a < 0x10)
+		{
+			printout(0);
+		}
+		printout(a);
+
+		if (b < 0x10)
+		{
+			printout(0);
+		}
+		printout(b);
+
 		printout(std::dec);
 	}
 	__pc += sizeof(data);
 }
-void Assembler::gen_64(u64 data)
+void Assembler::gen_16(u16 data)
 {
+	gen_no_ws(data);
+
 	if (__pass)
 	{
-		// Output big endian
-		printout(std::hex);
-		printout(get_bits_with_range(data, 63, 56), " ");
-		printout(get_bits_with_range(data, 55, 48), " ");
-		printout(get_bits_with_range(data, 47, 40), " ");
-		printout(get_bits_with_range(data, 39, 32), " ");
-		printout(get_bits_with_range(data, 31, 24), " ");
-		printout(get_bits_with_range(data, 23, 16), " ");
-		printout(get_bits_with_range(data, 15, 8), " ");
-		printout(get_bits_with_range(data, 7, 0), "\n");
-		printout(std::dec);
+		printout("\n");
 	}
-	__pc += sizeof(data);
+}
+void Assembler::gen_64(u64 data)
+{
+	gen_no_ws(get_bits_with_range(data, 63, 48));
+	if (__pass)
+	{
+		printout(" ");
+	}
+	gen_no_ws(get_bits_with_range(data, 47, 32));
+	if (__pass)
+	{
+		printout(" ");
+	}
+	gen_no_ws(get_bits_with_range(data, 31, 16));
+	if (__pass)
+	{
+		printout(" ");
+	}
+	gen_no_ws(get_bits_with_range(data, 15, 0));
+
+	if (__pass)
+	{
+		printout("\n");
+	}
 }
 
 antlrcpp::Any Assembler::visitProgram
