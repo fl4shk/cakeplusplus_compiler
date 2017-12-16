@@ -66,6 +66,12 @@ disassembly*.armasm
 *.sw[po]
 */tags
 */types_*.taghl
+cake++_compiler/src/tags
+cake++_compiler/src/types_*.taghl
+cake++_vm/src/tags
+cake++_vm/src/types_*.taghl
+cake++_vm_assembler/src/tags
+cake++_vm_assembler/src/types_*.taghl
 *.txt.ignore
 cake++_compiler/cake++_compiler
 cake++_compiler/cake++_compiler_debug
