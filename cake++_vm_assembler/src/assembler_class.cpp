@@ -267,12 +267,15 @@ antlrcpp::Any Assembler::visitInstrBeq
 		ctx->identName()->accept(this);
 
 		auto sym = sym_tbl().find_or_insert(pop_str());
-		gen_64(sym->addr() - pc());
+
+		// subtract 2 because of the gen_16(VmInstrOp::beq)
+		gen_64(sym->addr() - pc() - 2);
 	}
 	else if (ctx->expr())
 	{
 		ctx->expr()->accept(this);
-		gen_64(pop_num());
+		// subtract 2 because of the gen_16(VmInstrOp::beq)
+		gen_64(pop_num() - pc() - 2);
 	}
 	else
 	{
@@ -292,12 +295,14 @@ antlrcpp::Any Assembler::visitInstrBne
 		ctx->identName()->accept(this);
 
 		auto sym = sym_tbl().find_or_insert(pop_str());
-		gen_64(sym->addr() - pc());
+		// subtract 2 because of the gen_16(VmInstrOp::bne)
+		gen_64(sym->addr() - pc() - 2);
 	}
 	else if (ctx->expr())
 	{
 		ctx->expr()->accept(this);
-		gen_64(pop_num());
+		// subtract 2 because of the gen_16(VmInstrOp::bne)
+		gen_64(pop_num() - pc() - 2);
 	}
 	else
 	{
