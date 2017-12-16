@@ -1,8 +1,8 @@
-#ifndef vm_code_class_hpp
-#define vm_code_class_hpp
+#ifndef assembler_class_hpp
+#define assembler_class_hpp
 
 #include "misc_includes.hpp"
-//#include "allocation_stuff.hpp"
+
 
 enum class VmInstrOp : u16
 {
@@ -31,6 +31,8 @@ enum class VmInstrOp : u16
 	disp_char,
 	disp_str,
 	get_num,
+
+	quit,
 };
 
 enum class VmInstrLdStOp : u16
@@ -61,29 +63,37 @@ enum class VmInstrBinOp : u16
 	BitLsr,
 	BitAsr,
 
+
 	CmpEq,
 	CmpNe,
-	CmpLt,
-	CmpGt,
-	CmpLe,
-	CmpGe,
+
+
+	CmpULt,
+	CmpSLt,
+
+
+	CmpUGt,
+	CmpSGt,
+
+
+	CmpULe,
+	CmpSLe,
+
+
+	CmpUGe,
+	CmpSGe,
 };
 
-class VmCode
+class Assembler
 {
-public:		// variables
-	VmInstrOp op;
+private:		// variables
+	
 
-	union
-	{
-		VmInstrLdStOp ldst_op;
-		VmInstrBinOp bin_op;
-	};
+public:		// functions
+	
 
-	s64 immediate;
-
-	VmCode * next, * prev;
 };
 
 
-#endif		// vm_code_class_hpp
+
+#endif		// assembler_class_hpp

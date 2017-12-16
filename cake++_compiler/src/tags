@@ -1632,6 +1632,7 @@ getVocabulary	gen_src/GrammarLexer.cpp	/^dfa::Vocabulary& GrammarLexer::getVocab
 getVocabulary	gen_src/GrammarLexer.h	/^  virtual antlr4::dfa::Vocabulary& getVocabulary() const override;$/;"	kind:p	class:GrammarLexer	typeref:typename:antlr4::dfa::Vocabulary &	access:public	signature:() const
 getVocabulary	gen_src/GrammarParser.cpp	/^dfa::Vocabulary& GrammarParser::getVocabulary() const {$/;"	kind:f	class:GrammarParser	typeref:typename:dfa::Vocabulary &	signature:() const
 getVocabulary	gen_src/GrammarParser.h	/^  virtual antlr4::dfa::Vocabulary& getVocabulary() const override;$/;"	kind:p	class:GrammarParser	typeref:typename:antlr4::dfa::Vocabulary &	access:public	signature:() const
+get_arg_space	vm_code_class.hpp	/^	get_arg_space,$/;"	kind:e	enum:VmInstrOp	access:public
 get_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr Type get_bits(Type to_get_from, size_t mask, $/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:Type	signature:(Type to_get_from,size_t mask,size_t shift=0)
 get_bits_with_range	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr Type get_bits_with_range(Type to_get_from, $/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:Type	signature:(Type to_get_from,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
 get_hrc_now	liborangepower_src/time_stuff.hpp	/^	static inline auto get_hrc_now()$/;"	kind:f	class:liborangepower::time::Profiler	typeref:typename:auto	access:public	signature:()
@@ -2154,6 +2155,7 @@ scope_lev	scoped_ident_table_class.hpp	/^	inline s64 scope_lev() const$/;"	kind:
 scoped_ident_table_class_hpp	scoped_ident_table_class.hpp	/^#define scoped_ident_table_class_hpp$/;"	kind:d
 sempred	gen_src/GrammarParser.cpp	/^bool GrammarParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {$/;"	kind:f	class:GrammarParser	typeref:typename:bool	signature:(RuleContext * context,size_t ruleIndex,size_t predicateIndex)
 sempred	gen_src/GrammarParser.h	/^  virtual bool sempred(antlr4::RuleContext *_localctx, size_t ruleIndex, size_t predicateIndex) /;"	kind:p	class:GrammarParser	typeref:typename:bool	access:public	signature:(antlr4::RuleContext * _localctx,size_t ruleIndex,size_t predicateIndex)
+set_arg_space	vm_code_class.hpp	/^	set_arg_space,$/;"	kind:e	enum:VmInstrOp	access:public
 set_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void set_bits(Type& to_set, size_t mask)$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_set,size_t mask)
 size	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t size() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:size_t	access:public	signature:() const
 size	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t size() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:size_t	access:public	signature:() const

@@ -11,6 +11,8 @@ enum class VmInstrOp : u16
 	argx,
 	var,
 	varx,
+	get_arg_space,
+	set_arg_space,
 	get_pc,
 	jump,
 	beq,

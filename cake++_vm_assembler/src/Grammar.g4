@@ -2,85 +2,109 @@ grammar Grammar;
 
 // Parser rules
 program:
-	funcDecl+
+	line*
 	;
 
-funcDecl:
-	identName '(' ((funcVarDecl ',')* funcVarDecl)? ')' statements
+line:
+	label '\n'
+	| instruction '\n'
+	| comment '\n'
+	| '\n'
 	;
 
-funcCall:
-	identName '(' ((funcArgExpr ',')* funcArgExpr)? ')' 
+label:
+	identName ':'
 	;
 
-
-// Just so that there's a separate std::vector
-// Also, variables must be used for function arguments.  They are passed
-// by reference.
-funcArgExpr:
-	identName
-	;
-
-
-statements:
-	'{' statement* '}'
-	;
-
-statement:
-	statements
-	| varDecl ';'
-	| expr ';'
-	| assignment ';'
-	| ifStatement
-	| ifChainStatement 
-	| whileStatement 
-	| doWhileStatement
-	;
-
-varDecl:
-	builtinTypename (identDecl ',')* identDecl
-	;
-
-funcVarDecl:
-	builtinTypename identName
-	| builtinTypename nonSizedArrayIdentName
-	;
-
-builtinTypename:
-	's64'
+instruction:
+	instrConstant
+	| instrArg | instrArgX
+	| instrVar | instrVarX
+	| instrGetArgSpace | instrSetArgSpace
+	| instrGetPc | instrJump
+	| instrBeq | instrBne
+	| instrCall | instrRet
+	| instrLd | instrLdx | instrSt | instrStx
+	| instrBinop
+	| instrDispNum | instrDispNumUnsigned
+	| instrDispChar | instrDispStr
+	| instrGetNum
+	| instrQuit
 	;
 
 
-nonSizedArrayIdentName:
-	identName '[' ']'
+instrConstant:
+	'constant(' expr ')'
+	;
+instrArg:
+	'arg'
+	;
+instrArgX:
+	'argx'
+	;
+instrVar:
+	'var'
+	;
+instrVarX:
+	'varx'
+	;
+instrGetArgSpace:
+	'get_arg_space'
+	;
+instrSetArgSpace:
+	'set_arg_space'
+	;
+instrGetPc:
+	'get_pc'
+	;
+instrJump:
+	'jump'
+	;
+instrBeq:
+	'beq(' identName ')'
+	| 'beq(' expr ')'
+	;
+instrBne:
+	'bne(' identName ')'
+	| 'bne(' expr ')'
+	;
+instrCall:
+	'call(' identName ')'
+	| 'call(' expr ')'
+	;
+instrRet:
+	'ret'
+	;
+instrLd:
+	'ld(' TokBuiltinTypename ')'
+	;
+instrLdx:
+	'ldx(' TokBuiltinTypename ')'
+	;
+instrSt:
+	'st(' TokBuiltinTypename ')'
+	;
+instrStx:
+	'stx(' TokBuiltinTypename ')'
+	;
+instrBinop:
+	;
+instrDispNum:
+	;
+instrDispNumUnsigned:
+	;
+instrDispChar:
+	;
+instrDispStr:
+	;
+instrGetNum:
+	;
+instrQuit:
 	;
 
-assignment:
-	identExpr '=' expr
-	;
 
-ifStatement:
-	TokIf '(' expr ')' statements
-	;
-
-ifChainStatement:
-	TokIf '(' expr ')' statements TokElse elseStatements
-	;
-
-
-// Used so that if - else if - else chains can be formed correctly
-elseStatements:
-	ifChainStatement
-	| statements
-	;
-
-
-whileStatement:
-	TokWhile '(' expr ')' statements
-	;
-
-doWhileStatement:
-	TokDo statements TokWhile '(' expr ')'
+comment:
+	';' [^\n]*
 	;
 
 expr:
@@ -106,25 +130,10 @@ exprAddSub:
 
 exprMulDivModEtc:
 	numExpr
-
-
-	| funcCall
-	| identExpr
-	| lenExpr
-	| sizeofExpr
+	| identName
+	| currPc
 	| '(' expr ')'
 	| TokOpUnary expr
-	;
-
-
-identExpr:
-	identName
-	| identName subscriptExpr
-	;
-
-identDecl:
-	identName
-	| identName subscriptConst
 	;
 
 identName:
@@ -135,30 +144,25 @@ numExpr:
 	TokDecNum
 	;
 
-lenExpr:
-	'len' '(' identExpr ')'
-	;
-
-sizeofExpr:
-	'sizeof' '(' identExpr ')'
-	;
-
-subscriptExpr:
-	'[' expr ']'
-	;
-
-subscriptConst:
-	'[' numExpr ']'
+currPc:
+	'.'
 	;
 
 
 
 // Lexer rules
-TokIf: 'if' ;
-TokElse: 'else' ;
-TokWhile: 'while' ;
-TokDo: 'do' ;
-LexWhitespace: (' ' | '\t' | '\n') -> skip ;
+LexWhitespace: (' ' | '\t') -> skip ;
+TokBuiltinTypename: 
+	('basic' | 'u32' | 's32' | 'u16' | 's16' | 'u8' | 's8')
+	;
+TokBinOp:
+	( 'add' | 'sub' | 'mul' | 'sdiv' | 'udiv' | 'smod' | 'umod' 
+	| 'bitand' | 'bitor' | 'bitxor' | 'bitlsl' | 'bitlsr' | 'bitasr' 
+	| 'cmpeq' | 'cmpne' 
+	| 'cmpult' | 'cmpslt' | 'cmpugt' | 'cmpsgt' 
+	| 'cmpule' | 'cmpsle' | 'cmpuge' | 'cmpsge')
+	;
+
 TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
 TokOpAddSub: ('+' | '-') ;

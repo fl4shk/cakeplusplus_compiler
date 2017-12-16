@@ -290,6 +290,7 @@ generate_float_pt_vec2_extra_class_contents	liborangepower_src/vec2_classes.hpp	
 generate_specific_vec2_class_contents	liborangepower_src/vec2_classes.hpp	/^	generate_specific_vec2_class_contents(double);$/;"	kind:p	class:liborangepower::containers::Vec2	access:private	signature:(double)
 generate_specific_vec2_class_contents	liborangepower_src/vec2_classes.hpp	/^	generate_specific_vec2_class_contents(float);$/;"	kind:p	class:liborangepower::containers::Vec2	access:private	signature:(float)
 generate_specific_vec2_class_contents	liborangepower_src/vec2_classes.hpp	/^#define generate_specific_vec2_class_contents(/;"	kind:d	signature:(specific_type)
+get_arg_space	vm_class.hpp	/^	get_arg_space,$/;"	kind:e	enum:VmInstrOp	access:public
 get_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr Type get_bits(Type to_get_from, size_t mask, $/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:Type	signature:(Type to_get_from,size_t mask,size_t shift=0)
 get_bits_with_range	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr Type get_bits_with_range(Type to_get_from, $/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:Type	signature:(Type to_get_from,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
 get_hrc_now	liborangepower_src/time_stuff.hpp	/^	static inline auto get_hrc_now()$/;"	kind:f	class:liborangepower::time::Profiler	typeref:typename:auto	access:public	signature:()
@@ -308,7 +309,7 @@ get_mem_8	vm_class.cpp	/^u8 Vm::get_mem_8(size_t address) const$/;"	kind:f	class
 get_mem_8	vm_class.hpp	/^	u8 get_mem_8(size_t address) const;$/;"	kind:p	class:Vm	typeref:typename:u8	access:private	signature:(size_t address) const
 get_num	vm_class.hpp	/^	get_num,$/;"	kind:e	enum:VmInstrOp	access:public
 get_pc	vm_class.hpp	/^	get_pc,$/;"	kind:e	enum:VmInstrOp	access:public
-get_stdin_as_str	liborangepower_src/misc_input_classes.hpp	/^inline std::string get_stdin_as_str()$/;"	kind:f	namespace:liborangepower::misc_input	typeref:typename:std::string	signature:()
+get_stdin_from_file	liborangepower_src/misc_input_classes.hpp	/^inline std::string get_stdin_from_file()$/;"	kind:f	namespace:liborangepower::misc_input	typeref:typename:std::string	signature:()
 get_substr_size	liborangepower_src/str_split_helper_classes.hpp	/^	static inline size_t get_substr_size(const size_t start, $/;"	kind:f	class:liborangepower::strings::StrSplitHelperBase	typeref:typename:size_t	access:public	signature:(const size_t start,const size_t pos_after_end)
 has_changed	liborangepower_src/prev_curr_pair_class.hpp	/^	inline bool has_changed() const$/;"	kind:f	class:liborangepower::containers::PrevCurrPair	typeref:typename:bool	access:public	signature:() const
 height	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t height() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:size_t	access:public	signature:() const
@@ -505,7 +506,7 @@ liborangepower::json::write_json	liborangepower_src/json_stuff.hpp	/^inline void
 liborangepower::json::write_json	liborangepower_src/json_stuff.hpp	/^void write_json(Json::StreamWriterBuilder* wbuilder,$/;"	kind:p	namespace:liborangepower::json	typeref:typename:void	signature:(Json::StreamWriterBuilder * wbuilder,const std::string & output_file_name,Json::Value * root)
 liborangepower::json::write_json	liborangepower_src/json_stuff.hpp	/^void write_json(Json::StreamWriterBuilder* wbuilder,$/;"	kind:p	namespace:liborangepower::json	typeref:typename:void	signature:(Json::StreamWriterBuilder * wbuilder,std::ostream & os,Json::Value * root)
 liborangepower::misc_input	liborangepower_src/misc_input_classes.hpp	/^namespace misc_input$/;"	kind:n	namespace:liborangepower
-liborangepower::misc_input::get_stdin_as_str	liborangepower_src/misc_input_classes.hpp	/^inline std::string get_stdin_as_str()$/;"	kind:f	namespace:liborangepower::misc_input	typeref:typename:std::string	signature:()
+liborangepower::misc_input::get_stdin_from_file	liborangepower_src/misc_input_classes.hpp	/^inline std::string get_stdin_from_file()$/;"	kind:f	namespace:liborangepower::misc_input	typeref:typename:std::string	signature:()
 liborangepower::misc_util	liborangepower_src/memwhatever_wrappers.hpp	/^namespace misc_util$/;"	kind:n	namespace:liborangepower
 liborangepower::misc_util	liborangepower_src/misc_utility_funcs.hpp	/^namespace misc_util$/;"	kind:n	namespace:liborangepower
 liborangepower::misc_util::__init_array_backend	liborangepower_src/misc_utility_funcs.hpp	/^inline void __init_array_backend(Type* all_values_arr, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void	signature:(Type * all_values_arr,const Type & first_value,const RemainingTypes &...remaining_values)
@@ -747,6 +748,7 @@ s32	liborangepower_src/misc_types.hpp	/^typedef uint32_t u32; typedef int32_t s3
 s64	liborangepower_src/misc_types.hpp	/^typedef uint64_t u64; typedef int64_t s64;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:int64_t
 s8	liborangepower_src/misc_types.hpp	/^typedef uint8_t u8; typedef int8_t s8;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:int8_t
 sconcat	liborangepower_src/misc_output_classes.hpp	/^std::string sconcat(const FirstType& first_val, $/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:(const FirstType & first_val,RemArgTypes &&...rem_args)
+set_arg_space	vm_class.hpp	/^	set_arg_space,$/;"	kind:e	enum:VmInstrOp	access:public
 set_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void set_bits(Type& to_set, size_t mask)$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_set,size_t mask)
 set_mem_16	vm_class.cpp	/^u16 Vm::set_mem_16(size_t address, u16 data)$/;"	kind:f	class:Vm	typeref:typename:u16	signature:(size_t address,u16 data)
 set_mem_16	vm_class.hpp	/^	u16 set_mem_16(size_t address, u16 data);$/;"	kind:p	class:Vm	typeref:typename:u16	access:private	signature:(size_t address,u16 data)

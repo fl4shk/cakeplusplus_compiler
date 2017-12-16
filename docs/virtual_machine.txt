@@ -56,6 +56,14 @@ Instructions:
     {
       push(fp + 8 + pop());
     }
+  get_arg_space:
+    {
+      push(arg_space);
+    }
+  set_arg_space:
+    {
+      arg_space = pop();
+    }
   get_pc:
     {
       push(pc);
