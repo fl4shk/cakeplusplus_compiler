@@ -1,6 +1,10 @@
 For simplicity, this is a stack machine.
 It uses byte addressing.
 The basic integer type is implemented as int64_t.
+
+However, compares and divisions and remainders can be made to act as if
+both arguments are uint64_t.
+
 Other types of integers are supported for loads and stores.
 
 
@@ -22,7 +26,12 @@ Stack frame:
 
 Encodings:
   No arguments:         Two bytes used, representing
-  constant(immediate):  
+  constant(immediate):  10 bytes used
+  binop(type):          Four bytes used
+  ld(type):             Four bytes used
+  ldx(type):            Four bytes used
+  st(type):             Four bytes used
+  stx(type):            Four bytes used
 
 Instructions:
   // Put constant value onto the stack
@@ -57,10 +66,9 @@ Instructions:
     }
 
   // Branch if equal to zero
-  beq:
+  beq(offset):
     {
       val = pop();
-      offset = pop();
 
       if (val == 0)
       {
@@ -69,10 +77,9 @@ Instructions:
     }
 
   // Branch if not equal to zero
-  bne:
+  bne(offset):
     {
       val = pop();
-      offset = pop();
 
       if (val != 0)
       {
@@ -162,4 +169,9 @@ Instructions:
     {
       cin >> a;
       push(a);
+    }
+
+  quit:
+    {
+      exit(pop());
     }
