@@ -97,7 +97,14 @@ Instructions:
 
   call:
     {
-      call_sequence(pop());
+      // Address of function
+      address = pop();
+
+      // new arg_space
+      n_arg_space = pop();
+
+      // Stuff necessary for performing a function call
+      call_sequence(address, n_arg_space);
     }
 
   ret:
