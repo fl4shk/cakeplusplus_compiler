@@ -1,7 +1,7 @@
 main:
 	constant(3)
 	constant(9)
-	binop(add)
+	add
 	disp_num
 	quit
 

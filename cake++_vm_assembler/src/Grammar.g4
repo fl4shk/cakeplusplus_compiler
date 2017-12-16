@@ -86,7 +86,7 @@ instrStx:
 	'stx(' TokBuiltinTypename ')'
 	;
 instrBinop:
-	'binop(' TokBinOp ')'
+	TokBinOp
 	;
 instrDispNum:
 	'disp_num'
