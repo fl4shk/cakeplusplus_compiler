@@ -108,7 +108,20 @@ public:		// functions
 	int run();
 
 private:		// functions
+	// Generate data
 	void gen_16(u16 data);
+	inline void gen_16(VmInstrOp data)
+	{
+		gen_16(static_cast<u16>(data));
+	}
+	inline void gen_16(VmInstrLdStOp data)
+	{
+		gen_16(static_cast<u16>(data));
+	}
+	inline void gen_16(VmInstrBinOp data)
+	{
+		gen_16(static_cast<u16>(data));
+	}
 	void gen_64(u64 data);
 
 	/**
@@ -229,6 +242,7 @@ private:		// functions
 	}
 
 	gen_getter_and_setter_by_val(pc);
+	gen_getter_by_ref(sym_tbl);
 
 };
 

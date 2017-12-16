@@ -117,6 +117,24 @@ public:		// functions
 		return nullptr;
 	}
 
+	inline Type* find_or_insert(Ident some_name)
+	{
+		{
+			auto search = find(some_name);
+
+			if (search != nullptr)
+			{
+				return search;
+			}
+		}
+
+		Type to_insert;
+		to_insert.set_name(some_name);
+		insert_or_assign(std::move(to_insert));
+
+		return find(some_name);
+	}
+
 	//inline bool contains(Ident some_name) const
 	//{
 	//	return (find(some_name) != nullptr);

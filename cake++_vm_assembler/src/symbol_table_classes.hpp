@@ -12,6 +12,7 @@ private:		// variables
 	Ident __name;
 
 	u64 __addr = 0;
+	bool __found_as_label = false;
 
 
 public:		// functions
@@ -19,7 +20,7 @@ public:		// functions
 	{
 	}
 	inline Symbol(Ident s_name, u64 s_addr)
-		: __name(s_name), __addr(s_addr)
+		: __name(s_name), __addr(s_addr), __found_as_label(false)
 	{
 	}
 	inline Symbol(const Symbol& to_copy) = default;
@@ -32,6 +33,7 @@ public:		// functions
 	gen_setter_by_rval_ref(name);
 
 	gen_getter_and_setter_by_val(addr);
+	gen_getter_and_setter_by_val(found_as_label);
 };
 
 
