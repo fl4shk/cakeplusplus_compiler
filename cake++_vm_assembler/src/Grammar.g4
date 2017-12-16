@@ -61,12 +61,10 @@ instrJump:
 	'jump'
 	;
 instrBeq:
-	'beq(' identName ')'
-	| 'beq(' expr ')'
+	'beq(' expr ')'
 	;
 instrBne:
-	'bne(' identName ')'
-	| 'bne(' expr ')'
+	'bne(' expr ')'
 	;
 instrCall:
 	'call(' identName ')'

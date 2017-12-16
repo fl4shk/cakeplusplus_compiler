@@ -11,10 +11,7 @@ int main(int argc, char** argv)
 	tokens.fill();
 
 	GrammarParser parser(&tokens);
-	auto program = parser.program();
 
 	Assembler visitor(parser);
-	//visitor.visitProgram(program);
-	//return 0;
 	return visitor.run();
 }

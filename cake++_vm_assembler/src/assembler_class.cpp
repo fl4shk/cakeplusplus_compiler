@@ -262,19 +262,10 @@ antlrcpp::Any Assembler::visitInstrBeq
 {
 	gen_16(VmInstrOp::beq);
 
-	if (ctx->identName())
-	{
-		ctx->identName()->accept(this);
-
-		auto sym = sym_tbl().find_or_insert(pop_str());
-
-		// subtract 2 because of the gen_16(VmInstrOp::beq)
-		gen_64(sym->addr() - pc() - 2);
-	}
-	else if (ctx->expr())
+	if (ctx->expr())
 	{
 		ctx->expr()->accept(this);
-		// subtract 2 because of the gen_16(VmInstrOp::beq)
+		// subtract 2 because of the gen_16(VmInstrOp::bne)
 		gen_64(pop_num() - pc() - 2);
 	}
 	else
@@ -290,15 +281,7 @@ antlrcpp::Any Assembler::visitInstrBne
 {
 	gen_16(VmInstrOp::bne);
 
-	if (ctx->identName())
-	{
-		ctx->identName()->accept(this);
-
-		auto sym = sym_tbl().find_or_insert(pop_str());
-		// subtract 2 because of the gen_16(VmInstrOp::bne)
-		gen_64(sym->addr() - pc() - 2);
-	}
-	else if (ctx->expr())
+	if (ctx->expr())
 	{
 		ctx->expr()->accept(this);
 		// subtract 2 because of the gen_16(VmInstrOp::bne)
@@ -306,7 +289,7 @@ antlrcpp::Any Assembler::visitInstrBne
 	}
 	else
 	{
-		printerr("visitInstrBeq():  Eek!\n");
+		printerr("visitInstrBne():  Eek!\n");
 		exit(1);
 	}
 
@@ -315,36 +298,161 @@ antlrcpp::Any Assembler::visitInstrBne
 antlrcpp::Any Assembler::visitInstrCall
 	(GrammarParser::InstrCallContext *ctx)
 {
+	gen_16(VmInstrOp::call);
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrRet
 	(GrammarParser::InstrRetContext *ctx)
 {
+	gen_16(VmInstrOp::ret);
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrLd
 	(GrammarParser::InstrLdContext *ctx)
 {
+	gen_16(VmInstrOp::ld);
+
+	gen_ldst_op(ctx->TokBuiltinTypename()->toString(),
+		"visitInstrLd():  Eek!\n");
+
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrLdx
 	(GrammarParser::InstrLdxContext *ctx)
 {
+	gen_16(VmInstrOp::ldx);
+
+	gen_ldst_op(ctx->TokBuiltinTypename()->toString(),
+		"visitInstrLdx():  Eek!\n");
+
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrSt
 	(GrammarParser::InstrStContext *ctx)
 {
+	gen_16(VmInstrOp::st);
+
+	gen_ldst_op(ctx->TokBuiltinTypename()->toString(),
+		"visitInstrSt():  Eek!\n");
+
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrStx
 	(GrammarParser::InstrStxContext *ctx)
 {
+	gen_16(VmInstrOp::stx);
+
+	gen_ldst_op(ctx->TokBuiltinTypename()->toString(),
+		"visitInstrStx():  Eek!\n");
+
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrBinop
 	(GrammarParser::InstrBinopContext *ctx)
 {
+	gen_16(VmInstrOp::binop);
+
+	const auto& some_binop = ctx->TokBinOp()->toString();
+
+	if (some_binop == "add")
+	{
+		gen_16(VmInstrBinOp::Add);
+	}
+	else if (some_binop == "sub")
+	{
+		gen_16(VmInstrBinOp::Sub);
+	}
+	else if (some_binop == "mul")
+	{
+		gen_16(VmInstrBinOp::Mul);
+	}
+	else if (some_binop == "sdiv")
+	{
+		gen_16(VmInstrBinOp::SDiv);
+	}
+	else if (some_binop == "udiv")
+	{
+		gen_16(VmInstrBinOp::UDiv);
+	}
+	else if (some_binop == "smod")
+	{
+		gen_16(VmInstrBinOp::SMod);
+	}
+	else if (some_binop == "umod")
+	{
+		gen_16(VmInstrBinOp::UMod);
+	}
+	else if (some_binop == "bitand")
+	{
+		gen_16(VmInstrBinOp::BitAnd);
+	}
+	else if (some_binop == "bitor")
+	{
+		gen_16(VmInstrBinOp::BitOr);
+	}
+	else if (some_binop == "bitxor")
+	{
+		gen_16(VmInstrBinOp::BitXor);
+	}
+	else if (some_binop == "bitlsl")
+	{
+		gen_16(VmInstrBinOp::BitLsl);
+	}
+	else if (some_binop == "bitlsr")
+	{
+		gen_16(VmInstrBinOp::BitLsr);
+	}
+	else if (some_binop == "bitasr")
+	{
+		gen_16(VmInstrBinOp::BitAsr);
+	}
+	else if (some_binop == "cmpeq")
+	{
+		gen_16(VmInstrBinOp::CmpEq);
+	}
+	else if (some_binop == "cmpne")
+	{
+		gen_16(VmInstrBinOp::CmpNe);
+	}
+	else if (some_binop == "cmpult")
+	{
+		gen_16(VmInstrBinOp::CmpULt);
+	}
+	else if (some_binop == "cmpslt")
+	{
+		gen_16(VmInstrBinOp::CmpSLt);
+	}
+	else if (some_binop == "cmpugt")
+	{
+		gen_16(VmInstrBinOp::CmpUGt);
+	}
+	else if (some_binop == "cmpsgt")
+	{
+		gen_16(VmInstrBinOp::CmpSGt);
+	}
+	else if (some_binop == "cmpule")
+	{
+		gen_16(VmInstrBinOp::CmpULe);
+	}
+	else if (some_binop == "cmpsle")
+	{
+		gen_16(VmInstrBinOp::CmpSLe);
+	}
+	else if (some_binop == "cmpuge")
+	{
+		gen_16(VmInstrBinOp::CmpUGe);
+	}
+	else if (some_binop == "cmpsge")
+	{
+		gen_16(VmInstrBinOp::CmpSGe);
+	}
+	else
+	{
+		printerr("visitInstrBinop():  Eek!\n");
+		exit(1);
+	}
+
+
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrDispNum
@@ -436,4 +544,43 @@ antlrcpp::Any Assembler::visitCurrPc
 	push_num(__pc);
 
 	return nullptr;
+}
+
+
+void Assembler::gen_ldst_op(const std::string& some_typename, 
+	const std::string& eek_msg)
+{
+	if (some_typename == "basic")
+	{
+		gen_16(VmInstrLdStOp::Basic);
+	}
+	else if (some_typename == "u32")
+	{
+		gen_16(VmInstrLdStOp::U32);
+	}
+	else if (some_typename == "s32")
+	{
+		gen_16(VmInstrLdStOp::S32);
+	}
+	else if (some_typename == "u16")
+	{
+		gen_16(VmInstrLdStOp::U16);
+	}
+	else if (some_typename == "s16")
+	{
+		gen_16(VmInstrLdStOp::S16);
+	}
+	else if (some_typename == "u8")
+	{
+		gen_16(VmInstrLdStOp::U8);
+	}
+	else if (some_typename == "s8")
+	{
+		gen_16(VmInstrLdStOp::S8);
+	}
+	else
+	{
+		printerr(eek_msg);
+		exit(1);
+	}
 }
