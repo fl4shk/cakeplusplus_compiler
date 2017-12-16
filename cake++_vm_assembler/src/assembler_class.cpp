@@ -267,7 +267,7 @@ antlrcpp::Any Assembler::visitInstrBeq
 		ctx->identName()->accept(this);
 
 		auto sym = sym_tbl().find_or_insert(pop_str());
-		gen_64(sym->addr());
+		gen_64(sym->addr() - pc());
 	}
 	else if (ctx->expr())
 	{
@@ -285,6 +285,26 @@ antlrcpp::Any Assembler::visitInstrBeq
 antlrcpp::Any Assembler::visitInstrBne
 	(GrammarParser::InstrBneContext *ctx)
 {
+	gen_16(VmInstrOp::bne);
+
+	if (ctx->identName())
+	{
+		ctx->identName()->accept(this);
+
+		auto sym = sym_tbl().find_or_insert(pop_str());
+		gen_64(sym->addr() - pc());
+	}
+	else if (ctx->expr())
+	{
+		ctx->expr()->accept(this);
+		gen_64(pop_num());
+	}
+	else
+	{
+		printerr("visitInstrBeq():  Eek!\n");
+		exit(1);
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrCall
