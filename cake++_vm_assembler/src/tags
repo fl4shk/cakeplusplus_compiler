@@ -1,0 +1,151 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/249c3c0/
+ArrayVarName	symbol_table_classes.hpp	/^	ArrayVarName,$/;"	kind:e	enum:SymType	access:public
+Blank	symbol_table_classes.hpp	/^	Blank,$/;"	kind:e	enum:BuiltinTypename	access:public
+BuiltinTypename	symbol_table_classes.hpp	/^enum class BuiltinTypename : int$/;"	kind:g	typeref:typename:int
+Function	symbol_table_classes.hpp	/^	inline Function()$/;"	kind:f	class:Function	access:public	signature:()
+Function	symbol_table_classes.hpp	/^	inline Function(Function&& to_move) = default;$/;"	kind:p	class:Function	access:public	signature:(Function && to_move)
+Function	symbol_table_classes.hpp	/^	inline Function(Ident s_name)$/;"	kind:f	class:Function	access:public	signature:(Ident s_name)
+Function	symbol_table_classes.hpp	/^class Function$/;"	kind:c
+Function::Function	symbol_table_classes.hpp	/^	inline Function()$/;"	kind:f	class:Function	access:public	signature:()
+Function::Function	symbol_table_classes.hpp	/^	inline Function(Function&& to_move) = default;$/;"	kind:p	class:Function	access:public	signature:(Function && to_move)
+Function::Function	symbol_table_classes.hpp	/^	inline Function(Ident s_name)$/;"	kind:f	class:Function	access:public	signature:(Ident s_name)
+Function::__code	symbol_table_classes.hpp	/^	VmCode __code;$/;"	kind:m	class:Function	typeref:typename:VmCode	access:private
+Function::__name	symbol_table_classes.hpp	/^	Ident __name;$/;"	kind:m	class:Function	typeref:typename:Ident	access:private
+Function::__sym_tbl	symbol_table_classes.hpp	/^	SymbolTable __sym_tbl;$/;"	kind:m	class:Function	typeref:typename:SymbolTable	access:private
+Function::gen_getter_and_setter_by_val	symbol_table_classes.hpp	/^	gen_getter_and_setter_by_val(name);$/;"	kind:p	class:Function	access:public	signature:(name)
+Function::gen_getter_by_ref	symbol_table_classes.hpp	/^	gen_getter_by_ref(code);$/;"	kind:p	class:Function	access:public	signature:(code)
+Function::gen_getter_by_ref	symbol_table_classes.hpp	/^	gen_getter_by_ref(sym_tbl);$/;"	kind:p	class:Function	access:public	signature:(sym_tbl)
+Function::operator =	symbol_table_classes.hpp	/^	inline Function& operator = (Function&& to_move) = default;$/;"	kind:p	class:Function	typeref:typename:Function &	access:public	signature:(Function && to_move)
+FunctionTable	symbol_table_classes.cpp	/^FunctionTable::FunctionTable()$/;"	kind:f	class:FunctionTable	signature:()
+FunctionTable	symbol_table_classes.hpp	/^	FunctionTable();$/;"	kind:p	class:FunctionTable	access:public	signature:()
+FunctionTable	symbol_table_classes.hpp	/^class FunctionTable : public IdentTable<Function>$/;"	kind:c	inherits:IdentTable<Function>
+FunctionTable::FunctionTable	symbol_table_classes.cpp	/^FunctionTable::FunctionTable()$/;"	kind:f	class:FunctionTable	signature:()
+FunctionTable::FunctionTable	symbol_table_classes.hpp	/^	FunctionTable();$/;"	kind:p	class:FunctionTable	access:public	signature:()
+FunctionTable::~FunctionTable	symbol_table_classes.cpp	/^FunctionTable::~FunctionTable()$/;"	kind:f	class:FunctionTable	signature:()
+FunctionTable::~FunctionTable	symbol_table_classes.hpp	/^	virtual ~FunctionTable();$/;"	kind:p	class:FunctionTable	access:public	signature:()
+Ident	ident_table_class.hpp	/^typedef std::string* Ident;$/;"	kind:t	typeref:typename:std::string *
+IdentTable	ident_table_class.hpp	/^	inline IdentTable()$/;"	kind:f	class:IdentTable	access:public	signature:()
+IdentTable	ident_table_class.hpp	/^class IdentTable$/;"	kind:c
+IdentTable::IdentTable	ident_table_class.hpp	/^	inline IdentTable()$/;"	kind:f	class:IdentTable	access:public	signature:()
+IdentTable::__table	ident_table_class.hpp	/^	std::map<Ident, Type> __table;$/;"	kind:m	class:IdentTable	typeref:typename:std::map<Ident,Type>	access:private
+IdentTable::at	ident_table_class.hpp	/^	inline Type& at(Ident some_name)$/;"	kind:f	class:IdentTable	typeref:typename:Type &	access:public	signature:(Ident some_name)
+IdentTable::at	ident_table_class.hpp	/^	inline const Type& at(Ident some_name) const$/;"	kind:f	class:IdentTable	typeref:typename:const Type &	access:public	signature:(Ident some_name) const
+IdentTable::contains	ident_table_class.hpp	/^	inline bool contains(Ident some_name) const$/;"	kind:f	class:IdentTable	typeref:typename:bool	access:public	signature:(Ident some_name) const
+IdentTable::gen_getter_by_con_ref	ident_table_class.hpp	/^	gen_getter_by_con_ref(table);$/;"	kind:p	class:IdentTable	access:public	signature:(table)
+IdentTable::insert_or_assign	ident_table_class.hpp	/^	inline void insert_or_assign(Type&& to_insert_or_assign)$/;"	kind:f	class:IdentTable	typeref:typename:void	access:public	signature:(Type && to_insert_or_assign)
+IdentTable::insert_or_assign	ident_table_class.hpp	/^	inline void insert_or_assign(const Type& to_insert_or_assign)$/;"	kind:f	class:IdentTable	typeref:typename:void	access:public	signature:(const Type & to_insert_or_assign)
+OneLevelTable	scoped_ident_table_class.hpp	/^	typedef IdentTable<Type> OneLevelTable;$/;"	kind:t	class:ScopedIdentTable	typeref:typename:IdentTable<Type>	access:public
+S64	symbol_table_classes.hpp	/^	S64,$/;"	kind:e	enum:BuiltinTypename	access:public
+ScalarVarName	symbol_table_classes.hpp	/^	ScalarVarName,$/;"	kind:e	enum:SymType	access:public
+ScopedIdentTable	scoped_ident_table_class.hpp	/^	inline ScopedIdentTable()$/;"	kind:f	class:ScopedIdentTable	access:public	signature:()
+ScopedIdentTable	scoped_ident_table_class.hpp	/^class ScopedIdentTable$/;"	kind:c
+ScopedIdentTable::OneLevelTable	scoped_ident_table_class.hpp	/^	typedef IdentTable<Type> OneLevelTable;$/;"	kind:t	class:ScopedIdentTable	typeref:typename:IdentTable<Type>	access:public
+ScopedIdentTable::ScopedIdentTable	scoped_ident_table_class.hpp	/^	inline ScopedIdentTable()$/;"	kind:f	class:ScopedIdentTable	access:public	signature:()
+ScopedIdentTable::__scope_num	scoped_ident_table_class.hpp	/^	s64 __scope_num = -1;$/;"	kind:m	class:ScopedIdentTable	typeref:typename:s64	access:protected
+ScopedIdentTable::__table	scoped_ident_table_class.hpp	/^	std::vector<OneLevelTable> __table;$/;"	kind:m	class:ScopedIdentTable	typeref:typename:std::vector<OneLevelTable>	access:protected
+ScopedIdentTable::at	scoped_ident_table_class.hpp	/^	inline auto& at(size_t table_index)$/;"	kind:f	class:ScopedIdentTable	typeref:typename:auto &	access:public	signature:(size_t table_index)
+ScopedIdentTable::at	scoped_ident_table_class.hpp	/^	inline const auto& at(size_t table_index) const$/;"	kind:f	class:ScopedIdentTable	typeref:typename:const auto &	access:public	signature:(size_t table_index) const
+ScopedIdentTable::builtin_scope_level	scoped_ident_table_class.hpp	/^	static constexpr s64 builtin_scope_level = 0;$/;"	kind:m	class:ScopedIdentTable	typeref:typename:s64	access:public
+ScopedIdentTable::find	scoped_ident_table_class.hpp	/^	Type* find(Ident some_name) __attribute__((noinline))$/;"	kind:f	class:ScopedIdentTable	typeref:typename:Type *	access:public	signature:(Ident some_name)
+ScopedIdentTable::find_in_this_level	scoped_ident_table_class.hpp	/^	inline Type* find_in_this_level(Ident some_name)$/;"	kind:f	class:ScopedIdentTable	typeref:typename:Type *	access:public	signature:(Ident some_name)
+ScopedIdentTable::gen_getter_by_con_ref	scoped_ident_table_class.hpp	/^	gen_getter_by_con_ref(table);$/;"	kind:p	class:ScopedIdentTable	access:public	signature:(table)
+ScopedIdentTable::gen_getter_by_ref	scoped_ident_table_class.hpp	/^	gen_getter_by_ref(table);$/;"	kind:p	class:ScopedIdentTable	access:public	signature:(table)
+ScopedIdentTable::gen_getter_by_val	scoped_ident_table_class.hpp	/^	gen_getter_by_val(scope_num);$/;"	kind:p	class:ScopedIdentTable	access:public	signature:(scope_num)
+ScopedIdentTable::insert_or_assign	scoped_ident_table_class.hpp	/^	inline void insert_or_assign(Type&& to_insert_or_assign)$/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:(Type && to_insert_or_assign)
+ScopedIdentTable::insert_or_assign	scoped_ident_table_class.hpp	/^	inline void insert_or_assign(const Type& to_insert_or_assign)$/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:(const Type & to_insert_or_assign)
+ScopedIdentTable::insert_or_assign	scoped_ident_table_class.hpp	/^	inline void insert_or_assign(size_t level, $/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:(size_t level,const Type & to_insert_or_assign)
+ScopedIdentTable::insert_or_assign	scoped_ident_table_class.hpp	/^	inline void insert_or_assign(size_t level, Type&& to_insert_or_assign)$/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:(size_t level,Type && to_insert_or_assign)
+ScopedIdentTable::mkscope	scoped_ident_table_class.hpp	/^	void mkscope() __attribute__((noinline))$/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:()
+ScopedIdentTable::name_is_builtin	scoped_ident_table_class.hpp	/^	bool name_is_builtin(Ident some_name) const$/;"	kind:f	class:ScopedIdentTable	typeref:typename:bool	access:public	signature:(Ident some_name) const
+ScopedIdentTable::not_found_level	scoped_ident_table_class.hpp	/^	static constexpr s64 not_found_level = builtin_scope_level - 1;$/;"	kind:m	class:ScopedIdentTable	typeref:typename:s64	access:public
+ScopedIdentTable::rmscope	scoped_ident_table_class.hpp	/^	void rmscope() __attribute__((noinline))$/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:()
+ScopedIdentTable::scope_lev	scoped_ident_table_class.hpp	/^	inline s64 scope_lev() const$/;"	kind:f	class:ScopedIdentTable	typeref:typename:s64	access:public	signature:() const
+ScopedIdentTable::~ScopedIdentTable	scoped_ident_table_class.hpp	/^	virtual ~ScopedIdentTable()$/;"	kind:f	class:ScopedIdentTable	access:public	signature:()
+SymType	symbol_table_classes.hpp	/^enum class SymType : int$/;"	kind:g	typeref:typename:int
+Symbol	symbol_table_classes.hpp	/^	inline Symbol()$/;"	kind:f	class:Symbol	access:public	signature:()
+Symbol	symbol_table_classes.hpp	/^	inline Symbol(Ident s_name, SymType s_type,$/;"	kind:f	class:Symbol	access:public	signature:(Ident s_name,SymType s_type,BuiltinTypename s_var_type,size_t s_size)
+Symbol	symbol_table_classes.hpp	/^	inline Symbol(Symbol&& to_move) = default;$/;"	kind:p	class:Symbol	access:public	signature:(Symbol && to_move)
+Symbol	symbol_table_classes.hpp	/^	inline Symbol(const Symbol& to_copy) = default;$/;"	kind:p	class:Symbol	access:public	signature:(const Symbol & to_copy)
+Symbol	symbol_table_classes.hpp	/^class Symbol$/;"	kind:c
+Symbol::Symbol	symbol_table_classes.hpp	/^	inline Symbol()$/;"	kind:f	class:Symbol	access:public	signature:()
+Symbol::Symbol	symbol_table_classes.hpp	/^	inline Symbol(Ident s_name, SymType s_type,$/;"	kind:f	class:Symbol	access:public	signature:(Ident s_name,SymType s_type,BuiltinTypename s_var_type,size_t s_size)
+Symbol::Symbol	symbol_table_classes.hpp	/^	inline Symbol(Symbol&& to_move) = default;$/;"	kind:p	class:Symbol	access:public	signature:(Symbol && to_move)
+Symbol::Symbol	symbol_table_classes.hpp	/^	inline Symbol(const Symbol& to_copy) = default;$/;"	kind:p	class:Symbol	access:public	signature:(const Symbol & to_copy)
+Symbol::__name	symbol_table_classes.hpp	/^	Ident __name;$/;"	kind:m	class:Symbol	typeref:typename:Ident	access:private
+Symbol::__size	symbol_table_classes.hpp	/^	size_t __size;$/;"	kind:m	class:Symbol	typeref:typename:size_t	access:private
+Symbol::__type	symbol_table_classes.hpp	/^	SymType __type;$/;"	kind:m	class:Symbol	typeref:typename:SymType	access:private
+Symbol::__var_type	symbol_table_classes.hpp	/^	BuiltinTypename __var_type;$/;"	kind:m	class:Symbol	typeref:typename:BuiltinTypename	access:private
+Symbol::gen_getter_and_setter_by_con_ref	symbol_table_classes.hpp	/^	gen_getter_and_setter_by_con_ref(name);$/;"	kind:p	class:Symbol	access:public	signature:(name)
+Symbol::gen_getter_and_setter_by_val	symbol_table_classes.hpp	/^	gen_getter_and_setter_by_val(size);$/;"	kind:p	class:Symbol	access:public	signature:(size)
+Symbol::gen_getter_and_setter_by_val	symbol_table_classes.hpp	/^	gen_getter_and_setter_by_val(type);$/;"	kind:p	class:Symbol	access:public	signature:(type)
+Symbol::gen_getter_and_setter_by_val	symbol_table_classes.hpp	/^	gen_getter_and_setter_by_val(var_type);$/;"	kind:p	class:Symbol	access:public	signature:(var_type)
+Symbol::gen_setter_by_rval_ref	symbol_table_classes.hpp	/^	gen_setter_by_rval_ref(name);$/;"	kind:p	class:Symbol	access:public	signature:(name)
+Symbol::operator =	symbol_table_classes.hpp	/^	inline Symbol& operator = (Symbol&& to_move) = default;$/;"	kind:p	class:Symbol	typeref:typename:Symbol &	access:public	signature:(Symbol && to_move)
+Symbol::operator =	symbol_table_classes.hpp	/^	inline Symbol& operator = (const Symbol& to_copy) = default;$/;"	kind:p	class:Symbol	typeref:typename:Symbol &	access:public	signature:(const Symbol & to_copy)
+SymbolTable	symbol_table_classes.cpp	/^SymbolTable::SymbolTable()$/;"	kind:f	class:SymbolTable	signature:()
+SymbolTable	symbol_table_classes.hpp	/^	SymbolTable();$/;"	kind:p	class:SymbolTable	access:public	signature:()
+SymbolTable	symbol_table_classes.hpp	/^class SymbolTable : public ScopedIdentTable<Symbol>$/;"	kind:c	inherits:ScopedIdentTable<Symbol>
+SymbolTable::SymbolTable	symbol_table_classes.cpp	/^SymbolTable::SymbolTable()$/;"	kind:f	class:SymbolTable	signature:()
+SymbolTable::SymbolTable	symbol_table_classes.hpp	/^	SymbolTable();$/;"	kind:p	class:SymbolTable	access:public	signature:()
+SymbolTable::~SymbolTable	symbol_table_classes.cpp	/^SymbolTable::~SymbolTable()$/;"	kind:f	class:SymbolTable	signature:()
+SymbolTable::~SymbolTable	symbol_table_classes.hpp	/^	virtual ~SymbolTable();$/;"	kind:p	class:SymbolTable	access:public	signature:()
+__code	symbol_table_classes.hpp	/^	VmCode __code;$/;"	kind:m	class:Function	typeref:typename:VmCode	access:private
+__name	symbol_table_classes.hpp	/^	Ident __name;$/;"	kind:m	class:Function	typeref:typename:Ident	access:private
+__name	symbol_table_classes.hpp	/^	Ident __name;$/;"	kind:m	class:Symbol	typeref:typename:Ident	access:private
+__scope_num	scoped_ident_table_class.hpp	/^	s64 __scope_num = -1;$/;"	kind:m	class:ScopedIdentTable	typeref:typename:s64	access:protected
+__size	symbol_table_classes.hpp	/^	size_t __size;$/;"	kind:m	class:Symbol	typeref:typename:size_t	access:private
+__sym_tbl	symbol_table_classes.hpp	/^	SymbolTable __sym_tbl;$/;"	kind:m	class:Function	typeref:typename:SymbolTable	access:private
+__table	ident_table_class.hpp	/^	std::map<Ident, Type> __table;$/;"	kind:m	class:IdentTable	typeref:typename:std::map<Ident,Type>	access:private
+__table	scoped_ident_table_class.hpp	/^	std::vector<OneLevelTable> __table;$/;"	kind:m	class:ScopedIdentTable	typeref:typename:std::vector<OneLevelTable>	access:protected
+__type	symbol_table_classes.hpp	/^	SymType __type;$/;"	kind:m	class:Symbol	typeref:typename:SymType	access:private
+__var_type	symbol_table_classes.hpp	/^	BuiltinTypename __var_type;$/;"	kind:m	class:Symbol	typeref:typename:BuiltinTypename	access:private
+at	ident_table_class.hpp	/^	inline Type& at(Ident some_name)$/;"	kind:f	class:IdentTable	typeref:typename:Type &	access:public	signature:(Ident some_name)
+at	ident_table_class.hpp	/^	inline const Type& at(Ident some_name) const$/;"	kind:f	class:IdentTable	typeref:typename:const Type &	access:public	signature:(Ident some_name) const
+at	scoped_ident_table_class.hpp	/^	inline auto& at(size_t table_index)$/;"	kind:f	class:ScopedIdentTable	typeref:typename:auto &	access:public	signature:(size_t table_index)
+at	scoped_ident_table_class.hpp	/^	inline const auto& at(size_t table_index) const$/;"	kind:f	class:ScopedIdentTable	typeref:typename:const auto &	access:public	signature:(size_t table_index) const
+builtin_scope_level	scoped_ident_table_class.hpp	/^	static constexpr s64 builtin_scope_level = 0;$/;"	kind:m	class:ScopedIdentTable	typeref:typename:s64	access:public
+contains	ident_table_class.hpp	/^	inline bool contains(Ident some_name) const$/;"	kind:f	class:IdentTable	typeref:typename:bool	access:public	signature:(Ident some_name) const
+find	scoped_ident_table_class.hpp	/^	Type* find(Ident some_name) __attribute__((noinline))$/;"	kind:f	class:ScopedIdentTable	typeref:typename:Type *	access:public	signature:(Ident some_name)
+find_in_this_level	scoped_ident_table_class.hpp	/^	inline Type* find_in_this_level(Ident some_name)$/;"	kind:f	class:ScopedIdentTable	typeref:typename:Type *	access:public	signature:(Ident some_name)
+gen_getter_and_setter_by_con_ref	symbol_table_classes.hpp	/^	gen_getter_and_setter_by_con_ref(name);$/;"	kind:p	class:Symbol	access:public	signature:(name)
+gen_getter_and_setter_by_val	symbol_table_classes.hpp	/^	gen_getter_and_setter_by_val(name);$/;"	kind:p	class:Function	access:public	signature:(name)
+gen_getter_and_setter_by_val	symbol_table_classes.hpp	/^	gen_getter_and_setter_by_val(size);$/;"	kind:p	class:Symbol	access:public	signature:(size)
+gen_getter_and_setter_by_val	symbol_table_classes.hpp	/^	gen_getter_and_setter_by_val(type);$/;"	kind:p	class:Symbol	access:public	signature:(type)
+gen_getter_and_setter_by_val	symbol_table_classes.hpp	/^	gen_getter_and_setter_by_val(var_type);$/;"	kind:p	class:Symbol	access:public	signature:(var_type)
+gen_getter_by_con_ref	ident_table_class.hpp	/^	gen_getter_by_con_ref(table);$/;"	kind:p	class:IdentTable	access:public	signature:(table)
+gen_getter_by_con_ref	scoped_ident_table_class.hpp	/^	gen_getter_by_con_ref(table);$/;"	kind:p	class:ScopedIdentTable	access:public	signature:(table)
+gen_getter_by_ref	scoped_ident_table_class.hpp	/^	gen_getter_by_ref(table);$/;"	kind:p	class:ScopedIdentTable	access:public	signature:(table)
+gen_getter_by_ref	symbol_table_classes.hpp	/^	gen_getter_by_ref(code);$/;"	kind:p	class:Function	access:public	signature:(code)
+gen_getter_by_ref	symbol_table_classes.hpp	/^	gen_getter_by_ref(sym_tbl);$/;"	kind:p	class:Function	access:public	signature:(sym_tbl)
+gen_getter_by_val	scoped_ident_table_class.hpp	/^	gen_getter_by_val(scope_num);$/;"	kind:p	class:ScopedIdentTable	access:public	signature:(scope_num)
+gen_setter_by_rval_ref	symbol_table_classes.hpp	/^	gen_setter_by_rval_ref(name);$/;"	kind:p	class:Symbol	access:public	signature:(name)
+ident_table_class_hpp	ident_table_class.hpp	/^#define ident_table_class_hpp$/;"	kind:d
+insert_or_assign	ident_table_class.hpp	/^	inline void insert_or_assign(Type&& to_insert_or_assign)$/;"	kind:f	class:IdentTable	typeref:typename:void	access:public	signature:(Type && to_insert_or_assign)
+insert_or_assign	ident_table_class.hpp	/^	inline void insert_or_assign(const Type& to_insert_or_assign)$/;"	kind:f	class:IdentTable	typeref:typename:void	access:public	signature:(const Type & to_insert_or_assign)
+insert_or_assign	scoped_ident_table_class.hpp	/^	inline void insert_or_assign(Type&& to_insert_or_assign)$/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:(Type && to_insert_or_assign)
+insert_or_assign	scoped_ident_table_class.hpp	/^	inline void insert_or_assign(const Type& to_insert_or_assign)$/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:(const Type & to_insert_or_assign)
+insert_or_assign	scoped_ident_table_class.hpp	/^	inline void insert_or_assign(size_t level, $/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:(size_t level,const Type & to_insert_or_assign)
+insert_or_assign	scoped_ident_table_class.hpp	/^	inline void insert_or_assign(size_t level, Type&& to_insert_or_assign)$/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:(size_t level,Type && to_insert_or_assign)
+main	main.cpp	/^int main(int argc, char** argv)$/;"	kind:f	typeref:typename:int	signature:(int argc,char ** argv)
+misc_includes_hpp	misc_includes.hpp	/^#define misc_includes_hpp$/;"	kind:d
+mkscope	scoped_ident_table_class.hpp	/^	void mkscope() __attribute__((noinline))$/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:()
+name_is_builtin	scoped_ident_table_class.hpp	/^	bool name_is_builtin(Ident some_name) const$/;"	kind:f	class:ScopedIdentTable	typeref:typename:bool	access:public	signature:(Ident some_name) const
+not_found_level	scoped_ident_table_class.hpp	/^	static constexpr s64 not_found_level = builtin_scope_level - 1;$/;"	kind:m	class:ScopedIdentTable	typeref:typename:s64	access:public
+operator =	symbol_table_classes.hpp	/^	inline Function& operator = (Function&& to_move) = default;$/;"	kind:p	class:Function	typeref:typename:Function &	access:public	signature:(Function && to_move)
+operator =	symbol_table_classes.hpp	/^	inline Symbol& operator = (Symbol&& to_move) = default;$/;"	kind:p	class:Symbol	typeref:typename:Symbol &	access:public	signature:(Symbol && to_move)
+operator =	symbol_table_classes.hpp	/^	inline Symbol& operator = (const Symbol& to_copy) = default;$/;"	kind:p	class:Symbol	typeref:typename:Symbol &	access:public	signature:(const Symbol & to_copy)
+rmscope	scoped_ident_table_class.hpp	/^	void rmscope() __attribute__((noinline))$/;"	kind:f	class:ScopedIdentTable	typeref:typename:void	access:public	signature:()
+scope_lev	scoped_ident_table_class.hpp	/^	inline s64 scope_lev() const$/;"	kind:f	class:ScopedIdentTable	typeref:typename:s64	access:public	signature:() const
+scoped_ident_table_class_hpp	scoped_ident_table_class.hpp	/^#define scoped_ident_table_class_hpp$/;"	kind:d
+symbol_table_classes_hpp	symbol_table_classes.hpp	/^#define symbol_table_classes_hpp$/;"	kind:d
+~FunctionTable	symbol_table_classes.cpp	/^FunctionTable::~FunctionTable()$/;"	kind:f	class:FunctionTable	signature:()
+~FunctionTable	symbol_table_classes.hpp	/^	virtual ~FunctionTable();$/;"	kind:p	class:FunctionTable	access:public	signature:()
+~ScopedIdentTable	scoped_ident_table_class.hpp	/^	virtual ~ScopedIdentTable()$/;"	kind:f	class:ScopedIdentTable	access:public	signature:()
+~SymbolTable	symbol_table_classes.cpp	/^SymbolTable::~SymbolTable()$/;"	kind:f	class:SymbolTable	signature:()
+~SymbolTable	symbol_table_classes.hpp	/^	virtual ~SymbolTable();$/;"	kind:p	class:SymbolTable	access:public	signature:()

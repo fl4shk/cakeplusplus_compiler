@@ -1,0 +1,9 @@
+syn keyword CTagsMember __code __sym_tbl builtin_scope_level __scope_num __type not_found_level __name __table __var_type __size
+syn keyword CTagsEnumeratorName BuiltinTypename SymType
+syn keyword CTagsEnumerationValue ArrayVarName S64 ScalarVarName Blank
+syn keyword CTagsFunction rmscope gen_getter_and_setter_by_con_ref find_in_this_level name_is_builtin main gen_getter_by_val mkscope insert_or_assign gen_getter_by_ref at gen_getter_and_setter_by_val gen_setter_by_rval_ref scope_lev find gen_getter_by_con_ref
+syn keyword CTagsType OneLevelTable Ident
+syn keyword CTagsDefinedName ident_table_class_hpp scoped_ident_table_class_hpp symbol_table_classes_hpp misc_includes_hpp
+syn keyword CTagsClass Function FunctionTable Symbol SymbolTable ScopedIdentTable IdentTable
+
+syn match CTagsFunction /\<contains\>/
