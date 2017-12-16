@@ -26,8 +26,8 @@ void Assembler::gen_16(u16 data)
 	if (__pass)
 	{
 		// Output big endian
-		printout(get_bits_with_range(data, 15, 8));
-		printout(get_bits_with_range(data, 7, 0));
+		printout(get_bits_with_range(data, 15, 8), "\n");
+		printout(get_bits_with_range(data, 7, 0), "\n");
 	}
 	__pc += sizeof(data);
 }
@@ -36,14 +36,14 @@ void Assembler::gen_64(u64 data)
 	if (__pass)
 	{
 		// Output big endian
-		printout(get_bits_with_range(data, 63, 56));
-		printout(get_bits_with_range(data, 55, 48));
-		printout(get_bits_with_range(data, 47, 40));
-		printout(get_bits_with_range(data, 39, 32));
-		printout(get_bits_with_range(data, 31, 24));
-		printout(get_bits_with_range(data, 23, 16));
-		printout(get_bits_with_range(data, 15, 8));
-		printout(get_bits_with_range(data, 7, 0));
+		printout(get_bits_with_range(data, 63, 56), "\n");
+		printout(get_bits_with_range(data, 55, 48), "\n");
+		printout(get_bits_with_range(data, 47, 40), "\n");
+		printout(get_bits_with_range(data, 39, 32), "\n");
+		printout(get_bits_with_range(data, 31, 24), "\n");
+		printout(get_bits_with_range(data, 23, 16), "\n");
+		printout(get_bits_with_range(data, 15, 8), "\n");
+		printout(get_bits_with_range(data, 7, 0), "\n");
 	}
 	__pc += sizeof(data);
 }
@@ -88,6 +88,21 @@ antlrcpp::Any Assembler::visitLabel
 	(GrammarParser::LabelContext *ctx)
 {
 	ctx->identName()->accept(this);
+
+	auto name = pop_str();
+
+	auto sym = sym_tbl().find_or_insert(name);
+
+	if (sym->found_as_label())
+	{
+		printerr("Error:  Cannot have two identical identifers!  ",
+			"The offending identifier is \"", *name, "\"\n");
+		exit(1);
+	}
+
+	sym->set_found_as_label(true);
+	sym->set_addr(pc());
+
 	return nullptr;
 }
 
@@ -502,26 +517,238 @@ antlrcpp::Any Assembler::visitComment
 antlrcpp::Any Assembler::visitExpr
 	(GrammarParser::ExprContext *ctx)
 {
+	if (ctx->expr())
+	{
+		ctx->expr()->accept(this);
+		const auto left = pop_num();
+
+		ctx->exprLogical()->accept(this);
+		const auto right = pop_num();
+
+		auto&& op = ctx->TokOpLogical()->toString();
+
+		if (op == "&&")
+		{
+			push_num(left && right);
+		}
+		else if (op == "||")
+		{
+			push_num(left || right);
+		}
+		else
+		{
+			printerr("visitExpr():  Eek!\n");
+			exit(1);
+		}
+	}
+	else
+	{
+		ctx->exprLogical()->accept(this);
+	}
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitExprLogical
 	(GrammarParser::ExprLogicalContext *ctx)
 {
+	if (ctx->exprLogical())
+	{
+		ctx->exprLogical()->accept(this);
+		const auto left = pop_num();
+
+		ctx->exprCompare()->accept(this);
+		const auto right = pop_num();
+
+		auto&& op = ctx->TokOpCompare()->toString();
+
+		if (op == "==")
+		{
+			push_num(left == right);
+		}
+		else if (op == "!=")
+		{
+			push_num(left != right);
+		}
+		else if (op == "<")
+		{
+			push_num(left < right);
+		}
+		else if (op == ">")
+		{
+			push_num(left > right);
+		}
+		else if (op == "<=")
+		{
+			push_num(left <= right);
+		}
+		else if (op == ">=")
+		{
+			push_num(left >= right);
+		}
+		else
+		{
+			printerr("visitExprLogical():  Eek!\n");
+			exit(1);
+		}
+	}
+	else
+	{
+		ctx->exprCompare()->accept(this);
+	}
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitExprCompare
 	(GrammarParser::ExprCompareContext *ctx)
 {
+	if (ctx->exprCompare())
+	{
+		ctx->exprCompare()->accept(this);
+		const auto left = pop_num();
+
+		ctx->exprAddSub()->accept(this);
+		const auto right = pop_num();
+
+		auto&& op = ctx->TokOpAddSub()->toString();
+
+		if (op == "+")
+		{
+			push_num(left + right);
+		}
+		else if (op == "-")
+		{
+			push_num(left - right);
+		}
+		else
+		{
+			printerr("visitExprCompare():  Eek!\n");
+			exit(1);
+		}
+	}
+	else
+	{
+		ctx->exprAddSub()->accept(this);
+	}
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitExprAddSub
 	(GrammarParser::ExprAddSubContext *ctx)
 {
+	if (ctx->exprAddSub())
+	{
+		ctx->exprAddSub()->accept(this);
+		const auto left = pop_num();
+
+		ctx->exprMulDivModEtc()->accept(this);
+		const auto right = pop_num();
+
+		//auto&& op = ctx->TokOpAddSub()->toString();
+		std::string op;
+
+		if (ctx->TokOpMulDivMod())
+		{
+			op = ctx->TokOpMulDivMod()->toString();
+		}
+		else if (ctx->TokOpBitwise())
+		{
+			op = ctx->TokOpBitwise()->toString();
+		}
+		else
+		{
+			printerr("visitExprAddSub():  no op thing eek!\n");
+			exit(1);
+		}
+
+		if (op == "*")
+		{
+			push_num(left * right);
+		}
+		else if (op == "/")
+		{
+			push_num(left / right);
+		}
+		else if (op == "%")
+		{
+			push_num(left % right);
+		}
+		else if (op == "<<")
+		{
+			push_num(left << right);
+		}
+		else if (op == ">>")
+		{
+			// Logical shift right is special
+			const u64 left_u = left;
+			const u64 right_u = right;
+			const u64 to_push = left_u >> right_u;
+			push_num(to_push);
+		}
+		else if (op == ">>>")
+		{
+			// This relies upon C++ compilers **usually** performing
+			// arithmetic right shifting one signed integer by another
+			// 
+			// Those C++ compilers that don't support this are not
+			// supported for building this assembler!
+			push_num(left >> right);
+		}
+		else
+		{
+			printerr("visitExprAddSub():  Eek!\n");
+			exit(1);
+		}
+	}
+	else
+	{
+		ctx->exprAddSub()->accept(this);
+	}
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitExprMulDivModEtc
 	(GrammarParser::ExprMulDivModEtcContext *ctx)
 {
+	if (ctx->numExpr())
+	{
+		ctx->numExpr()->accept(this);
+	}
+	else if (ctx->identName())
+	{
+		ctx->identName()->accept(this);
+		auto sym = sym_tbl().find_or_insert(pop_str());
+		push_num(sym->addr());
+	}
+	else if (ctx->currPc())
+	{
+		ctx->currPc()->accept(this);
+	}
+	else if (ctx->TokOpUnary())
+	{
+		ctx->expr()->accept(this);
+		const auto stuff = pop_num();
+
+		auto&& op = ctx->TokOpUnary()->toString();
+
+		if (op == "~")
+		{
+			push_num(~stuff);
+		}
+		else if (op == "-")
+		{
+			push_num(-stuff);
+		}
+		else if (op == "!")
+		{
+			push_num(!stuff);
+		}
+		else
+		{
+			printerr("visitExprMulDivModEtc():  Eek!\n");
+			exit(1);
+		}
+	}
+	else
+	{
+		ctx->expr()->accept(this);
+	}
+
 	return nullptr;
 }
 
