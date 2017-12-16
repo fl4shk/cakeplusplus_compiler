@@ -1,6 +1,50 @@
 #include "assembler_class.hpp"
 #include "allocation_stuff.hpp"
 
+Assembler::Assembler(GrammarParser& parser)
+{
+	__program_ctx = parser.program();
+}
+
+int Assembler::run()
+{
+	// Two passes
+	for (__pass=0; __pass<2; ++__pass)
+	{
+		__pc = 0;
+
+		visitProgram(__program_ctx);
+	};
+
+	return 0;
+}
+
+void Assembler::gen_16(u16 data)
+{
+	if (__pass)
+	{
+		// Big endian
+		printout(get_bits_with_range(data, 15, 8));
+		printout(get_bits_with_range(data, 7, 0));
+	}
+	__pc += sizeof(data);
+}
+void Assembler::gen_64(u64 data)
+{
+	if (__pass)
+	{
+		// Big endian
+		printout(get_bits_with_range(data, 63, 56));
+		printout(get_bits_with_range(data, 55, 48));
+		printout(get_bits_with_range(data, 47, 40));
+		printout(get_bits_with_range(data, 39, 32));
+		printout(get_bits_with_range(data, 31, 24));
+		printout(get_bits_with_range(data, 23, 16));
+		printout(get_bits_with_range(data, 15, 8));
+		printout(get_bits_with_range(data, 7, 0));
+	}
+	__pc += sizeof(data);
+}
 
 antlrcpp::Any Assembler::visitProgram
 	(GrammarParser::ProgramContext *ctx)

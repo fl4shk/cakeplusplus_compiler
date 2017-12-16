@@ -11,13 +11,15 @@ class Symbol
 private:		// variables
 	Ident __name;
 
+	u64 __addr = 0;
+
 
 public:		// functions
 	inline Symbol()
 	{
 	}
-	inline Symbol(Ident s_name)
-		: __name(s_name)
+	inline Symbol(Ident s_name, u64 s_addr)
+		: __name(s_name), __addr(s_addr)
 	{
 	}
 	inline Symbol(const Symbol& to_copy) = default;
@@ -28,6 +30,8 @@ public:		// functions
 
 	gen_getter_and_setter_by_con_ref(name);
 	gen_setter_by_rval_ref(name);
+
+	gen_getter_and_setter_by_val(addr);
 };
 
 

@@ -94,10 +94,23 @@ class Assembler : public GrammarVisitor
 private:		// variables
 	SymbolTable __sym_tbl;
 
+	u64 __pc;
+
 	std::stack<s64> __num_stack;
 	std::stack<std::string*> __str_stack;
 
+	GrammarParser::ProgramContext* __program_ctx;
+	int __pass;
+
 public:		// functions
+	Assembler(GrammarParser& parser);
+
+	int run();
+
+private:		// functions
+	void gen_16(u16 data);
+	void gen_64(u64 data);
+
 	/**
 	* Visit parse trees produced by GrammarParser.
 	*/
@@ -214,6 +227,8 @@ private:		// functions
 		__str_stack.pop();
 		return ret;
 	}
+
+	gen_getter_and_setter_by_val(pc);
 
 };
 
