@@ -24,11 +24,3 @@ SymbolTable::~SymbolTable()
 {
 }
 
-
-FunctionTable::FunctionTable()
-{
-}
-
-FunctionTable::~FunctionTable()
-{
-}

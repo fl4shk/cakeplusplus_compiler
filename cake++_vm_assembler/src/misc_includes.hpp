@@ -3,6 +3,8 @@
 
 
 
+#include <stack>
+
 
 #include "liborangepower_src/misc_includes.hpp"
 #include "liborangepower_src/misc_output_classes.hpp"

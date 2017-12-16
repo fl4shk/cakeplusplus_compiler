@@ -88,23 +88,30 @@ instrStx:
 	'stx(' TokBuiltinTypename ')'
 	;
 instrBinop:
+	'binop(' TokBinOp ')'
 	;
 instrDispNum:
+	'disp_num'
 	;
 instrDispNumUnsigned:
+	'disp_num_unsigned'
 	;
 instrDispChar:
+	'disp_char'
 	;
 instrDispStr:
+	'disp_str'
 	;
 instrGetNum:
+	'get_num'
 	;
 instrQuit:
+	'quit'
 	;
 
 
 comment:
-	';' [^\n]*
+	';' TokNonNewline*
 	;
 
 expr:
@@ -171,3 +178,5 @@ TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
 TokOpUnary: ('~' | '-' | '!') ;
 TokDecNum: [0-9] ([0-9]*) ;
 TokIdent: [A-Za-z_] (([A-Za-z_] | [0-9])*) ;
+TokNonNewline: [^\n]
+	;
