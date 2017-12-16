@@ -4,3 +4,4 @@ main:
 	binop(add)
 	disp_num
 	quit
+
