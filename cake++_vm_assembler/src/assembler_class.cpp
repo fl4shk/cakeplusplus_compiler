@@ -451,38 +451,43 @@ antlrcpp::Any Assembler::visitInstrBinop
 		printerr("visitInstrBinop():  Eek!\n");
 		exit(1);
 	}
-
-
 	return nullptr;
 }
+
 antlrcpp::Any Assembler::visitInstrDispNum
 	(GrammarParser::InstrDispNumContext *ctx)
 {
+	gen_16(VmInstrOp::disp_num);
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrDispNumUnsigned
 	(GrammarParser::InstrDispNumUnsignedContext *ctx)
 {
+	gen_16(VmInstrOp::disp_num_unsigned);
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrDispChar
 	(GrammarParser::InstrDispCharContext *ctx)
 {
+	gen_16(VmInstrOp::disp_char);
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrDispStr
 	(GrammarParser::InstrDispStrContext *ctx)
 {
+	gen_16(VmInstrOp::disp_str);
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrGetNum
 	(GrammarParser::InstrGetNumContext *ctx)
 {
+	gen_16(VmInstrOp::get_num);
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitInstrQuit
 	(GrammarParser::InstrQuitContext *ctx)
 {
+	gen_16(VmInstrOp::quit);
 	return nullptr;
 }
 
@@ -490,6 +495,7 @@ antlrcpp::Any Assembler::visitInstrQuit
 antlrcpp::Any Assembler::visitComment
 	(GrammarParser::CommentContext *ctx)
 {
+	// Do nothing of interest here
 	return nullptr;
 }
 
