@@ -102,12 +102,21 @@ private:		// variables
 	GrammarParser::ProgramContext* __program_ctx;
 	int __pass;
 
+	bool __show_ws;
+
 public:		// functions
-	Assembler(GrammarParser& parser);
+	Assembler(GrammarParser& parser, bool s_show_ws=false);
 
 	int run();
 
 private:		// functions
+	inline void print_ws_if_allowed(const std::string some_ws)
+	{
+		if (__pass && __show_ws)
+		{
+			printout(some_ws);
+		}
+	}
 	// Generate data
 	void gen_no_ws(u16 data);
 	void gen_16(u16 data);

@@ -3,7 +3,8 @@
 
 #include <sstream>
 
-Assembler::Assembler(GrammarParser& parser)
+Assembler::Assembler(GrammarParser& parser, bool s_show_ws)
+	: __show_ws(s_show_ws)
 {
 	__program_ctx = parser.program();
 }
@@ -52,34 +53,19 @@ void Assembler::gen_16(u16 data)
 {
 	gen_no_ws(data);
 
-	if (__pass)
-	{
-		printout("\n");
-	}
+	print_ws_if_allowed("\n");
 }
 void Assembler::gen_64(u64 data)
 {
 	gen_no_ws(get_bits_with_range(data, 63, 48));
-	if (__pass)
-	{
-		printout(" ");
-	}
+	print_ws_if_allowed(" ");
 	gen_no_ws(get_bits_with_range(data, 47, 32));
-	if (__pass)
-	{
-		printout(" ");
-	}
+	print_ws_if_allowed(" ");
 	gen_no_ws(get_bits_with_range(data, 31, 16));
-	if (__pass)
-	{
-		printout(" ");
-	}
+	print_ws_if_allowed(" ");
 	gen_no_ws(get_bits_with_range(data, 15, 0));
 
-	if (__pass)
-	{
-		printout("\n");
-	}
+	print_ws_if_allowed("\n");
 }
 
 antlrcpp::Any Assembler::visitProgram
