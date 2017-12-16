@@ -26,7 +26,7 @@ void Assembler::gen_16(u16 data)
 	if (__pass)
 	{
 		// Output big endian
-		printout(get_bits_with_range(data, 15, 8), "\n");
+		printout(get_bits_with_range(data, 15, 8), " ");
 		printout(get_bits_with_range(data, 7, 0), "\n");
 	}
 	__pc += sizeof(data);
@@ -36,13 +36,13 @@ void Assembler::gen_64(u64 data)
 	if (__pass)
 	{
 		// Output big endian
-		printout(get_bits_with_range(data, 63, 56), "\n");
-		printout(get_bits_with_range(data, 55, 48), "\n");
-		printout(get_bits_with_range(data, 47, 40), "\n");
-		printout(get_bits_with_range(data, 39, 32), "\n");
-		printout(get_bits_with_range(data, 31, 24), "\n");
-		printout(get_bits_with_range(data, 23, 16), "\n");
-		printout(get_bits_with_range(data, 15, 8), "\n");
+		printout(get_bits_with_range(data, 63, 56), " ");
+		printout(get_bits_with_range(data, 55, 48), " ");
+		printout(get_bits_with_range(data, 47, 40), " ");
+		printout(get_bits_with_range(data, 39, 32), " ");
+		printout(get_bits_with_range(data, 31, 24), " ");
+		printout(get_bits_with_range(data, 23, 16), " ");
+		printout(get_bits_with_range(data, 15, 8), " ");
 		printout(get_bits_with_range(data, 7, 0), "\n");
 	}
 	__pc += sizeof(data);
@@ -89,11 +89,12 @@ antlrcpp::Any Assembler::visitLabel
 {
 	ctx->identName()->accept(this);
 
+
 	auto name = pop_str();
 
 	auto sym = sym_tbl().find_or_insert(name);
 
-	if (sym->found_as_label())
+	if (!__pass && sym->found_as_label())
 	{
 		printerr("Error:  Cannot have two identical identifers!  ",
 			"The offending identifier is \"", *name, "\"\n");
@@ -698,7 +699,7 @@ antlrcpp::Any Assembler::visitExprAddSub
 	}
 	else
 	{
-		ctx->exprAddSub()->accept(this);
+		ctx->exprMulDivModEtc()->accept(this);
 	}
 	return nullptr;
 }
