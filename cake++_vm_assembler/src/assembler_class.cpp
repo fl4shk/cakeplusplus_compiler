@@ -26,8 +26,10 @@ void Assembler::gen_16(u16 data)
 	if (__pass)
 	{
 		// Output big endian
+		printout(std::hex);
 		printout(get_bits_with_range(data, 15, 8), " ");
 		printout(get_bits_with_range(data, 7, 0), "\n");
+		printout(std::dec);
 	}
 	__pc += sizeof(data);
 }
@@ -36,6 +38,7 @@ void Assembler::gen_64(u64 data)
 	if (__pass)
 	{
 		// Output big endian
+		printout(std::hex);
 		printout(get_bits_with_range(data, 63, 56), " ");
 		printout(get_bits_with_range(data, 55, 48), " ");
 		printout(get_bits_with_range(data, 47, 40), " ");
@@ -44,6 +47,7 @@ void Assembler::gen_64(u64 data)
 		printout(get_bits_with_range(data, 23, 16), " ");
 		printout(get_bits_with_range(data, 15, 8), " ");
 		printout(get_bits_with_range(data, 7, 0), "\n");
+		printout(std::dec);
 	}
 	__pc += sizeof(data);
 }
