@@ -221,6 +221,10 @@ antlrcpp::Any Assembler::visitInstruction
 	{
 		ctx->instrConstS8()->accept(this);
 	}
+	else if (ctx->instrNoImmArgs())
+	{
+		ctx->instrNoImmArgs()->accept(this);
+	}
 	else if (ctx->instrBeq())
 	{
 		ctx->instrBeq()->accept(this);
@@ -311,42 +315,6 @@ antlrcpp::Any Assembler::visitInstrConstS8
 	return nullptr;
 }
 
-antlrcpp::Any Assembler::visitInstrArg
-	(GrammarParser::InstrArgContext *ctx)
-{
-	gen_16(VmInstrOp::arg);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrArgX
-	(GrammarParser::InstrArgXContext *ctx)
-{
-	gen_16(VmInstrOp::argx);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrVar
-	(GrammarParser::InstrVarContext *ctx)
-{
-	gen_16(VmInstrOp::var);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrVarX
-	(GrammarParser::InstrVarXContext *ctx)
-{
-	gen_16(VmInstrOp::varx);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrGetPc
-	(GrammarParser::InstrGetPcContext *ctx)
-{
-	gen_16(VmInstrOp::get_pc);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrJump
-	(GrammarParser::InstrJumpContext *ctx)
-{
-	gen_16(VmInstrOp::jump);
-	return nullptr;
-}
 antlrcpp::Any Assembler::visitInstrBeq
 	(GrammarParser::InstrBeqContext *ctx)
 {
@@ -435,22 +403,15 @@ antlrcpp::Any Assembler::visitInstrBneNear
 	}
 	return nullptr;
 }
-antlrcpp::Any Assembler::visitInstrCall
-	(GrammarParser::InstrCallContext *ctx)
+antlrcpp::Any Assembler::visitInstrNoImmArgs
+	(GrammarParser::InstrNoImmArgsContext *ctx)
 {
-	gen_16(VmInstrOp::call);
 	return nullptr;
 }
-antlrcpp::Any Assembler::visitInstrRet
-	(GrammarParser::InstrRetContext *ctx)
+antlrcpp::Any Assembler::__visitInstrLd
+	(GrammarParser::InstrNoImmArgsContext *ctx)
 {
-	gen_16(VmInstrOp::ret);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrLd
-	(GrammarParser::InstrLdContext *ctx)
-{
-	std::string&& op = ctx->TokLdOp()->toString();
+	std::string&& op = ctx->TokNoImmArgsOp()->toString();
 
 	if (op == "ld_basic")
 	{
@@ -482,16 +443,16 @@ antlrcpp::Any Assembler::visitInstrLd
 	}
 	else
 	{
-		printerr("visitInstrLd():  Eek!\n");
+		printerr("__visitInstrLd():  Eek!\n");
 		exit(1);
 	}
 
 	return nullptr;
 }
-antlrcpp::Any Assembler::visitInstrLdx
-	(GrammarParser::InstrLdxContext *ctx)
+antlrcpp::Any Assembler::__visitInstrLdx
+	(GrammarParser::InstrNoImmArgsContext *ctx)
 {
-	std::string&& op = ctx->TokLdxOp()->toString();
+	std::string&& op = ctx->TokNoImmArgsOp()->toString();
 
 	if (op == "ldx_basic")
 	{
@@ -523,16 +484,16 @@ antlrcpp::Any Assembler::visitInstrLdx
 	}
 	else
 	{
-		printerr("visitInstrLdx():  Eek!\n");
+		printerr("__visitInstrLdx():  Eek!\n");
 		exit(1);
 	}
 
 	return nullptr;
 }
-antlrcpp::Any Assembler::visitInstrSt
-	(GrammarParser::InstrStContext *ctx)
+antlrcpp::Any Assembler::__visitInstrSt
+	(GrammarParser::InstrNoImmArgsContext *ctx)
 {
-	std::string&& op = ctx->TokStOp()->toString();
+	std::string&& op = ctx->TokNoImmArgsOp()->toString();
 
 	if (op == "st_basic")
 	{
@@ -564,16 +525,16 @@ antlrcpp::Any Assembler::visitInstrSt
 	}
 	else
 	{
-		printerr("visitInstrSt():  Eek!\n");
+		printerr("__visitInstrSt():  Eek!\n");
 		exit(1);
 	}
 
 	return nullptr;
 }
-antlrcpp::Any Assembler::visitInstrStx
-	(GrammarParser::InstrStxContext *ctx)
+antlrcpp::Any Assembler::__visitInstrStx
+	(GrammarParser::InstrNoImmArgsContext *ctx)
 {
-	std::string&& op = ctx->TokStxOp()->toString();
+	std::string&& op = ctx->TokNoImmArgsOp()->toString();
 
 	if (op == "stx_basic")
 	{
@@ -605,7 +566,7 @@ antlrcpp::Any Assembler::visitInstrStx
 	}
 	else
 	{
-		printerr("visitInstrStx():  Eek!\n");
+		printerr("__visitInstrStx():  Eek!\n");
 		exit(1);
 	}
 
@@ -715,44 +676,6 @@ antlrcpp::Any Assembler::visitInstrBinop
 	}
 	return nullptr;
 }
-
-antlrcpp::Any Assembler::visitInstrDispNum
-	(GrammarParser::InstrDispNumContext *ctx)
-{
-	gen_16(VmInstrOp::disp_num);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrDispNumUnsigned
-	(GrammarParser::InstrDispNumUnsignedContext *ctx)
-{
-	gen_16(VmInstrOp::disp_num_unsigned);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrDispChar
-	(GrammarParser::InstrDispCharContext *ctx)
-{
-	gen_16(VmInstrOp::disp_char);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrDispStr
-	(GrammarParser::InstrDispStrContext *ctx)
-{
-	gen_16(VmInstrOp::disp_str);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrGetNum
-	(GrammarParser::InstrGetNumContext *ctx)
-{
-	gen_16(VmInstrOp::get_num);
-	return nullptr;
-}
-antlrcpp::Any Assembler::visitInstrQuit
-	(GrammarParser::InstrQuitContext *ctx)
-{
-	gen_16(VmInstrOp::quit);
-	return nullptr;
-}
-
 
 antlrcpp::Any Assembler::visitComment
 	(GrammarParser::CommentContext *ctx)

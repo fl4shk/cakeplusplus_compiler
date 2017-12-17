@@ -199,19 +199,18 @@ private:		// functions
 		(GrammarParser::InstrConstU8Context *ctx);
 	antlrcpp::Any visitInstrConstS8
 		(GrammarParser::InstrConstS8Context *ctx);
+	
+	antlrcpp::Any visitInstrNoImmArgs
+		(GrammarParser::InstrNoImmArgsContext *ctx);
+	antlrcpp::Any __visitInstrLd
+		(GrammarParser::InstrNoImmArgsContext *ctx);
+	antlrcpp::Any __visitInstrLdx
+		(GrammarParser::InstrNoImmArgsContext *ctx);
+	antlrcpp::Any __visitInstrSt
+		(GrammarParser::InstrNoImmArgsContext *ctx);
+	antlrcpp::Any __visitInstrStx
+		(GrammarParser::InstrNoImmArgsContext *ctx);
 
-	antlrcpp::Any visitInstrArg
-		(GrammarParser::InstrArgContext *ctx);
-	antlrcpp::Any visitInstrArgX
-		(GrammarParser::InstrArgXContext *ctx);
-	antlrcpp::Any visitInstrVar
-		(GrammarParser::InstrVarContext *ctx);
-	antlrcpp::Any visitInstrVarX
-		(GrammarParser::InstrVarXContext *ctx);
-	antlrcpp::Any visitInstrGetPc
-		(GrammarParser::InstrGetPcContext *ctx);
-	antlrcpp::Any visitInstrJump
-		(GrammarParser::InstrJumpContext *ctx);
 
 	antlrcpp::Any visitInstrBeq
 		(GrammarParser::InstrBeqContext *ctx);
@@ -222,32 +221,8 @@ private:		// functions
 	antlrcpp::Any visitInstrBneNear
 		(GrammarParser::InstrBneNearContext *ctx);
 
-	antlrcpp::Any visitInstrCall
-		(GrammarParser::InstrCallContext *ctx);
-	antlrcpp::Any visitInstrRet
-		(GrammarParser::InstrRetContext *ctx);
-	antlrcpp::Any visitInstrLd
-		(GrammarParser::InstrLdContext *ctx);
-	antlrcpp::Any visitInstrLdx
-		(GrammarParser::InstrLdxContext *ctx);
-	antlrcpp::Any visitInstrSt
-		(GrammarParser::InstrStContext *ctx);
-	antlrcpp::Any visitInstrStx
-		(GrammarParser::InstrStxContext *ctx);
 	antlrcpp::Any visitInstrBinop
 		(GrammarParser::InstrBinopContext *ctx);
-	antlrcpp::Any visitInstrDispNum
-		(GrammarParser::InstrDispNumContext *ctx);
-	antlrcpp::Any visitInstrDispNumUnsigned
-		(GrammarParser::InstrDispNumUnsignedContext *ctx);
-	antlrcpp::Any visitInstrDispChar
-		(GrammarParser::InstrDispCharContext *ctx);
-	antlrcpp::Any visitInstrDispStr
-		(GrammarParser::InstrDispStrContext *ctx);
-	antlrcpp::Any visitInstrGetNum
-		(GrammarParser::InstrGetNumContext *ctx);
-	antlrcpp::Any visitInstrQuit
-		(GrammarParser::InstrQuitContext *ctx);
 
 
 	antlrcpp::Any visitComment
