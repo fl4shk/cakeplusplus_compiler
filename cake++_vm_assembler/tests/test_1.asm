@@ -6,9 +6,11 @@ main:
 	const(8)
 	const(9)
 
-	; Function label
-	const(add)
-	call
+	;; Function label
+	;const(add)
+	;call
+
+	add
 
 	disp_num
 
@@ -17,23 +19,23 @@ main:
 	quit
 
 
-add:
-	const_s8(-8)
-	argx
-	ld_basic
-
-	arg
-	ld_basic
-
-	add
-
-	; return value
-	const_s8(-16)
-	argx
-	st_basic
-
-
-	const_s8(-16)
-	add_to_sp
-
-	ret
+;add:
+;	const_s8(-8)
+;	argx
+;	ld_basic
+;
+;	arg
+;	ld_basic
+;
+;	add
+;
+;	; return value
+;	const_s8(-16)
+;	argx
+;	st_basic
+;
+;
+;	const_s8(-16)
+;	add_to_sp
+;
+;	ret

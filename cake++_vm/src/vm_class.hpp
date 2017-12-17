@@ -138,6 +138,19 @@ public:		// functions
 
 
 private:		// functions
+	void exec_one_instr(VmInstrOp& op);
+
+	// pc() incrementers
+	VmInstrOp get_op();
+	s64 get_imm_64();
+	s64 get_imm_u32();
+	s64 get_imm_s32();
+	s64 get_imm_u16();
+	s64 get_imm_s16();
+	s64 get_imm_u8();
+	s64 get_imm_s8();
+
+
 	inline auto& regs()
 	{
 		return __regs;
@@ -209,8 +222,8 @@ private:		// functions
 
 	inline void err(const std::string& msg) const
 	{
-		printerr("Error (Program counter of ", __regs.pc, "):  ", msg, 
-			"\n");
+		printerr("Error (Program counter of ", 
+			(__regs.pc - sizeof(u16)), "):  ", msg, "\n");
 		exit(1);
 	}
 

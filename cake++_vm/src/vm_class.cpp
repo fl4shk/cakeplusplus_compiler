@@ -49,7 +49,82 @@ Vm::~Vm()
 
 int Vm::run()
 {
+	//VmInstrOp op = VmInstrOp::constant;
+	VmInstrOp op = get_op();
+
+	while (op != VmInstrOp::quit)
+	{
+		exec_one_instr(op);
+	}
+
+	// return quit condition
+
+	if (sp() >= 8)
+	{
+		return pop();
+	}
+	else
+	{
+		err("VmInstrOp::quit:  stack pointer out of valid range!");
+	}
 	return 9001;
+}
+
+void Vm::exec_one_instr(VmInstrOp& op)
+{
+	
+
+	op = get_op();
+}
+
+VmInstrOp Vm::get_op()
+{
+	const VmInstrOp ret = static_cast<VmInstrOp>(get_mem_16(pc()));
+	pc() += sizeof(VmInstrOp);
+	return ret;
+}
+
+s64 Vm::get_imm_64()
+{
+	const s64 ret = get_mem_64(pc());
+	pc() += sizeof(s64);
+	return ret;
+}
+s64 Vm::get_imm_u32()
+{
+	const s64 ret = (s64)((u32)get_mem_32(pc()));
+	pc() += sizeof(u32);
+	return ret;
+}
+s64 Vm::get_imm_s32()
+{
+	const s64 ret = (s64)((s32)get_mem_32(pc()));
+	pc() += sizeof(s32);
+	return ret;
+}
+s64 Vm::get_imm_u16()
+{
+	const s64 ret = (s64)((u16)get_mem_16(pc()));
+	pc() += sizeof(u16);
+	return ret;
+}
+s64 Vm::get_imm_s16()
+{
+	const s64 ret = (s64)((s16)get_mem_16(pc()));
+	pc() += sizeof(s16);
+	return ret;
+}
+s64 Vm::get_imm_u8()
+{
+	const s64 ret = (s64)((u8)get_mem_8(pc()));
+	pc() += sizeof(u8);
+	return ret;
+}
+s64 Vm::get_imm_s8()
+{
+	const s64 ret = (s64)((s8)get_mem_8(pc()));
+	pc() += sizeof(s8);
+	return ret;
 }
 
 void Vm::put_program_into_mem()
