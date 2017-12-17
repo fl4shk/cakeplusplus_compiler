@@ -6,6 +6,8 @@ main:
 	const(0)
 	quit
 
+	ldx_
+
 
 joe:
 	const_u32(8)
