@@ -90,8 +90,7 @@ instrBneNear:
 	'bne_near(' expr ')'
 	;
 instrCall:
-	'call(' identName ')'
-	| 'call(' expr ')'
+	'call'
 	;
 instrRet:
 	'ret'
