@@ -67,6 +67,8 @@ enum class VmInstrOp : u16
 	stx_u8,
 	stx_s8,
 
+	add_to_sp,
+
 	add,
 	sub,
 	mul,
@@ -270,9 +272,6 @@ private:		// functions
 		(GrammarParser::CurrPcContext *ctx);
 
 private:		// functions
-	//void gen_ldst_op(const std::string& some_typename, 
-	//	const std::string& eek_msg);
-
 	inline void push_num(s64 to_push)
 	{
 		__num_stack.push(to_push);

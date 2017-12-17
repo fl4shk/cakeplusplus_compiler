@@ -21,18 +21,10 @@ instruction:
 	| instrConstU32 | instrConstS32
 	| instrConstU16 | instrConstS16
 	| instrConstU8 | instrConstS8
-	| instrArg | instrArgX
-	| instrVar | instrVarX
-	| instrGetPc | instrJump
+	| instrNoImmArgs
 	| instrBeq | instrBne
 	| instrBeqNear | instrBneNear
-	| instrCall | instrRet
-	| instrLd | instrLdx | instrSt | instrStx
 	| instrBinop
-	| instrDispNum | instrDispNumUnsigned
-	| instrDispChar | instrDispStr
-	| instrGetNum
-	| instrQuit
 	;
 
 
@@ -59,24 +51,10 @@ instrConstS8:
 	'const_s8(' expr ')'
 	;
 
-instrArg:
-	'arg'
+instrNoImmArgs:
+	TokNoImmArgsOp
 	;
-instrArgX:
-	'argx'
-	;
-instrVar:
-	'var'
-	;
-instrVarX:
-	'varx'
-	;
-instrGetPc:
-	'get_pc'
-	;
-instrJump:
-	'jump'
-	;
+
 instrBeq:
 	'beq(' expr ')'
 	;
@@ -89,44 +67,8 @@ instrBeqNear:
 instrBneNear:
 	'bne_near(' expr ')'
 	;
-instrCall:
-	'call'
-	;
-instrRet:
-	'ret'
-	;
-instrLd:
-	TokLdOp
-	;
-instrLdx:
-	TokLdxOp
-	;
-instrSt:
-	TokStOp
-	;
-instrStx:
-	TokStxOp
-	;
 instrBinop:
 	TokBinOp
-	;
-instrDispNum:
-	'disp_num'
-	;
-instrDispNumUnsigned:
-	'disp_num_unsigned'
-	;
-instrDispChar:
-	'disp_char'
-	;
-instrDispStr:
-	'disp_str'
-	;
-instrGetNum:
-	'get_num'
-	;
-instrQuit:
-	'quit'
 	;
 
 
@@ -209,8 +151,19 @@ TokStxOp:
 	LexStxPrefix LexBuiltinTypename
 	;
 
+TokNoImmArgsOp: 
+	('arg' | 'argx' | 'var' | 'varx'
+	| 'get_pc' | 'jump'
+	| 'call' | 'ret'
+	| TokLdOp | TokLdxOp | TokStOp | TokStxOp
+	| 'disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
+	| 'get_num'
+	| 'quit')
+	;
+
+
 TokBinOp:
-	( 'add' | 'sub' | 'mul' | 'sdiv' | 'udiv' | 'smod' | 'umod' 
+	('add' | 'sub' | 'mul' | 'sdiv' | 'udiv' | 'smod' | 'umod' 
 	| 'bit_and' | 'bit_or' | 'bit_xor' | 'bit_lsl' | 'bit_lsr' | 'bit_asr' 
 	| 'cmp_eq' | 'cmp_ne' 
 	| 'cmp_ult' | 'cmp_slt' | 'cmp_ugt' | 'cmp_sgt' 

@@ -221,30 +221,6 @@ antlrcpp::Any Assembler::visitInstruction
 	{
 		ctx->instrConstS8()->accept(this);
 	}
-	else if (ctx->instrArg())
-	{
-		ctx->instrArg()->accept(this);
-	}
-	else if (ctx->instrArgX())
-	{
-		ctx->instrArgX()->accept(this);
-	}
-	else if (ctx->instrVar())
-	{
-		ctx->instrVar()->accept(this);
-	}
-	else if (ctx->instrVarX())
-	{
-		ctx->instrVarX()->accept(this);
-	}
-	else if (ctx->instrGetPc())
-	{
-		ctx->instrGetPc()->accept(this);
-	}
-	else if (ctx->instrJump())
-	{
-		ctx->instrJump()->accept(this);
-	}
 	else if (ctx->instrBeq())
 	{
 		ctx->instrBeq()->accept(this);
@@ -261,57 +237,9 @@ antlrcpp::Any Assembler::visitInstruction
 	{
 		ctx->instrBneNear()->accept(this);
 	}
-	else if (ctx->instrCall())
-	{
-		ctx->instrCall()->accept(this);
-	}
-	else if (ctx->instrRet())
-	{
-		ctx->instrRet()->accept(this);
-	}
-	else if (ctx->instrLd())
-	{
-		ctx->instrLd()->accept(this);
-	}
-	else if (ctx->instrLdx())
-	{
-		ctx->instrLdx()->accept(this);
-	}
-	else if (ctx->instrSt())
-	{
-		ctx->instrSt()->accept(this);
-	}
-	else if (ctx->instrStx())
-	{
-		ctx->instrStx()->accept(this);
-	}
 	else if (ctx->instrBinop())
 	{
 		ctx->instrBinop()->accept(this);
-	}
-	else if (ctx->instrDispNum())
-	{
-		ctx->instrDispNum()->accept(this);
-	}
-	else if (ctx->instrDispNumUnsigned())
-	{
-		ctx->instrDispNumUnsigned()->accept(this);
-	}
-	else if (ctx->instrDispChar())
-	{
-		ctx->instrDispChar()->accept(this);
-	}
-	else if (ctx->instrDispStr())
-	{
-		ctx->instrDispStr()->accept(this);
-	}
-	else if (ctx->instrGetNum())
-	{
-		ctx->instrGetNum()->accept(this);
-	}
-	else if (ctx->instrQuit())
-	{
-		ctx->instrQuit()->accept(this);
 	}
 	else
 	{

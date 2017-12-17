@@ -7,16 +7,10 @@ int main(int argc, char** argv)
 
 	antlr4::ANTLRInputStream input(from_stdin);
 	GrammarLexer lexer(&input);
-	//printout("\n", lexer.getNumberOfSyntaxErrors(), "\n");
 	antlr4::CommonTokenStream tokens(&lexer);
 	tokens.fill();
 
 	GrammarParser parser(&tokens);
-	//printout("\n", parser.getNumberOfSyntaxErrors(), "\n");
-	//if (parser.getNumberOfSyntaxErrors())
-	//{
-	//	exit(1);
-	//}
 	parser.removeErrorListeners();
 	std::unique_ptr<AsmErrorListener> asm_error_listener
 		(new AsmErrorListener());
