@@ -444,6 +444,10 @@ antlrcpp::Any Assembler::visitInstrNoImmArgs
 		|| __visitInstrSt(op) || __visitInstrStx(op))
 	{
 	}
+	else if (op == "add_to_sp")
+	{
+		gen_16(VmInstrOp::add_to_sp);
+	}
 	else if (op == "disp_num")
 	{
 		gen_16(VmInstrOp::disp_num);

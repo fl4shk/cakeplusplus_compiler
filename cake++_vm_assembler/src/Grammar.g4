@@ -156,6 +156,7 @@ TokNoImmArgsOp:
 	| 'get_pc' | 'jump'
 	| 'call' | 'ret'
 	| TokLdOp | TokLdxOp | TokStOp | TokStxOp
+	| 'add_to_sp'
 	| 'disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
 	| 'get_num'
 	| 'quit')
