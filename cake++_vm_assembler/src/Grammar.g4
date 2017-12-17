@@ -6,15 +6,17 @@ program:
 	;
 
 line:
-	label (comment?) '\n'
-	| instruction (comment?) '\n'
+	//label (comment?) '\n'
+	//| instruction (comment?) '\n'
+	label '\n'
+	| instruction '\n'
 	| comment '\n'
 	| '\n'
 	;
 
-label:
-	identName ':'
-	;
+//label: TokIdent | TokKeywordIdent ':' ;
+label: identName ':' ;
+
 
 instruction:
 	instrConst
@@ -28,53 +30,27 @@ instruction:
 	;
 
 
-instrConst:
-	'[const(' expr ')]'
-	;
+instrConst: 'const(' expr ')' ;
 
-instrConstU32:
-	'[const_u32(' expr ')]'
-	;
-instrConstS32:
-	'[const_s32(' expr ')]'
-	;
-instrConstU16:
-	'[const_u16(' expr ')]'
-	;
-instrConstS16:
-	'[const_s16(' expr ')]'
-	;
-instrConstU8:
-	'[const_u8(' expr ')]'
-	;
-instrConstS8:
-	'[const_s8(' expr ')]'
-	;
+instrConstU32: 'const_u32(' expr ')' ;
+instrConstS32: 'const_s32(' expr ')' ;
+instrConstU16: 'const_u16(' expr ')' ;
+instrConstS16: 'const_s16(' expr ')' ;
+instrConstU8: 'const_u8(' expr ')' ;
+instrConstS8: 'const_s8(' expr ')' ;
 
 instrNoImmArgs:
 	TokNoImmArgsOp
 	;
 
-instrBeq:
-	'[beq(' expr ')]'
-	;
-instrBne:
-	'[bne(' expr ')]'
-	;
-instrBeqNear:
-	'[beq_near(' expr ')]'
-	;
-instrBneNear:
-	'[bne_near(' expr ')]'
-	;
-instrBinop:
-	TokBinOp
-	;
+instrBeq: 'beq(' expr ')' ;
+instrBne: 'bne(' expr ')' ;
+instrBeqNear: 'beq_near(' expr ')' ;
+instrBneNear: 'bne_near(' expr ')' ;
+instrBinop: TokBinOp ;
 
 
-comment:
-	';' (~ '\n')*
-	;
+comment: ';' (~ '\n')* ;
 
 expr:
 	exprLogical
@@ -112,38 +88,21 @@ exprUnary:
 	| exprLogNegate
 	;
 
-exprBitInvert:
-	'~' expr
-	;
-exprNegate:
-	'-' expr
-	;
-exprLogNegate:
-	'!' expr
-	;
+exprBitInvert: '~' expr ;
+exprNegate: '-' expr ;
+exprLogNegate: '!' expr ;
 
-identName:
-	TokIdent
-	;
+identName: TokIdent | TokBinOp | TokNoImmArgsOp;
 
-numExpr:
-	TokDecNum
-	;
+numExpr: TokDecNum ;
 
-currPc:
-	'.'
-	;
+currPc: '.' ;
 
 
 
 // Lexer rules
 LexWhitespace: (' ' | '\t') -> skip ;
-fragment LexLeftBracket:
-	'['
-	;
-fragment LexRightBracket:
-	']'
-	;
+
 fragment LexBuiltinTypename: 
 	('basic' | 'u32' | 's32' | 'u16' | 's16' | 'u8' | 's8')
 	;
@@ -162,45 +121,48 @@ fragment LexStxPrefix:
 	;
 
 TokLdOp:
-	LexLeftBracket LexLdPrefix LexBuiltinTypename LexRightBracket
+	LexLdPrefix LexBuiltinTypename
 	;
 TokLdxOp:
-	LexLeftBracket LexLdxPrefix LexBuiltinTypename LexRightBracket
+	LexLdxPrefix LexBuiltinTypename
 	;
 TokStOp:
-	LexLeftBracket LexStPrefix LexBuiltinTypename LexRightBracket
+	LexStPrefix LexBuiltinTypename
 	;
 TokStxOp:
-	LexLeftBracket LexStxPrefix LexBuiltinTypename LexRightBracket
+	LexStxPrefix LexBuiltinTypename
 	;
 
 TokNoImmArgsOp: 
-	('[arg]' | '[argx]' | '[var]' | '[varx]'
-	| '[get_pc]' | '[jump]'
-	| '[call]' | '[ret]'
+	('arg' | 'argx' | 'var' | 'varx'
+	| 'get_pc' | 'jump'
+	| 'call' | 'ret'
 	| TokLdOp | TokLdxOp | TokStOp | TokStxOp
-	| '[add_to_sp]'
-	| '[disp_num]' | '[disp_num_unsigned]' | '[disp_char]' | '[disp_str]'
-	| '[get_num]'
-	| '[quit]')
+	| 'add_to_sp'
+	| 'disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
+	| 'get_num'
+	| 'quit')
 	;
 
 
 TokBinOp:
-	('[add]' | '[sub]' | '[mul]' 
-	| '[udiv]' | '[sdiv]' | '[umod]' | '[smod]' 
-	| '[bit_and]' | '[bit_or]' | '[bit_xor]' 
-	| '[bit_lsl]' | '[bit_lsr]' | '[bit_asr]' 
-	| '[cmp_eq]' | '[cmp_ne]' 
-	| '[cmp_ult]' | '[cmp_slt]' | '[cmp_ugt]' | '[cmp_sgt]' 
-	| '[cmp_ule]' | '[cmp_sle]' | '[cmp_uge]' | '[cmp_sge]')
+	('add' | 'sub' | 'mul' 
+	| 'udiv' | 'sdiv' | 'umod' | 'smod' 
+	| 'bit_and' | 'bit_or' | 'bit_xor' 
+	| 'bit_lsl' | 'bit_lsr' | 'bit_asr' 
+	| 'cmp_eq' | 'cmp_ne' 
+	| 'cmp_ult' | 'cmp_slt' | 'cmp_ugt' | 'cmp_sgt' 
+	| 'cmp_ule' | 'cmp_sle' | 'cmp_uge' | 'cmp_sge')
 	;
+
+
 
 TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
 TokOpAddSub: ('+' | '-') ;
 TokOpMulDivMod: ('*' | '/' | '%') ;
 TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
-//TokOpUnary: ('~' | '-' | '!') ;
 TokDecNum: [0-9] ([0-9]*) ;
+
 TokIdent: [A-Za-z_] (([A-Za-z_] | [0-9])*) ;
+TokOther: . ;
