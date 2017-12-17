@@ -67,6 +67,7 @@ enum class VmInstrOp : u16
 	stx_u8,
 	stx_s8,
 
+
 	add_to_sp,
 
 	add,

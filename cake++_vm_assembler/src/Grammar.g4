@@ -73,7 +73,7 @@ instrBinop:
 
 
 comment:
-	';' TokNonNewline*
+	';' (~ '\n')*
 	;
 
 expr:
@@ -179,5 +179,3 @@ TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
 TokOpUnary: ('~' | '-' | '!') ;
 TokDecNum: [0-9] ([0-9]*) ;
 TokIdent: [A-Za-z_] (([A-Za-z_] | [0-9])*) ;
-TokNonNewline: [^\n]
-	;
