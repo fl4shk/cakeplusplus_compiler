@@ -133,6 +133,7 @@ public:		// functions
 	Vm(size_t s_mem_size);
 	~Vm();
 
+
 	int run();
 
 

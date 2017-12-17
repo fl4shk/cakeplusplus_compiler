@@ -101,6 +101,8 @@ void Vm::put_program_into_mem()
 	//	}
 	//	printout(std::hex, temp, std::dec);
 	//}
+	sp() += 16;
+	fp() += 8;
 }
 
 u64 Vm::get_mem_64(size_t address) const

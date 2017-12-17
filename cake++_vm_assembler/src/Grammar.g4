@@ -29,26 +29,26 @@ instruction:
 
 
 instrConst:
-	'const(' expr ')'
+	'[const(' expr ')]'
 	;
 
 instrConstU32:
-	'const_u32(' expr ')'
+	'[const_u32(' expr ')]'
 	;
 instrConstS32:
-	'const_s32(' expr ')'
+	'[const_s32(' expr ')]'
 	;
 instrConstU16:
-	'const_u16(' expr ')'
+	'[const_u16(' expr ')]'
 	;
 instrConstS16:
-	'const_s16(' expr ')'
+	'[const_s16(' expr ')]'
 	;
 instrConstU8:
-	'const_u8(' expr ')'
+	'[const_u8(' expr ')]'
 	;
 instrConstS8:
-	'const_s8(' expr ')'
+	'[const_s8(' expr ')]'
 	;
 
 instrNoImmArgs:
@@ -56,16 +56,16 @@ instrNoImmArgs:
 	;
 
 instrBeq:
-	'beq(' expr ')'
+	'[beq(' expr ')]'
 	;
 instrBne:
-	'bne(' expr ')'
+	'[bne(' expr ')]'
 	;
 instrBeqNear:
-	'beq_near(' expr ')'
+	'[beq_near(' expr ')]'
 	;
 instrBneNear:
-	'bne_near(' expr ')'
+	'[bne_near(' expr ')]'
 	;
 instrBinop:
 	TokBinOp
@@ -121,6 +121,12 @@ currPc:
 
 // Lexer rules
 LexWhitespace: (' ' | '\t') -> skip ;
+fragment LexLeftBracket:
+	'['
+	;
+fragment LexRightBracket:
+	']'
+	;
 fragment LexBuiltinTypename: 
 	('basic' | 'u32' | 's32' | 'u16' | 's16' | 'u8' | 's8')
 	;
@@ -139,36 +145,38 @@ fragment LexStxPrefix:
 	;
 
 TokLdOp:
-	LexLdPrefix LexBuiltinTypename
+	LexLeftBracket LexLdPrefix LexBuiltinTypename LexRightBracket
 	;
 TokLdxOp:
-	LexLdxPrefix LexBuiltinTypename
+	LexLeftBracket LexLdxPrefix LexBuiltinTypename LexRightBracket
 	;
 TokStOp:
-	LexStPrefix LexBuiltinTypename
+	LexLeftBracket LexStPrefix LexBuiltinTypename LexRightBracket
 	;
 TokStxOp:
-	LexStxPrefix LexBuiltinTypename
+	LexLeftBracket LexStxPrefix LexBuiltinTypename LexRightBracket
 	;
 
 TokNoImmArgsOp: 
-	('arg' | 'argx' | 'var' | 'varx'
-	| 'get_pc' | 'jump'
-	| 'call' | 'ret'
+	('[arg]' | '[argx]' | '[var]' | '[varx]'
+	| '[get_pc]' | '[jump]'
+	| '[call]' | '[ret]'
 	| TokLdOp | TokLdxOp | TokStOp | TokStxOp
-	| 'add_to_sp'
-	| 'disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
-	| 'get_num'
-	| 'quit')
+	| '[add_to_sp]'
+	| '[disp_num]' | '[disp_num_unsigned]' | '[disp_char]' | '[disp_str]'
+	| '[get_num]'
+	| '[quit]')
 	;
 
 
 TokBinOp:
-	('add' | 'sub' | 'mul' | 'sdiv' | 'udiv' | 'smod' | 'umod' 
-	| 'bit_and' | 'bit_or' | 'bit_xor' | 'bit_lsl' | 'bit_lsr' | 'bit_asr' 
-	| 'cmp_eq' | 'cmp_ne' 
-	| 'cmp_ult' | 'cmp_slt' | 'cmp_ugt' | 'cmp_sgt' 
-	| 'cmp_ule' | 'cmp_sle' | 'cmp_uge' | 'cmp_sge')
+	('[add]' | '[sub]' | '[mul]' 
+	| '[udiv]' | '[sdiv]' | '[umod]' | '[smod]' 
+	| '[bit_and]' | '[bit_or]' | '[bit_xor]' 
+	| '[bit_lsl]' | '[bit_lsr]' | '[bit_asr]' 
+	| '[cmp_eq]' | '[cmp_ne]' 
+	| '[cmp_ult]' | '[cmp_slt]' | '[cmp_ugt]' | '[cmp_sgt]' 
+	| '[cmp_ule]' | '[cmp_sle]' | '[cmp_uge]' | '[cmp_sge]')
 	;
 
 TokOpLogical: ('&&' | '||') ;

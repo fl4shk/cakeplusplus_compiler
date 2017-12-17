@@ -408,35 +408,35 @@ antlrcpp::Any Assembler::visitInstrNoImmArgs
 {
 	std::string&& op = ctx->TokNoImmArgsOp()->toString();
 
-	if (op == "arg")
+	if (op == "[arg]")
 	{
 		gen_16(VmInstrOp::arg);
 	}
-	else if (op == "argx")
+	else if (op == "[argx]")
 	{
 		gen_16(VmInstrOp::argx);
 	}
-	else if (op == "var")
+	else if (op == "[var]")
 	{
 		gen_16(VmInstrOp::var);
 	}
-	else if (op == "varx")
+	else if (op == "[varx]")
 	{
 		gen_16(VmInstrOp::varx);
 	}
-	else if (op == "get_pc")
+	else if (op == "[get_pc]")
 	{
 		gen_16(VmInstrOp::get_pc);
 	}
-	else if (op == "jump")
+	else if (op == "[jump]")
 	{
 		gen_16(VmInstrOp::jump);
 	}
-	else if (op == "call")
+	else if (op == "[call]")
 	{
 		gen_16(VmInstrOp::call);
 	}
-	else if (op == "ret")
+	else if (op == "[ret]")
 	{
 		gen_16(VmInstrOp::ret);
 	}
@@ -444,37 +444,37 @@ antlrcpp::Any Assembler::visitInstrNoImmArgs
 		|| __visitInstrSt(op) || __visitInstrStx(op))
 	{
 	}
-	else if (op == "add_to_sp")
+	else if (op == "[add_to_sp]")
 	{
 		gen_16(VmInstrOp::add_to_sp);
 	}
-	else if (op == "disp_num")
+	else if (op == "[disp_num]")
 	{
 		gen_16(VmInstrOp::disp_num);
 	}
-	else if (op == "disp_num_unsigned")
+	else if (op == "[disp_num_unsigned]")
 	{
 		gen_16(VmInstrOp::disp_num_unsigned);
 	}
-	else if (op == "disp_char")
+	else if (op == "[disp_char]")
 	{
 		gen_16(VmInstrOp::disp_char);
 	}
-	else if (op == "disp_str")
+	else if (op == "[disp_str]")
 	{
 		gen_16(VmInstrOp::disp_str);
 	}
-	else if (op == "get_num")
+	else if (op == "[get_num]")
 	{
 		gen_16(VmInstrOp::get_num);
 	}
-	else if (op == "quit")
+	else if (op == "[quit]")
 	{
 		gen_16(VmInstrOp::quit);
 	}
 	else
 	{
-		printerr("visitInstrNoImmArgs():  Eek!\n");
+		printerr("visitInstrNoImmArgs():  Eek!\n[]");
 		exit(1);
 	}
 
@@ -482,37 +482,37 @@ antlrcpp::Any Assembler::visitInstrNoImmArgs
 }
 bool Assembler::__visitInstrLd(const std::string& op)
 {
-	if (op == "ld_basic")
+	if (op == "[ld_basic]")
 	{
 		gen_16(VmInstrOp::ld_basic);
 	}
-	else if (op == "ld_u32")
+	else if (op == "[ld_u32]")
 	{
 		gen_16(VmInstrOp::ld_u32);
 	}
-	else if (op == "ld_s32")
+	else if (op == "[ld_s32]")
 	{
 		gen_16(VmInstrOp::ld_s32);
 	}
-	else if (op == "ld_u16")
+	else if (op == "[ld_u16]")
 	{
 		gen_16(VmInstrOp::ld_u16);
 	}
-	else if (op == "ld_s16")
+	else if (op == "[ld_s16]")
 	{
 		gen_16(VmInstrOp::ld_s16);
 	}
-	else if (op == "ld_u8")
+	else if (op == "[ld_u8]")
 	{
 		gen_16(VmInstrOp::ld_u8);
 	}
-	else if (op == "ld_s8")
+	else if (op == "[ld_s8]")
 	{
 		gen_16(VmInstrOp::ld_s8);
 	}
 	else
 	{
-		//printerr("__visitInstrLd():  Eek!\n");
+		//printerr("__visitInstrLd():  Eek!\n]");
 		//exit(1);
 		return false;
 	}
@@ -522,37 +522,37 @@ bool Assembler::__visitInstrLd(const std::string& op)
 }
 bool Assembler::__visitInstrLdx(const std::string& op)
 {
-	if (op == "ldx_basic")
+	if (op == "[ldx_basic]")
 	{
 		gen_16(VmInstrOp::ldx_basic);
 	}
-	else if (op == "ldx_u32")
+	else if (op == "[ldx_u32]")
 	{
 		gen_16(VmInstrOp::ldx_u32);
 	}
-	else if (op == "ldx_s32")
+	else if (op == "[ldx_s32]")
 	{
 		gen_16(VmInstrOp::ldx_s32);
 	}
-	else if (op == "ldx_u16")
+	else if (op == "[ldx_u16]")
 	{
 		gen_16(VmInstrOp::ldx_u16);
 	}
-	else if (op == "ldx_s16")
+	else if (op == "[ldx_s16]")
 	{
 		gen_16(VmInstrOp::ldx_s16);
 	}
-	else if (op == "ldx_u8")
+	else if (op == "[ldx_u8]")
 	{
 		gen_16(VmInstrOp::ldx_u8);
 	}
-	else if (op == "ldx_s8")
+	else if (op == "[ldx_s8]")
 	{
 		gen_16(VmInstrOp::ldx_s8);
 	}
 	else
 	{
-		//printerr("__visitInstrLdx():  Eek!\n");
+		//printerr("__visitInstrLdx():  Eek!\n]");
 		//exit(1);
 		return false;
 	}
@@ -562,31 +562,31 @@ bool Assembler::__visitInstrLdx(const std::string& op)
 }
 bool Assembler::__visitInstrSt(const std::string& op)
 {
-	if (op == "st_basic")
+	if (op == "[st_basic]")
 	{
 		gen_16(VmInstrOp::st_basic);
 	}
-	else if (op == "st_u32")
+	else if (op == "[st_u32]")
 	{
 		gen_16(VmInstrOp::st_u32);
 	}
-	else if (op == "st_s32")
+	else if (op == "[st_s32]")
 	{
 		gen_16(VmInstrOp::st_s32);
 	}
-	else if (op == "st_u16")
+	else if (op == "[st_u16]")
 	{
 		gen_16(VmInstrOp::st_u16);
 	}
-	else if (op == "st_s16")
+	else if (op == "[st_s16]")
 	{
 		gen_16(VmInstrOp::st_s16);
 	}
-	else if (op == "st_u8")
+	else if (op == "[st_u8]")
 	{
 		gen_16(VmInstrOp::st_u8);
 	}
-	else if (op == "st_s8")
+	else if (op == "[st_s8]")
 	{
 		gen_16(VmInstrOp::st_s8);
 	}
@@ -602,31 +602,31 @@ bool Assembler::__visitInstrSt(const std::string& op)
 }
 bool Assembler::__visitInstrStx(const std::string& op)
 {
-	if (op == "stx_basic")
+	if (op == "[stx_basic]")
 	{
 		gen_16(VmInstrOp::stx_basic);
 	}
-	else if (op == "stx_u32")
+	else if (op == "[stx_u32]")
 	{
 		gen_16(VmInstrOp::stx_u32);
 	}
-	else if (op == "stx_s32")
+	else if (op == "[stx_s32]")
 	{
 		gen_16(VmInstrOp::stx_s32);
 	}
-	else if (op == "stx_u16")
+	else if (op == "[stx_u16]")
 	{
 		gen_16(VmInstrOp::stx_u16);
 	}
-	else if (op == "stx_s16")
+	else if (op == "[stx_s16]")
 	{
 		gen_16(VmInstrOp::stx_s16);
 	}
-	else if (op == "stx_u8")
+	else if (op == "[stx_u8]")
 	{
 		gen_16(VmInstrOp::stx_u8);
 	}
-	else if (op == "stx_s8")
+	else if (op == "[stx_s8]")
 	{
 		gen_16(VmInstrOp::stx_s8);
 	}
@@ -645,95 +645,95 @@ antlrcpp::Any Assembler::visitInstrBinop
 {
 	const auto& some_binop = ctx->TokBinOp()->toString();
 
-	if (some_binop == "add")
+	if (some_binop == "[add]")
 	{
 		gen_16(VmInstrOp::add);
 	}
-	else if (some_binop == "sub")
+	else if (some_binop == "[sub]")
 	{
 		gen_16(VmInstrOp::sub);
 	}
-	else if (some_binop == "mul")
+	else if (some_binop == "[mul]")
 	{
 		gen_16(VmInstrOp::mul);
 	}
-	else if (some_binop == "sdiv")
+	else if (some_binop == "[sdiv]")
 	{
 		gen_16(VmInstrOp::sdiv);
 	}
-	else if (some_binop == "udiv")
+	else if (some_binop == "[udiv]")
 	{
 		gen_16(VmInstrOp::udiv);
 	}
-	else if (some_binop == "smod")
+	else if (some_binop == "[smod]")
 	{
 		gen_16(VmInstrOp::smod);
 	}
-	else if (some_binop == "umod")
+	else if (some_binop == "[umod]")
 	{
 		gen_16(VmInstrOp::umod);
 	}
-	else if (some_binop == "bit_and")
+	else if (some_binop == "[bit_and]")
 	{
 		gen_16(VmInstrOp::bit_and);
 	}
-	else if (some_binop == "bit_or")
+	else if (some_binop == "[bit_or]")
 	{
 		gen_16(VmInstrOp::bit_or);
 	}
-	else if (some_binop == "bit_xor")
+	else if (some_binop == "[bit_xor]")
 	{
 		gen_16(VmInstrOp::bit_xor);
 	}
-	else if (some_binop == "bit_lsl")
+	else if (some_binop == "[bit_lsl]")
 	{
 		gen_16(VmInstrOp::bit_lsl);
 	}
-	else if (some_binop == "bit_lsr")
+	else if (some_binop == "[bit_lsr]")
 	{
 		gen_16(VmInstrOp::bit_lsr);
 	}
-	else if (some_binop == "bit_asr")
+	else if (some_binop == "[bit_asr]")
 	{
 		gen_16(VmInstrOp::bit_asr);
 	}
-	else if (some_binop == "cmp_eq")
+	else if (some_binop == "[cmp_eq]")
 	{
 		gen_16(VmInstrOp::cmp_eq);
 	}
-	else if (some_binop == "cmp_ne")
+	else if (some_binop == "[cmp_ne]")
 	{
 		gen_16(VmInstrOp::cmp_ne);
 	}
-	else if (some_binop == "cmp_ult")
+	else if (some_binop == "[cmp_ult]")
 	{
 		gen_16(VmInstrOp::cmp_ult);
 	}
-	else if (some_binop == "cmp_slt")
+	else if (some_binop == "[cmp_slt]")
 	{
 		gen_16(VmInstrOp::cmp_slt);
 	}
-	else if (some_binop == "cmp_ugt")
+	else if (some_binop == "[cmp_ugt]")
 	{
 		gen_16(VmInstrOp::cmp_ugt);
 	}
-	else if (some_binop == "cmp_sgt")
+	else if (some_binop == "[cmp_sgt]")
 	{
 		gen_16(VmInstrOp::cmp_sgt);
 	}
-	else if (some_binop == "cmp_ule")
+	else if (some_binop == "[cmp_ule]")
 	{
 		gen_16(VmInstrOp::cmp_ule);
 	}
-	else if (some_binop == "cmp_sle")
+	else if (some_binop == "[cmp_sle]")
 	{
 		gen_16(VmInstrOp::cmp_sle);
 	}
-	else if (some_binop == "cmp_uge")
+	else if (some_binop == "[cmp_uge]")
 	{
 		gen_16(VmInstrOp::cmp_uge);
 	}
-	else if (some_binop == "cmp_sge")
+	else if (some_binop == "[cmp_sge]")
 	{
 		gen_16(VmInstrOp::cmp_sge);
 	}

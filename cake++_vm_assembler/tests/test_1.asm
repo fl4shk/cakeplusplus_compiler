@@ -1,15 +1,27 @@
 main:
-	const(joe)
-	call
+	[const(8)
+	[const(9)
+	[const(add)]
+	[call]
 
 
-	const(0)
-	quit
+	[const(0)]
+	[quit]
 
 
-joe:
-	const_s8(8)
-	argx
-	add
+add:
+	[const_s8(-16)]
+	[argx]
 
-	ret
+	[arg]
+	[ld]
+
+	[const_s8(-8)]
+	[argx]
+	[ld]
+
+	[add]
+
+	[st]
+
+	[ret]
