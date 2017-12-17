@@ -30,14 +30,6 @@ Stack frame:
                           function
   fp + 16 + var_space:    temporaries
 
-Encodings:
-  No arguments:         Two bytes used, representing
-  constant(immediate):  10 bytes used
-  binop(type):          Four bytes used
-  ld(type):             Four bytes used
-  ldx(type):            Four bytes used
-  st(type):             Four bytes used
-  stx(type):            Four bytes used
 
 Instructions:
   // Put constant value onto the stack

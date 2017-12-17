@@ -40,7 +40,7 @@ Vm::Vm(size_t s_mem_size)
 	pc() = 0;
 	sp() = 0;
 	fp() = 0;
-	arg_space() = 0;
+	put_program_into_mem();
 }
 
 Vm::~Vm()

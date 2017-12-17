@@ -4,13 +4,12 @@ main:
 
 
 	const(0)
-	bne(joe)
 	quit
 
 
 joe:
-;	const_u32(8)
-;	const_u32(9)
-;	add
-;
-;	ret
+	const_s8(8)
+	argx
+	add
+
+	ret
