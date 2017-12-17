@@ -406,7 +406,7 @@ antlrcpp::Any Assembler::visitInstrBneNear
 antlrcpp::Any Assembler::visitInstrNoImmArgs
 	(GrammarParser::InstrNoImmArgsContext *ctx)
 {
-	std::string&& op = ctx->getStart()->toString();
+	std::string&& op = ctx->TokNoImmArgsOp()->toString();
 
 	if (op == "arg")
 	{
