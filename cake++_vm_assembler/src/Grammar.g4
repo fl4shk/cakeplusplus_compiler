@@ -6,8 +6,8 @@ program:
 	;
 
 line:
-	label '\n'
-	| instruction '\n'
+	label (comment?) '\n'
+	| instruction (comment?) '\n'
 	| comment '\n'
 	| '\n'
 	;
