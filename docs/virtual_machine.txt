@@ -241,6 +241,121 @@ Instructions:
     }
 
 
+  bit_and:
+    {
+      a = pop();
+      b = pop();
+
+      push(a & b);
+    }
+  bit_or:
+    {
+      a = pop();
+      b = pop();
+
+      push(a | b);
+    }
+  bit_xor:
+    {
+      a = pop();
+      b = pop();
+
+      push(a ^ b);
+    }
+  bit_lsl:
+    {
+      a = pop();
+      b = pop();
+
+      push(a << b);
+    }
+  bit_lsr:
+    {
+      const u64 a = pop();
+      const u64 b = pop();
+
+      push(a >> b);
+    }
+  bit_asr:
+    {
+      a = pop();
+      b = pop();
+
+      push(a >> b);
+    }
+
+
+  cmp_eq:
+    {
+      a = pop();
+      b = pop();
+
+      push(a == b);
+    }
+  cmp_ne:
+    {
+      a = pop();
+      b = pop();
+
+      push(a != b);
+    }
+  cmp_ult:
+    {
+      const u64 a = pop();
+      const u64 b = pop();
+
+      push(a < b);
+    }
+  cmp_slt:
+    {
+      a = pop();
+      b = pop();
+
+      push(a < b);
+    }
+  cmp_ugt:
+    {
+      const u64 a = pop();
+      const u64 b = pop();
+
+      push(a > b);
+    }
+  cmp_sgt:
+    {
+      a = pop();
+      b = pop();
+
+      push(a > b);
+    }
+  cmp_ule:
+    {
+      const u64 a = pop();
+      const u64 b = pop();
+
+      push(a <= b);
+    }
+  cmp_sle:
+    {
+      a = pop();
+      b = pop();
+
+      push(a <= b);
+    }
+  cmp_uge:
+    {
+      const u64 a = pop();
+      const u64 b = pop();
+
+      push(a >= b);
+    }
+  cmp_sge:
+    {
+      a = pop();
+      b = pop();
+
+      push(a >= b);
+    }
+
 
   // Display 64-bit integer
   disp_num:
