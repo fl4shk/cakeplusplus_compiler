@@ -1,6 +1,6 @@
 main:
-	[const(8)
-	[const(9)
+	[const(8)]
+	[const(9)]
 	[const(add)]
 	[call]
 
@@ -14,14 +14,14 @@ add:
 	[argx]
 
 	[arg]
-	[ld]
+	[ld_basic]
 
 	[const_s8(-8)]
 	[argx]
-	[ld]
+	[ld_basic]
 
 	[add]
 
-	[st]
+	[st_basic]
 
 	[ret]

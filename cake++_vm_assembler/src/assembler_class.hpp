@@ -235,6 +235,15 @@ private:		// functions
 		(GrammarParser::ExprAddSubContext *ctx);
 	antlrcpp::Any visitExprMulDivModEtc
 		(GrammarParser::ExprMulDivModEtcContext *ctx);
+	antlrcpp::Any visitExprUnary
+		(GrammarParser::ExprUnaryContext *ctx);
+
+	antlrcpp::Any visitExprBitInvert
+		(GrammarParser::ExprBitInvertContext *ctx);
+	antlrcpp::Any visitExprNegate
+		(GrammarParser::ExprNegateContext *ctx);
+	antlrcpp::Any visitExprLogNegate
+		(GrammarParser::ExprLogNegateContext *ctx);
 
 	antlrcpp::Any visitIdentName
 		(GrammarParser::IdentNameContext *ctx);

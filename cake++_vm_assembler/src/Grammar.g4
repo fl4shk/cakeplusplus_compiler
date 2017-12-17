@@ -98,11 +98,28 @@ exprAddSub:
 	;
 
 exprMulDivModEtc:
-	numExpr
+	exprUnary
+	| numExpr
 	| identName
 	| currPc
 	| '(' expr ')'
-	| TokOpUnary expr
+	//| TokOpUnary expr
+	;
+
+exprUnary:
+	exprBitInvert
+	| exprNegate
+	| exprLogNegate
+	;
+
+exprBitInvert:
+	'~' expr
+	;
+exprNegate:
+	'-' expr
+	;
+exprLogNegate:
+	'!' expr
 	;
 
 identName:
@@ -184,6 +201,6 @@ TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
 TokOpAddSub: ('+' | '-') ;
 TokOpMulDivMod: ('*' | '/' | '%') ;
 TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
-TokOpUnary: ('~' | '-' | '!') ;
+//TokOpUnary: ('~' | '-' | '!') ;
 TokDecNum: [0-9] ([0-9]*) ;
 TokIdent: [A-Za-z_] (([A-Za-z_] | [0-9])*) ;

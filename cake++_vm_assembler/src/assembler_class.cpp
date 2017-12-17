@@ -943,7 +943,11 @@ antlrcpp::Any Assembler::visitExprAddSub
 antlrcpp::Any Assembler::visitExprMulDivModEtc
 	(GrammarParser::ExprMulDivModEtcContext *ctx)
 {
-	if (ctx->numExpr())
+	if (ctx->exprUnary())
+	{
+		ctx->exprUnary()->accept(this);
+	}
+	else if (ctx->numExpr())
 	{
 		ctx->numExpr()->accept(this);
 	}
@@ -957,31 +961,6 @@ antlrcpp::Any Assembler::visitExprMulDivModEtc
 	{
 		ctx->currPc()->accept(this);
 	}
-	else if (ctx->TokOpUnary())
-	{
-		ctx->expr()->accept(this);
-		const auto stuff = pop_num();
-
-		auto&& op = ctx->TokOpUnary()->toString();
-
-		if (op == "~")
-		{
-			push_num(~stuff);
-		}
-		else if (op == "-")
-		{
-			push_num(-stuff);
-		}
-		else if (op == "!")
-		{
-			push_num(!stuff);
-		}
-		else
-		{
-			printerr("visitExprMulDivModEtc():  Eek!\n");
-			exit(1);
-		}
-	}
 	else
 	{
 		ctx->expr()->accept(this);
@@ -989,7 +968,50 @@ antlrcpp::Any Assembler::visitExprMulDivModEtc
 
 	return nullptr;
 }
+antlrcpp::Any Assembler::visitExprUnary
+	(GrammarParser::ExprUnaryContext *ctx)
+{
+	if (ctx->exprBitInvert())
+	{
+		ctx->exprBitInvert()->accept(this);
+	}
+	else if (ctx->exprNegate())
+	{
+		ctx->exprNegate()->accept(this);
+	}
+	else if (ctx->exprLogNegate())
+	{
+		ctx->exprLogNegate()->accept(this);
+	}
+	else
+	{
+		printerr("visitExprUnary():  Eek!\n");
+		exit(1);
+	}
+	return nullptr;
+}
 
+antlrcpp::Any Assembler::visitExprBitInvert
+	(GrammarParser::ExprBitInvertContext *ctx)
+{
+	ctx->expr()->accept(this);
+	push_num(~pop_num());
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitExprNegate
+	(GrammarParser::ExprNegateContext *ctx)
+{
+	ctx->expr()->accept(this);
+	push_num(-pop_num());
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitExprLogNegate
+	(GrammarParser::ExprLogNegateContext *ctx)
+{
+	ctx->expr()->accept(this);
+	push_num(!pop_num());
+	return nullptr;
+}
 antlrcpp::Any Assembler::visitIdentName
 	(GrammarParser::IdentNameContext *ctx)
 {
