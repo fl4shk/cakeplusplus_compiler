@@ -202,14 +202,10 @@ private:		// functions
 	
 	antlrcpp::Any visitInstrNoImmArgs
 		(GrammarParser::InstrNoImmArgsContext *ctx);
-	antlrcpp::Any __visitInstrLd
-		(GrammarParser::InstrNoImmArgsContext *ctx);
-	antlrcpp::Any __visitInstrLdx
-		(GrammarParser::InstrNoImmArgsContext *ctx);
-	antlrcpp::Any __visitInstrSt
-		(GrammarParser::InstrNoImmArgsContext *ctx);
-	antlrcpp::Any __visitInstrStx
-		(GrammarParser::InstrNoImmArgsContext *ctx);
+	bool __visitInstrLd(const std::string& op);
+	bool __visitInstrLdx(const std::string& op);
+	bool __visitInstrSt(const std::string& op);
+	bool __visitInstrStx(const std::string& op);
 
 
 	antlrcpp::Any visitInstrBeq

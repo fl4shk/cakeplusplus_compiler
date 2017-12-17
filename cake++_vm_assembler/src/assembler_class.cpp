@@ -406,13 +406,78 @@ antlrcpp::Any Assembler::visitInstrBneNear
 antlrcpp::Any Assembler::visitInstrNoImmArgs
 	(GrammarParser::InstrNoImmArgsContext *ctx)
 {
-	return nullptr;
-}
-antlrcpp::Any Assembler::__visitInstrLd
-	(GrammarParser::InstrNoImmArgsContext *ctx)
-{
 	std::string&& op = ctx->TokNoImmArgsOp()->toString();
 
+	if (op == "arg")
+	{
+		gen_16(VmInstrOp::arg);
+	}
+	else if (op == "argx")
+	{
+		gen_16(VmInstrOp::argx);
+	}
+	else if (op == "var")
+	{
+		gen_16(VmInstrOp::var);
+	}
+	else if (op == "varx")
+	{
+		gen_16(VmInstrOp::varx);
+	}
+	else if (op == "get_pc")
+	{
+		gen_16(VmInstrOp::get_pc);
+	}
+	else if (op == "jump")
+	{
+		gen_16(VmInstrOp::jump);
+	}
+	else if (op == "call")
+	{
+		gen_16(VmInstrOp::call);
+	}
+	else if (op == "ret")
+	{
+		gen_16(VmInstrOp::ret);
+	}
+	else if (__visitInstrLd(op) || __visitInstrLdx(op)
+		|| __visitInstrSt(op) || __visitInstrStx(op))
+	{
+	}
+	else if (op == "disp_num")
+	{
+		gen_16(VmInstrOp::disp_num);
+	}
+	else if (op == "disp_num_unsigned")
+	{
+		gen_16(VmInstrOp::disp_num_unsigned);
+	}
+	else if (op == "disp_char")
+	{
+		gen_16(VmInstrOp::disp_char);
+	}
+	else if (op == "disp_str")
+	{
+		gen_16(VmInstrOp::disp_str);
+	}
+	else if (op == "get_num")
+	{
+		gen_16(VmInstrOp::get_num);
+	}
+	else if (op == "quit")
+	{
+		gen_16(VmInstrOp::quit);
+	}
+	else
+	{
+		printerr("visitInstrNoImmArgs():  Eek!\n");
+		exit(1);
+	}
+
+	return nullptr;
+}
+bool Assembler::__visitInstrLd(const std::string& op)
+{
 	if (op == "ld_basic")
 	{
 		gen_16(VmInstrOp::ld_basic);
@@ -443,17 +508,16 @@ antlrcpp::Any Assembler::__visitInstrLd
 	}
 	else
 	{
-		printerr("__visitInstrLd():  Eek!\n");
-		exit(1);
+		//printerr("__visitInstrLd():  Eek!\n");
+		//exit(1);
+		return false;
 	}
 
-	return nullptr;
+	//return nullptr;
+	return true;
 }
-antlrcpp::Any Assembler::__visitInstrLdx
-	(GrammarParser::InstrNoImmArgsContext *ctx)
+bool Assembler::__visitInstrLdx(const std::string& op)
 {
-	std::string&& op = ctx->TokNoImmArgsOp()->toString();
-
 	if (op == "ldx_basic")
 	{
 		gen_16(VmInstrOp::ldx_basic);
@@ -484,17 +548,16 @@ antlrcpp::Any Assembler::__visitInstrLdx
 	}
 	else
 	{
-		printerr("__visitInstrLdx():  Eek!\n");
-		exit(1);
+		//printerr("__visitInstrLdx():  Eek!\n");
+		//exit(1);
+		return false;
 	}
 
-	return nullptr;
+	//return nullptr;
+	return true;
 }
-antlrcpp::Any Assembler::__visitInstrSt
-	(GrammarParser::InstrNoImmArgsContext *ctx)
+bool Assembler::__visitInstrSt(const std::string& op)
 {
-	std::string&& op = ctx->TokNoImmArgsOp()->toString();
-
 	if (op == "st_basic")
 	{
 		gen_16(VmInstrOp::st_basic);
@@ -525,17 +588,16 @@ antlrcpp::Any Assembler::__visitInstrSt
 	}
 	else
 	{
-		printerr("__visitInstrSt():  Eek!\n");
-		exit(1);
+		//printerr("__visitInstrSt():  Eek!\n");
+		//exit(1);
+		return false;
 	}
 
-	return nullptr;
+	//return nullptr;
+	return true;
 }
-antlrcpp::Any Assembler::__visitInstrStx
-	(GrammarParser::InstrNoImmArgsContext *ctx)
+bool Assembler::__visitInstrStx(const std::string& op)
 {
-	std::string&& op = ctx->TokNoImmArgsOp()->toString();
-
 	if (op == "stx_basic")
 	{
 		gen_16(VmInstrOp::stx_basic);
@@ -566,11 +628,13 @@ antlrcpp::Any Assembler::__visitInstrStx
 	}
 	else
 	{
-		printerr("__visitInstrStx():  Eek!\n");
-		exit(1);
+		//printerr("__visitInstrStx():  Eek!\n");
+		//exit(1);
+		return false;
 	}
 
-	return nullptr;
+	//return nullptr;
+	return true;
 }
 antlrcpp::Any Assembler::visitInstrBinop
 	(GrammarParser::InstrBinopContext *ctx)

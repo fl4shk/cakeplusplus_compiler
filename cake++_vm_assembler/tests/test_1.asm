@@ -3,10 +3,8 @@ main:
 	call
 
 
-	const(0)
+	const_u8(0)
 	quit
-
-	ldx_
 
 
 joe:
