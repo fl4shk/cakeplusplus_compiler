@@ -12,14 +12,16 @@ Registers:
   pc:   program counter
   sp:   stack pointer
   fp:   frame pointer (points to the start of the stack frame)
-  arg_space:  size of space allocated for arguments
 
 
 Stack frame:
-  fp - arg_space - 24:  old fp
-  fp - arg_space - 16:  old arg_space
-  fp - arg_space - 8:   return value
-  fp - arg_space:       arguments to this specific call of the function
+  fp - arg_space - 8:   old fp
+  fp - arg_space:       arguments to this specific call of the function, in
+                        reverse order.
+                        Example:  For a function with two arguments, the
+                        first argument to the function is at (fp - 8), and
+                        the second argument to the function is at (fp - 16)
+
   fp:                   return address
   fp + 8:               local variables of this specific call of the
                         function
@@ -35,18 +37,42 @@ Encodings:
 
 Instructions:
   // Put constant value onto the stack
-  constant(immediate):
+  const(immediate):
     {
       push(immediate);
+    }
+  const_u32(immediate)
+    {
+      push(zero_extend_32(immediate));
+    }
+  const_s32(immediate)
+    {
+      push(sign_extend_32(immediate));
+    }
+  const_u16(immediate)
+    {
+      push(zero_extend_16(immediate));
+    }
+  const_s16(immediate)
+    {
+      push(sign_extend_16(immediate));
+    }
+  const_u8(immediate)
+    {
+      push(zero_extend_8(immediate));
+    }
+  const_s8(immediate)
+    {
+      push(sign_extend_8(immediate));
     }
 
   arg:
     {
-      push(fp - arg_space);
+      push(fp);
     }
   argx:
     {
-      push(fp - arg_space + pop());
+      push(fp + pop());
     }
   var:
     {
@@ -55,14 +81,6 @@ Instructions:
   varx:
     {
       push(fp + 8 + pop());
-    }
-  get_arg_space:
-    {
-      push(arg_space);
-    }
-  set_arg_space:
-    {
-      arg_space = pop();
     }
   get_pc:
     {
@@ -95,6 +113,29 @@ Instructions:
       }
     }
 
+  // Branch if equal to zero (signed 16-bit offset)
+  beq_near(offset)
+    {
+      val = pop();
+
+      if (val == 0)
+      {
+        pc = pc + sign_extend_16(offset);
+      }
+
+    }
+  // Branch if not equal to zero (signed 16-bit range)
+  bne_near(offset)
+    {
+      val = pop();
+
+      if (val != 0)
+      {
+        pc = pc + sign_extend_16(offset);
+      }
+
+    }
+
   call:
     {
       // Address of function
@@ -109,29 +150,39 @@ Instructions:
 
   ret:
     {
-      //return(pop());
-      return_sequence();
+      return_val = pop();
+      return_sequence(return_val);
     }
 
 
-  ld(type):
+  // Load from memory or store to memory
+  // 
+  // Valid <type>'s are as follows:
+  // basic (64-bit load/store)
+  // u32 (unsigned 32-bit load/store)
+  // s32 (signed 32-bit load/store)
+  // u16 (unsigned 16-bit load/store)
+  // s16 (signed 16-bit load/store)
+  // u8 (unsigned 8-bit load/store)
+  // s8 (signed 8-bit load/store)
+  ld_<type>:
     {
       base = pop();
       push((s64)*((type*)(&mem[base])));
     }
-  ldx(type):
+  ldx_<type>:
     {
       base = pop();
       index = pop();
       push((s64)*((type*)(&mem[base + index])));
     }
-  st(type):
+  st_<type>:
     {
       base = pop();
       data = pop();
       *((type*)(&mem[base])) = data;
     }
-  stx(type):
+  stx_<type>:
     {
       base = pop();
       index = pop();
@@ -139,22 +190,56 @@ Instructions:
       *((type*)(&mem[base + index])) = data;
     }
 
-  // Binary operator, such as math, logic, bitwise, and comparisons.
-  // 
-  // Note:  there are both signed and unsigned comparisons
-  binop(type):
+  add:
     {
       a = pop();
       b = pop();
 
-      switch (type)
-      {
-        case ...:
-          push(a op b);
-          break;
-          ...
-      }
+      push(a + b);
     }
+  sub:
+    {
+      a = pop();
+      b = pop();
+
+      push(a - b);
+    }
+  mul:
+    {
+      a = pop();
+      b = pop();
+
+      push(a * b);
+    }
+  udiv:
+    {
+      const u64 a = pop();
+      const u64 b = pop();
+
+      push(a / b);
+    }
+  sdiv:
+    {
+      a = pop();
+      b = pop();
+
+      push(a / b);
+    }
+  umod:
+    {
+      const u64 a = pop();
+      const u64 b = pop();
+
+      push(a % b);
+    }
+  smod:
+    {
+      a = pop();
+      b = pop();
+
+      push(a % b);
+    }
+
 
 
   // Display 64-bit integer

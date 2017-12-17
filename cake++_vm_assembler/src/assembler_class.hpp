@@ -12,24 +12,87 @@
 enum class VmInstrOp : u16
 {
 	constant,
+	constant_u32,
+	constant_s32,
+	constant_u16,
+	constant_s16,
+	constant_u8,
+	constant_s8,
+
 	arg,
 	argx,
 	var,
 	varx,
-	get_arg_space,
-	set_arg_space,
 	get_pc,
 	jump,
+
 	beq,
 	bne,
+	beq_near,
+	bne_near,
+
 	call,
 	ret,
-	ld,
-	ldx,
-	st,
-	stx,
 
-	binop,
+	ld_basic,
+	ld_u32,
+	ld_s32,
+	ld_u16,
+	ld_s16,
+	ld_u8,
+	ld_s8,
+
+	ldx_basic,
+	ldx_u32,
+	ldx_s32,
+	ldx_u16,
+	ldx_s16,
+	ldx_u8,
+	ldx_s8,
+
+	st_basic,
+	st_u32,
+	st_s32,
+	st_u16,
+	st_s16,
+	st_u8,
+	st_s8,
+
+	stx_basic,
+	stx_u32,
+	stx_s32,
+	stx_u16,
+	stx_s16,
+	stx_u8,
+	stx_s8,
+
+	add,
+	sub,
+	mul,
+	sdiv,
+	udiv,
+	smod,
+	umod,
+
+	bit_and,
+	bit_or,
+	bit_xor,
+	bit_lsl,
+	bit_lsr,
+	bit_asr,
+
+
+	cmp_eq,
+	cmp_ne,
+	cmp_ult,
+	cmp_slt,
+	cmp_ugt,
+	cmp_sgt,
+	cmp_ule,
+	cmp_sle,
+	cmp_uge,
+	cmp_sge,
+
 
 	disp_num,
 	disp_num_unsigned,
@@ -38,55 +101,6 @@ enum class VmInstrOp : u16
 	get_num,
 
 	quit,
-};
-
-enum class VmInstrLdStOp : u16
-{
-	Basic,
-	U32,
-	S32,
-	U16,
-	S16,
-	U8,
-	S8
-};
-
-enum class VmInstrBinOp : u16
-{
-	Add,
-	Sub,
-	Mul,
-	SDiv,
-	UDiv,
-	SMod,
-	UMod,
-
-	BitAnd,
-	BitOr,
-	BitXor,
-	BitLsl,
-	BitLsr,
-	BitAsr,
-
-
-	CmpEq,
-	CmpNe,
-
-
-	CmpULt,
-	CmpSLt,
-
-
-	CmpUGt,
-	CmpSGt,
-
-
-	CmpULe,
-	CmpSLe,
-
-
-	CmpUGe,
-	CmpSGe,
 };
 
 class Assembler : public GrammarVisitor
@@ -119,19 +133,13 @@ private:		// functions
 	}
 	// Generate data
 	void gen_no_ws(u16 data);
+	void gen_8(u8 data);
 	void gen_16(u16 data);
 	inline void gen_16(VmInstrOp data)
 	{
 		gen_16(static_cast<u16>(data));
 	}
-	inline void gen_16(VmInstrLdStOp data)
-	{
-		gen_16(static_cast<u16>(data));
-	}
-	inline void gen_16(VmInstrBinOp data)
-	{
-		gen_16(static_cast<u16>(data));
-	}
+	void gen_32(u32 data);
 	void gen_64(u64 data);
 
 	/**
@@ -149,8 +157,22 @@ private:		// functions
 
 	antlrcpp::Any visitInstruction
 		(GrammarParser::InstructionContext *ctx);
-	antlrcpp::Any visitInstrConstant
-		(GrammarParser::InstrConstantContext *ctx);
+
+	antlrcpp::Any visitInstrConst
+		(GrammarParser::InstrConstContext *ctx);
+	antlrcpp::Any visitInstrConstU32
+		(GrammarParser::InstrConstU32Context *ctx);
+	antlrcpp::Any visitInstrConstS32
+		(GrammarParser::InstrConstS32Context *ctx);
+	antlrcpp::Any visitInstrConstU16
+		(GrammarParser::InstrConstU16Context *ctx);
+	antlrcpp::Any visitInstrConstS16
+		(GrammarParser::InstrConstS16Context *ctx);
+	antlrcpp::Any visitInstrConstU8
+		(GrammarParser::InstrConstU8Context *ctx);
+	antlrcpp::Any visitInstrConstS8
+		(GrammarParser::InstrConstS8Context *ctx);
+
 	antlrcpp::Any visitInstrArg
 		(GrammarParser::InstrArgContext *ctx);
 	antlrcpp::Any visitInstrArgX
@@ -159,18 +181,20 @@ private:		// functions
 		(GrammarParser::InstrVarContext *ctx);
 	antlrcpp::Any visitInstrVarX
 		(GrammarParser::InstrVarXContext *ctx);
-	antlrcpp::Any visitInstrGetArgSpace
-		(GrammarParser::InstrGetArgSpaceContext *ctx);
-	antlrcpp::Any visitInstrSetArgSpace
-		(GrammarParser::InstrSetArgSpaceContext *ctx);
 	antlrcpp::Any visitInstrGetPc
 		(GrammarParser::InstrGetPcContext *ctx);
 	antlrcpp::Any visitInstrJump
 		(GrammarParser::InstrJumpContext *ctx);
+
 	antlrcpp::Any visitInstrBeq
 		(GrammarParser::InstrBeqContext *ctx);
 	antlrcpp::Any visitInstrBne
 		(GrammarParser::InstrBneContext *ctx);
+	antlrcpp::Any visitInstrBeqNear
+		(GrammarParser::InstrBeqNearContext *ctx);
+	antlrcpp::Any visitInstrBneNear
+		(GrammarParser::InstrBneNearContext *ctx);
+
 	antlrcpp::Any visitInstrCall
 		(GrammarParser::InstrCallContext *ctx);
 	antlrcpp::Any visitInstrRet
@@ -221,8 +245,8 @@ private:		// functions
 		(GrammarParser::CurrPcContext *ctx);
 
 private:		// functions
-	void gen_ldst_op(const std::string& some_typename, 
-		const std::string& eek_msg);
+	//void gen_ldst_op(const std::string& some_typename, 
+	//	const std::string& eek_msg);
 
 	inline void push_num(s64 to_push)
 	{

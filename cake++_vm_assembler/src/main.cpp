@@ -12,6 +12,6 @@ int main(int argc, char** argv)
 
 	GrammarParser parser(&tokens);
 
-	Assembler visitor(parser);
+	Assembler visitor(parser, true);
 	return visitor.run();
 }
