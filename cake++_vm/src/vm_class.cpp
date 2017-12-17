@@ -90,17 +90,17 @@ void Vm::put_program_into_mem()
 		++fp();
 	}
 
-	//printout(sp(), " ", fp(), "\n");
-	for (size_t i=0; i<sp(); ++i)
-	{
-		const u32 temp = get_mem_8(i);
+	////printout(sp(), " ", fp(), "\n");
+	//for (size_t i=0; i<sp(); ++i)
+	//{
+	//	const u32 temp = get_mem_8(i);
 
-		if (temp < 0x10)
-		{
-			printout(0);
-		}
-		printout(std::hex, temp, std::dec);
-	}
+	//	if (temp < 0x10)
+	//	{
+	//		printout(0);
+	//	}
+	//	printout(std::hex, temp, std::dec);
+	//}
 }
 
 u64 Vm::get_mem_64(size_t address) const
