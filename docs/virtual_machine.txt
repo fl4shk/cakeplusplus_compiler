@@ -15,16 +15,20 @@ Registers:
 
 
 Stack frame:
-  fp - arg_space - 8:   old fp
-  fp - arg_space:       arguments to this specific call of the function, in
-                        reverse order.
-                        Example:  For a function with two arguments, the
-                        first argument to the function is at (fp - 8), and
-                        the second argument to the function is at (fp - 16)
+  fp - arg_space - 8:     return value
 
-  fp:                   return address
-  fp + 8:               local variables of this specific call of the
-                        function
+  fp - arg_space:         arguments to this specific call of the function, 
+                          in reverse order.  
+                          Example:  For a function with two arguments, the
+                          first argument to the function is at (fp - 8),
+                          and the second argument to the function is at 
+                          (fp - 16).
+
+  fp:                     return address
+  fp + 8:                 old fp
+  fp + 16:                local variables of this specific call of the
+                          function
+  fp + 16 + var_space:    temporaries
 
 Encodings:
   No arguments:         Two bytes used, representing
@@ -68,11 +72,11 @@ Instructions:
 
   arg:
     {
-      push(fp);
+      push(fp - 8);
     }
   argx:
     {
-      push(fp + pop());
+      push(fp + pop() - 8);
     }
   var:
     {
@@ -141,17 +145,13 @@ Instructions:
       // Address of function
       address = pop();
 
-      // new arg_space
-      n_arg_space = pop();
-
       // Stuff necessary for performing a function call
-      call_sequence(address, n_arg_space);
+      call_sequence(address);
     }
 
   ret:
     {
-      return_val = pop();
-      return_sequence(return_val);
+      return_sequence();
     }
 
 
@@ -188,6 +188,12 @@ Instructions:
       index = pop();
       data = pop();
       *((type*)(&mem[base + index])) = data;
+    }
+
+  add_to_sp:
+    {
+      a = pop();
+      sp = sp + a;
     }
 
   add:
