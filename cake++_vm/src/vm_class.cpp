@@ -62,19 +62,19 @@ void Vm::put_program_into_mem()
 
 		for (size_t j=i; j<i+2; ++j)
 		{
-			data <<= 8;
+			data <<= 4;
 			const char c = __program.at(j);
 			if ((c >= '0') && (c <= '9'))
 			{
-				data |= (c - '0');
+				data |= (c - '0') & 0xf;
 			}
 			else if ((c >= 'A') && (c <= 'F'))
 			{
-				data |= (c - 'A' + 10);
+				data |= (c - 'A' + 10) & 0xf;
 			}
 			else if ((c >= 'a') && (c <= 'f'))
 			{
-				data |= (c - 'a' + 10);
+				data |= (c - 'a' + 10) & 0xf;
 			}
 			else
 			{
@@ -88,6 +88,18 @@ void Vm::put_program_into_mem()
 
 		++sp();
 		++fp();
+	}
+
+	//printout(sp(), " ", fp(), "\n");
+	for (size_t i=0; i<sp(); ++i)
+	{
+		const u32 temp = get_mem_8(i);
+
+		if (temp < 0x10)
+		{
+			printout(0);
+		}
+		printout(std::hex, temp, std::dec);
 	}
 }
 
