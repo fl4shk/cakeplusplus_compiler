@@ -484,7 +484,7 @@ antlrcpp::Any Assembler::visitInstrNoImmArgs
 }
 bool Assembler::__visitInstrLd(const std::string& op)
 {
-	if (op == "ld")
+	if (op == "ld_basic")
 	{
 		gen_16(VmInstrOp::ld_basic);
 	}
@@ -524,7 +524,7 @@ bool Assembler::__visitInstrLd(const std::string& op)
 }
 bool Assembler::__visitInstrLdx(const std::string& op)
 {
-	if (op == "ldx")
+	if (op == "ldx_basic")
 	{
 		gen_16(VmInstrOp::ldx_basic);
 	}
@@ -564,7 +564,7 @@ bool Assembler::__visitInstrLdx(const std::string& op)
 }
 bool Assembler::__visitInstrSt(const std::string& op)
 {
-	if (op == "st")
+	if (op == "st_basic")
 	{
 		gen_16(VmInstrOp::st_basic);
 	}
@@ -604,7 +604,7 @@ bool Assembler::__visitInstrSt(const std::string& op)
 }
 bool Assembler::__visitInstrStx(const std::string& op)
 {
-	if (op == "stx")
+	if (op == "stx_basic")
 	{
 		gen_16(VmInstrOp::stx_basic);
 	}

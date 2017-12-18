@@ -120,6 +120,28 @@ fragment LexStxPrefix:
 	'stx_'
 	;
 
+
+TokNoImmArgsOp: 
+	('arg' | 'argx' | 'var' | 'varx'
+	| 'get_pc' | 'jump'
+	| 'call' | 'ret'
+	| TokLdOp | TokLdxOp | TokStOp | TokStxOp
+	| 'add_to_sp'
+	| 'disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
+	| 'get_num'
+	| 'quit')
+	;
+
+TokBinOp:
+	('add' | 'sub' | 'mul' 
+	| 'udiv' | 'sdiv' | 'umod' | 'smod' 
+	| 'bit_and' | 'bit_or' | 'bit_xor' 
+	| 'bit_lsl' | 'bit_lsr' | 'bit_asr' 
+	| 'cmp_eq' | 'cmp_ne' 
+	| 'cmp_ult' | 'cmp_slt' | 'cmp_ugt' | 'cmp_sgt' 
+	| 'cmp_ule' | 'cmp_sle' | 'cmp_uge' | 'cmp_sge')
+	;
+
 TokLdOp:
 	LexLdPrefix LexBuiltinTypename
 	;
@@ -133,27 +155,7 @@ TokStxOp:
 	LexStxPrefix LexBuiltinTypename
 	;
 
-TokNoImmArgsOp: 
-	('arg' | 'argx' | 'var' | 'varx'
-	| 'get_pc' | 'jump'
-	| 'call' | 'ret'
-	| TokLdOp | TokLdxOp | TokStOp | TokStxOp
-	| 'add_to_sp'
-	| 'disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
-	| 'get_num'
-	| 'quit')
-	;
 
-
-TokBinOp:
-	('add' | 'sub' | 'mul' 
-	| 'udiv' | 'sdiv' | 'umod' | 'smod' 
-	| 'bit_and' | 'bit_or' | 'bit_xor' 
-	| 'bit_lsl' | 'bit_lsr' | 'bit_asr' 
-	| 'cmp_eq' | 'cmp_ne' 
-	| 'cmp_ult' | 'cmp_slt' | 'cmp_ugt' | 'cmp_sgt' 
-	| 'cmp_ule' | 'cmp_sle' | 'cmp_uge' | 'cmp_sge')
-	;
 
 
 
