@@ -174,117 +174,145 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 		case VmInstrOp::ld_basic:
 			{
+				__exec_ld<s64>();
 			}
 			break;
 		case VmInstrOp::ld_u32:
 			{
+				__exec_ld<u32>();
 			}
 			break;
 		case VmInstrOp::ld_s32:
 			{
+				__exec_ld<s32>();
 			}
 			break;
 		case VmInstrOp::ld_u16:
 			{
+				__exec_ld<u16>();
 			}
 			break;
 		case VmInstrOp::ld_s16:
 			{
+				__exec_ld<s16>();
 			}
 			break;
 		case VmInstrOp::ld_u8:
 			{
+				__exec_ld<u8>();
 			}
 			break;
 		case VmInstrOp::ld_s8:
 			{
+				__exec_ld<s8>();
 			}
 			break;
 
 		case VmInstrOp::ldx_basic:
 			{
+				__exec_ldx<s64>();
 			}
 			break;
 		case VmInstrOp::ldx_u32:
 			{
+				__exec_ldx<u32>();
 			}
 			break;
 		case VmInstrOp::ldx_s32:
 			{
+				__exec_ldx<s32>();
 			}
 			break;
 		case VmInstrOp::ldx_u16:
 			{
+				__exec_ldx<u16>();
 			}
 			break;
 		case VmInstrOp::ldx_s16:
 			{
+				__exec_ldx<s16>();
 			}
 			break;
 		case VmInstrOp::ldx_u8:
 			{
+				__exec_ldx<u8>();
 			}
 			break;
 		case VmInstrOp::ldx_s8:
 			{
+				__exec_ldx<s8>();
 			}
 			break;
 
 		case VmInstrOp::st_basic:
 			{
+				__exec_st<s64>();
 			}
 			break;
 		case VmInstrOp::st_u32:
 			{
+				__exec_st<u32>();
 			}
 			break;
 		case VmInstrOp::st_s32:
 			{
+				__exec_st<s32>();
 			}
 			break;
 		case VmInstrOp::st_u16:
 			{
+				__exec_st<u16>();
 			}
 			break;
 		case VmInstrOp::st_s16:
 			{
+				__exec_st<s16>();
 			}
 			break;
 		case VmInstrOp::st_u8:
 			{
+				__exec_st<u8>();
 			}
 			break;
 		case VmInstrOp::st_s8:
 			{
+				__exec_st<s8>();
 			}
 			break;
 
 		case VmInstrOp::stx_basic:
 			{
+				__exec_stx<s64>();
 			}
 			break;
 		case VmInstrOp::stx_u32:
 			{
+				__exec_stx<u32>();
 			}
 			break;
 		case VmInstrOp::stx_s32:
 			{
+				__exec_stx<s32>();
 			}
 			break;
 		case VmInstrOp::stx_u16:
 			{
+				__exec_stx<u16>();
 			}
 			break;
 		case VmInstrOp::stx_s16:
 			{
+				__exec_stx<s16>();
 			}
 			break;
 		case VmInstrOp::stx_u8:
 			{
+				__exec_stx<u8>();
 			}
 			break;
 		case VmInstrOp::stx_s8:
 			{
+				__exec_stx<s8>();
 			}
 			break;
 

@@ -150,6 +150,35 @@ private:		// functions
 	s64 get_imm_u8();
 	s64 get_imm_s8();
 
+	template<typename Type>
+	void __exec_ld()
+	{
+		const auto base = pop();
+		push((s64)((Type)__get_mem_any<Type>(base)));
+	}
+	template<typename Type>
+	void __exec_ldx()
+	{
+		const auto base = pop();
+		const auto index = pop();
+		push((s64)((Type)__get_mem_any<Type>(base + index)));
+	}
+	template<typename Type>
+	void __exec_st()
+	{
+		const auto base = pop();
+		const Type data = (Type)pop();
+		__set_mem_any<Type>(base, data);
+	}
+	template<typename Type>
+	void __exec_stx()
+	{
+		const auto base = pop();
+		const auto index = pop();
+		const Type data = (Type)pop();
+		__set_mem_any<Type>(base + index, data);
+	}
+
 
 	inline auto& regs()
 	{
@@ -199,6 +228,59 @@ private:		// functions
 	}
 	s64 pop();
 	void push(s64 to_push);
+
+	template<typename Type>
+	inline Type __get_mem_any(size_t address) const
+	{
+		if constexpr (sizeof(Type) == sizeof(u8))
+		{
+			return (Type)get_mem_8(address);
+		}
+		else if constexpr (sizeof(Type) == sizeof(u16))
+		{
+			return (Type)get_mem_16(address);
+		}
+		else if constexpr (sizeof(Type) == sizeof(u32))
+		{
+			return (Type)get_mem_32(address);
+		}
+		else if constexpr (sizeof(Type) == sizeof(u64))
+		{
+			return (Type)get_mem_64(address);
+		}
+		else
+		{
+			err("__get_mem_any():  Eek!\n");
+		}
+		return Type();
+	}
+
+	template<typename Type>
+	inline Type __set_mem_any(size_t address, Type data)
+	{
+		if constexpr (sizeof(Type) == sizeof(u8))
+		{
+			return (Type)set_mem_8(address, data);
+		}
+		else if constexpr (sizeof(Type) == sizeof(u16))
+		{
+			return (Type)set_mem_16(address, data);
+		}
+		else if constexpr (sizeof(Type) == sizeof(u32))
+		{
+			return (Type)set_mem_32(address, data);
+		}
+		else if constexpr (sizeof(Type) == sizeof(u64))
+		{
+			return (Type)set_mem_64(address, data);
+		}
+		else
+		{
+			err("__set_mem_any():  Eek!\n");
+		}
+		return Type();
+	}
+
 
 	u64 get_mem_64(size_t address) const;
 	u64 set_mem_64(size_t address, u64 data);
