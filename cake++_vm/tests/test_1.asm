@@ -18,19 +18,35 @@ main:
 	;const(9)
 	disp_num
 
-	const_u8(10)
-	disp_char
+	const(disp_newline)
+	call
 
 
 	const(0)
 	quit
 
+disp_newline:
+	const_u8(10)
+	disp_char
+	ret
 
 add:
 	arg
 	ld_basic
-	;disp_num
+	disp_num
 
+	const(disp_newline)
+	call
+
+	const_s8(-8)
+	argx
+	ld_basic
+	disp_num
+
+	const(disp_newline)
+	call
+
+	; Perform the actual add now
 	const_s8(-8)
 	argx
 	ld_basic

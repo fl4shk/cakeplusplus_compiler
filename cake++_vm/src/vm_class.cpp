@@ -24,6 +24,21 @@ Vm::Vm(size_t s_mem_size)
 
 	__program = std::move(get_stdin_as_str());
 
+	{
+		std::string __temp;
+
+		for (auto iter : __program)
+		{
+			if (!isspace(iter))
+			{
+				__temp += iter;
+			}
+		}
+
+		__program = std::move(__temp);
+	}
+
+
 	// Require even number of characters
 	if ((__program.size() % 2) == 1)
 	{

@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 		(new AsmErrorListener());
 	parser.addErrorListener(asm_error_listener.get());
 
-	//Assembler visitor(parser, true);
-	Assembler visitor(parser);
+	Assembler visitor(parser, true);
+	//Assembler visitor(parser);
 	return visitor.run();
 }
