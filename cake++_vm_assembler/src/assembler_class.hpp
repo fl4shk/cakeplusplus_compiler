@@ -108,6 +108,15 @@ enum class VmInstrOp : u16
 	quit,
 };
 
+enum class VmSyscallShorthandOp : u64
+{
+	disp_num,
+	disp_num_unsigned,
+	disp_char,
+	disp_str,
+	get_num,
+};
+
 class AsmErrorListener : public antlr4::ANTLRErrorListener
 {
 public:		// functions
@@ -170,6 +179,10 @@ private:		// functions
 	}
 	void gen_32(u32 data);
 	void gen_64(u64 data);
+	inline void gen_64(VmSyscallShorthandOp data)
+	{
+		gen_64(static_cast<u64>(data));
+	}
 
 	/**
 	* Visit parse trees produced by GrammarParser.

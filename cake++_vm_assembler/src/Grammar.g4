@@ -40,9 +40,7 @@ instrConstS16: 'const_s16(' expr ')' ;
 instrConstU8: 'const_u8(' expr ')' ;
 instrConstS8: 'const_s8(' expr ')' ;
 
-instrNoImmArgs:
-	TokNoImmArgsOp
-	;
+instrNoImmArgs: TokNoImmArgsOp ;
 
 instrBeq: 'beq(' expr ')' ;
 instrBne: 'bne(' expr ')' ;
@@ -152,9 +150,8 @@ TokNoImmArgsOp:
 	| 'get_pc' | 'jump'
 	| 'call' | 'ret'
 	| TokLdOp | TokLdxOp | TokStOp | TokStxOp
+	| TokSyscallShorthandOp
 	| 'add_to_sp'
-	//| 'disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
-	//| 'get_num'
 	| 'syscall'
 	| 'quit')
 	;
@@ -182,6 +179,9 @@ TokStxOp:
 	LexStxPrefix LexBuiltinTypename
 	;
 
+TokSyscallShorthandOp:
+	('disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
+	| 'get_num');
 
 
 

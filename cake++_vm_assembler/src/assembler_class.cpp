@@ -454,26 +454,36 @@ antlrcpp::Any Assembler::visitInstrNoImmArgs
 	{
 		gen_16(VmInstrOp::add_to_sp);
 	}
-	//else if (op == "disp_num")
-	//{
-	//	gen_16(VmInstrOp::disp_num);
-	//}
-	//else if (op == "disp_num_unsigned")
-	//{
-	//	gen_16(VmInstrOp::disp_num_unsigned);
-	//}
-	//else if (op == "disp_char")
-	//{
-	//	gen_16(VmInstrOp::disp_char);
-	//}
-	//else if (op == "disp_str")
-	//{
-	//	gen_16(VmInstrOp::disp_str);
-	//}
-	//else if (op == "get_num")
-	//{
-	//	gen_16(VmInstrOp::get_num);
-	//}
+	else if (op == "disp_num")
+	{
+		gen_16(VmInstrOp::constant);
+		gen_64(VmSyscallShorthandOp::disp_num);
+		gen_16(VmInstrOp::syscall);
+	}
+	else if (op == "disp_num_unsigned")
+	{
+		gen_16(VmInstrOp::constant);
+		gen_64(VmSyscallShorthandOp::disp_num_unsigned);
+		gen_16(VmInstrOp::syscall);
+	}
+	else if (op == "disp_char")
+	{
+		gen_16(VmInstrOp::constant);
+		gen_64(VmSyscallShorthandOp::disp_char);
+		gen_16(VmInstrOp::syscall);
+	}
+	else if (op == "disp_str")
+	{
+		gen_16(VmInstrOp::constant);
+		gen_64(VmSyscallShorthandOp::disp_str);
+		gen_16(VmInstrOp::syscall);
+	}
+	else if (op == "get_num")
+	{
+		gen_16(VmInstrOp::constant);
+		gen_64(VmSyscallShorthandOp::get_num);
+		gen_16(VmInstrOp::syscall);
+	}
 	else if (op == "syscall")
 	{
 		gen_16(VmInstrOp::syscall);
