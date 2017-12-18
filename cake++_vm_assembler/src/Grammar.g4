@@ -6,11 +6,12 @@ program:
 	;
 
 line:
-	//label (comment?) '\n'
-	//| instruction (comment?) '\n'
-	label '\n'
-	| instruction '\n'
+	label (comment?) '\n'
+	| instruction (comment?) '\n'
+	//label '\n'
+	//| instruction '\n'
 	| comment '\n'
+	| directive '\n'
 	| '\n'
 	;
 
@@ -51,6 +52,43 @@ instrBinop: TokBinOp ;
 
 
 comment: ';' (~ '\n')* ;
+directive:
+	dotSpaceDirective
+	| dotDbDirective
+	| dotDbU32Directive
+	| dotDbS32Directive
+	| dotDbU16Directive
+	| dotDbS16Directive
+	| dotDbU8Directive
+	| dotDbS8Directive
+	;
+
+dotSpaceDirective:
+	'.space' expr
+	;
+
+dotDbDirective:
+	'.db' ((expr ',')?) expr
+	;
+
+dotDbU32Directive:
+	'.db_u32' ((expr ',')?) expr
+	;
+dotDbS32Directive:
+	'.db_s32' ((expr ',')?) expr
+	;
+dotDbU16Directive:
+	'.db_u16' ((expr ',')?) expr
+	;
+dotDbS16Directive:
+	'.db_s16' ((expr ',')?) expr
+	;
+dotDbU8Directive:
+	'.db_u8' ((expr ',')?) expr
+	;
+dotDbS8Directive:
+	'.db_s8' ((expr ',')?) expr
+	;
 
 expr:
 	exprLogical

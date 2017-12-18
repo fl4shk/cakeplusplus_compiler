@@ -225,6 +225,25 @@ private:		// functions
 	antlrcpp::Any visitComment
 		(GrammarParser::CommentContext *ctx);
 
+	antlrcpp::Any visitDirective
+		(GrammarParser::DirectiveContext *ctx);
+	antlrcpp::Any visitDotSpaceDirective
+		(GrammarParser::DotSpaceDirectiveContext *ctx);
+	antlrcpp::Any visitDotDbDirective
+		(GrammarParser::DotDbDirectiveContext *ctx);
+	antlrcpp::Any visitDotDbU32Directive
+		(GrammarParser::DotDbU32DirectiveContext *ctx);
+	antlrcpp::Any visitDotDbS32Directive
+		(GrammarParser::DotDbS32DirectiveContext *ctx);
+	antlrcpp::Any visitDotDbU16Directive
+		(GrammarParser::DotDbU16DirectiveContext *ctx);
+	antlrcpp::Any visitDotDbS16Directive
+		(GrammarParser::DotDbS16DirectiveContext *ctx);
+	antlrcpp::Any visitDotDbU8Directive
+		(GrammarParser::DotDbU8DirectiveContext *ctx);
+	antlrcpp::Any visitDotDbS8Directive
+		(GrammarParser::DotDbS8DirectiveContext *ctx);
+
 	antlrcpp::Any visitExpr
 		(GrammarParser::ExprContext *ctx);
 	antlrcpp::Any visitExprLogical

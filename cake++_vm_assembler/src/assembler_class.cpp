@@ -158,6 +158,10 @@ antlrcpp::Any Assembler::visitLine
 	{
 		ctx->comment()->accept(this);
 	}
+	else if (ctx->directive())
+	{
+		ctx->directive()->accept(this);
+	}
 	else
 	{
 		// blank line
@@ -752,6 +756,156 @@ antlrcpp::Any Assembler::visitComment
 	(GrammarParser::CommentContext *ctx)
 {
 	// Do nothing of interest here
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitDirective
+	(GrammarParser::DirectiveContext *ctx)
+{
+	if (ctx->dotSpaceDirective())
+	{
+		ctx->dotSpaceDirective()->accept(this);
+	}
+	else if (ctx->dotDbDirective())
+	{
+		ctx->dotDbDirective()->accept(this);
+	}
+	else if (ctx->dotDbU32Directive())
+	{
+		ctx->dotDbU32Directive()->accept(this);
+	}
+	else if (ctx->dotDbS32Directive())
+	{
+		ctx->dotDbS32Directive()->accept(this);
+	}
+	else if (ctx->dotDbU16Directive())
+	{
+		ctx->dotDbU16Directive()->accept(this);
+	}
+	else if (ctx->dotDbS16Directive())
+	{
+		ctx->dotDbS16Directive()->accept(this);
+	}
+	else if (ctx->dotDbU8Directive())
+	{
+		ctx->dotDbU8Directive()->accept(this);
+	}
+	else if (ctx->dotDbS8Directive())
+	{
+		ctx->dotDbS8Directive()->accept(this);
+	}
+	else
+	{
+		printerr("visitDirective():  Eek!\n");
+		exit(1);
+	}
+
+	return nullptr;
+}
+
+antlrcpp::Any Assembler::visitDotSpaceDirective
+	(GrammarParser::DotSpaceDirectiveContext *ctx)
+{
+	ctx->expr()->accept(this);
+
+	const auto val = pop_num();
+
+	for (s64 i=0; i<val; ++i)
+	{
+		gen_8(0);
+	}
+
+	return nullptr;
+}
+
+antlrcpp::Any Assembler::visitDotDbDirective
+	(GrammarParser::DotDbDirectiveContext *ctx)
+{
+	auto&& expr = ctx->expr();
+
+	for (auto e : expr)
+	{
+		e->accept(this);
+		gen_64(pop_num());
+	}
+
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitDotDbU32Directive
+	(GrammarParser::DotDbU32DirectiveContext *ctx)
+{
+	auto&& expr = ctx->expr();
+
+	for (auto e : expr)
+	{
+		e->accept(this);
+		gen_32((u32)pop_num());
+	}
+
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitDotDbS32Directive
+	(GrammarParser::DotDbS32DirectiveContext *ctx)
+{
+	auto&& expr = ctx->expr();
+
+	for (auto e : expr)
+	{
+		e->accept(this);
+		gen_32((s32)pop_num());
+	}
+
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitDotDbU16Directive
+	(GrammarParser::DotDbU16DirectiveContext *ctx)
+{
+	auto&& expr = ctx->expr();
+
+	for (auto e : expr)
+	{
+		e->accept(this);
+		gen_16((u16)pop_num());
+	}
+
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitDotDbS16Directive
+	(GrammarParser::DotDbS16DirectiveContext *ctx)
+{
+	auto&& expr = ctx->expr();
+
+	for (auto e : expr)
+	{
+		e->accept(this);
+		gen_16((s16)pop_num());
+	}
+
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitDotDbU8Directive
+	(GrammarParser::DotDbU8DirectiveContext *ctx)
+{
+	auto&& expr = ctx->expr();
+
+	for (auto e : expr)
+	{
+		e->accept(this);
+		gen_8((u8)pop_num());
+	}
+
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitDotDbS8Directive
+	(GrammarParser::DotDbS8DirectiveContext *ctx)
+{
+	auto&& expr = ctx->expr();
+
+	for (auto e : expr)
+	{
+		e->accept(this);
+		gen_8((s8)pop_num());
+	}
+
 	return nullptr;
 }
 

@@ -2,11 +2,11 @@ main:
 	const(7)
 
 	; Allocate space for return value
-	const(0)
+	const_u8(0)
 
 	; Arguments
-	const(8)
-	const(9)
+	const_u8(8)
+	const_u8(9)
 
 	; Function label
 	const(add)
@@ -47,3 +47,12 @@ add:
 
 
 	ret
+
+
+arr:
+	.space 20
+
+egg:
+	.db 10
+	.db_u32 9
+	.db_u16 -1
