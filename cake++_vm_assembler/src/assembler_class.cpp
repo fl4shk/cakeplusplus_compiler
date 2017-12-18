@@ -197,14 +197,16 @@ antlrcpp::Any Assembler::visitLabel
 
 	auto name = pop_str();
 
-	auto sym = sym_tbl().find_or_insert(name);
-
-	if (!__pass && sym->found_as_label())
+	{
+	auto sym = sym_tbl().find_in_this_level(name);
+	if ((sym != nullptr) && !__pass && sym->found_as_label())
 	{
 		printerr("Error:  Cannot have two identical identifers!  ",
 			"The offending identifier is \"", *name, "\"\n");
 		exit(1);
 	}
+	}
+	auto sym = sym_tbl().find_or_insert(name);
 
 	sym->set_found_as_label(true);
 	sym->set_addr(pc());

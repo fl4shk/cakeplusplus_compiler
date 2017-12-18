@@ -2,28 +2,47 @@ main:
 	; Allocate space for return value
 	const_u8(0)
 
-	; Arguments
-	const_u8(8)
-	const_u8(9)
+	;; Arguments
+	;const_u8(8)
+	;const_u8(9)
 
-	; Function label
-	.calli(add)
-	const_s8(-16)
-	add_to_sp
-
-
-	;const(9)
-	disp_num
-
-	.calli(disp_newline)
-
-	const_u8(-'1')
-	disp_num
-	.calli(disp_newline)
+	;; Function label
+	;.calli(add)
+	;const_s8(-16)
+	;add_to_sp
 
 
-	const(0)
+	;;const(9)
+	;disp_num
+
+	;.calli(disp_newline)
+
+	;const_u8(-'1')
+	;disp_num
+	;.calli(disp_newline)
+
+{
+	loop:
+		const(loop)
+		disp_num
+		.calli(disp_newline)
+	{
+		loop:
+			const(loop)
+			disp_num
+			.calli(disp_newline)
+		{
+			loop:
+				const(loop)
+				disp_num
+				.calli(disp_newline)
+		}
+	}
+}
+
 	quit
+
+
 
 disp_newline:
 	const_u8(10)
