@@ -10,12 +10,17 @@ Vm::Vm(size_t s_mem_size)
 	}
 	else if (s_mem_size < min_mem_size)
 	{
-		printerr("Vm:  Error:  Too little memory to allocate!  ",
-			"Note:  minimum allowed size is ", min_mem_size, "\n");
-		exit(1);
+		//printerr("Vm:  Error:  Too little memory to allocate!  ",
+		//	"Note:  minimum allowed size is ", min_mem_size, "\n");
+		//exit(1);
+		printerr("Vm:  Warning:  Too little memory to allocate!  ",
+			"Note:  allocating this much memory:  ", min_mem_size, "\n");
+		__mem.resize(min_mem_size);
 	}
-
-	__mem.resize(s_mem_size);
+	else
+	{
+		__mem.resize(s_mem_size);
+	}
 
 	__program = std::move(get_stdin_as_str());
 
@@ -66,6 +71,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 {
 	switch (op)
 	{
+
 		case VmInstrOp::constant:
 			push(get_imm_64());
 			break;
@@ -154,12 +160,15 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 		case VmInstrOp::call:
 			{
-				const auto addr = pop();
-				push(pc());
 				const auto old_fp = fp();
+				const auto addr = pop();
 				fp() = sp();
+				push(pc());
 				push(old_fp);
 				pc() = addr;
+				//printout("call:  ", get_mem_64(sp() - 16), " ",
+				//	get_mem_64(sp() - 8), "\n");
+				//exit(0);
 			}
 			break;
 		case VmInstrOp::ret:
@@ -654,6 +663,7 @@ s64 Vm::pop()
 	sp() -= sizeof(s64);
 
 	const s64 ret = get_mem_64(sp());
+	//printout("popping value of ", ret, " off of stack\n");
 	return ret;
 }
 void Vm::push(s64 to_push)
@@ -663,6 +673,7 @@ void Vm::push(s64 to_push)
 		err("push():  Stack pointer out of valid range!");
 	}
 	
+	//printout("pushing ", to_push, " to address ", sp(), "\n");
 	set_mem_64(sp(), to_push);
 	sp() += sizeof(s64);
 }
@@ -708,10 +719,14 @@ u64 Vm::set_mem_64(size_t address, u64 data)
 	}
 
 	// Big endian
-	for (size_t i=address; i<address+8; ++i)
-	{
-		__mem.at(i) = (data >> (i * 8)) & 0xff;
-	}
+	__mem.at(address + 0) = get_bits_with_range(data, 63, 56);
+	__mem.at(address + 1) = get_bits_with_range(data, 55, 48);
+	__mem.at(address + 2) = get_bits_with_range(data, 47, 40);
+	__mem.at(address + 3) = get_bits_with_range(data, 39, 32);
+	__mem.at(address + 4) = get_bits_with_range(data, 31, 24);
+	__mem.at(address + 5) = get_bits_with_range(data, 23, 16);
+	__mem.at(address + 6) = get_bits_with_range(data, 15, 8);
+	__mem.at(address + 7) = get_bits_with_range(data, 7, 0);
 
 	return data;
 }
@@ -748,10 +763,10 @@ u32 Vm::set_mem_32(size_t address, u32 data)
 	}
 
 	// Big endian
-	for (size_t i=address; i<address+4; ++i)
-	{
-		__mem.at(i) = (data >> (i * 8)) & 0xff;
-	}
+	__mem.at(address + 0) = get_bits_with_range(data, 31, 24);
+	__mem.at(address + 1) = get_bits_with_range(data, 23, 16);
+	__mem.at(address + 2) = get_bits_with_range(data, 15, 8);
+	__mem.at(address + 3) = get_bits_with_range(data, 7, 0);
 
 	return data;
 }
@@ -784,10 +799,8 @@ u16 Vm::set_mem_16(size_t address, u16 data)
 	}
 
 	// Big endian
-	for (size_t i=address; i<address+2; ++i)
-	{
-		__mem.at(i) = (data >> (i * 8)) & 0xff;
-	}
+	__mem.at(address + 0) = get_bits_with_range(data, 15, 8);
+	__mem.at(address + 1) = get_bits_with_range(data, 7, 0);
 
 	return data;
 }

@@ -275,8 +275,8 @@ antlrcpp::Any Assembler::visitInstrConstS32
 	(GrammarParser::InstrConstS32Context *ctx)
 {
 	ctx->expr()->accept(this);
-	gen_16(VmInstrOp::constant_u32);
-	gen_32((u32)pop_num());
+	gen_16(VmInstrOp::constant_s32);
+	gen_32((s32)pop_num());
 
 	return nullptr;
 }
@@ -284,7 +284,7 @@ antlrcpp::Any Assembler::visitInstrConstU16
 	(GrammarParser::InstrConstU16Context *ctx)
 {
 	ctx->expr()->accept(this);
-	gen_16(VmInstrOp::constant_u32);
+	gen_16(VmInstrOp::constant_u16);
 	gen_16((u16)pop_num());
 
 	return nullptr;
@@ -293,7 +293,7 @@ antlrcpp::Any Assembler::visitInstrConstS16
 	(GrammarParser::InstrConstS16Context *ctx)
 {
 	ctx->expr()->accept(this);
-	gen_16(VmInstrOp::constant_u32);
+	gen_16(VmInstrOp::constant_s16);
 	gen_16((s16)pop_num());
 
 	return nullptr;
@@ -302,6 +302,8 @@ antlrcpp::Any Assembler::visitInstrConstU8
 	(GrammarParser::InstrConstU8Context *ctx)
 {
 	ctx->expr()->accept(this);
+	gen_16(VmInstrOp::constant_u8);
+	gen_8((u8)pop_num());
 
 	return nullptr;
 }
@@ -309,8 +311,8 @@ antlrcpp::Any Assembler::visitInstrConstS8
 	(GrammarParser::InstrConstS8Context *ctx)
 {
 	ctx->expr()->accept(this);
-	gen_16(VmInstrOp::constant_u32);
-	gen_16((s16)pop_num());
+	gen_16(VmInstrOp::constant_s8);
+	gen_8((s8)pop_num());
 
 	return nullptr;
 }

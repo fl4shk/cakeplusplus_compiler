@@ -1,10 +1,10 @@
 main:
-	; Allocate space for return value
-	const(0)
+	;; Allocate space for return value
+	;const(0)
 
-	; Arguments
-	const(8)
-	const(9)
+	;; Arguments
+	;const(8)
+	;const(9)
 
 	;; Function label
 	;const(add)
@@ -12,10 +12,16 @@ main:
 	;const_s8(-16)
 	;add_to_sp
 
-	add
 
+	;;const(9)
+	;disp_num
+
+	;;//const_u8(10)
+	;;//disp_char
+
+
+	const_s8(-8)
 	disp_num
-
 
 	const(0)
 	quit
@@ -35,7 +41,6 @@ main:
 ;	const_s8(-16)
 ;	argx
 ;	st_basic
-;
 ;
 ;
 ;	ret
