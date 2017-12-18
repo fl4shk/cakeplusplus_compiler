@@ -138,7 +138,7 @@ public:		// functions
 
 
 private:		// functions
-	void exec_one_instr(VmInstrOp& op);
+	void exec_one_instr(VmInstrOp op);
 
 	// pc() incrementers
 	VmInstrOp get_op();

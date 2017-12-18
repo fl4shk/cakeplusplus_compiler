@@ -68,7 +68,7 @@ Instructions:
     }
   argx:
     {
-      push(fp + pop() - 8);
+      push(fp - 8 + pop());
     }
   var:
     {

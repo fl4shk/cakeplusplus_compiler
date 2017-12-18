@@ -55,26 +55,356 @@ int Vm::run()
 	while (op != VmInstrOp::quit)
 	{
 		exec_one_instr(op);
+		op = get_op();
 	}
 
-	// return quit condition
-
-	if (sp() >= 8)
-	{
-		return pop();
-	}
-	else
-	{
-		err("VmInstrOp::quit:  stack pointer out of valid range!");
-	}
-	return 9001;
+	// return quit argument
+	return pop();
 }
 
-void Vm::exec_one_instr(VmInstrOp& op)
+void Vm::exec_one_instr(VmInstrOp op)
 {
-	
+	switch (op)
+	{
+		case VmInstrOp::constant:
+			push(get_imm_64());
+			break;
+		case VmInstrOp::constant_u32:
+			push(get_imm_u32());
+			break;
+		case VmInstrOp::constant_s32:
+			push(get_imm_s32());
+			break;
+		case VmInstrOp::constant_u16:
+			push(get_imm_u16());
+			break;
+		case VmInstrOp::constant_s16:
+			push(get_imm_s16());
+			break;
+		case VmInstrOp::constant_u8:
+			push(get_imm_u8());
+			break;
+		case VmInstrOp::constant_s8:
+			push(get_imm_s8());
+			break;
 
-	op = get_op();
+		case VmInstrOp::arg:
+			push(fp() - 8);
+			break;
+		case VmInstrOp::argx:
+			push(fp() - 8 + pop());
+			break;
+		case VmInstrOp::var:
+			push(fp() + 8);
+			break;
+		case VmInstrOp::varx:
+			push(fp() + 8 + pop());
+			break;
+		case VmInstrOp::get_pc:
+			push(pc());
+			break;
+		case VmInstrOp::jump:
+			pc() = pop();
+			break;
+
+		case VmInstrOp::beq:
+			{
+				const auto offset = get_imm_64();
+				const auto val = pop();
+
+				if (val == 0)
+				{
+					pc() += offset;
+				}
+			}
+			break;
+		case VmInstrOp::bne:
+			{
+				const auto offset = get_imm_64();
+				const auto val = pop();
+
+				if (val != 0)
+				{
+					pc() += offset;
+				}
+			}
+			break;
+		case VmInstrOp::beq_near:
+			{
+				const auto offset = get_imm_s16();
+				const auto val = pop();
+
+				if (val == 0)
+				{
+					pc() += offset;
+				}
+			}
+			break;
+		case VmInstrOp::bne_near:
+			{
+				const auto offset = get_imm_s16();
+				const auto val = pop();
+
+				if (val != 0)
+				{
+					pc() += offset;
+				}
+			}
+			break;
+
+		case VmInstrOp::call:
+			{
+			}
+			break;
+		case VmInstrOp::ret:
+			{
+			}
+			break;
+
+		case VmInstrOp::ld_basic:
+			{
+			}
+			break;
+		case VmInstrOp::ld_u32:
+			{
+			}
+			break;
+		case VmInstrOp::ld_s32:
+			{
+			}
+			break;
+		case VmInstrOp::ld_u16:
+			{
+			}
+			break;
+		case VmInstrOp::ld_s16:
+			{
+			}
+			break;
+		case VmInstrOp::ld_u8:
+			{
+			}
+			break;
+		case VmInstrOp::ld_s8:
+			{
+			}
+			break;
+
+		case VmInstrOp::ldx_basic:
+			{
+			}
+			break;
+		case VmInstrOp::ldx_u32:
+			{
+			}
+			break;
+		case VmInstrOp::ldx_s32:
+			{
+			}
+			break;
+		case VmInstrOp::ldx_u16:
+			{
+			}
+			break;
+		case VmInstrOp::ldx_s16:
+			{
+			}
+			break;
+		case VmInstrOp::ldx_u8:
+			{
+			}
+			break;
+		case VmInstrOp::ldx_s8:
+			{
+			}
+			break;
+
+		case VmInstrOp::st_basic:
+			{
+			}
+			break;
+		case VmInstrOp::st_u32:
+			{
+			}
+			break;
+		case VmInstrOp::st_s32:
+			{
+			}
+			break;
+		case VmInstrOp::st_u16:
+			{
+			}
+			break;
+		case VmInstrOp::st_s16:
+			{
+			}
+			break;
+		case VmInstrOp::st_u8:
+			{
+			}
+			break;
+		case VmInstrOp::st_s8:
+			{
+			}
+			break;
+
+		case VmInstrOp::stx_basic:
+			{
+			}
+			break;
+		case VmInstrOp::stx_u32:
+			{
+			}
+			break;
+		case VmInstrOp::stx_s32:
+			{
+			}
+			break;
+		case VmInstrOp::stx_u16:
+			{
+			}
+			break;
+		case VmInstrOp::stx_s16:
+			{
+			}
+			break;
+		case VmInstrOp::stx_u8:
+			{
+			}
+			break;
+		case VmInstrOp::stx_s8:
+			{
+			}
+			break;
+
+
+		case VmInstrOp::add_to_sp:
+			{
+			}
+			break;
+
+		case VmInstrOp::add:
+			{
+			}
+			break;
+		case VmInstrOp::sub:
+			{
+			}
+			break;
+		case VmInstrOp::mul:
+			{
+			}
+			break;
+		case VmInstrOp::sdiv:
+			{
+			}
+			break;
+		case VmInstrOp::udiv:
+			{
+			}
+			break;
+		case VmInstrOp::smod:
+			{
+			}
+			break;
+		case VmInstrOp::umod:
+			{
+			}
+			break;
+
+		case VmInstrOp::bit_and:
+			{
+			}
+			break;
+		case VmInstrOp::bit_or:
+			{
+			}
+			break;
+		case VmInstrOp::bit_xor:
+			{
+			}
+			break;
+		case VmInstrOp::bit_lsl:
+			{
+			}
+			break;
+		case VmInstrOp::bit_lsr:
+			{
+			}
+			break;
+		case VmInstrOp::bit_asr:
+			{
+			}
+			break;
+
+
+		case VmInstrOp::cmp_eq:
+			{
+			}
+			break;
+		case VmInstrOp::cmp_ne:
+			{
+			}
+			break;
+		case VmInstrOp::cmp_ult:
+			{
+			}
+			break;
+		case VmInstrOp::cmp_slt:
+			{
+			}
+			break;
+		case VmInstrOp::cmp_ugt:
+			{
+			}
+			break;
+		case VmInstrOp::cmp_sgt:
+			{
+			}
+			break;
+		case VmInstrOp::cmp_ule:
+			{
+			}
+			break;
+		case VmInstrOp::cmp_sle:
+			{
+			}
+			break;
+		case VmInstrOp::cmp_uge:
+			{
+			}
+			break;
+		case VmInstrOp::cmp_sge:
+			{
+			}
+			break;
+
+
+		case VmInstrOp::disp_num:
+			{
+			}
+			break;
+		case VmInstrOp::disp_num_unsigned:
+			{
+			}
+			break;
+		case VmInstrOp::disp_char:
+			{
+			}
+			break;
+		case VmInstrOp::disp_str:
+			{
+			}
+			break;
+		case VmInstrOp::get_num:
+			{
+			}
+			break;
+
+		case VmInstrOp::quit:
+			err("exec_one_instr():  Eek!\n");
+			break;
+	}
 }
 
 VmInstrOp Vm::get_op()
