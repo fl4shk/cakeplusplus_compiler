@@ -43,8 +43,8 @@ public:		// functions
 
 	antlrcpp::Any visitVarDecl
 		(GrammarParser::VarDeclContext *ctx);
-	antlrcpp::Any visitFuncVarDecl
-		(GrammarParser::FuncVarDeclContext *ctx);
+	antlrcpp::Any visitFuncArgDecl
+		(GrammarParser::FuncArgDeclContext *ctx);
 
 	antlrcpp::Any visitBuiltinTypename
 		(GrammarParser::BuiltinTypenameContext *ctx);

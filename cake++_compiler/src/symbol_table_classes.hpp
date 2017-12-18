@@ -81,34 +81,33 @@ private:		// variables
 	// Local variables and stuff go into each Function's symbol table
 	SymbolTable __sym_tbl;
 
-	VmCode __code;
+	VmCode __vm_code;
 
 
 public:		// functions
 	inline Function()
 	{
-		__code.next = &__code;
-		__code.prev = &__code;
+		__vm_code.next = &__vm_code;
+		__vm_code.prev = &__vm_code;
 	}
 	inline Function(Ident s_name)
 		: __name(s_name)
 	{
-		__code.next = &__code;
-		__code.prev = &__code;
+		__vm_code.next = &__vm_code;
+		__vm_code.prev = &__vm_code;
 	}
 	inline Function(Function&& to_move) = default;
 
 	inline Function& operator = (Function&& to_move) = default;
 
-	inline auto append_code()
+	inline auto append_vm_code()
 	{
-		return append_vm_code(*this);
+		return ::append_vm_code(*this);
 	}
 
 	gen_getter_and_setter_by_val(name);
 	gen_getter_by_ref(sym_tbl);
-	//gen_getter_and_setter_by_val(code);
-	gen_getter_by_ref(code);
+	gen_getter_by_ref(vm_code);
 };
 
 class FunctionTable : public IdentTable<Function>

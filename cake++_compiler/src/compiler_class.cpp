@@ -24,9 +24,12 @@ antlrcpp::Any Compiler::visitFuncDecl
 	ctx->identName()->accept(this);
 	auto ident = pop_str();
 
-	printout("I found this function:  ", *ident, "\n");
+	auto&& funcArgDecl = ctx->funcArgDecl();
 
-	auto&& funcVarDecl = ctx->funcVarDecl();
+	for (auto func_arg_decl : funcArgDecl)
+	{
+		func_arg_decl->accept(this);
+	}
 
 	return nullptr;
 }
@@ -59,8 +62,8 @@ antlrcpp::Any Compiler::visitVarDecl
 {
 	return nullptr;
 }
-antlrcpp::Any Compiler::visitFuncVarDecl
-	(GrammarParser::FuncVarDeclContext *ctx)
+antlrcpp::Any Compiler::visitFuncArgDecl
+	(GrammarParser::FuncArgDeclContext *ctx)
 {
 	return nullptr;
 }

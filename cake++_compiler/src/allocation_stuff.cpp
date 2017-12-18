@@ -55,9 +55,9 @@ VmCode* append_vm_code(Function& func)
 
 	std::unique_ptr<VmCode> p;
 	p.reset(new VmCode());
-	p->next = &func.code();
-	(p->prev = func.code().prev)->next = p.get();
-	func.code().prev = p.get();
+	p->next = &func.vm_code();
+	(p->prev = func.vm_code().prev)->next = p.get();
+	func.vm_code().prev = p.get();
 
 	pool.push_back(std::move(p));
 	return pool.back().get();

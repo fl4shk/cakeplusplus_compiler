@@ -6,7 +6,7 @@ program:
 	;
 
 funcDecl:
-	identName '(' ((funcVarDecl ',')* funcVarDecl)? ')' statements
+	identName '(' ((funcArgDecl ',')* funcArgDecl)? ')' statements
 	;
 
 funcCall:
@@ -33,7 +33,7 @@ statement:
 
 varDecl: builtinTypename (identDecl ',')* identDecl ;
 
-funcVarDecl:
+funcArgDecl:
 	builtinTypename identName
 	| builtinTypename nonSizedArrayIdentName
 	;
@@ -46,13 +46,9 @@ builtinTypename:
 nonSizedArrayIdentName: identName '[' ']' ;
 assignment: identExpr '=' expr ;
 
-ifStatement:
-	TokIf '(' expr ')' statements
-	;
+ifStatement: TokIf '(' expr ')' statements ;
 
-ifChainStatement:
-	TokIf '(' expr ')' statements TokElse elseStatements
-	;
+ifChainStatement: TokIf '(' expr ')' statements TokElse elseStatements ;
 
 
 // Used so that if - else if - else chains can be formed correctly
@@ -62,13 +58,9 @@ elseStatements:
 	;
 
 
-whileStatement:
-	TokWhile '(' expr ')' statements
-	;
+whileStatement: TokWhile '(' expr ')' statements ;
 
-doWhileStatement:
-	TokDo statements TokWhile '(' expr ')'
-	;
+doWhileStatement: TokDo statements TokWhile '(' expr ')' ;
 
 expr:
 	exprLogical
