@@ -1,2 +1,2 @@
 #!/bin/bash
-./cake++_vm 1 <tests/test_"$1".vmtxt
+./cake++_vm 65536 <tests/test_"$1".vmtxt

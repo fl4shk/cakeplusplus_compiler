@@ -39,7 +39,6 @@ add:
 	ld_basic
 
 	add
-	;disp_num
 
 	; return value
 	const_s8(-16)
