@@ -154,10 +154,21 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 		case VmInstrOp::call:
 			{
+				const auto addr = pop();
+				push(pc());
+				const auto old_fp = fp();
+				fp() = sp();
+				push(old_fp);
+				pc() = addr;
 			}
 			break;
 		case VmInstrOp::ret:
 			{
+				const auto ret_addr = get_mem_64(fp());
+				const auto old_fp = get_mem_64(fp() + 8);
+				sp() = fp();
+				fp() = old_fp;
+				pc() = ret_addr;
 			}
 			break;
 

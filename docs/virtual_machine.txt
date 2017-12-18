@@ -2,7 +2,7 @@ For simplicity, this is a stack machine.
 It uses byte addressing.
 The basic integer type is implemented as int64_t.
 
-However, compares and divisions and remainders can be made to act as if
+However, compares, divisions, and remainders can be made to act as if
 both arguments are uint64_t.
 
 Other types of integers are supported for loads and stores.
@@ -134,11 +134,11 @@ Instructions:
 
   call:
     {
-      // Address of function
       address = pop();
-
-      // Stuff necessary for performing a function call
-      call_sequence(address);
+      push(pc);
+      old_fp = fp;
+      fp = sp;
+      push(old_fp);
     }
 
   ret:

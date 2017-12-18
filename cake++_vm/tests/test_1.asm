@@ -21,21 +21,21 @@ main:
 	quit
 
 
-add:
-	const_s8(-8)
-	argx
-	ld_basic
-
-	arg
-	ld_basic
-
-	add
-
-	; return value
-	const_s8(-16)
-	argx
-	st_basic
-
-
-
-	ret
+;add:
+;	const_s8(-8)
+;	argx
+;	ld_basic
+;
+;	arg
+;	ld_basic
+;
+;	add
+;
+;	; return value
+;	const_s8(-16)
+;	argx
+;	st_basic
+;
+;
+;
+;	ret
