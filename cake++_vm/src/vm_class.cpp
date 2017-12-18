@@ -511,25 +511,47 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 
 
-		case VmInstrOp::disp_num:
+		case VmInstrOp::syscall:
+			{
+				const VmSyscallOp op = (VmSyscallOp)pop();
+				__exec_syscall(op);
+			}
+			break;
+
+		case VmInstrOp::quit:
+			err("exec_one_instr():  Eek!\n");
+			break;
+
+		default:
+			err(sconcat("Cannot execute instruction with ID ", (u16)op, 
+				"!"));
+			break;
+	}
+}
+
+void Vm::__exec_syscall(VmSyscallOp op)
+{
+	switch (op)
+	{
+		case VmSyscallOp::disp_num:
 			{
 				const auto val = pop();
 				printout(val);
 			}
 			break;
-		case VmInstrOp::disp_num_unsigned:
+		case VmSyscallOp::disp_num_unsigned:
 			{
 				const u64 val = pop();
 				printout(val);
 			}
 			break;
-		case VmInstrOp::disp_char:
+		case VmSyscallOp::disp_char:
 			{
 				const char val = pop();
 				printout(val);
 			}
 			break;
-		case VmInstrOp::disp_str:
+		case VmSyscallOp::disp_str:
 			{
 				s64 base = pop();
 
@@ -546,20 +568,18 @@ void Vm::exec_one_instr(VmInstrOp op)
 				} while (c != '\0');
 			}
 			break;
-		case VmInstrOp::get_num:
+		case VmSyscallOp::get_num:
 			{
 				s64 a;
 				cin >> a;
 				push(a);
 			}
 			break;
-
-		case VmInstrOp::quit:
-			err("exec_one_instr():  Eek!\n");
+		default:
+			err(sconcat((u64)op, " is not a valid system call ID!\n"));
 			break;
 	}
 }
-
 VmInstrOp Vm::get_op()
 {
 	const VmInstrOp ret = static_cast<VmInstrOp>(get_mem_16(pc()));
@@ -609,6 +629,7 @@ s64 Vm::get_imm_s8()
 	pc() += sizeof(s8);
 	return ret;
 }
+
 
 void Vm::put_program_into_mem()
 {

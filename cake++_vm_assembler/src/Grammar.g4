@@ -62,6 +62,7 @@ directive:
 	| dotDbU8Directive
 	| dotDbS8Directive
 	| dotCalliDirective
+	| dotSyscalliDirective
 	;
 
 dotSpaceDirective: '.space' expr ;
@@ -75,6 +76,7 @@ dotDbS16Directive: '.db_s16' ((expr ',')?) expr ;
 dotDbU8Directive: '.db_u8' ((expr ',')?) expr ;
 dotDbS8Directive: '.db_s8' ((expr ',')?) expr ;
 dotCalliDirective: '.calli(' expr ')' ;
+dotSyscalliDirective: '.syscalli(' expr ')' ;
 
 expr:
 	exprLogical
@@ -151,8 +153,9 @@ TokNoImmArgsOp:
 	| 'call' | 'ret'
 	| TokLdOp | TokLdxOp | TokStOp | TokStxOp
 	| 'add_to_sp'
-	| 'disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
-	| 'get_num'
+	//| 'disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
+	//| 'get_num'
+	| 'syscall'
 	| 'quit')
 	;
 

@@ -1,6 +1,4 @@
 main:
-	const(7)
-
 	; Allocate space for return value
 	const_u8(0)
 

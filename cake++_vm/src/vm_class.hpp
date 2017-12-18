@@ -92,13 +92,23 @@ enum class VmInstrOp : u16
 	cmp_sge,
 
 
+	//disp_num,
+	//disp_num_unsigned,
+	//disp_char,
+	//disp_str,
+	//get_num,
+	syscall,
+
+	quit,
+};
+
+enum class VmSyscallOp : u64
+{
 	disp_num,
 	disp_num_unsigned,
 	disp_char,
 	disp_str,
 	get_num,
-
-	quit,
 };
 
 
@@ -140,16 +150,6 @@ public:		// functions
 private:		// functions
 	void exec_one_instr(VmInstrOp op);
 
-	// pc() incrementers
-	VmInstrOp get_op();
-	s64 get_imm_64();
-	s64 get_imm_u32();
-	s64 get_imm_s32();
-	s64 get_imm_u16();
-	s64 get_imm_s16();
-	s64 get_imm_u8();
-	s64 get_imm_s8();
-
 	template<typename Type>
 	void __exec_ld()
 	{
@@ -178,7 +178,17 @@ private:		// functions
 		const Type data = (Type)pop();
 		__set_mem_any<Type>(base + index, data);
 	}
+	void __exec_syscall(VmSyscallOp op);
 
+	// pc() incrementers
+	VmInstrOp get_op();
+	s64 get_imm_64();
+	s64 get_imm_u32();
+	s64 get_imm_s32();
+	s64 get_imm_u16();
+	s64 get_imm_s16();
+	s64 get_imm_u8();
+	s64 get_imm_s8();
 
 	inline auto& regs()
 	{

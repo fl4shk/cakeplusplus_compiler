@@ -98,11 +98,12 @@ enum class VmInstrOp : u16
 	cmp_sge,
 
 
-	disp_num,
-	disp_num_unsigned,
-	disp_char,
-	disp_str,
-	get_num,
+	//disp_num,
+	//disp_num_unsigned,
+	//disp_char,
+	//disp_str,
+	//get_num,
+	syscall,
 
 	quit,
 };
@@ -245,6 +246,8 @@ private:		// functions
 		(GrammarParser::DotDbS8DirectiveContext *ctx);
 	antlrcpp::Any visitDotCalliDirective
 		(GrammarParser::DotCalliDirectiveContext *ctx);
+	antlrcpp::Any visitDotSyscalliDirective
+		(GrammarParser::DotSyscalliDirectiveContext *ctx);
 
 	antlrcpp::Any visitExpr
 		(GrammarParser::ExprContext *ctx);
