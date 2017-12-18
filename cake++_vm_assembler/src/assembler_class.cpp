@@ -658,21 +658,21 @@ antlrcpp::Any Assembler::visitInstrBinop
 	{
 		gen_16(VmInstrOp::mul);
 	}
-	else if (some_binop == "sdiv")
-	{
-		gen_16(VmInstrOp::sdiv);
-	}
 	else if (some_binop == "udiv")
 	{
 		gen_16(VmInstrOp::udiv);
 	}
-	else if (some_binop == "smod")
+	else if (some_binop == "sdiv")
 	{
-		gen_16(VmInstrOp::smod);
+		gen_16(VmInstrOp::sdiv);
 	}
 	else if (some_binop == "umod")
 	{
 		gen_16(VmInstrOp::umod);
+	}
+	else if (some_binop == "smod")
+	{
+		gen_16(VmInstrOp::smod);
 	}
 	else if (some_binop == "bit_and")
 	{

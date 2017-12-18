@@ -318,8 +318,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 
 		case VmInstrOp::add_to_sp:
-			{
-			}
+			sp() += pop();
 			break;
 
 		case VmInstrOp::add:

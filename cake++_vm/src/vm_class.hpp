@@ -67,10 +67,10 @@ enum class VmInstrOp : u16
 	add,
 	sub,
 	mul,
-	sdiv,
 	udiv,
-	smod,
+	sdiv,
 	umod,
+	smod,
 
 	bit_and,
 	bit_or,
