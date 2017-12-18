@@ -61,34 +61,20 @@ directive:
 	| dotDbS16Directive
 	| dotDbU8Directive
 	| dotDbS8Directive
+	| dotCalliDirective
 	;
 
-dotSpaceDirective:
-	'.space' expr
-	;
+dotSpaceDirective: '.space' expr ;
 
-dotDbDirective:
-	'.db' ((expr ',')?) expr
-	;
+dotDbDirective: '.db' ((expr ',')?) expr ;
 
-dotDbU32Directive:
-	'.db_u32' ((expr ',')?) expr
-	;
-dotDbS32Directive:
-	'.db_s32' ((expr ',')?) expr
-	;
-dotDbU16Directive:
-	'.db_u16' ((expr ',')?) expr
-	;
-dotDbS16Directive:
-	'.db_s16' ((expr ',')?) expr
-	;
-dotDbU8Directive:
-	'.db_u8' ((expr ',')?) expr
-	;
-dotDbS8Directive:
-	'.db_s8' ((expr ',')?) expr
-	;
+dotDbU32Directive: '.db_u32' ((expr ',')?) expr ;
+dotDbS32Directive: '.db_s32' ((expr ',')?) expr ;
+dotDbU16Directive: '.db_u16' ((expr ',')?) expr ;
+dotDbS16Directive: '.db_s16' ((expr ',')?) expr ;
+dotDbU8Directive: '.db_u8' ((expr ',')?) expr ;
+dotDbS8Directive: '.db_s8' ((expr ',')?) expr ;
+dotCalliDirective: '.calli(' expr ')' ;
 
 expr:
 	exprLogical

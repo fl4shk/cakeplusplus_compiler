@@ -243,6 +243,8 @@ private:		// functions
 		(GrammarParser::DotDbU8DirectiveContext *ctx);
 	antlrcpp::Any visitDotDbS8Directive
 		(GrammarParser::DotDbS8DirectiveContext *ctx);
+	antlrcpp::Any visitDotCalliDirective
+		(GrammarParser::DotCalliDirectiveContext *ctx);
 
 	antlrcpp::Any visitExpr
 		(GrammarParser::ExprContext *ctx);

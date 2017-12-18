@@ -793,6 +793,10 @@ antlrcpp::Any Assembler::visitDirective
 	{
 		ctx->dotDbS8Directive()->accept(this);
 	}
+	else if (ctx->dotCalliDirective())
+	{
+		ctx->dotCalliDirective()->accept(this);
+	}
 	else
 	{
 		printerr("visitDirective():  Eek!\n");
@@ -907,6 +911,16 @@ antlrcpp::Any Assembler::visitDotDbS8Directive
 	}
 
 	return nullptr;
+}
+
+antlrcpp::Any Assembler::visitDotCalliDirective
+	(GrammarParser::DotCalliDirectiveContext *ctx)
+{
+	ctx->expr()->accept(this);
+
+	gen_16(VmInstrOp::constant);
+	gen_64(pop_num());
+	gen_16(VmInstrOp::call);
 }
 
 antlrcpp::Any Assembler::visitExpr
