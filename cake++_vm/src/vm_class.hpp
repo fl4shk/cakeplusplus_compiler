@@ -199,6 +199,7 @@ private:		// functions
 	}
 	s64 pop();
 	void push(s64 to_push);
+
 	u64 get_mem_64(size_t address) const;
 	u64 set_mem_64(size_t address, u64 data);
 	u32 get_mem_32(size_t address) const;
