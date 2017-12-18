@@ -1,7 +1,7 @@
 #include "allocation_stuff.hpp"
 #include "symbol_table_classes.hpp"
 
-class DupStuff
+class AllocStuff
 {
 	friend int* cstm_intdup(int to_dup);
 	friend std::string* cstm_strdup(const std::string& to_dup);
@@ -15,13 +15,13 @@ private:			// static variables
 
 };
 
-std::map<int, std::unique_ptr<int>> DupStuff::__int_pool;
-std::map<std::string, std::unique_ptr<std::string>> DupStuff::__str_pool;
-std::vector<std::unique_ptr<VmCode>> DupStuff::__vm_code_pool;
+std::map<int, std::unique_ptr<int>> AllocStuff::__int_pool;
+std::map<std::string, std::unique_ptr<std::string>> AllocStuff::__str_pool;
+std::vector<std::unique_ptr<VmCode>> AllocStuff::__vm_code_pool;
 
 int* cstm_intdup(int to_dup)
 {
-	auto& pool = DupStuff::__int_pool;
+	auto& pool = AllocStuff::__int_pool;
 
 	if (pool.count(to_dup) == 0)
 	{
@@ -36,7 +36,7 @@ int* cstm_intdup(int to_dup)
 
 std::string* cstm_strdup(const std::string& to_dup)
 {
-	auto& pool = DupStuff::__str_pool;
+	auto& pool = AllocStuff::__str_pool;
 
 	if (pool.count(to_dup) == 0)
 	{
@@ -51,7 +51,7 @@ std::string* cstm_strdup(const std::string& to_dup)
 
 VmCode* append_vm_code(Function& func)
 {
-	auto& pool = DupStuff::__vm_code_pool;
+	auto& pool = AllocStuff::__vm_code_pool;
 
 	std::unique_ptr<VmCode> p;
 	p.reset(new VmCode());

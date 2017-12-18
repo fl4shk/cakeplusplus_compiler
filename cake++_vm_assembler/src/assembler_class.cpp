@@ -1202,9 +1202,9 @@ antlrcpp::Any Assembler::visitExprUnary
 	{
 		ctx->exprNegate()->accept(this);
 	}
-	else if (ctx->exprLogNegate())
+	else if (ctx->exprLogNot())
 	{
-		ctx->exprLogNegate()->accept(this);
+		ctx->exprLogNot()->accept(this);
 	}
 	else
 	{
@@ -1228,8 +1228,8 @@ antlrcpp::Any Assembler::visitExprNegate
 	push_num(-pop_num());
 	return nullptr;
 }
-antlrcpp::Any Assembler::visitExprLogNegate
-	(GrammarParser::ExprLogNegateContext *ctx)
+antlrcpp::Any Assembler::visitExprLogNot
+	(GrammarParser::ExprLogNotContext *ctx)
 {
 	ctx->expr()->accept(this);
 	push_num(!pop_num());

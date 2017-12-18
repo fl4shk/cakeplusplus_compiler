@@ -15,16 +15,10 @@ funcCall:
 
 
 // Just so that there's a separate std::vector
-// Also, variables must be used for function arguments.  They are passed
-// by reference.
-funcArgExpr:
-	identName
-	;
+funcArgExpr: identName ;
 
 
-statements:
-	'{' statement* '}'
-	;
+statements: '{' statement* '}' ;
 
 statement:
 	statements
@@ -37,9 +31,7 @@ statement:
 	| doWhileStatement
 	;
 
-varDecl:
-	builtinTypename (identDecl ',')* identDecl
-	;
+varDecl: builtinTypename (identDecl ',')* identDecl ;
 
 funcVarDecl:
 	builtinTypename identName
@@ -51,13 +43,8 @@ builtinTypename:
 	;
 
 
-nonSizedArrayIdentName:
-	identName '[' ']'
-	;
-
-assignment:
-	identExpr '=' expr
-	;
+nonSizedArrayIdentName: identName '[' ']' ;
+assignment: identExpr '=' expr ;
 
 ifStatement:
 	TokIf '(' expr ')' statements
@@ -105,17 +92,24 @@ exprAddSub:
 	;
 
 exprMulDivModEtc:
-	numExpr
-
-
+	exprUnary
+	| numExpr
 	| funcCall
 	| identExpr
 	| lenExpr
 	| sizeofExpr
 	| '(' expr ')'
-	| TokOpUnary expr
 	;
 
+exprUnary:
+	exprBitInvert
+	| exprNegate
+	| exprLogNot
+	;
+
+exprBitInvert: '~' expr ;
+exprNegate: '-' expr ;
+exprLogNot: '!' expr ;
 
 identExpr:
 	identName
@@ -127,29 +121,12 @@ identDecl:
 	| identName subscriptConst
 	;
 
-identName:
-	TokIdent
-	;
-
-numExpr:
-	TokDecNum
-	;
-
-lenExpr:
-	'len' '(' identExpr ')'
-	;
-
-sizeofExpr:
-	'sizeof' '(' identExpr ')'
-	;
-
-subscriptExpr:
-	'[' expr ']'
-	;
-
-subscriptConst:
-	'[' numExpr ']'
-	;
+identName: TokIdent ;
+numExpr: TokDecNum ;
+lenExpr: 'len' '(' identExpr ')' ;
+sizeofExpr: 'sizeof' '(' identExpr ')' ;
+subscriptExpr: '[' expr ']' ;
+subscriptConst: '[' numExpr ']' ;
 
 
 
@@ -164,6 +141,5 @@ TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
 TokOpAddSub: ('+' | '-') ;
 TokOpMulDivMod: ('*' | '/' | '%') ;
 TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
-TokOpUnary: ('~' | '-' | '!') ;
 TokDecNum: [0-9] ([0-9]*) ;
 TokIdent: [A-Za-z_] (([A-Za-z_] | [0-9])*) ;

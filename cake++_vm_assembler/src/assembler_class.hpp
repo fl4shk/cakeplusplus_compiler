@@ -281,8 +281,8 @@ private:		// functions
 		(GrammarParser::ExprBitInvertContext *ctx);
 	antlrcpp::Any visitExprNegate
 		(GrammarParser::ExprNegateContext *ctx);
-	antlrcpp::Any visitExprLogNegate
-		(GrammarParser::ExprLogNegateContext *ctx);
+	antlrcpp::Any visitExprLogNot
+		(GrammarParser::ExprLogNotContext *ctx);
 
 	antlrcpp::Any visitIdentName
 		(GrammarParser::IdentNameContext *ctx);

@@ -76,6 +76,15 @@ public:		// functions
 	antlrcpp::Any visitExprMulDivModEtc
 		(GrammarParser::ExprMulDivModEtcContext *ctx);
 
+	antlrcpp::Any visitExprUnary
+		(GrammarParser::ExprUnaryContext *ctx);
+	antlrcpp::Any visitExprBitInvert
+		(GrammarParser::ExprBitInvertContext *ctx);
+	antlrcpp::Any visitExprNegate
+		(GrammarParser::ExprNegateContext *ctx);
+	antlrcpp::Any visitExprLogNot
+		(GrammarParser::ExprLogNotContext *ctx);
+
 
 	antlrcpp::Any visitIdentExpr
 		(GrammarParser::IdentExprContext *ctx);

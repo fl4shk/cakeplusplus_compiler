@@ -132,6 +132,27 @@ antlrcpp::Any Compiler::visitExprMulDivModEtc
 	return nullptr;
 }
 
+antlrcpp::Any Compiler::visitExprUnary
+	(GrammarParser::ExprUnaryContext *ctx)
+{
+	return nullptr;
+}
+antlrcpp::Any Compiler::visitExprBitInvert
+	(GrammarParser::ExprBitInvertContext *ctx)
+{
+	return nullptr;
+}
+antlrcpp::Any Compiler::visitExprNegate
+	(GrammarParser::ExprNegateContext *ctx)
+{
+	return nullptr;
+}
+antlrcpp::Any Compiler::visitExprLogNot
+	(GrammarParser::ExprLogNotContext *ctx)
+{
+	return nullptr;
+}
+
 
 antlrcpp::Any Compiler::visitIdentExpr
 	(GrammarParser::IdentExprContext *ctx)

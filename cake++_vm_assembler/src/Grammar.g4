@@ -110,18 +110,17 @@ exprMulDivModEtc:
 	| identName
 	| currPc
 	| '(' expr ')'
-	//| TokOpUnary expr
 	;
 
 exprUnary:
 	exprBitInvert
 	| exprNegate
-	| exprLogNegate
+	| exprLogNot
 	;
 
 exprBitInvert: '~' expr ;
 exprNegate: '-' expr ;
-exprLogNegate: '!' expr ;
+exprLogNot: '!' expr ;
 
 identName: TokIdent | TokBinOp | TokNoImmArgsOp;
 

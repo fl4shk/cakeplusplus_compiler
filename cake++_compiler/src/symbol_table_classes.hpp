@@ -6,6 +6,7 @@
 #include "scoped_ident_table_class.hpp"
 
 #include "vm_code_class.hpp"
+#include "allocation_stuff.hpp"
 
 enum class SymType : int
 {
@@ -26,12 +27,9 @@ enum class BuiltinTypename : int
 {
 	Blank,
 
-	//// u8, u16, u32, etc.
-	//U8, U16, U32, U64,
-	//S8, S16, S32, S64,
-
-	//Int,
-	S64,
+	// u8, u16, u32, etc.
+	U8, U16, U32, U64,
+	S8, S16, S32, S64,
 };
 
 
@@ -42,8 +40,6 @@ private:		// variables
 
 	SymType __type;
 	BuiltinTypename __var_type;
-	//int __val;
-	//std::vector<int> __data;
 	size_t __size;
 
 public:		// functions
@@ -103,6 +99,11 @@ public:		// functions
 	inline Function(Function&& to_move) = default;
 
 	inline Function& operator = (Function&& to_move) = default;
+
+	inline auto append_code()
+	{
+		return append_vm_code(*this);
+	}
 
 	gen_getter_and_setter_by_val(name);
 	gen_getter_by_ref(sym_tbl);

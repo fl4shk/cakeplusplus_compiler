@@ -13,7 +13,7 @@
 
 int main(int argc, char** argv)
 {
-	std::string from_stdin(get_stdin_from_file());;
+	std::string from_stdin(get_stdin_as_str());;
 
 	antlr4::ANTLRInputStream input(from_stdin);
 	GrammarLexer lexer(&input);
