@@ -176,7 +176,12 @@ void Vm::put_program_into_mem()
 	//	}
 	//	printout(std::hex, temp, std::dec);
 	//}
+
+
+	// 16 because of space for return value and return address
 	sp() += 16;
+
+	// 8 because of space for return value
 	fp() += 8;
 }
 
