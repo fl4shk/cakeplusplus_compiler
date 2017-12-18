@@ -18,8 +18,7 @@ main:
 	;const(9)
 	disp_num
 
-	const(disp_newline)
-	call
+	.calli(disp_newline)
 
 
 	const(0)
@@ -35,16 +34,14 @@ add:
 	ld_basic
 	disp_num
 
-	const(disp_newline)
-	call
+	.calli(disp_newline)
 
 	const_s8(-8)
 	argx
 	ld_basic
 	disp_num
 
-	const(disp_newline)
-	call
+	.calli(disp_newline)
 
 	; Perform the actual add now
 	const_s8(-8)

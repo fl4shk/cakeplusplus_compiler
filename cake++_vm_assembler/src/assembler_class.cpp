@@ -921,6 +921,8 @@ antlrcpp::Any Assembler::visitDotCalliDirective
 	gen_16(VmInstrOp::constant);
 	gen_64(pop_num());
 	gen_16(VmInstrOp::call);
+
+	return nullptr;
 }
 
 antlrcpp::Any Assembler::visitExpr
