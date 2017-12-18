@@ -180,6 +180,28 @@ void Vm::put_program_into_mem()
 	fp() += 8;
 }
 
+s64 Vm::pop()
+{
+	if (sp() < 8)
+	{
+		err("pop():  Stack pointer out of valid range!");
+	}
+
+	sp() -= sizeof(s64);
+
+	const s64 ret = get_mem_64(sp());
+	return ret;
+}
+void Vm::push(s64 to_push)
+{
+	if ((sp() + 8) >= 0)
+	{
+		err("push():  Stack pointer out of valid range!");
+	}
+	
+	set_mem_64(sp(), to_push);
+	sp() += sizeof(s64);
+}
 u64 Vm::get_mem_64(size_t address) const
 {
 	if ((address >= __mem.size())
