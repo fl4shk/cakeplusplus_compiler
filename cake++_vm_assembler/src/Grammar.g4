@@ -118,7 +118,7 @@ exprLogNegate: '!' expr ;
 
 identName: TokIdent | TokBinOp | TokNoImmArgsOp;
 
-numExpr: TokDecNum ;
+numExpr: TokDecNum | TokChar;
 
 currPc: '.' ;
 
@@ -183,7 +183,12 @@ TokSyscallShorthandOp:
 	('disp_num' | 'disp_num_unsigned' | 'disp_char' | 'disp_str'
 	| 'get_num');
 
+fragment LexInsideChar: . ;
+fragment LexCharDelim: '\'' ;
+//fragment LexStrDelim: '\"' ;
 
+TokChar: LexCharDelim LexInsideChar LexCharDelim ;
+//TokStr: LexStrDelim (LexInsideChar*) LexStrDelim ;
 
 
 TokOpLogical: ('&&' | '||') ;

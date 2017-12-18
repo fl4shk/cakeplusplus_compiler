@@ -1244,11 +1244,24 @@ antlrcpp::Any Assembler::visitIdentName
 antlrcpp::Any Assembler::visitNumExpr
 	(GrammarParser::NumExprContext *ctx)
 {
-	std::stringstream sstm;
-
 	s64 to_push;
-	sstm << ctx->TokDecNum()->toString();
-	sstm >> to_push;
+
+
+	std::stringstream sstm;
+	if (ctx->TokDecNum())
+	{
+		sstm << ctx->TokDecNum()->toString();
+		sstm >> to_push;
+	}
+	else if (ctx->TokChar())
+	{
+		std::string temp;
+		sstm << ctx->TokChar()->toString();
+		sstm >> temp;
+
+		to_push = temp.at(1);
+	}
+
 	push_num(to_push);
 
 	return nullptr;

@@ -355,33 +355,42 @@ Instructions:
     }
 
 
-  // Display 64-bit integer
-  disp_num:
+  // System call
+  syscall:
     {
-      cout << pop();
+      a = pop();
+      exec_syscall(pop());
     }
-  disp_num_unsigned:
+  // Specific system calls:
     {
-      cout << (uint64_t)pop();
-    }
+    // Display 64-bit integer
+    disp_num:
+      {
+        cout << pop();
+      }
+    disp_num_unsigned:
+      {
+        cout << (uint64_t)pop();
+      }
 
-  // Display character
-  disp_char:
-    {
-      cout << (char)pop();
-    }
+    // Display character
+    disp_char:
+      {
+        cout << (char)pop();
+      }
 
-  // Display string
-  disp_str:
-    {
-      cout << ((const char*)(&mem[pop()]));
-    }
+    // Display string
+    disp_str:
+      {
+        cout << ((const char*)(&mem[pop()]));
+      }
 
-  // Get 64-bit integer from standard input
-  get_num:
-    {
-      cin >> a;
-      push(a);
+    // Get 64-bit integer from standard input
+    get_num:
+      {
+        cin >> a;
+        push(a);
+      }
     }
 
   quit:

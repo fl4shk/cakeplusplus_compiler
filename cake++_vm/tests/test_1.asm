@@ -7,8 +7,7 @@ main:
 	const_u8(9)
 
 	; Function label
-	const(add)
-	call
+	.calli(add)
 	const_s8(-16)
 	add_to_sp
 
