@@ -323,119 +323,210 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 		case VmInstrOp::add:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a + b);
 			}
 			break;
 		case VmInstrOp::sub:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a - b);
 			}
 			break;
 		case VmInstrOp::mul:
 			{
-			}
-			break;
-		case VmInstrOp::sdiv:
-			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a * b);
 			}
 			break;
 		case VmInstrOp::udiv:
 			{
+				const u64 a = pop();
+				const u64 b = pop();
+				push(a / b);
 			}
 			break;
-		case VmInstrOp::smod:
+		case VmInstrOp::sdiv:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a / b);
 			}
 			break;
 		case VmInstrOp::umod:
 			{
+				const u64 a = pop();
+				const u64 b = pop();
+				push(a % b);
+			}
+			break;
+		case VmInstrOp::smod:
+			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a % b);
 			}
 			break;
 
 		case VmInstrOp::bit_and:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a & b);
 			}
 			break;
 		case VmInstrOp::bit_or:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a | b);
 			}
 			break;
 		case VmInstrOp::bit_xor:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a ^ b);
 			}
 			break;
 		case VmInstrOp::bit_lsl:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a << b);
 			}
 			break;
 		case VmInstrOp::bit_lsr:
 			{
+				const u64 a = pop();
+				const u64 b = pop();
+				push(a >> b);
 			}
 			break;
 		case VmInstrOp::bit_asr:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a >> b);
 			}
 			break;
 
 
 		case VmInstrOp::cmp_eq:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a == b);
 			}
 			break;
 		case VmInstrOp::cmp_ne:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a != b);
 			}
 			break;
 		case VmInstrOp::cmp_ult:
 			{
+				const u64 a = pop();
+				const u64 b = pop();
+				push(a < b);
 			}
 			break;
 		case VmInstrOp::cmp_slt:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a < b);
 			}
 			break;
 		case VmInstrOp::cmp_ugt:
 			{
+				const u64 a = pop();
+				const u64 b = pop();
+				push(a > b);
 			}
 			break;
 		case VmInstrOp::cmp_sgt:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a > b);
 			}
 			break;
 		case VmInstrOp::cmp_ule:
 			{
+				const u64 a = pop();
+				const u64 b = pop();
+				push(a <= b);
 			}
 			break;
 		case VmInstrOp::cmp_sle:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a <= b);
 			}
 			break;
 		case VmInstrOp::cmp_uge:
 			{
+				const u64 a = pop();
+				const u64 b = pop();
+				push(a >= b);
 			}
 			break;
 		case VmInstrOp::cmp_sge:
 			{
+				const auto a = pop();
+				const auto b = pop();
+				push(a >= b);
 			}
 			break;
 
 
 		case VmInstrOp::disp_num:
 			{
+				const auto val = pop();
+				printout(val);
 			}
 			break;
 		case VmInstrOp::disp_num_unsigned:
 			{
+				const u64 val = pop();
+				printout(val);
 			}
 			break;
 		case VmInstrOp::disp_char:
 			{
+				const char val = pop();
+				printout(val);
 			}
 			break;
 		case VmInstrOp::disp_str:
 			{
+				s64 base = pop();
+
+				char c;
+				do
+				{
+					c = (char)get_mem_8(base);
+					++base;
+
+					if (c != '\0')
+					{
+						printout(c);
+					}
+				} while (c != '\0');
 			}
 			break;
 		case VmInstrOp::get_num:
 			{
+				s64 a;
+				cin >> a;
+				push(a);
 			}
 			break;
 
@@ -555,7 +646,7 @@ void Vm::put_program_into_mem()
 
 s64 Vm::pop()
 {
-	if (sp() < 8)
+	if ((u64)sp() < 8)
 	{
 		err("pop():  Stack pointer out of valid range!");
 	}
@@ -567,7 +658,7 @@ s64 Vm::pop()
 }
 void Vm::push(s64 to_push)
 {
-	if ((sp() + 8) >= 0)
+	if ((sp() + 8) >= __mem.size())
 	{
 		err("push():  Stack pointer out of valid range!");
 	}
