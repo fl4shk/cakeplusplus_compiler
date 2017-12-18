@@ -13,5 +13,7 @@ std::string* cstm_strdup(const std::string& to_dup);
 class VmCode;
 class Function;
 VmCode* append_vm_code(Function& func);
+class AstNode;
+AstNode* mk_ast_node();
 
 #endif		// allocation_stuff_hpp
