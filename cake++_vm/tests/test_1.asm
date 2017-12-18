@@ -17,6 +17,10 @@ main:
 
 	.calli(disp_newline)
 
+	const_u8(-'1')
+	disp_num
+	.calli(disp_newline)
+
 
 	const(0)
 	quit

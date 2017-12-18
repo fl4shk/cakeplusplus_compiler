@@ -135,7 +135,7 @@ antlrcpp::Any Assembler::visitProgram
 {
 	auto&& lines = ctx->line();
 
-	for (auto& line : lines)
+	for (auto line : lines)
 	{
 		line->accept(this);
 	}
@@ -146,7 +146,11 @@ antlrcpp::Any Assembler::visitProgram
 antlrcpp::Any Assembler::visitLine
 	(GrammarParser::LineContext *ctx)
 {
-	if (ctx->label())
+	if (ctx->scopedLines())
+	{
+		ctx->scopedLines()->accept(this);
+	}
+	else if (ctx->label())
 	{
 		ctx->label()->accept(this);
 	}
@@ -166,6 +170,21 @@ antlrcpp::Any Assembler::visitLine
 	{
 		// blank line
 	}
+
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitScopedLines
+	(GrammarParser::ScopedLinesContext *ctx)
+{
+	sym_tbl().mkscope();
+	auto&& lines = ctx->line();
+
+	for (auto line : lines)
+	{
+		line->accept(this);
+	}
+
+	sym_tbl().rmscope();
 
 	return nullptr;
 }

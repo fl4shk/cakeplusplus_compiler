@@ -6,13 +6,20 @@ program:
 	;
 
 line:
-	label (comment?) '\n'
+	scopedLines
+	| label (comment?) '\n'
 	| instruction (comment?) '\n'
 	//label '\n'
 	//| instruction '\n'
 	| comment '\n'
-	| directive '\n'
+	| directive (comment?) '\n'
 	| '\n'
+	;
+
+scopedLines:
+	'{' (comment?) '\n'
+	line*
+	'}' (comment?) '\n'
 	;
 
 //label: TokIdent | TokKeywordIdent ':' ;

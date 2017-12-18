@@ -192,6 +192,8 @@ private:		// functions
 
 	antlrcpp::Any visitLine
 		(GrammarParser::LineContext *ctx);
+	antlrcpp::Any visitScopedLines
+		(GrammarParser::ScopedLinesContext *ctx);
 
 	antlrcpp::Any visitLabel
 		(GrammarParser::LabelContext *ctx);
