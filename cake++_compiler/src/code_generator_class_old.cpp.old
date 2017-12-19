@@ -97,20 +97,39 @@ void CodeGenerator::visit_prog(AstNode* p)
 }
 void CodeGenerator::__visit_func_decl_statements(AstNode* p)
 {
-	// Now handle the statements child
 	sym_tbl().mkscope();
 
+
+	// Now handle the statements child
 	__visit_child(p->children.back());
 
 	// No real reason to remove the scope (?)
 	sym_tbl().rmscope();
-
 }
 //void CodeGenerator::visit_cls_decl(AstNode* p)
 //{
 //}
 void CodeGenerator::visit_func_arg_decl(AstNode* p)
 {
+	switch (p->func_arg_decl_op)
+	{
+		case AstFuncArgDeclOp::Scalar:
+			{
+			}
+			break;
+		case AstFuncArgDeclOp::Arr:
+			{
+			}
+			break;
+		//case AstFuncArgDeclOp::Cls:
+		//	break;
+		//case AstFuncArgDeclOp::ClsArr:
+		//	break;
+
+		default:
+			err("CodeGenerator::visit_func_arg_decl():  Eek!");
+			break;
+	}
 }
 void CodeGenerator::visit_func_arg_expr(AstNode* p)
 {

@@ -78,7 +78,10 @@ class Function
 private:		// variables
 	Ident __name;
 
-	// Local variables and stuff go into each Function's symbol table
+
+	// Function arguments go into the first scope of the symbol table
+	// 
+	// Local variables go into each Function's symbol table
 	SymbolTable __sym_tbl;
 
 	VmCode __vm_code;
@@ -100,9 +103,11 @@ public:		// functions
 
 	inline Function& operator = (Function&& to_move) = default;
 
+	template<typename Type>
 	inline auto append_vm_code()
 	{
-		return ::append_vm_code(*this);
+		//return ::append_vm_code<Type>(*this);
+		return ::append_vm_code<Type>(__vm_code);
 	}
 
 	gen_getter_and_setter_by_val(name);

@@ -1,27 +1,12 @@
 #include "allocation_stuff.hpp"
 #include "symbol_table_classes.hpp"
-#include "abstract_syntax_tree_classes.hpp"
+//#include "abstract_syntax_tree_classes.hpp"
 
-class AllocStuff
-{
-	friend int* cstm_intdup(int to_dup);
-	friend std::string* cstm_strdup(const std::string& to_dup);
-	friend VmCode* append_vm_code(Function& func);
-	friend AstNode* mk_ast_node();
-
-private:			// static variables
-	static std::map<int, std::unique_ptr<int>> __int_pool;
-	static std::map<std::string, std::unique_ptr<std::string>>
-		__str_pool;
-	static std::vector<std::unique_ptr<VmCode>> __vm_code_pool;
-	static std::vector<std::unique_ptr<AstNode>> __ast_node_pool;
-
-};
 
 std::map<int, std::unique_ptr<int>> AllocStuff::__int_pool;
 std::map<std::string, std::unique_ptr<std::string>> AllocStuff::__str_pool;
 std::vector<std::unique_ptr<VmCode>> AllocStuff::__vm_code_pool;
-std::vector<std::unique_ptr<AstNode>> AllocStuff::__ast_node_pool;
+//std::vector<std::unique_ptr<AstNode>> AllocStuff::__ast_node_pool;
 
 int* cstm_intdup(int to_dup)
 {
@@ -53,27 +38,14 @@ std::string* cstm_strdup(const std::string& to_dup)
 	return pool.at(to_dup).get();
 }
 
-VmCode* append_vm_code(Function& func)
-{
-	auto& pool = AllocStuff::__vm_code_pool;
 
-	std::unique_ptr<VmCode> p;
-	p.reset(new VmCode());
-	p->next = &func.vm_code();
-	(p->prev = func.vm_code().prev)->next = p.get();
-	func.vm_code().prev = p.get();
-
-	pool.push_back(std::move(p));
-	return pool.back().get();
-}
-
-AstNode* mk_ast_node()
-{
-	auto& pool = AllocStuff::__ast_node_pool;
-
-	std::unique_ptr<AstNode> p;
-	p.reset(new AstNode());
-
-	pool.push_back(std::move(p));
-	return pool.back().get();
-}
+//AstNode* mk_ast_node()
+//{
+//	auto& pool = AllocStuff::__ast_node_pool;
+//
+//	std::unique_ptr<AstNode> p;
+//	p.reset(new AstNode());
+//
+//	pool.push_back(std::move(p));
+//	return pool.back().get();
+//}

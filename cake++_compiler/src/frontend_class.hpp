@@ -8,7 +8,8 @@
 
 #include "symbol_table_classes.hpp"
 //#include "abstract_syntax_tree_classes.hpp"
-#include "code_generator_class.hpp"
+//#include "code_generator_class.hpp"
+#include "vm_code_class.hpp"
 
 
 class FrntErrorListener : public antlr4::ANTLRErrorListener
@@ -41,16 +42,25 @@ public:		// typedefs
 	//typedef std::vector<AstNode*> AstVec;
 
 protected:		// variables
-	//std::stack<VmCode*> __code_stack;
-	std::stack<AstNode*> __ast_node_stack;
+
+	// Table of functions
+	FunctionTable __func_tbl;
+
+	// Current function
+	Function* __curr_func;
+
+
+	//std::stack<AstNode*> __ast_node_stack;
+
 
 	std::stack<s64> __num_stack;
 	std::stack<std::string*> __str_stack;
 	std::stack<BuiltinTypename> __builtin_typename_stack;
+	std::stack<VmCode*> __code_stack;
 
-	AstNode* __program_node;
+	//AstNode* __program_node;
 
-	CodeGenerator __codegen;
+	//CodeGenerator __codegen;
 
 public:		// functions
 	virtual ~Frontend();
@@ -70,10 +80,6 @@ public:		// functions
 
 	antlrcpp::Any visitStatements
 		(GrammarParser::StatementsContext *ctx);
-	antlrcpp::Any visitComment
-		(GrammarParser::CommentContext *ctx);
-	antlrcpp::Any visitStatement
-		(GrammarParser::StatementContext *ctx);
 	antlrcpp::Any visitStmt
 		(GrammarParser::StmtContext *ctx);
 
@@ -148,19 +154,29 @@ protected:		// functions
 		printerr(msg);
 		exit(1);
 	}
-	inline void push_ast_node(AstNode* to_push)
+
+	inline auto& curr_func()
 	{
-		__ast_node_stack.push(to_push);
+		return *__curr_func;
 	}
-	inline auto pop_ast_node()
+	inline auto& sym_tbl()
 	{
-		auto ret = __ast_node_stack.top();
-		__ast_node_stack.pop();
+		return curr_func().sym_tbl();
+	}
+
+	inline void push_code(VmCode* to_push)
+	{
+		__code_stack.push(to_push);
+	}
+	inline auto pop_code()
+	{
+		auto ret = __code_stack.top();
+		__code_stack.pop();
 		return ret;
 	}
-	inline auto get_top_ast_node()
+	inline auto get_top_code()
 	{
-		return __ast_node_stack.top();
+		return __code_stack.top();
 	}
 
 	inline void push_num(s64 to_push)

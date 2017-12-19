@@ -4,9 +4,11 @@
 #include "misc_includes.hpp"
 //#include "allocation_stuff.hpp"
 
-enum class VmInstrOp : u16
+typedef std::string* Ident;
+
+enum class VmRawInstrOp : u16
 {
-	constant,
+	constant_64,
 	constant_u32,
 	constant_s32,
 	constant_u16,
@@ -102,13 +104,15 @@ enum class VmInstrOp : u16
 	quit,
 };
 
+
+
 enum class VmSyscallShorthandOp : u64
 {
-	disp_num,
-	disp_num_unsigned,
-	disp_char,
-	disp_str,
-	get_num,
+	DispNum,
+	DispNumUnsigned,
+	DispChar,
+	DispStr,
+	GetNum,
 };
 
 enum class VmUS : bool
@@ -117,28 +121,286 @@ enum class VmUS : bool
 	Sgn,
 };
 
-enum class VmLdStType : u32
+enum class VmLdStConstSize : u32
 {
-	Basic,
-	U32,
-	S32,
-	U16,
-	S16,
-	U8,
-	S8,
+	Sz64,
+	Sz32,
+	Sz16,
+	Sz8,
 };
 
 class VmCode
 {
 public:		// variables
-	VmInstrOp op;
+	//VmRawInstrOp raw_op;
+
+	//VmIntermediateOp op;
 
 	VmUS unsgn_or_sgn;
-	VmLdStType ldst_type;
+	VmLdStConstSize ldstconst_size;
+	VmSyscallShorthandOp syscall_shorthand_op;
 
-	s64 immediate;
+	Ident var_ident;
 
+	union
+	{
+		u64 imm_u64;
+		s64 imm_s64;
+		u32 imm_u32;
+		s32 imm_s32;
+		u16 imm_u16;
+		s16 imm_s16;
+		u8 imm_u8;
+		s8 imm_s8;
+	};
+
+	std::vector<VmCode*> args;
+
+	// Circular linked list links
 	VmCode * next, * prev;
+
+public:		// functions
+	VmCode();
+	virtual ~VmCode();
+
+	virtual VmRawInstrOp raw_op() const;
+
+	
+};
+
+class VmOpConstant : public VmCode
+{
+public:		// functions
+	inline VmOpConstant()
+	{
+		//args.resize(0);
+	}
+	VmRawInstrOp raw_op() const;
+};
+
+class VmOpArg : public VmCode
+{
+public:		// functions
+	inline VmOpArg()
+	{
+		//args.resize(0);
+	}
+	VmRawInstrOp raw_op() const;
+
+};
+class VmOpArgx : public VmCode
+{
+public:		// functions
+	inline VmOpArgx()
+	{
+		args.resize(1);
+	}
+	VmRawInstrOp raw_op() const;
+	inline auto& index()
+	{
+		return args.at(0);
+	}
+};
+class VmOpVar : public VmCode
+{
+public:		// functions
+	inline VmOpVar()
+	{
+		//args.resize(0);
+	}
+	VmRawInstrOp raw_op() const;
+};
+class VmOpVarx : public VmCode
+{
+public:		// functions
+	inline VmOpVarx()
+	{
+		args.resize(1);
+	}
+	VmRawInstrOp raw_op() const;
+
+	inline auto& index()
+	{
+		return args.at(0);
+	}
+};
+class VmOpGetPc : public VmCode
+{
+public:		// functions
+	inline VmOpGetPc()
+	{
+		//args.resize(0);
+	}
+	VmRawInstrOp raw_op() const;
+};
+class VmOpJump : public VmCode
+{
+public:		// functions
+	inline VmOpJump()
+	{
+		args.resize(1);
+	}
+	VmRawInstrOp raw_op() const;
+
+	inline auto& dest()
+	{
+		return args.at(0);
+	}
+};
+
+// Covers beq and beq_near
+class VmOpBeq : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+
+// Covers bne and bne_near
+class VmOpBne : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+
+class VmOpCall : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpRet : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+
+
+class VmOpLd : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpLdx : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpSt : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpStx : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+
+class VmOpAddToSp : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpAdd : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpSub : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpMul : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpDiv : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpMod : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+
+class VmOpBitAnd : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpBitOr : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpBitXor : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpBitLsl : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+
+// since ">>" and ">>>" are different operators in the source code,
+// this is fine
+class VmOpBitLsr : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpBitAsr : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+
+class VmOpCmpEq : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpCmpNe : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpCmpLt : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpCmpGt : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpCmpLe : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+class VmOpCmpGe : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+
+class VmOpSyscall : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
+};
+
+class VmOpQuit : public VmCode
+{
+public:		// functions
+	VmRawInstrOp raw_op() const;
 };
 
 

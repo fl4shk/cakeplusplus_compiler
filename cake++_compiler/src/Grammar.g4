@@ -2,7 +2,7 @@ grammar Grammar;
 
 // Parser rules
 program:
-	(funcDecl | comment)+
+	funcDecl+
 	;
 
 funcDecl:
@@ -18,21 +18,13 @@ funcCall:
 funcArgExpr: identName ;
 
 
-statements: 
-	'{' (comment?) 
-	statement* 
-	'}' (comment?)
+statements: '{' stmt* '}'
 	;
 
-comment: 
-	'/*' (~ '*/')*
-	| TokLineComment
-	;
-
-statement:
-	stmt (comment?)
-	| comment
-	;
+//comment: 
+//	'/*' (~ '*/')*
+//	| TokLineComment
+//	;
 
 stmt:
 	statements
@@ -146,7 +138,8 @@ TokElse: 'else' ;
 TokWhile: 'while' ;
 TokDo: 'do' ;
 TokReturn: 'return' ;
-TokLineComment:  '//' (~ '\n')* ;
+LexLineComment: '//' (~ '\n')* -> skip;
+LexMultilineComment: '/*' (.*?) '*/' -> skip ;
 LexWhitespace: (' ' | '\t' | '\n') -> skip ;
 TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
