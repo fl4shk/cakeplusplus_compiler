@@ -523,7 +523,7 @@ antlrcpp::Any Compiler::visitExprLogical
 		}
 		else
 		{
-			err("visitExprCompare():  binop type Eek!\n");
+			err("visitExprLogical():  binop type Eek!\n");
 		}
 
 		ctx->exprCompare()->accept(this);
@@ -564,7 +564,7 @@ antlrcpp::Any Compiler::visitExprCompare
 		}
 		else
 		{
-			err("visitExprAddSub():  binop type Eek!\n");
+			err("visitExprCompare():  binop type Eek!\n");
 		}
 
 		ctx->exprAddSub()->accept(this);
@@ -581,11 +581,122 @@ antlrcpp::Any Compiler::visitExprCompare
 antlrcpp::Any Compiler::visitExprAddSub
 	(GrammarParser::ExprAddSubContext *ctx)
 {
+	if (ctx->exprMulDivModEtc())
+	{
+		ctx->exprMulDivModEtc()->accept(this);
+	}
+	else if (ctx->exprAddSub())
+	{
+		auto to_push = mk_ast_node(AstOp::expr_binop);
+
+
+		ctx->exprAddSub()->accept(this);
+		to_push->append_child(pop_ast_node());
+
+		std::string op;
+		
+		if (ctx->TokOpMulDivMod())
+		{
+			op = ctx->TokOpMulDivMod()->toString();
+		}
+		else if (ctx->TokOpBitwise())
+		{
+			op = ctx->TokOpBitwise()->toString();
+		}
+		else
+		{
+			err("visitExprAddSub():  operator Eek!\n");
+		}
+
+		if (op == "*")
+		{
+			to_push->bin_op = AstBinOp::Mul;
+		}
+		else if (op == "/")
+		{
+			// Temporary!
+			to_push->bin_op = AstBinOp::SDiv;
+		}
+		else if (op == "%")
+		{
+			// Temporary!
+			to_push->bin_op = AstBinOp::SMod;
+		}
+		else if (op == "&")
+		{
+			to_push->bin_op = AstBinOp::BitAnd;
+		}
+		else if (op == "|")
+		{
+			to_push->bin_op = AstBinOp::BitOr;
+		}
+		else if (op == "^")
+		{
+			to_push->bin_op = AstBinOp::BitXor;
+		}
+		else if (op == "<<")
+		{
+			to_push->bin_op = AstBinOp::BitLsl;
+		}
+		else if (op == ">>")
+		{
+			to_push->bin_op = AstBinOp::BitLsr;
+		}
+		else if (op == ">>>")
+		{
+			to_push->bin_op = AstBinOp::BitAsr;
+		}
+		else
+		{
+			err("visitExprAddSub():  binop type Eek!\n");
+		}
+
+		ctx->exprMulDivModEtc()->accept(this);
+		to_push->append_child(pop_ast_node());
+		push_ast_node(to_push);
+	}
+	else
+	{
+		err("visitExprAddSub():  Eek!\n");
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitExprMulDivModEtc
 	(GrammarParser::ExprMulDivModEtcContext *ctx)
 {
+	if (ctx->exprUnary())
+	{
+		ctx->exprUnary()->accept(this);
+	}
+	else if (ctx->numExpr())
+	{
+		ctx->numExpr()->accept(this);
+	}
+	else if (ctx->funcCall())
+	{
+		ctx->funcCall()->accept(this);
+	}
+	else if (ctx->identExpr())
+	{
+		ctx->identExpr()->accept(this);
+	}
+	else if (ctx->lenExpr())
+	{
+		ctx->lenExpr()->accept(this);
+	}
+	else if (ctx->sizeofExpr())
+	{
+		ctx->sizeofExpr()->accept(this);
+	}
+	else if (ctx->expr())
+	{
+		ctx->expr()->accept(this);
+	}
+	else
+	{
+		err("visitExprMulDivModEtc():  Eek!\n");
+	}
 	return nullptr;
 }
 
