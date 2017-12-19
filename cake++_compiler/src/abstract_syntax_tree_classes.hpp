@@ -6,6 +6,9 @@
 //#include "symbol_table_classes.hpp"
 #include "ident_table_class.hpp"
 
+
+#include "symbol_table_classes.hpp"
+
 enum class AstOp
 {
 	Prog,
@@ -122,8 +125,6 @@ enum class AstUnOp
 	Negate,
 	LogNot,
 };
-
-#include "symbol_table_classes.hpp"
 
 // Node of the abstract syntax tree
 class AstNode
