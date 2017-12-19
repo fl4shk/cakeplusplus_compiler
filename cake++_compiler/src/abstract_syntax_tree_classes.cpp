@@ -107,7 +107,7 @@ void AstNode::output_as_json(Json::Value& output_root)
 	output_root["_op"] = json_ast_op_stuff.at(op);
 	if (ident != nullptr)
 	{
-		output_root["ident"] = *ident;
+		output_root["_ident"] = *ident;
 	}
 
 	switch (op)

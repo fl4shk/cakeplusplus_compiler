@@ -446,7 +446,8 @@ antlrcpp::Any Compiler::visitReturnNothingStatement
 antlrcpp::Any Compiler::visitExpr
 	(GrammarParser::ExprContext *ctx)
 {
-	if (ctx->exprLogical())
+	//if (ctx->exprLogical())
+	if (!ctx->expr())
 	{
 		ctx->exprLogical()->accept(this);
 	}
@@ -487,7 +488,8 @@ antlrcpp::Any Compiler::visitExpr
 antlrcpp::Any Compiler::visitExprLogical
 	(GrammarParser::ExprLogicalContext *ctx)
 {
-	if (ctx->exprCompare())
+	//if (ctx->exprCompare())
+	if (!ctx->exprLogical())
 	{
 		ctx->exprCompare()->accept(this);
 	}
@@ -548,7 +550,8 @@ antlrcpp::Any Compiler::visitExprLogical
 antlrcpp::Any Compiler::visitExprCompare
 	(GrammarParser::ExprCompareContext *ctx)
 {
-	if (ctx->exprAddSub())
+	//if (ctx->exprAddSub())
+	if (!ctx->exprCompare())
 	{
 		ctx->exprAddSub()->accept(this);
 	}
@@ -589,7 +592,8 @@ antlrcpp::Any Compiler::visitExprCompare
 antlrcpp::Any Compiler::visitExprAddSub
 	(GrammarParser::ExprAddSubContext *ctx)
 {
-	if (ctx->exprMulDivModEtc())
+	//if (ctx->exprMulDivModEtc())
+	if (!ctx->exprAddSub())
 	{
 		ctx->exprMulDivModEtc()->accept(this);
 	}
