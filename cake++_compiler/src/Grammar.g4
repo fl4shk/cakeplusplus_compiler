@@ -18,19 +18,35 @@ funcCall:
 funcArgExpr: identName ;
 
 
-statements: '{' statement* '}' ;
+statements: 
+	'{' (comment?) 
+	statement* 
+	'}' (comment?)
+	;
 
 statement:
+	stmt (comment?)
+	| comment
+	;
+
+stmt:
 	statements
 	| varDecl ';'
 	| expr ';'
 	| assignment ';'
 	| ifStatement
-	| ifChainStatement 
-	| whileStatement 
+	| ifChainStatement
+	| whileStatement
 	| doWhileStatement
 	| returnExprStatement ';'
 	| returnNothingStatement ';'
+	;
+
+//comment: '//' (~ '\n')* '\n';
+//comment: '//' (~ '\n')* '\n' ;
+comment: 
+	'/*' (~ '*/')*
+	| TokComment
 	;
 
 varDecl: builtinTypename (identDecl ',')* identDecl ;
@@ -132,6 +148,7 @@ TokElse: 'else' ;
 TokWhile: 'while' ;
 TokDo: 'do' ;
 TokReturn: 'return' ;
+TokComment:  '//' (~ '\n')* ;
 LexWhitespace: (' ' | '\t' | '\n') -> skip ;
 TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;

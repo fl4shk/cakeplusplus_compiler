@@ -9,6 +9,31 @@
 #include "symbol_table_classes.hpp"
 #include "abstract_syntax_tree_classes.hpp"
 
+
+class CstmErrorListener : public antlr4::ANTLRErrorListener
+{
+public:		// functions
+	virtual ~CstmErrorListener();
+
+	void syntaxError(antlr4::Recognizer *recognizer, 
+		antlr4::Token *offendingSymbol, size_t line, 
+		size_t charPositionInLine, const std::string &msg, 
+		std::exception_ptr e);
+	void reportAmbiguity(antlr4::Parser *recognizer, 
+		const antlr4::dfa::DFA &dfa, size_t startIndex, size_t stopIndex, 
+		bool exact, const antlrcpp::BitSet &ambigAlts, 
+		antlr4::atn::ATNConfigSet *configs);
+	
+	void reportAttemptingFullContext(antlr4::Parser *recognizer, 
+		const antlr4::dfa::DFA &dfa, size_t startIndex, size_t stopIndex,
+		const antlrcpp::BitSet &conflictingAlts, 
+		antlr4::atn::ATNConfigSet *configs);
+
+	void reportContextSensitivity(antlr4::Parser *recognizer, 
+		const antlr4::dfa::DFA &dfa, size_t startIndex, size_t stopIndex,
+		size_t prediction, antlr4::atn::ATNConfigSet *configs);
+};
+
 class Compiler : public GrammarVisitor
 {
 public:		// typedefs
@@ -30,6 +55,7 @@ protected:		// variables
 
 public:		// functions
 	virtual ~Compiler();
+
 	/**
 	* Visit parse trees produced by GrammarParser.
 	*/
@@ -47,7 +73,11 @@ public:		// functions
 		(GrammarParser::StatementsContext *ctx);
 	antlrcpp::Any visitStatement
 		(GrammarParser::StatementContext *ctx);
+	antlrcpp::Any visitStmt
+		(GrammarParser::StmtContext *ctx);
 
+	antlrcpp::Any visitComment
+		(GrammarParser::CommentContext *ctx);
 	antlrcpp::Any visitVarDecl
 		(GrammarParser::VarDeclContext *ctx);
 	antlrcpp::Any visitFuncArgDecl
@@ -55,12 +85,12 @@ public:		// functions
 
 	antlrcpp::Any visitBuiltinTypename
 		(GrammarParser::BuiltinTypenameContext *ctx);
-
-
 	antlrcpp::Any visitNonSizedArrayIdentName
 		(GrammarParser::NonSizedArrayIdentNameContext *ctx);
+
 	antlrcpp::Any visitAssignment
 		(GrammarParser::AssignmentContext *ctx);
+
 	antlrcpp::Any visitIfStatement
 		(GrammarParser::IfStatementContext *ctx);
 	antlrcpp::Any visitIfChainStatement
@@ -86,7 +116,6 @@ public:		// functions
 		(GrammarParser::ExprAddSubContext *ctx);
 	antlrcpp::Any visitExprMulDivModEtc
 		(GrammarParser::ExprMulDivModEtcContext *ctx);
-
 	antlrcpp::Any visitExprUnary
 		(GrammarParser::ExprUnaryContext *ctx);
 	antlrcpp::Any visitExprBitInvert
@@ -95,7 +124,6 @@ public:		// functions
 		(GrammarParser::ExprNegateContext *ctx);
 	antlrcpp::Any visitExprLogNot
 		(GrammarParser::ExprLogNotContext *ctx);
-
 
 	antlrcpp::Any visitIdentExpr
 		(GrammarParser::IdentExprContext *ctx);
@@ -106,15 +134,12 @@ public:		// functions
 
 	antlrcpp::Any visitNumExpr
 		(GrammarParser::NumExprContext *ctx);
-
 	antlrcpp::Any visitLenExpr
 		(GrammarParser::LenExprContext *ctx);
 	antlrcpp::Any visitSizeofExpr
 		(GrammarParser::SizeofExprContext *ctx);
-
 	antlrcpp::Any visitSubscriptExpr
 		(GrammarParser::SubscriptExprContext *ctx);
-
 	antlrcpp::Any visitSubscriptConst
 		(GrammarParser::SubscriptConstContext *ctx);
 

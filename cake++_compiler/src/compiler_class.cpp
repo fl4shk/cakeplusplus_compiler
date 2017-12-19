@@ -1,6 +1,43 @@
 #include "compiler_class.hpp"
 #include "allocation_stuff.hpp"
 
+
+CstmErrorListener::~CstmErrorListener()
+{
+}
+
+void CstmErrorListener::syntaxError(antlr4::Recognizer *recognizer, 
+	antlr4::Token *offendingSymbol, size_t line, 
+	size_t charPositionInLine, const std::string &msg, 
+	std::exception_ptr e)
+{
+	printerr("Syntax error on line ", line, 
+		", position ", charPositionInLine, 
+		":  ", msg, "\n");
+	exit(1);
+}
+void CstmErrorListener::reportAmbiguity(antlr4::Parser *recognizer, 
+	const antlr4::dfa::DFA &dfa, size_t startIndex, size_t stopIndex, 
+	bool exact, const antlrcpp::BitSet &ambigAlts, 
+	antlr4::atn::ATNConfigSet *configs)
+{
+}
+
+void CstmErrorListener::reportAttemptingFullContext
+	(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa, 
+	size_t startIndex, size_t stopIndex,
+	const antlrcpp::BitSet &conflictingAlts, 
+	antlr4::atn::ATNConfigSet *configs)
+{
+}
+
+void CstmErrorListener::reportContextSensitivity
+	(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa, 
+	size_t startIndex, size_t stopIndex, size_t prediction, 
+	antlr4::atn::ATNConfigSet *configs)
+{
+}
+
 Compiler::~Compiler()
 {
 }
@@ -15,8 +52,8 @@ antlrcpp::Any Compiler::visitProgram
 
 	for (auto* decl : funcDecl)
 	{
-		decl->accept(this);
-		__program_node->append_child(pop_ast_node());
+		//decl->accept(this);
+		//__program_node->append_child(pop_ast_node());
 	}
 	}
 
@@ -106,6 +143,17 @@ antlrcpp::Any Compiler::visitStatements
 
 antlrcpp::Any Compiler::visitStatement
 	(GrammarParser::StatementContext *ctx)
+{
+	return nullptr;
+}
+
+antlrcpp::Any Compiler::visitStmt
+	(GrammarParser::StmtContext *ctx)
+{
+	return nullptr;
+}
+antlrcpp::Any Compiler::visitComment
+	(GrammarParser::CommentContext *ctx)
 {
 	return nullptr;
 }

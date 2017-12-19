@@ -13,7 +13,7 @@
 
 int main(int argc, char** argv)
 {
-	std::string from_stdin(get_stdin_as_str());;
+	std::string from_stdin(get_stdin_as_str());
 
 	antlr4::ANTLRInputStream input(from_stdin);
 	GrammarLexer lexer(&input);
@@ -21,15 +21,13 @@ int main(int argc, char** argv)
 	tokens.fill();
 
 	GrammarParser parser(&tokens);
-	//antlr4::tree::ParseTree* tree = parser.program();
-	auto program = parser.program();
-
-	////printout(tree->toStringTree(&parser), "\n", "\n");
-	//Interpreter visitor;
-	//visitor.visitProgram(program);
+	parser.removeErrorListeners();
+	std::unique_ptr<CstmErrorListener> cstm_error_listener
+		(new CstmErrorListener());
+	parser.addErrorListener(cstm_error_listener.get());
 
 	Compiler visitor;
-	visitor.visitProgram(program);
+	visitor.visitProgram(parser.program());
 
 
 
