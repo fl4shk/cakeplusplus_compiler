@@ -2,7 +2,7 @@ grammar Grammar;
 
 // Parser rules
 program:
-	funcDecl+
+	(funcDecl | comment)+
 	;
 
 funcDecl:

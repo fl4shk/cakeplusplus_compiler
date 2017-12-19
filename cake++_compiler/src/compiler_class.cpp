@@ -44,7 +44,7 @@ Compiler::~Compiler()
 antlrcpp::Any Compiler::visitProgram
 	(GrammarParser::ProgramContext *ctx)
 {
-	__program_node = mk_ast_node(AstOp::prog);
+	__program_node = mk_ast_node(AstOp::Prog);
 
 	{
 	auto&& funcDecl = ctx->funcDecl();
@@ -56,12 +56,12 @@ antlrcpp::Any Compiler::visitProgram
 	}
 	}
 
-	{
-	Json::Value output_root;
-	__program_node->output_as_json(output_root);
+	//{
+	//Json::Value output_root;
+	//__program_node->output_as_json(output_root);
 
-	write_json(cout, &output_root);
-	}
+	//write_json(cout, &output_root);
+	//}
 
 	return nullptr;
 }
@@ -69,7 +69,7 @@ antlrcpp::Any Compiler::visitProgram
 antlrcpp::Any Compiler::visitFuncDecl
 	(GrammarParser::FuncDeclContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::func_decl);
+	auto to_push = mk_ast_node(AstOp::FuncDecl);
 
 	ctx->identName()->accept(this);
 	to_push->ident = pop_str();
@@ -93,7 +93,7 @@ antlrcpp::Any Compiler::visitFuncDecl
 antlrcpp::Any Compiler::visitFuncCall
 	(GrammarParser::FuncCallContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::func_call);
+	auto to_push = mk_ast_expr(AstExprOp::FuncCall);
 
 	ctx->identName()->accept(this);
 	to_push->ident = pop_str();
@@ -117,7 +117,7 @@ antlrcpp::Any Compiler::visitFuncCall
 antlrcpp::Any Compiler::visitFuncArgExpr
 	(GrammarParser::FuncArgExprContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::func_arg_expr);
+	auto to_push = mk_ast_node(AstOp::FuncArgExpr);
 
 	ctx->identName()->accept(this);
 	to_push->ident = pop_str();
@@ -130,7 +130,7 @@ antlrcpp::Any Compiler::visitFuncArgExpr
 antlrcpp::Any Compiler::visitStatements
 	(GrammarParser::StatementsContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::list_stmts);
+	auto to_push = mk_ast_stmt(AstStmtOp::List);
 
 	{
 	auto&& statement = ctx->statement();
@@ -236,7 +236,8 @@ antlrcpp::Any Compiler::visitStmt
 antlrcpp::Any Compiler::visitVarDecl
 	(GrammarParser::VarDeclContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::stmt_var_decl);
+	//auto to_push = mk_ast_node(AstOp::stmt_var_decl);
+	auto to_push = mk_ast_stmt(AstStmtOp::VarDecl);
 	ctx->builtinTypename()->accept(this);
 	to_push->builtin_typename = pop_builtin_typename();
 
@@ -259,16 +260,19 @@ antlrcpp::Any Compiler::visitVarDecl
 antlrcpp::Any Compiler::visitFuncArgDecl
 	(GrammarParser::FuncArgDeclContext *ctx)
 {
-	auto to_push = mk_ast_node();
+	//auto to_push = mk_ast_node();
+	auto to_push = mk_ast_node(AstOp::FuncArgDecl);
 	
 	if (ctx->identName())
 	{
-		to_push->op = AstOp::func_arg_decl_scalar;
+		//to_push->op = AstOp::func_arg_decl_scalar;
+		to_push->func_arg_decl_op = AstFuncArgDeclOp::Scalar;
 		ctx->identName()->accept(this);
 	}
 	else if (ctx->nonSizedArrayIdentName())
 	{
-		to_push->op = AstOp::func_arg_decl_arr;
+		//to_push->op = AstOp::func_arg_decl_arr;
+		to_push->func_arg_decl_op = AstFuncArgDeclOp::Arr;
 		ctx->nonSizedArrayIdentName()->accept(this);
 	}
 	else
@@ -333,7 +337,8 @@ antlrcpp::Any Compiler::visitNonSizedArrayIdentName
 antlrcpp::Any Compiler::visitAssignment
 	(GrammarParser::AssignmentContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::stmt_assignment);
+	//auto to_push = mk_ast_node(AstOp::stmt_assignment);
+	auto to_push = mk_ast_stmt(AstStmtOp::Assignment);
 
 	ctx->identExpr()->accept(this);
 	to_push->append_child(pop_ast_node());
@@ -346,7 +351,8 @@ antlrcpp::Any Compiler::visitAssignment
 antlrcpp::Any Compiler::visitIfStatement
 	(GrammarParser::IfStatementContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::stmt_if);
+	//auto to_push = mk_ast_node(AstOp::stmt_if);
+	auto to_push = mk_ast_stmt(AstStmtOp::If);
 
 	ctx->expr()->accept(this);
 	to_push->append_child(pop_ast_node());
@@ -359,7 +365,8 @@ antlrcpp::Any Compiler::visitIfStatement
 antlrcpp::Any Compiler::visitIfChainStatement
 	(GrammarParser::IfChainStatementContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::stmt_if_chain);
+	//auto to_push = mk_ast_node(AstOp::stmt_if_chain);
+	auto to_push = mk_ast_stmt(AstStmtOp::IfChain);
 
 	ctx->expr()->accept(this);
 	to_push->append_child(pop_ast_node());
@@ -376,7 +383,8 @@ antlrcpp::Any Compiler::visitIfChainStatement
 antlrcpp::Any Compiler::visitElseStatements
 	(GrammarParser::ElseStatementsContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::list_stmts_else);
+	//auto to_push = mk_ast_node(AstOp::list_stmts_else);
+	auto to_push = mk_ast_stmt(AstStmtOp::ListStmtsElse);
 
 	if (ctx->ifChainStatement())
 	{
@@ -398,7 +406,8 @@ antlrcpp::Any Compiler::visitElseStatements
 antlrcpp::Any Compiler::visitWhileStatement
 	(GrammarParser::WhileStatementContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::stmt_while);
+	//auto to_push = mk_ast_node(AstOp::stmt_while);
+	auto to_push = mk_ast_stmt(AstStmtOp::While);
 
 	ctx->expr()->accept(this);
 	to_push->append_child(pop_ast_node());
@@ -412,7 +421,8 @@ antlrcpp::Any Compiler::visitWhileStatement
 antlrcpp::Any Compiler::visitDoWhileStatement
 	(GrammarParser::DoWhileStatementContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::stmt_do_while);
+	//auto to_push = mk_ast_node(AstOp::stmt_do_while);
+	auto to_push = mk_ast_stmt(AstStmtOp::DoWhile);
 
 	ctx->statements()->accept(this);
 	to_push->append_child(pop_ast_node());
@@ -426,7 +436,8 @@ antlrcpp::Any Compiler::visitDoWhileStatement
 antlrcpp::Any Compiler::visitReturnExprStatement
 	(GrammarParser::ReturnExprStatementContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::stmt_return_expr);
+	//auto to_push = mk_ast_node(AstOp::stmt_return_expr);
+	auto to_push = mk_ast_stmt(AstStmtOp::ReturnExpr);
 
 	ctx->expr()->accept(this);
 	to_push->append_child(pop_ast_node());
@@ -437,7 +448,8 @@ antlrcpp::Any Compiler::visitReturnExprStatement
 antlrcpp::Any Compiler::visitReturnNothingStatement
 	(GrammarParser::ReturnNothingStatementContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::stmt_return_nothing);
+	//auto to_push = mk_ast_node(AstOp::stmt_return_nothing);
+	auto to_push = mk_ast_stmt(AstStmtOp::ReturnNothing);
 
 	push_ast_node(to_push);
 	return nullptr;
@@ -453,7 +465,8 @@ antlrcpp::Any Compiler::visitExpr
 	}
 	else if (ctx->expr())
 	{
-		auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_node(AstOp::expr_binop);
+		auto to_push = mk_ast_expr(AstExprOp::Binop);
 
 
 		ctx->expr()->accept(this);
@@ -495,7 +508,8 @@ antlrcpp::Any Compiler::visitExprLogical
 	}
 	else if (ctx->exprLogical())
 	{
-		auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_node(AstOp::expr_binop);
+		auto to_push = mk_ast_expr(AstExprOp::Binop);
 
 
 		ctx->exprLogical()->accept(this);
@@ -557,7 +571,8 @@ antlrcpp::Any Compiler::visitExprCompare
 	}
 	else if (ctx->exprCompare())
 	{
-		auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_node(AstOp::expr_binop);
+		auto to_push = mk_ast_expr(AstExprOp::Binop);
 
 
 		ctx->exprCompare()->accept(this);
@@ -599,7 +614,8 @@ antlrcpp::Any Compiler::visitExprAddSub
 	}
 	else if (ctx->exprAddSub())
 	{
-		auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_node(AstOp::expr_binop);
+		auto to_push = mk_ast_expr(AstExprOp::Binop);
 
 
 		ctx->exprAddSub()->accept(this);
@@ -736,7 +752,8 @@ antlrcpp::Any Compiler::visitExprUnary
 antlrcpp::Any Compiler::visitExprBitInvert
 	(GrammarParser::ExprBitInvertContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::expr_unop);
+	//auto to_push = mk_ast_node(AstOp::expr_unop);
+	auto to_push = mk_ast_expr(AstExprOp::Unop);
 	to_push->un_op = AstUnOp::BitInvert;
 
 	ctx->expr()->accept(this);
@@ -748,7 +765,8 @@ antlrcpp::Any Compiler::visitExprBitInvert
 antlrcpp::Any Compiler::visitExprNegate
 	(GrammarParser::ExprNegateContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::expr_unop);
+	//auto to_push = mk_ast_node(AstOp::expr_unop);
+	auto to_push = mk_ast_expr(AstExprOp::Unop);
 	to_push->un_op = AstUnOp::Negate;
 
 	ctx->expr()->accept(this);
@@ -760,7 +778,8 @@ antlrcpp::Any Compiler::visitExprNegate
 antlrcpp::Any Compiler::visitExprLogNot
 	(GrammarParser::ExprLogNotContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::expr_unop);
+	//auto to_push = mk_ast_node(AstOp::expr_unop);
+	auto to_push = mk_ast_expr(AstExprOp::Unop);
 	to_push->un_op = AstUnOp::LogNot;
 
 	ctx->expr()->accept(this);
@@ -774,17 +793,20 @@ antlrcpp::Any Compiler::visitExprLogNot
 antlrcpp::Any Compiler::visitIdentExpr
 	(GrammarParser::IdentExprContext *ctx)
 {
-	auto to_push = mk_ast_node();
+	//auto to_push = mk_ast_node();
+	auto to_push = mk_ast_node(AstOp::Expr);
 	ctx->identName()->accept(this);
 	to_push->ident = pop_str();
 
 	if (!ctx->subscriptExpr())
 	{
-		to_push->op = AstOp::expr_ident_scalar;
+		//to_push->op = AstOp::expr_ident_scalar;
+		to_push->expr_op = AstExprOp::IdentScalar;
 	}
 	else // if (ctx->subscriptExpr())
 	{
-		to_push->op = AstOp::expr_ident_arr_elem;
+		//to_push->op = AstOp::expr_ident_arr_elem;
+		to_push->expr_op = AstExprOp::IdentArrElem;
 
 		ctx->subscriptExpr()->accept(this);
 		to_push->append_child(pop_ast_node());
@@ -796,17 +818,20 @@ antlrcpp::Any Compiler::visitIdentExpr
 antlrcpp::Any Compiler::visitIdentDecl
 	(GrammarParser::IdentDeclContext *ctx)
 {
-	auto to_push = mk_ast_node();
+	//auto to_push = mk_ast_node();
+	auto to_push = mk_ast_node(AstOp::IdentDecl);
 	ctx->identName()->accept(this);
 	to_push->ident = pop_str();
 
 	if (!ctx->subscriptConst())
 	{
-		to_push->op = AstOp::ident_decl_scalar;
+		//to_push->op = AstOp::ident_decl_scalar;
+		to_push->ident_decl_op = AstIdentDeclOp::Scalar;
 	}
 	else // if (ctx->subscriptConst())
 	{
-		to_push->op = AstOp::ident_decl_arr;
+		//to_push->op = AstOp::ident_decl_arr;
+		to_push->ident_decl_op = AstIdentDeclOp::Arr;
 
 		ctx->subscriptConst()->accept(this);
 		to_push->append_child(pop_ast_node());
@@ -825,7 +850,8 @@ antlrcpp::Any Compiler::visitIdentName
 antlrcpp::Any Compiler::visitNumExpr
 	(GrammarParser::NumExprContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::expr_constant);
+	//auto to_push = mk_ast_node(AstOp::expr_constant);
+	auto to_push = mk_ast_expr(AstExprOp::Constant);
 
 
 	{
@@ -844,7 +870,8 @@ antlrcpp::Any Compiler::visitNumExpr
 antlrcpp::Any Compiler::visitLenExpr
 	(GrammarParser::LenExprContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::expr_len);
+	//auto to_push = mk_ast_node(AstOp::expr_len);
+	auto to_push = mk_ast_expr(AstExprOp::Len);
 
 	ctx->identExpr()->accept(this);
 	to_push->append_child(pop_ast_node());
@@ -855,7 +882,8 @@ antlrcpp::Any Compiler::visitLenExpr
 antlrcpp::Any Compiler::visitSizeofExpr
 	(GrammarParser::SizeofExprContext *ctx)
 {
-	auto to_push = mk_ast_node(AstOp::expr_sizeof);
+	//auto to_push = mk_ast_node(AstOp::expr_sizeof);
+	auto to_push = mk_ast_expr(AstExprOp::Sizeof);
 
 	ctx->identExpr()->accept(this);
 	to_push->append_child(pop_ast_node());

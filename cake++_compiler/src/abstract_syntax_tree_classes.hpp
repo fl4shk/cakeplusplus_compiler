@@ -8,41 +8,73 @@
 
 enum class AstOp
 {
-	prog,
-	func_decl,
-	func_call,
+	Prog,
+	FuncDecl,
+	//ClsDecl,
+	FuncArgDecl,
+	FuncArgExpr,
+	Stmt,
+	IdentDecl,
+	Expr,
 
-	func_arg_decl_scalar,
-	func_arg_decl_arr,
-	func_arg_expr,
+};
 
+enum class AstFuncArgDeclOp
+{
+	Scalar,
+	Arr,
+	//Cls,
+	//ClsArr,
 
-	list_stmts,
+};
 
+enum class AstStmtOp
+{
+	List,
+	VarDecl,
+	Assignment,
+	If,
+	IfChain,
+	ListStmtsElse,
+	While,
+	DoWhile,
+	ReturnExpr,
+	ReturnNothing,
+	Expr,
+};
 
-	stmt_var_decl,
-	stmt_assignment,
-	stmt_if,
-	stmt_if_chain,
-	list_stmts_else,
-	stmt_while,
-	stmt_do_while,
-	stmt_return_expr,
-	stmt_return_nothing,
+enum class AstIdentDeclOp
+{
+	Scalar,
+	Arr,
 
+	//Cls,
+	//ClsArr,
 
-	ident_decl_scalar,
-	ident_decl_arr,
+	//ClsMember
+	//ClsMemberScalar,
+	//ClsMemberArr,
+	//ClsMemberCls,
+	//ClsMemberClsarr,
+	//ClsMemberFunc,
+};
 
+enum class AstExprOp
+{
+	Constant,
+	Binop,
+	Unop,
+	FuncCall,
+	IdentScalar,
+	IdentArrElem,
 
-	expr_constant,
-	expr_binop,
-	expr_unop,
-	expr_ident_scalar,
-	expr_ident_arr_elem,
+	//IdentClsMemberScalar,
+	//IdentClsMemberArrElem,
+	//IdentClsMemberCls,
+	//IdentClsMemberFuncCall,
 
-	expr_len,
-	expr_sizeof,
+	Len,
+	Sizeof,
 
 
 };
@@ -103,6 +135,18 @@ public:		// variables
 
 	Ident ident = nullptr;
 
+
+	union
+	{
+		AstFuncArgDeclOp func_arg_decl_op;
+
+		AstStmtOp stmt_op;
+
+		AstIdentDeclOp ident_decl_op;
+
+		AstExprOp expr_op;
+	};
+
 	// Making this a union saves space
 	union
 	{
@@ -147,6 +191,31 @@ inline auto mk_ast_node(AstOp s_op)
 {
 	auto ret = mk_ast_node();
 	ret->op = s_op;
+	return ret;
+}
+
+inline auto mk_ast_func_arg_decl(AstFuncArgDeclOp s_func_arg_decl_op)
+{
+	auto ret = mk_ast_node(AstOp::FuncArgDecl);
+	ret->func_arg_decl_op = s_func_arg_decl_op;
+	return ret;
+}
+inline auto mk_ast_stmt(AstStmtOp s_stmt_op)
+{
+	auto ret = mk_ast_node(AstOp::Stmt);
+	ret->stmt_op = s_stmt_op;
+	return ret;
+}
+inline auto mk_ast_ident_decl(AstIdentDeclOp s_ident_decl_op)
+{
+	auto ret = mk_ast_node(AstOp::IdentDecl);
+	ret->ident_decl_op = s_ident_decl_op;
+	return ret;
+}
+inline auto mk_ast_expr(AstExprOp s_expr_op)
+{
+	auto ret = mk_ast_node(AstOp::Expr);
+	ret->expr_op = s_expr_op;
 	return ret;
 }
 
