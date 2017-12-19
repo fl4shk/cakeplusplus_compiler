@@ -6,7 +6,7 @@ AstNode::AstNode()
 {
 }
 
-AstNode::AstNode(AstOp s_op, std::vector<AstNode*>&& s_children)
+AstNode::AstNode(AstOp s_op, std::deque<AstNode*>&& s_children)
 	: op(s_op), children(std::move(s_children))
 {
 }

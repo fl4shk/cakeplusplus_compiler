@@ -29,6 +29,8 @@ statement:
 	| ifChainStatement 
 	| whileStatement 
 	| doWhileStatement
+	| returnExprStatement ';'
+	| returnNothingStatement ';'
 	;
 
 varDecl: builtinTypename (identDecl ',')* identDecl ;
@@ -59,8 +61,10 @@ elseStatements:
 
 
 whileStatement: TokWhile '(' expr ')' statements ;
-
 doWhileStatement: TokDo statements TokWhile '(' expr ')' ;
+
+returnExprStatement: TokReturn expr ;
+returnNothingStatement: TokReturn ;
 
 expr:
 	exprLogical
@@ -127,6 +131,7 @@ TokIf: 'if' ;
 TokElse: 'else' ;
 TokWhile: 'while' ;
 TokDo: 'do' ;
+TokReturn: 'return' ;
 LexWhitespace: (' ' | '\t' | '\n') -> skip ;
 TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;

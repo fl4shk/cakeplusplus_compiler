@@ -2,6 +2,7 @@
 #define misc_includes_hpp
 
 
+#include <deque>
 
 
 #include "liborangepower_src/misc_includes.hpp"

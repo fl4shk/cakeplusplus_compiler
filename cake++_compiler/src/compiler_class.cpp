@@ -8,11 +8,16 @@ Compiler::~Compiler()
 antlrcpp::Any Compiler::visitProgram
 	(GrammarParser::ProgramContext *ctx)
 {
+	__program_node = mk_ast_node(AstOp::prog);
+
+	{
 	auto&& funcDecl = ctx->funcDecl();
 
 	for (auto* decl : funcDecl)
 	{
 		decl->accept(this);
+		__program_node->append_child(pop_ast_node());
+	}
 	}
 
 	return nullptr;
@@ -21,33 +26,81 @@ antlrcpp::Any Compiler::visitProgram
 antlrcpp::Any Compiler::visitFuncDecl
 	(GrammarParser::FuncDeclContext *ctx)
 {
-	ctx->identName()->accept(this);
-	auto ident = pop_str();
+	auto to_push = mk_ast_node(AstOp::func_decl);
 
+	ctx->identName()->accept(this);
+	to_push->ident = pop_str();
+
+	{
 	auto&& funcArgDecl = ctx->funcArgDecl();
 
 	for (auto func_arg_decl : funcArgDecl)
 	{
 		func_arg_decl->accept(this);
+		to_push->append_child(pop_ast_node());
 	}
+	}
+	ctx->statements()->accept(this);
+	to_push->append_child(pop_ast_node());
 
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitFuncCall
 	(GrammarParser::FuncCallContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::func_call);
+
+	ctx->identName()->accept(this);
+	to_push->ident = pop_str();
+
+	{
+	auto&& funcArgExpr = ctx->funcArgExpr();
+
+	for (auto func_arg_expr : funcArgExpr)
+	{
+		func_arg_expr->accept(this);
+		to_push->append_child(pop_ast_node());
+	}
+
+	}
+
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 
 antlrcpp::Any Compiler::visitFuncArgExpr
 	(GrammarParser::FuncArgExprContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::func_arg_expr);
+
+	ctx->identName()->accept(this);
+	to_push->ident = pop_str();
+
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 
 antlrcpp::Any Compiler::visitStatements
 	(GrammarParser::StatementsContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::list_stmts);
+
+	{
+	auto&& statement = ctx->statement();
+
+	for (auto stmt : statement)
+	{
+		stmt->accept(this);
+		to_push->append_child(pop_ast_node());
+	}
+
+	}
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 
@@ -105,6 +158,16 @@ antlrcpp::Any Compiler::visitWhileStatement
 }
 antlrcpp::Any Compiler::visitDoWhileStatement
 	(GrammarParser::DoWhileStatementContext *ctx)
+{
+	return nullptr;
+}
+antlrcpp::Any Compiler::visitReturnExprStatement
+	(GrammarParser::ReturnExprStatementContext *ctx)
+{
+	return nullptr;
+}
+antlrcpp::Any Compiler::visitReturnNothingStatement
+	(GrammarParser::ReturnNothingStatementContext *ctx)
 {
 	return nullptr;
 }

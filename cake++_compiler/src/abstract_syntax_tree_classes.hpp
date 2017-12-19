@@ -12,24 +12,18 @@ enum class AstOp
 	func_decl,
 	func_call,
 
-	list_func_var_decls,
+	list_func_arg_decls,
 
-	func_var_decl_scalar,
-	func_var_decl_arr,
+	func_arg_decl_scalar,
+	func_arg_decl_arr,
 
 	func_arg_expr,
 
 
-	expr_constant,
-	expr_binop,
-	expr_unop,
-	expr_func_call,
-	expr_ident_scalar,
-	expr_ident_arr_elem,
-
 	list_stmts,
-	stmt_var_decl,
 
+
+	stmt_var_decl,
 	stmt_assignment,
 	stmt_if,
 	stmt_if_chain,
@@ -39,6 +33,14 @@ enum class AstOp
 
 	ident_decl_scalar,
 	ident_decl_arr,
+
+	expr_constant,
+	expr_binop,
+	expr_unop,
+	expr_func_call,
+	expr_ident_scalar,
+	expr_ident_arr_elem,
+
 
 };
 
@@ -97,8 +99,7 @@ public:		// variables
 	// Making this a union saves space
 	union
 	{
-		// String (often an identifier, but not always used)
-		std::string* str;
+		Ident ident;
 
 		// Binary operator type
 		AstBinOp bin_op;
@@ -109,11 +110,11 @@ public:		// variables
 
 
 	// The childrens
-	std::vector<AstNode*> children;
+	std::deque<AstNode*> children;
 
 public:		// functions
 	AstNode();
-	AstNode(AstOp s_op, std::vector<AstNode*>&& s_children);
+	AstNode(AstOp s_op, std::deque<AstNode*>&& s_children);
 	AstNode(AstNode&& to_move) = default;
 
 	virtual ~AstNode();
@@ -122,11 +123,26 @@ public:		// functions
 	AstNode& operator = (AstNode&& to_move) = default;
 
 
+	inline void prepend_child(AstNode* to_prepend)
+	{
+		children.push_front(to_prepend);
+	}
 	inline void append_child(AstNode* to_append)
 	{
 		children.push_back(to_append);
 	}
 
+	void output_as_json(Json::Value& output_root);
+
 };
+
+extern AstNode* mk_ast_node();
+
+inline auto mk_ast_node(AstOp s_op)
+{
+	auto ret = mk_ast_node();
+	ret->op = s_op;
+	return ret;
+}
 
 #endif		// abstract_syntax_tree_classes_hpp

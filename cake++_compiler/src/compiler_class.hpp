@@ -7,9 +7,13 @@
 #include "gen_src/GrammarVisitor.h"
 
 #include "symbol_table_classes.hpp"
+#include "abstract_syntax_tree_classes.hpp"
 
 class Compiler : public GrammarVisitor
 {
+public:		// typedefs
+	typedef std::vector<AstNode*> AstVec;
+
 protected:		// variables
 	// Table of functions
 	FunctionTable __func_tbl;
@@ -17,9 +21,12 @@ protected:		// variables
 	// Current function
 	Function* __curr_func;
 	//std::stack<VmCode*> __code_stack;
+	std::stack<AstNode*> __ast_node_stack;
 
 	std::stack<s64> __num_stack;
 	std::stack<std::string*> __str_stack;
+
+	AstNode* __program_node;
 
 public:		// functions
 	virtual ~Compiler();
@@ -64,6 +71,10 @@ public:		// functions
 		(GrammarParser::WhileStatementContext *ctx);
 	antlrcpp::Any visitDoWhileStatement
 		(GrammarParser::DoWhileStatementContext *ctx);
+	antlrcpp::Any visitReturnExprStatement
+		(GrammarParser::ReturnExprStatementContext *ctx);
+	antlrcpp::Any visitReturnNothingStatement
+		(GrammarParser::ReturnNothingStatementContext *ctx);
 
 	antlrcpp::Any visitExpr
 		(GrammarParser::ExprContext *ctx);
@@ -108,6 +119,21 @@ public:		// functions
 		(GrammarParser::SubscriptConstContext *ctx);
 
 protected:		// functions
+	inline void push_ast_node(AstNode* to_push)
+	{
+		__ast_node_stack.push(to_push);
+	}
+	inline auto pop_ast_node()
+	{
+		auto ret = __ast_node_stack.top();
+		__ast_node_stack.pop();
+		return ret;
+	}
+	inline auto get_top_ast_node()
+	{
+		return __ast_node_stack.top();
+	}
+
 	inline void push_num(s64 to_push)
 	{
 		__num_stack.push(to_push);
