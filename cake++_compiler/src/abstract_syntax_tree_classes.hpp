@@ -12,11 +12,9 @@ enum class AstOp
 	func_decl,
 	func_call,
 
-	list_func_arg_decls,
-
+	//list_func_arg_decls,
 	func_arg_decl_scalar,
 	func_arg_decl_arr,
-
 	func_arg_expr,
 
 
@@ -30,9 +28,13 @@ enum class AstOp
 	list_stmts_else,
 	stmt_while,
 	stmt_do_while,
+	stmt_return_expr,
+	stmt_return_nothing,
+
 
 	ident_decl_scalar,
 	ident_decl_arr,
+
 
 	expr_constant,
 	expr_binop,
@@ -94,7 +96,7 @@ class AstNode
 {
 public:		// variables
 	AstOp op;
-	BuiltinTypename type;
+	BuiltinTypename builtin_typename;
 
 	// Making this a union saves space
 	union

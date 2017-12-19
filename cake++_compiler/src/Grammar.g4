@@ -24,6 +24,11 @@ statements:
 	'}' (comment?)
 	;
 
+comment: 
+	'/*' (~ '*/')*
+	| TokLineComment
+	;
+
 statement:
 	stmt (comment?)
 	| comment
@@ -42,12 +47,6 @@ stmt:
 	| returnNothingStatement ';'
 	;
 
-//comment: '//' (~ '\n')* '\n';
-//comment: '//' (~ '\n')* '\n' ;
-comment: 
-	'/*' (~ '*/')*
-	| TokComment
-	;
 
 varDecl: builtinTypename (identDecl ',')* identDecl ;
 
@@ -56,9 +55,7 @@ funcArgDecl:
 	| builtinTypename nonSizedArrayIdentName
 	;
 
-builtinTypename:
-	's64'
-	;
+builtinTypename: TokBuiltinTypename ;
 
 
 nonSizedArrayIdentName: identName '[' ']' ;
@@ -148,12 +145,15 @@ TokElse: 'else' ;
 TokWhile: 'while' ;
 TokDo: 'do' ;
 TokReturn: 'return' ;
-TokComment:  '//' (~ '\n')* ;
+TokLineComment:  '//' (~ '\n')* ;
 LexWhitespace: (' ' | '\t' | '\n') -> skip ;
 TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
 TokOpAddSub: ('+' | '-') ;
 TokOpMulDivMod: ('*' | '/' | '%') ;
 TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
+TokBuiltinTypename:
+	's64'
+	;
 TokDecNum: [0-9] ([0-9]*) ;
 TokIdent: [A-Za-z_] (([A-Za-z_] | [0-9])*) ;

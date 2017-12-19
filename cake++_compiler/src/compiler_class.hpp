@@ -50,6 +50,7 @@ protected:		// variables
 
 	std::stack<s64> __num_stack;
 	std::stack<std::string*> __str_stack;
+	std::stack<BuiltinTypename> __builtin_typename_stack;
 
 	AstNode* __program_node;
 
@@ -71,13 +72,13 @@ public:		// functions
 
 	antlrcpp::Any visitStatements
 		(GrammarParser::StatementsContext *ctx);
+	antlrcpp::Any visitComment
+		(GrammarParser::CommentContext *ctx);
 	antlrcpp::Any visitStatement
 		(GrammarParser::StatementContext *ctx);
 	antlrcpp::Any visitStmt
 		(GrammarParser::StmtContext *ctx);
 
-	antlrcpp::Any visitComment
-		(GrammarParser::CommentContext *ctx);
 	antlrcpp::Any visitVarDecl
 		(GrammarParser::VarDeclContext *ctx);
 	antlrcpp::Any visitFuncArgDecl
@@ -144,6 +145,11 @@ public:		// functions
 		(GrammarParser::SubscriptConstContext *ctx);
 
 protected:		// functions
+	inline void err(const std::string& msg)
+	{
+		printerr(msg);
+		exit(1);
+	}
 	inline void push_ast_node(AstNode* to_push)
 	{
 		__ast_node_stack.push(to_push);
@@ -188,6 +194,23 @@ protected:		// functions
 	{
 		return __str_stack.top();
 	}
+
+	inline void push_builtin_typename(BuiltinTypename to_push)
+	{
+		__builtin_typename_stack.push(to_push);
+	}
+	inline auto pop_builtin_typename()
+	{
+		auto ret = __builtin_typename_stack.top(); 
+		__builtin_typename_stack.pop();
+		return ret;
+	}
+	inline auto get_top_builtin_typename()
+	{
+		return __builtin_typename_stack.top();
+	}
+
+
 	inline auto& curr_func()
 	{
 		return *__curr_func;
