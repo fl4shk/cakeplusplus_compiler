@@ -130,6 +130,8 @@ enum class AstUnOp
 class AstNode
 {
 public:		// variables
+	//size_t line_num, position_in_line;
+
 	AstOp op;
 	BuiltinTypename builtin_typename = BuiltinTypename::Blank;
 
@@ -174,10 +176,6 @@ public:		// functions
 	AstNode& operator = (AstNode&& to_move) = default;
 
 
-	//inline void prepend_child(AstNode* to_prepend)
-	//{
-	//	children.push_front(to_prepend);
-	//}
 	inline void append_child(AstNode* to_append)
 	{
 		children.push_back(to_append);

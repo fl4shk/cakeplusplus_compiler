@@ -8,7 +8,7 @@
 //#include "gen_src/GrammarParser.h"
 //static constexpr int some_eof = EOF;
 //#include "interpreter_class.hpp"
-#include "compiler_class.hpp"
+#include "frontend_class.hpp"
 
 
 int main(int argc, char** argv)
@@ -22,11 +22,11 @@ int main(int argc, char** argv)
 
 	GrammarParser parser(&tokens);
 	parser.removeErrorListeners();
-	std::unique_ptr<CstmErrorListener> cstm_error_listener
-		(new CstmErrorListener());
+	std::unique_ptr<FrntErrorListener> cstm_error_listener
+		(new FrntErrorListener());
 	parser.addErrorListener(cstm_error_listener.get());
 
-	Compiler visitor;
+	Frontend visitor;
 	visitor.visitProgram(parser.program());
 
 

@@ -1,5 +1,5 @@
-#ifndef compiler_class_hpp
-#define compiler_class_hpp
+#ifndef frontend_class_hpp
+#define frontend_class_hpp
 
 #include "misc_includes.hpp"
 #include "gen_src/GrammarLexer.h"
@@ -7,13 +7,14 @@
 #include "gen_src/GrammarVisitor.h"
 
 #include "symbol_table_classes.hpp"
-#include "abstract_syntax_tree_classes.hpp"
+//#include "abstract_syntax_tree_classes.hpp"
+#include "code_generator_class.hpp"
 
 
-class CstmErrorListener : public antlr4::ANTLRErrorListener
+class FrntErrorListener : public antlr4::ANTLRErrorListener
 {
 public:		// functions
-	virtual ~CstmErrorListener();
+	virtual ~FrntErrorListener();
 
 	void syntaxError(antlr4::Recognizer *recognizer, 
 		antlr4::Token *offendingSymbol, size_t line, 
@@ -34,17 +35,12 @@ public:		// functions
 		size_t prediction, antlr4::atn::ATNConfigSet *configs);
 };
 
-class Compiler : public GrammarVisitor
+class Frontend : public GrammarVisitor
 {
 public:		// typedefs
-	typedef std::vector<AstNode*> AstVec;
+	//typedef std::vector<AstNode*> AstVec;
 
 protected:		// variables
-	// Table of functions
-	FunctionTable __func_tbl;
-
-	// Current function
-	Function* __curr_func;
 	//std::stack<VmCode*> __code_stack;
 	std::stack<AstNode*> __ast_node_stack;
 
@@ -54,8 +50,10 @@ protected:		// variables
 
 	AstNode* __program_node;
 
+	CodeGenerator __codegen;
+
 public:		// functions
-	virtual ~Compiler();
+	virtual ~Frontend();
 
 	/**
 	* Visit parse trees produced by GrammarParser.
@@ -211,14 +209,6 @@ protected:		// functions
 	}
 
 
-	inline auto& curr_func()
-	{
-		return *__curr_func;
-	}
-	inline auto& sym_tbl()
-	{
-		return curr_func().sym_tbl();
-	}
 };
 
-#endif		// compiler_class_hpp
+#endif		// frontend_class_hpp
