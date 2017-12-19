@@ -12,7 +12,6 @@ enum class AstOp
 	func_decl,
 	func_call,
 
-	//list_func_arg_decls,
 	func_arg_decl_scalar,
 	func_arg_decl_arr,
 	func_arg_expr,
@@ -39,9 +38,11 @@ enum class AstOp
 	expr_constant,
 	expr_binop,
 	expr_unop,
-	expr_func_call,
 	expr_ident_scalar,
 	expr_ident_arr_elem,
+
+	expr_len,
+	expr_sizeof,
 
 
 };
@@ -98,11 +99,13 @@ public:		// variables
 	AstOp op;
 	BuiltinTypename builtin_typename;
 
+	s64 num;
+
+	Ident ident = nullptr;
+
 	// Making this a union saves space
 	union
 	{
-		Ident ident;
-
 		// Binary operator type
 		AstBinOp bin_op;
 

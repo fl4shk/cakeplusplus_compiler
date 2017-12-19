@@ -56,6 +56,13 @@ antlrcpp::Any Compiler::visitProgram
 	}
 	}
 
+	{
+	Json::Value output_root;
+	__program_node->output_as_json(output_root);
+
+	write_json(cout, &output_root);
+	}
+
 	return nullptr;
 }
 
@@ -268,6 +275,7 @@ antlrcpp::Any Compiler::visitFuncArgDecl
 	{
 		err("visitFuncArgDecl():  Eek!\n");
 	}
+	to_push->ident = pop_str();
 
 	push_ast_node(to_push);
 	return nullptr;
@@ -703,21 +711,58 @@ antlrcpp::Any Compiler::visitExprMulDivModEtc
 antlrcpp::Any Compiler::visitExprUnary
 	(GrammarParser::ExprUnaryContext *ctx)
 {
+	if (ctx->exprBitInvert())
+	{
+		ctx->exprBitInvert()->accept(this);
+	}
+	else if (ctx->exprNegate())
+	{
+		ctx->exprNegate()->accept(this);
+	}
+	else if (ctx->exprLogNot())
+	{
+		ctx->exprLogNot()->accept(this);
+	}
+	else
+	{
+		printerr("visitExprUnary():  Eek!\n");
+	}
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitExprBitInvert
 	(GrammarParser::ExprBitInvertContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::expr_unop);
+	to_push->un_op = AstUnOp::BitInvert;
+
+	ctx->expr()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitExprNegate
 	(GrammarParser::ExprNegateContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::expr_unop);
+	to_push->un_op = AstUnOp::Negate;
+
+	ctx->expr()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitExprLogNot
 	(GrammarParser::ExprLogNotContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::expr_unop);
+	to_push->un_op = AstUnOp::LogNot;
+
+	ctx->expr()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 
@@ -725,11 +770,45 @@ antlrcpp::Any Compiler::visitExprLogNot
 antlrcpp::Any Compiler::visitIdentExpr
 	(GrammarParser::IdentExprContext *ctx)
 {
+	auto to_push = mk_ast_node();
+	ctx->identName()->accept(this);
+	to_push->ident = pop_str();
+
+	if (!ctx->subscriptExpr())
+	{
+		to_push->op = AstOp::expr_ident_scalar;
+	}
+	else // if (ctx->subscriptExpr())
+	{
+		to_push->op = AstOp::expr_ident_arr_elem;
+
+		ctx->subscriptExpr()->accept(this);
+		to_push->append_child(pop_ast_node());
+	}
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitIdentDecl
 	(GrammarParser::IdentDeclContext *ctx)
 {
+	auto to_push = mk_ast_node();
+	ctx->identName()->accept(this);
+	to_push->ident = pop_str();
+
+	if (!ctx->subscriptConst())
+	{
+		to_push->op = AstOp::ident_decl_scalar;
+	}
+	else // if (ctx->subscriptConst())
+	{
+		to_push->op = AstOp::ident_decl_arr;
+
+		ctx->subscriptConst()->accept(this);
+		to_push->append_child(pop_ast_node());
+	}
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitIdentName
@@ -742,37 +821,54 @@ antlrcpp::Any Compiler::visitIdentName
 antlrcpp::Any Compiler::visitNumExpr
 	(GrammarParser::NumExprContext *ctx)
 {
-	s64 to_push;
+	auto to_push = mk_ast_node(AstOp::expr_constant);
+
 
 	{
+	s64 temp;
 	std::stringstream sstm;
 	sstm << ctx->TokDecNum()->toString();
-	sstm >> to_push;
+	sstm >> temp;
+	to_push->num = temp;
 	}
 
-	push_num(to_push);
 
+	push_ast_node(to_push);
 	return nullptr;
 }
 
 antlrcpp::Any Compiler::visitLenExpr
 	(GrammarParser::LenExprContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::expr_len);
+
+	ctx->identExpr()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitSizeofExpr
 	(GrammarParser::SizeofExprContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::expr_sizeof);
+
+	ctx->identExpr()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitSubscriptExpr
 	(GrammarParser::SubscriptExprContext *ctx)
 {
+	ctx->expr()->accept(this);
 	return nullptr;
 }
 
 antlrcpp::Any Compiler::visitSubscriptConst
 	(GrammarParser::SubscriptConstContext *ctx)
 {
+	ctx->numExpr()->accept(this);
 	return nullptr;
 }

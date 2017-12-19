@@ -1,0 +1,150 @@
+{
+	"_op" : "prog",
+	"children" : 
+	[
+		{
+			"_op" : "func_decl",
+			"children" : 
+			[
+				{
+					"_op" : "list_stmts",
+					"children" : 
+					[
+						{
+							"_op" : "stmt_var_decl",
+							"builtin_typename" : "s64",
+							"children" : 
+							[
+								{
+									"_op" : "ident_decl_arr",
+									"children" : 
+									[
+										{
+											"_op" : "expr_constant",
+											"num" : 7
+										}
+									],
+									"ident" : "arr"
+								}
+							]
+						},
+						{
+							"_op" : "stmt_var_decl",
+							"builtin_typename" : "s64",
+							"children" : 
+							[
+								{
+									"_op" : "ident_decl_scalar",
+									"ident" : "i"
+								}
+							]
+						},
+						{
+							"_op" : "stmt_var_decl",
+							"builtin_typename" : "s64",
+							"children" : 
+							[
+								{
+									"_op" : "ident_decl_scalar",
+									"ident" : "a"
+								},
+								{
+									"_op" : "ident_decl_scalar",
+									"ident" : "b"
+								},
+								{
+									"_op" : "ident_decl_scalar",
+									"ident" : "c"
+								}
+							]
+						},
+						{
+							"_op" : "stmt_while",
+							"children" : 
+							[
+								{
+									"_op" : "expr_constant",
+									"num" : 2
+								},
+								{
+									"_op" : "list_stmts",
+									"children" : 
+									[
+										{
+											"_op" : "stmt_assignment",
+											"children" : 
+											[
+												{
+													"_op" : "expr_ident_scalar",
+													"ident" : "i"
+												},
+												{
+													"_op" : "expr_constant",
+													"num" : 1
+												}
+											]
+										},
+										{
+											"_op" : "stmt_assignment",
+											"children" : 
+											[
+												{
+													"_op" : "expr_ident_arr_elem",
+													"children" : 
+													[
+														{
+															"_op" : "expr_ident_scalar",
+															"ident" : "i"
+														}
+													],
+													"ident" : "arr"
+												},
+												{
+													"_op" : "expr_ident_scalar",
+													"ident" : "i"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			],
+			"ident" : "f"
+		},
+		{
+			"_op" : "func_decl",
+			"children" : 
+			[
+				{
+					"_op" : "list_stmts"
+				}
+			],
+			"ident" : "g"
+		},
+		{
+			"_op" : "func_decl",
+			"children" : 
+			[
+				{
+					"_op" : "func_arg_decl_scalar",
+					"ident" : "a"
+				},
+				{
+					"_op" : "func_arg_decl_arr",
+					"ident" : "b"
+				},
+				{
+					"_op" : "func_arg_decl_arr",
+					"ident" : "aa"
+				},
+				{
+					"_op" : "list_stmts"
+				}
+			],
+			"ident" : "peanut_butter"
+		}
+	]
+}
