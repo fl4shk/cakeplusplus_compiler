@@ -37,7 +37,8 @@ statement:
 stmt:
 	statements
 	| varDecl ';'
-	| expr ';'
+	//| expr ';'
+	| exprMulDivModEtc ';'
 	| assignment ';'
 	| ifStatement
 	| ifChainStatement

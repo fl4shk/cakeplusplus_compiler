@@ -182,9 +182,13 @@ antlrcpp::Any Compiler::visitStmt
 	{
 		ctx->varDecl()->accept(this);
 	}
-	else if (ctx->expr())
+	//else if (ctx->expr())
+	//{
+	//	ctx->expr()->accept(this);
+	//}
+	else if (ctx->exprMulDivModEtc())
 	{
-		ctx->expr()->accept(this);
+		ctx->exprMulDivModEtc()->accept(this);
 	}
 	else if (ctx->assignment())
 	{
@@ -321,57 +325,257 @@ antlrcpp::Any Compiler::visitNonSizedArrayIdentName
 antlrcpp::Any Compiler::visitAssignment
 	(GrammarParser::AssignmentContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::stmt_assignment);
+
+	ctx->identExpr()->accept(this);
+	to_push->append_child(pop_ast_node());
+	ctx->expr()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitIfStatement
 	(GrammarParser::IfStatementContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::stmt_if);
+
+	ctx->expr()->accept(this);
+	to_push->append_child(pop_ast_node());
+	ctx->statements()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitIfChainStatement
 	(GrammarParser::IfChainStatementContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::stmt_if_chain);
+
+	ctx->expr()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	ctx->statements()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	ctx->elseStatements()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitElseStatements
 	(GrammarParser::ElseStatementsContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::list_stmts_else);
+
+	if (ctx->ifChainStatement())
+	{
+		ctx->ifChainStatement()->accept(this);
+	}
+	else if (ctx->statements())
+	{
+		ctx->statements()->accept(this);
+	}
+	else
+	{
+		err("visitElseStatements():  Eek!\n");
+	}
+
+	to_push->append_child(pop_ast_node());
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitWhileStatement
 	(GrammarParser::WhileStatementContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::stmt_while);
+
+	ctx->expr()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	ctx->statements()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitDoWhileStatement
 	(GrammarParser::DoWhileStatementContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::stmt_do_while);
+
+	ctx->statements()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	ctx->expr()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitReturnExprStatement
 	(GrammarParser::ReturnExprStatementContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::stmt_return_expr);
+
+	ctx->expr()->accept(this);
+	to_push->append_child(pop_ast_node());
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitReturnNothingStatement
 	(GrammarParser::ReturnNothingStatementContext *ctx)
 {
+	auto to_push = mk_ast_node(AstOp::stmt_return_nothing);
+
+	push_ast_node(to_push);
 	return nullptr;
 }
 
 antlrcpp::Any Compiler::visitExpr
 	(GrammarParser::ExprContext *ctx)
 {
+	if (ctx->exprLogical())
+	{
+		ctx->exprLogical()->accept(this);
+	}
+	else if (ctx->expr())
+	{
+		auto to_push = mk_ast_node(AstOp::expr_binop);
+
+
+		ctx->expr()->accept(this);
+		to_push->append_child(pop_ast_node());
+
+		auto&& op = ctx->TokOpLogical()->toString();
+
+		if (op == "&&")
+		{
+			to_push->bin_op = AstBinOp::LogAnd;
+		}
+		else if (op == "||")
+		{
+			to_push->bin_op = AstBinOp::LogOr;
+		}
+		else
+		{
+			err("visitExpr():  binop type Eek!\n");
+		}
+
+		ctx->exprLogical()->accept(this);
+		to_push->append_child(pop_ast_node());
+		push_ast_node(to_push);
+	}
+	else
+	{
+		err("visitExpr():  Eek!\n");
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitExprLogical
 	(GrammarParser::ExprLogicalContext *ctx)
 {
+	if (ctx->exprCompare())
+	{
+		ctx->exprCompare()->accept(this);
+	}
+	else if (ctx->exprLogical())
+	{
+		auto to_push = mk_ast_node(AstOp::expr_binop);
+
+
+		ctx->exprLogical()->accept(this);
+		to_push->append_child(pop_ast_node());
+
+		auto&& op = ctx->TokOpCompare()->toString();
+
+		if (op == "==")
+		{
+			to_push->bin_op = AstBinOp::CmpEq;
+		}
+		else if (op == "!=")
+		{
+			to_push->bin_op = AstBinOp::CmpNe;
+		}
+		else if (op == "<")
+		{
+			// Temporary!
+			to_push->bin_op = AstBinOp::CmpSLt;
+		}
+		else if (op == ">")
+		{
+			// Temporary
+			to_push->bin_op = AstBinOp::CmpSGt;
+		}
+		else if (op == "<=")
+		{
+			// Temporary!
+			to_push->bin_op = AstBinOp::CmpSLe;
+		}
+		else if (op == ">=")
+		{
+			// Temporary
+			to_push->bin_op = AstBinOp::CmpSGe;
+		}
+		else
+		{
+			err("visitExprCompare():  binop type Eek!\n");
+		}
+
+		ctx->exprCompare()->accept(this);
+		to_push->append_child(pop_ast_node());
+		push_ast_node(to_push);
+	}
+	else
+	{
+		err("visitExprCompare():  Eek!\n");
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitExprCompare
 	(GrammarParser::ExprCompareContext *ctx)
 {
+	if (ctx->exprAddSub())
+	{
+		ctx->exprAddSub()->accept(this);
+	}
+	else if (ctx->exprCompare())
+	{
+		auto to_push = mk_ast_node(AstOp::expr_binop);
+
+
+		ctx->exprCompare()->accept(this);
+		to_push->append_child(pop_ast_node());
+
+		auto&& op = ctx->TokOpAddSub()->toString();
+
+		if (op == "+")
+		{
+			to_push->bin_op = AstBinOp::Add;
+		}
+		else if (op == "-")
+		{
+			to_push->bin_op = AstBinOp::Sub;
+		}
+		else
+		{
+			err("visitExprAddSub():  binop type Eek!\n");
+		}
+
+		ctx->exprAddSub()->accept(this);
+		to_push->append_child(pop_ast_node());
+		push_ast_node(to_push);
+	}
+	else
+	{
+		err("visitExprCompare():  Eek!\n");
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitExprAddSub
