@@ -1,55 +1,92 @@
 {
-	"__op" : "prog",
+	"__op" : "Prog",
 	"children" : 
 	[
 		{
-			"__op" : "func_decl",
+			"__op" : "FuncDecl",
 			"_ident" : "add",
 			"children" : 
 			[
 				{
-					"__op" : "func_arg_decl_scalar",
-					"_ident" : "a"
+					"__op" : "FuncArgDecl",
+					"_func_arg_decl_op" : "Scalar",
+					"_ident" : "a",
+					"builtin_typename" : "s64"
 				},
 				{
-					"__op" : "func_arg_decl_scalar",
-					"_ident" : "b"
+					"__op" : "FuncArgDecl",
+					"_func_arg_decl_op" : "Scalar",
+					"_ident" : "b",
+					"builtin_typename" : "s64"
 				},
 				{
-					"__op" : "func_arg_decl_arr",
-					"_ident" : "ret"
+					"__op" : "FuncArgDecl",
+					"_func_arg_decl_op" : "Arr",
+					"_ident" : "ret",
+					"builtin_typename" : "s64"
 				},
 				{
-					"__op" : "list_stmts",
+					"__op" : "Stmt",
+					"_stmt_op" : "List",
 					"children" : 
 					[
 						{
-							"__op" : "stmt_assignment",
+							"__op" : "Stmt",
+							"_stmt_op" : "Assignment",
 							"children" : 
 							[
 								{
-									"__op" : "expr_ident_arr_elem",
+									"__op" : "Expr",
+									"_expr_op" : "IdentArrElem",
 									"_ident" : "ret",
 									"children" : 
 									[
 										{
-											"__op" : "expr_constant",
-											"num" : 0
+											"__op" : "Expr",
+											"_expr_op" : "Constant",
+											"_num" : 0
 										}
 									]
 								},
 								{
-									"__op" : "expr_binop",
-									"binop" : "Add",
+									"__op" : "Expr",
+									"_binop" : "Add",
+									"_expr_op" : "Binop",
 									"children" : 
 									[
 										{
-											"__op" : "expr_ident_scalar",
+											"__op" : "Expr",
+											"_expr_op" : "IdentScalar",
 											"_ident" : "a"
 										},
 										{
-											"__op" : "expr_ident_scalar",
+											"__op" : "Expr",
+											"_expr_op" : "IdentScalar",
 											"_ident" : "b"
+										}
+									]
+								}
+							]
+						},
+						{
+							"__op" : "Stmt",
+							"_stmt_op" : "Assignment",
+							"children" : 
+							[
+								{
+									"__op" : "Expr",
+									"_expr_op" : "IdentScalar",
+									"_ident" : "a"
+								},
+								{
+									"__op" : "Expr",
+									"_expr_op" : "Len",
+									"children" : 
+									[
+										{
+											"__op" : "Expr",
+											"_expr_op" : "IdentScalar",
+											"_ident" : "ret"
 										}
 									]
 								}

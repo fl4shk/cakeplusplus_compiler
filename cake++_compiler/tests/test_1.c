@@ -14,4 +14,5 @@
 add(s64 a, s64 b, s64 ret[])
 {
 	ret[0] = a + b;
+	a = len(ret);
 }

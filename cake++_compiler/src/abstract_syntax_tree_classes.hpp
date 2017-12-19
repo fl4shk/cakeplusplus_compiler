@@ -161,11 +161,11 @@ public:		// variables
 
 
 	// The childrens
-	std::deque<AstNode*> children;
+	std::vector<AstNode*> children;
 
 public:		// functions
 	AstNode();
-	AstNode(AstOp s_op, std::deque<AstNode*>&& s_children);
+	AstNode(AstOp s_op, std::vector<AstNode*>&& s_children);
 	AstNode(AstNode&& to_move) = default;
 
 	virtual ~AstNode();
@@ -174,10 +174,10 @@ public:		// functions
 	AstNode& operator = (AstNode&& to_move) = default;
 
 
-	inline void prepend_child(AstNode* to_prepend)
-	{
-		children.push_front(to_prepend);
-	}
+	//inline void prepend_child(AstNode* to_prepend)
+	//{
+	//	children.push_front(to_prepend);
+	//}
 	inline void append_child(AstNode* to_append)
 	{
 		children.push_back(to_append);
