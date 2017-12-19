@@ -56,12 +56,12 @@ antlrcpp::Any Compiler::visitProgram
 	}
 	}
 
-	//{
-	//Json::Value output_root;
-	//__program_node->output_as_json(output_root);
+	{
+	Json::Value output_root;
+	__program_node->output_as_json(output_root);
 
-	//write_json(cout, &output_root);
-	//}
+	write_json(cout, &output_root);
+	}
 
 	return nullptr;
 }
@@ -262,6 +262,8 @@ antlrcpp::Any Compiler::visitFuncArgDecl
 {
 	//auto to_push = mk_ast_node();
 	auto to_push = mk_ast_node(AstOp::FuncArgDecl);
+	ctx->builtinTypename()->accept(this);
+	to_push->builtin_typename = pop_builtin_typename();
 	
 	if (ctx->identName())
 	{

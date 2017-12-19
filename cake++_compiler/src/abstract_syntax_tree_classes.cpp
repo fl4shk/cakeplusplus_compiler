@@ -139,142 +139,186 @@ AstNode::~AstNode()
 }
 
 
-void AstNode::output_as_json(Json::Value& output_root)
+void AstNode::output_as_json(Json::Value& output_root) const
 {
-	//if (json_ast_op_stuff.count(op) == 0)
-	//{
-	//	printerr("AstNode::output_as_json():  op Eek!\n");
-	//	exit(1);
-	//}
+	if (JsonAstOpStuff::json_ast_op_stuff.count(op) == 0)
+	{
+		printerr("AstNode::output_as_json():  op Eek!\n");
+		exit(1);
+	}
 
-	//output_root["__op"] = json_ast_op_stuff.at(op);
-	//if (ident != nullptr)
-	//{
-	//	output_root["_ident"] = *ident;
-	//}
+	output_root["__op"] = JsonAstOpStuff::json_ast_op_stuff.at(op);
+	if (ident != nullptr)
+	{
+		output_root["_ident"] = *ident;
+	}
 
-	//switch (op)
-	//{
-	//	case AstOp::prog:
-	//		break;
-	//	case AstOp::func_decl:
-	//		break;
-	//	case AstOp::func_call:
-	//		break;
+	switch (builtin_typename)
+	{
+		case BuiltinTypename::Blank:
+			break;
+		case BuiltinTypename::U64:
+			output_root["builtin_typename"] = "u64";
+			break;
+		case BuiltinTypename::S64:
+			output_root["builtin_typename"] = "s64";
+			break;
+		case BuiltinTypename::U32:
+			output_root["builtin_typename"] = "u32";
+			break;
+		case BuiltinTypename::S32:
+			output_root["builtin_typename"] = "s32";
+			break;
+		case BuiltinTypename::U16:
+			output_root["builtin_typename"] = "u16";
+			break;
+		case BuiltinTypename::S16:
+			output_root["builtin_typename"] = "s16";
+			break;
+		case BuiltinTypename::U8:
+			output_root["builtin_typename"] = "u8";
+			break;
+		case BuiltinTypename::S8:
+			output_root["builtin_typename"] = "s8";
+			break;
+		default:
+			printerr("AstNode::output_as_json():  ",
+				"builtin_typename Eek!\n");
+			exit(1);
+			break;
+	}
 
-	//	case AstOp::func_arg_decl_scalar:
-	//		break;
-	//	case AstOp::func_arg_decl_arr:
-	//		break;
-	//	case AstOp::func_arg_expr:
-	//		break;
+	switch (op)
+	{
+		case AstOp::Prog:
+			break;
 
+		case AstOp::FuncDecl:
+			break;
 
-	//	case AstOp::list_stmts:
-	//		break;
+		case AstOp::FuncArgDecl:
+			__output_func_arg_decl_as_json(output_root);
+			break;
 
+		case AstOp::Stmt:
+			__output_stmt_as_json(output_root);
+			break;
 
-	//	case AstOp::stmt_var_decl:
-	//		switch (builtin_typename)
-	//		{
-	//			case BuiltinTypename::U64:
-	//				output_root["builtin_typename"] = "u64";
-	//				break;
-	//			case BuiltinTypename::S64:
-	//				output_root["builtin_typename"] = "s64";
-	//				break;
-	//			case BuiltinTypename::U32:
-	//				output_root["builtin_typename"] = "u32";
-	//				break;
-	//			case BuiltinTypename::S32:
-	//				output_root["builtin_typename"] = "s32";
-	//				break;
-	//			case BuiltinTypename::U16:
-	//				output_root["builtin_typename"] = "u16";
-	//				break;
-	//			case BuiltinTypename::S16:
-	//				output_root["builtin_typename"] = "s16";
-	//				break;
-	//			case BuiltinTypename::U8:
-	//				output_root["builtin_typename"] = "u8";
-	//				break;
-	//			case BuiltinTypename::S8:
-	//				output_root["builtin_typename"] = "s8";
-	//				break;
-	//			default:
-	//				printerr("AstNode::output_as_json():  ",
-	//					"builtin_typename Eek!\n");
-	//				exit(1);
-	//				break;
-	//		}
-	//		break;
-	//	case AstOp::stmt_assignment:
-	//		break;
-	//	case AstOp::stmt_if:
-	//		break;
-	//	case AstOp::stmt_if_chain:
-	//		break;
-	//	case AstOp::list_stmts_else:
-	//		break;
-	//	case AstOp::stmt_while:
-	//		break;
-	//	case AstOp::stmt_do_while:
-	//		break;
-	//	case AstOp::stmt_return_expr:
-	//		break;
-	//	case AstOp::stmt_return_nothing:
-	//		break;
+		case AstOp::IdentDecl:
+			__output_ident_decl_as_json(output_root);
+			break;
 
+		case AstOp::Expr:
+			__output_expr_as_json(output_root);
+			break;
 
-	//	case AstOp::ident_decl_scalar:
-	//		break;
-	//	case AstOp::ident_decl_arr:
-	//		break;
+		default:
+			printerr("AstNode::output_as_json():  Bug!  Eek!\n");
+			exit(1);
+			break;
+	}
 
+	for (size_t i=0; i<children.size(); ++i)
+	{
+		const Json::ArrayIndex index_i = i;
+		children.at(i)->output_as_json(output_root["children"][index_i]);
+	}
+}
 
-	//	case AstOp::expr_constant:
-	//		output_root["num"] = num;
-	//		break;
+void AstNode::__output_func_arg_decl_as_json(Json::Value& output_root)
+	const
+{
+	if (JsonAstOpStuff::json_ast_func_arg_decl_op_stuff
+		.count(func_arg_decl_op) == 0)
+	{
+		printerr("AstNode::output_as_json() called func:  ",
+			"func_arg_decl_op Eek!\n");
+		exit(1);
+	}
+	output_root["_func_arg_decl_op"] 
+		= JsonAstOpStuff::json_ast_func_arg_decl_op_stuff
+		.at(func_arg_decl_op);
+}
+void AstNode::__output_stmt_as_json(Json::Value& output_root) const
+{
+	if (JsonAstOpStuff::json_ast_stmt_op_stuff
+		.count(stmt_op) == 0)
+	{
+		printerr("AstNode::output_as_json() called func:  ",
+			"stmt_op Eek!\n");
+		exit(1);
+	}
+	output_root["_stmt_op"] 
+		= JsonAstOpStuff::json_ast_stmt_op_stuff
+		.at(stmt_op);
+}
+void AstNode::__output_ident_decl_as_json(Json::Value& output_root) const
+{
+	if (JsonAstOpStuff::json_ast_ident_decl_op_stuff
+		.count(ident_decl_op) == 0)
+	{
+		printerr("AstNode::output_as_json() called func:  ",
+			"ident_decl_op Eek!\n");
+		exit(1);
+	}
+	output_root["_ident_decl_op"] 
+		= JsonAstOpStuff::json_ast_ident_decl_op_stuff
+		.at(ident_decl_op);
+}
+void AstNode::__output_expr_as_json(Json::Value& output_root) const
+{
+	if (JsonAstOpStuff::json_ast_expr_op_stuff
+		.count(expr_op) == 0)
+	{
+		printerr("AstNode::output_as_json() called func:  ",
+			"expr_op Eek!\n");
+		exit(1);
+	}
+	output_root["_expr_op"] 
+		= JsonAstOpStuff::json_ast_expr_op_stuff
+		.at(expr_op);
 
-	//	case AstOp::expr_binop:
-	//		if (json_ast_binop_stuff.count(bin_op) == 0)
-	//		{
-	//			printerr("AstNode::output_as_json():  bin_op Eek!\n");
-	//			exit(1);
-	//		}
-	//		output_root["binop"] = json_ast_binop_stuff.at(bin_op);
-	//		break;
+	switch (expr_op)
+	{
+		case AstExprOp::Constant:
+			__output_expr_constant_as_json(output_root);
+			break;
 
-	//	case AstOp::expr_unop:
-	//		if (json_ast_unop_stuff.count(un_op) == 0)
-	//		{
-	//			printerr("AstNode::output_as_json():  un_op Eek!\n");
-	//			exit(1);
-	//		}
-	//		output_root["unop"] = json_ast_unop_stuff.at(un_op);
-	//		break;
+		case AstExprOp::Binop:
+			__output_expr_bin_op_as_json(output_root);
+			break;
 
-	//	case AstOp::expr_ident_scalar:
-	//		break;
-	//	case AstOp::expr_ident_arr_elem:
-	//		break;
-
-	//	case AstOp::expr_len:
-	//		break;
-	//	case AstOp::expr_sizeof:
-	//		break;
-
-	//	default:
-	//		printerr("AstNode::output_as_json():  Bug!  Eek!\n");
-	//		exit(1);
-	//		break;
-	//}
-
-	//for (size_t i=0; i<children.size(); ++i)
-	//{
-	//	const Json::ArrayIndex index_i = i;
-	//	children.at(i)->output_as_json(output_root["children"][index_i]);
-	//}
-
-
+		case AstExprOp::Unop:
+			__output_expr_un_op_as_json(output_root);
+			break;
+	}
+}
+void AstNode::__output_expr_constant_as_json(Json::Value& output_root)
+	const
+{
+	output_root["_num"] = num;
+}
+void AstNode::__output_expr_bin_op_as_json(Json::Value& output_root) const
+{
+	if (JsonAstOpStuff::json_ast_binop_stuff.count(bin_op) == 0)
+	{
+		printerr("AstNode::output_as_json() called func:  ",
+			"bin_op Eek!\n");
+		exit(1);
+	}
+	output_root["_binop"] 
+		= JsonAstOpStuff::json_ast_binop_stuff
+		.at(bin_op);
+}
+void AstNode::__output_expr_un_op_as_json(Json::Value& output_root) const
+{
+	if (JsonAstOpStuff::json_ast_unop_stuff.count(un_op) == 0)
+	{
+		printerr("AstNode::output_as_json() called func:  ",
+			"un_op Eek!\n");
+		exit(1);
+	}
+	output_root["_unop"] 
+		= JsonAstOpStuff::json_ast_unop_stuff
+		.at(un_op);
 }

@@ -122,14 +122,15 @@ enum class AstUnOp
 	Negate,
 	LogNot,
 };
-enum class BuiltinTypename;
+
+#include "symbol_table_classes.hpp"
 
 // Node of the abstract syntax tree
 class AstNode
 {
 public:		// variables
 	AstOp op;
-	BuiltinTypename builtin_typename;
+	BuiltinTypename builtin_typename = BuiltinTypename::Blank;
 
 	s64 num;
 
@@ -181,7 +182,16 @@ public:		// functions
 		children.push_back(to_append);
 	}
 
-	void output_as_json(Json::Value& output_root);
+	void output_as_json(Json::Value& output_root) const;
+
+protected:		// functions
+	void __output_func_arg_decl_as_json(Json::Value& output_root) const;
+	void __output_stmt_as_json(Json::Value& output_root) const;
+	void __output_ident_decl_as_json(Json::Value& output_root) const;
+	void __output_expr_as_json(Json::Value& output_root) const;
+	void __output_expr_constant_as_json(Json::Value& output_root) const;
+	void __output_expr_bin_op_as_json(Json::Value& output_root) const;
+	void __output_expr_un_op_as_json(Json::Value& output_root) const;
 
 };
 
