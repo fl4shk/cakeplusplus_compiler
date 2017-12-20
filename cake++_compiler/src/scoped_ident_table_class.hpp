@@ -36,6 +36,7 @@ public:		// functions
 	void mkscope() __attribute__((noinline))
 	{
 		table().push_back(OneLevelTable());
+
 		++__scope_num;
 
 		if (scope_num() < 0)
@@ -44,7 +45,13 @@ public:		// functions
 				"Far, FAR too many scopes!\n");
 			exit(1);
 		}
+
+		//__parallel_scope_num = 0;
 	}
+	//void mk_parallel_scope() __attribute__((noinline))
+	//{
+	//	table().back
+	//}
 
 	void rmscope() __attribute__((noinline))
 	{

@@ -53,7 +53,7 @@ private:		// variables
 	// For local variable arrays or classes, this is the offset for the
 	// start of the array or class.
 	// 
-	// Argument arrays and classes are passed by reference, however.
+	// However, argument arrays and classes are passed by reference.
 	s64 __offset = 0;
 	size_t __size;
 
@@ -111,6 +111,10 @@ private:		// variables
 	VmCode __vm_code;
 	IrCode __ir_code;
 
+	// Label numbering stuff
+	s64 __last_label_num = -1;
+	std::map<s64, IrCode*> __num_to_label_map;
+
 
 public:		// functions
 	inline Function()
@@ -148,6 +152,9 @@ public:		// functions
 	gen_getter_and_setter_by_val(name);
 	gen_getter_by_ref(sym_tbl);
 	gen_getter_by_ref(vm_code);
+	gen_getter_by_ref(ir_code);
+	gen_getter_by_ref(last_label_num);
+	gen_getter_by_ref(num_to_label_map);
 };
 
 class FunctionTable : public IdentTable<Function>
