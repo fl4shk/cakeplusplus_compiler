@@ -6,6 +6,7 @@
 #include "scoped_ident_table_class.hpp"
 
 #include "vm_code_class.hpp"
+#include "ir_code_classes.hpp"
 #include "allocation_stuff.hpp"
 
 enum class SymType : int
@@ -85,6 +86,7 @@ private:		// variables
 	SymbolTable __sym_tbl;
 
 	VmCode __vm_code;
+	IrCode __ir_code;
 
 
 public:		// functions
@@ -92,19 +94,23 @@ public:		// functions
 	{
 		__vm_code.next = &__vm_code;
 		__vm_code.prev = &__vm_code;
+		__ir_code.next = &__ir_code;
+		__ir_code.prev = &__ir_code;
 	}
 	inline Function(Ident s_name)
 		: __name(s_name)
 	{
 		__vm_code.next = &__vm_code;
 		__vm_code.prev = &__vm_code;
+		__ir_code.next = &__ir_code;
+		__ir_code.prev = &__ir_code;
 	}
 	inline Function(Function&& to_move) = default;
 
 	inline Function& operator = (Function&& to_move) = default;
 
 	template<typename Type>
-	inline auto append_vm_code()
+	inline Type* append_vm_code()
 	{
 		//return ::append_vm_code<Type>(*this);
 		return ::append_vm_code<Type>(__vm_code);

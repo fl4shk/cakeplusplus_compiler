@@ -46,17 +46,16 @@ antlrcpp::Any Frontend::visitProgram
 {
 	//__program_node = mk_ast_node(AstOp::Prog);
 
-	{
 	auto&& funcDecl = ctx->funcDecl();
 
 	std::map<GrammarParser::FuncDeclContext*, Ident> temp_ident_map;
 
-	for (auto* iter : funcDecl)
+	for (auto* func_decl : funcDecl)
 	{
-		iter->identName()->accept(this);
+		func_decl->identName()->accept(this);
 		auto ident = pop_str();
 
-		temp_ident_map[iter] = ident;
+		temp_ident_map[func_decl] = ident;
 
 		if (__func_tbl.contains(ident))
 		{
@@ -69,21 +68,35 @@ antlrcpp::Any Frontend::visitProgram
 		__func_tbl.insert_or_assign(std::move(to_insert_or_assign));
 		}
 
+		__curr_func = &__func_tbl.at(ident);
+
+		auto&& funcArgDecl = func_decl->funcArgDecl();
+
+		// Fill up the symbol table with the arguments to the function
+		for (auto* func_arg_decl : funcArgDecl)
+		{
+			func_arg_decl->accept(this);
+		}
+
+
+
+
+
 		//__curr_func = &__func_tbl.at(ident);
 
 		//auto to_push = curr_func().append_vm_code();
-		//iter->accept(this);
+		//func_decl->accept(this);
 
 
 		//__program_node->append_child(pop_ast_node());
 	}
 
+	// Now visit the statements
 	for (auto* iter : funcDecl)
 	{
 		auto ident = temp_ident_map.at(iter);
 		__curr_func = &__func_tbl.at(ident);
 		iter->accept(this);
-	}
 	}
 
 	return nullptr;
@@ -111,6 +124,14 @@ antlrcpp::Any Frontend::visitFuncDecl
 //
 //
 //	push_ast_node(to_push);
+
+
+	//sym_tbl().mkscope();
+
+	//sym_tbl().rmscope();
+
+	ctx->statements()->accept(this);
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitFuncCall
@@ -147,6 +168,8 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 //
 //
 //	push_ast_node(to_push);
+	//ctx->identName()
+
 	return nullptr;
 }
 
@@ -166,6 +189,18 @@ antlrcpp::Any Frontend::visitStatements
 //	}
 //
 //	push_ast_node(to_push);
+
+	auto&& stmt = ctx->stmt();
+
+	sym_tbl().mkscope();
+
+	for (auto iter : stmt)
+	{
+		iter->accept(this);
+	}
+
+	sym_tbl().rmscope();
+
 	return nullptr;
 }
 
@@ -173,55 +208,55 @@ antlrcpp::Any Frontend::visitStatements
 antlrcpp::Any Frontend::visitStmt
 	(GrammarParser::StmtContext *ctx)
 {
-//	if (ctx->statements())
-//	{
-//		ctx->statements()->accept(this);
-//	}
-//	else if (ctx->varDecl())
-//	{
-//		ctx->varDecl()->accept(this);
-//	}
-//	//else if (ctx->expr())
-//	//{
-//	//	ctx->expr()->accept(this);
-//	//}
-//	else if (ctx->exprMulDivModEtc())
-//	{
-//		ctx->exprMulDivModEtc()->accept(this);
-//	}
-//	else if (ctx->assignment())
-//	{
-//		ctx->assignment()->accept(this);
-//	}
-//	else if (ctx->ifStatement())
-//	{
-//		ctx->ifStatement()->accept(this);
-//	}
-//	else if (ctx->ifChainStatement())
-//	{
-//		ctx->ifChainStatement()->accept(this);
-//	}
-//	else if (ctx->whileStatement())
-//	{
-//		ctx->whileStatement()->accept(this);
-//	}
-//	else if (ctx->doWhileStatement())
-//	{
-//		ctx->doWhileStatement()->accept(this);
-//	}
-//	else if (ctx->returnExprStatement())
-//	{
-//		ctx->returnExprStatement()->accept(this);
-//	}
-//	else if (ctx->returnNothingStatement())
-//	{
-//		ctx->returnNothingStatement()->accept(this);
-//	}
-//	else
-//	{
-//		err("visitStmt():  Eek!\n");
-//	}
-//
+	if (ctx->statements())
+	{
+		ctx->statements()->accept(this);
+	}
+	else if (ctx->varDecl())
+	{
+		ctx->varDecl()->accept(this);
+	}
+	//else if (ctx->expr())
+	//{
+	//	ctx->expr()->accept(this);
+	//}
+	else if (ctx->exprMulDivModEtc())
+	{
+		ctx->exprMulDivModEtc()->accept(this);
+	}
+	else if (ctx->assignment())
+	{
+		ctx->assignment()->accept(this);
+	}
+	else if (ctx->ifStatement())
+	{
+		ctx->ifStatement()->accept(this);
+	}
+	else if (ctx->ifChainStatement())
+	{
+		ctx->ifChainStatement()->accept(this);
+	}
+	else if (ctx->whileStatement())
+	{
+		ctx->whileStatement()->accept(this);
+	}
+	else if (ctx->doWhileStatement())
+	{
+		ctx->doWhileStatement()->accept(this);
+	}
+	else if (ctx->returnExprStatement())
+	{
+		ctx->returnExprStatement()->accept(this);
+	}
+	else if (ctx->returnNothingStatement())
+	{
+		ctx->returnNothingStatement()->accept(this);
+	}
+	else
+	{
+		err("visitStmt():  Eek!\n");
+	}
+
 	return nullptr;
 }
 

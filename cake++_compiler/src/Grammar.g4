@@ -1,9 +1,7 @@
 grammar Grammar;
 
 // Parser rules
-program:
-	funcDecl+
-	;
+program: funcDecl+ ;
 
 funcDecl:
 	identName '(' ((funcArgDecl ',')* funcArgDecl)? ')' statements

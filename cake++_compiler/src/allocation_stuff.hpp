@@ -31,18 +31,18 @@ int* cstm_intdup(int to_dup);
 std::string* cstm_strdup(const std::string& to_dup);
 
 template<typename Type>
-Type* append_vm_code(VmCode& some_vm_code) __attribute__((noinline));
+Type* append_vm_code(VmCode& some_head) __attribute__((noinline));
 
 template<typename Type>
-Type* append_vm_code(VmCode& some_vm_code)
+Type* append_vm_code(VmCode& some_head)
 {
 	auto& pool = AllocStuff::__vm_code_pool;
 
 	std::unique_ptr<VmCode> p;
 	p.reset(new Type());
-	p->next = &some_vm_code;
-	(p->prev = some_vm_code.prev)->next = p.get();
-	some_vm_code.prev = p.get();
+	p->next = &some_head;
+	(p->prev = some_head.prev)->next = p.get();
+	some_head.prev = p.get();
 
 	pool.push_back(std::move(p));
 	return pool.back().get();

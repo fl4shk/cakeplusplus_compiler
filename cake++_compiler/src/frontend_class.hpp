@@ -10,6 +10,7 @@
 //#include "abstract_syntax_tree_classes.hpp"
 //#include "code_generator_class.hpp"
 #include "vm_code_class.hpp"
+#include "ir_code_classes.hpp"
 
 
 class FrntErrorListener : public antlr4::ANTLRErrorListener
@@ -56,7 +57,8 @@ protected:		// variables
 	std::stack<s64> __num_stack;
 	std::stack<std::string*> __str_stack;
 	std::stack<BuiltinTypename> __builtin_typename_stack;
-	std::stack<VmCode*> __code_stack;
+	//std::stack<VmCode*> __code_stack;
+	std::stack<IrCode*> __code_stack;
 
 	//AstNode* __program_node;
 
@@ -164,7 +166,7 @@ protected:		// functions
 		return curr_func().sym_tbl();
 	}
 
-	inline void push_code(VmCode* to_push)
+	inline void push_code(IrCode* to_push)
 	{
 		__code_stack.push(to_push);
 	}
