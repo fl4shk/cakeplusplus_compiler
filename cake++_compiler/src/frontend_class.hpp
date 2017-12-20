@@ -8,10 +8,10 @@
 
 #include "symbol_table_classes.hpp"
 //#include "abstract_syntax_tree_classes.hpp"
-//#include "code_generator_class.hpp"
 #include "vm_code_class.hpp"
 #include "ir_code_classes.hpp"
 
+#include "code_generator_class.hpp"
 
 class FrntErrorListener : public antlr4::ANTLRErrorListener
 {
@@ -43,35 +43,6 @@ public:		// typedefs
 	//typedef std::vector<AstNode*> AstVec;
 
 public:		// classes
-	class CodeGenerator
-	{
-	protected:		// variables
-		Frontend* __frontend;
-
-	public:		// functions
-		CodeGenerator(Frontend* s_frontend);
-		virtual ~CodeGenerator();
-
-		IrCode* mk_const(s64 s_simm);
-		IrCode* mk_binop(IrBinop s_binop, IrCode* a, IrCode* b);
-		IrCode* mk_label(Function& curr_func);
-		IrCode* mk_beq(s64 s_lab_num, IrCode* condition);
-		IrCode* mk_bne(s64 s_lab_num, IrCode* condition);
-		IrCode* mk_jump(s64 s_lab_num);
-		IrCode* mk_address(Symbol* s_sym);
-		IrCode* mk_address(Function* s_func);
-		IrCode* mk_ldx(IrCode* addr, IrCode* index);
-		IrCode* mk_stx(IrCode* addr, IrCode* index, IrCode* data);
-
-		// Unfinished call because we don't know how many arguments there
-		// are in the code generator.
-		IrCode* mk_unfinished_call();
-
-		IrCode* mk_ret_expr(IrCode* expr);
-		IrCode* mk_ret_nothing();
-		IrCode* mk_syscall(IrSyscallShorthandOp s_syscall_shorthand_op);
-		IrCode* mk_quit(IrCode* expr);
-	};
 
 	friend class CodeGenerator;
 	
@@ -95,6 +66,7 @@ protected:		// variables
 	std::stack<std::string*> __str_stack;
 	std::stack<BuiltinTypename> __builtin_typename_stack;
 	//std::stack<VmCode*> __code_stack;
+	std::stack<Symbol*> __sym_stack;
 	std::stack<IrCode*> __ir_code_stack;
 
 	//AstNode* __program_node;
@@ -261,36 +233,6 @@ protected:		// functions
 
 
 
-	inline IrCode* relink_ir_code(IrCode* p, IrCode* to_link_after)
-	{
-		IrCode* old_next = to_link_after->next;
-
-		to_link_after->next = p;
-		p->prev = to_link_after;
-		p->next = old_next;
-		old_next->prev = p;
-
-		return p;
-	}
-	inline IrCode* relink_ir_code(IrCode* p)
-	{
-		return relink_ir_code(p, curr_func().ir_code().prev);
-	}
-
-	inline void push_ir_code(IrCode* to_push)
-	{
-		__ir_code_stack.push(to_push);
-	}
-	inline auto pop_ir_code()
-	{
-		auto ret = __ir_code_stack.top();
-		__ir_code_stack.pop();
-		return ret;
-	}
-	inline auto get_top_ir_code()
-	{
-		return __ir_code_stack.top();
-	}
 
 	inline void push_num(s64 to_push)
 	{
@@ -338,6 +280,51 @@ protected:		// functions
 		return __builtin_typename_stack.top();
 	}
 
+	inline void push_sym(Symbol* to_push)
+	{
+		__sym_stack.push(to_push);
+	}
+	inline auto pop_sym()
+	{
+		auto ret = __sym_stack.top(); 
+		__sym_stack.pop();
+		return ret;
+	}
+	inline auto get_top_sym()
+	{
+		return __sym_stack.top();
+	}
+
+	inline IrCode* relink_ir_code(IrCode* p, IrCode* to_link_after)
+	{
+		IrCode* old_next = to_link_after->next;
+
+		to_link_after->next = p;
+		p->prev = to_link_after;
+		p->next = old_next;
+		old_next->prev = p;
+
+		return p;
+	}
+	inline IrCode* relink_ir_code(IrCode* p)
+	{
+		return relink_ir_code(p, curr_func().ir_code().prev);
+	}
+
+	inline void push_ir_code(IrCode* to_push)
+	{
+		__ir_code_stack.push(to_push);
+	}
+	inline auto pop_ir_code()
+	{
+		auto ret = __ir_code_stack.top();
+		__ir_code_stack.pop();
+		return ret;
+	}
+	inline auto get_top_ir_code()
+	{
+		return __ir_code_stack.top();
+	}
 };
 
 #endif		// frontend_class_hpp

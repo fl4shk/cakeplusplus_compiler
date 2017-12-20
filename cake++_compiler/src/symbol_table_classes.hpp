@@ -76,6 +76,22 @@ public:		// functions
 	inline Symbol& operator = (const Symbol& to_copy) = default;
 	inline Symbol& operator = (Symbol&& to_move) = default;
 
+	bool is_unsgn_builtin() const;
+	bool is_sgn_builtin() const;
+
+	inline bool has_builtin_var_type() const
+	{
+		return (is_unsgn_builtin() || is_sgn_builtin());
+	}
+
+	s64 builtin_type_size() const;
+
+	inline IrUS get_unsgn_or_sgn() const
+	{
+		return is_unsgn_builtin() ? IrUS::Unsgn : IrUS::Sgn;
+	}
+	IrLdStSize get_ldst_size() const;
+
 	gen_getter_and_setter_by_con_ref(name);
 	gen_setter_by_rval_ref(name);
 	gen_getter_and_setter_by_val(type);

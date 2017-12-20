@@ -107,6 +107,7 @@ enum class IrLdStSize : u32
 	Sz32,
 	Sz16,
 	Sz8,
+	Unknown,
 };
 
 //std::ostream& operator << (std::ostream& os, IrBinop binop);

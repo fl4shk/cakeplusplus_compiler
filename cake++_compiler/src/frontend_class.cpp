@@ -37,139 +37,6 @@ void FrntErrorListener::reportContextSensitivity
 {
 }
 
-Frontend::CodeGenerator::CodeGenerator(Frontend* s_frontend)
-	: __frontend(s_frontend)
-{
-}
-Frontend::CodeGenerator::~CodeGenerator()
-{
-}
-IrCode* Frontend::CodeGenerator::mk_const(s64 s_simm)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Constant);
-	ret->simm = s_simm;
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_binop(IrBinop s_binop, IrCode* a, 
-	IrCode* b)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Binop);
-	ret->binop = s_binop;
-	ret->args.push_back(a);
-	ret->args.push_back(b);
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_label(Function& curr_func)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Label);
-
-	++curr_func.last_label_num();
-	curr_func.num_to_label_map()[curr_func.last_label_num()] = ret;
-	
-	ret->lab_num = curr_func.last_label_num();
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_beq(s64 s_lab_num, IrCode* condition)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Beq);
-
-	ret->lab_num = s_lab_num;
-	ret->args.push_back(condition);
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_bne(s64 s_lab_num, IrCode* condition)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Bne);
-
-	ret->lab_num = s_lab_num;
-	ret->args.push_back(condition);
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_jump(s64 s_lab_num)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Jump);
-
-	ret->lab_num = s_lab_num;
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_address(Symbol* s_sym)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Address);
-
-	ret->sym = s_sym;
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_address(Function* s_func)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Address);
-
-	ret->func = s_func;
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_ldx(IrCode* addr, IrCode* index)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Ldx);
-
-	ret->args.push_back(addr);
-	ret->args.push_back(index);
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_stx(IrCode* addr, IrCode* index, 
-	IrCode* data)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Stx);
-
-	ret->args.push_back(addr);
-	ret->args.push_back(index);
-	ret->args.push_back(data);
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_unfinished_call()
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Call);
-
-	return ret;
-}
-IrCode* Frontend::CodeGenerator::mk_ret_expr(IrCode* expr)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::RetExpr);
-
-	ret->args.push_back(expr);
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_ret_nothing()
-{
-	auto ret = mk_unlinked_ir_code(IrOp::RetNothing);
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_syscall
-	(IrSyscallShorthandOp s_syscall_shorthand_op)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Syscall);
-
-	ret->syscall_shorthand_op = s_syscall_shorthand_op;
-
-	return __frontend->relink_ir_code(ret);
-}
-IrCode* Frontend::CodeGenerator::mk_quit(IrCode* expr)
-{
-	auto ret = mk_unlinked_ir_code(IrOp::Quit);
-
-	ret->args.push_back(expr);
-
-	return __frontend->relink_ir_code(ret);
-}
 
 Frontend::~Frontend()
 {
@@ -314,7 +181,9 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 		auto addr = codegen().mk_address(sym);
 		auto index = codegen().mk_const(0);
 
-		push_ir_code(codegen().mk_ldx(addr, index));
+
+		push_ir_code(codegen().mk_ldx(sym->get_unsgn_or_sgn(),
+			sym->get_ldst_size(), addr, index));
 	}
 	else if (sym->type() == SymType::ArrayVarName)
 	{
@@ -540,7 +409,10 @@ antlrcpp::Any Frontend::visitAssignment
 	ctx->expr()->accept(this);
 	auto expr = pop_ir_code();
 
-	push_ir_code(codegen().mk_stx(addr, index, expr));
+	auto sym = pop_sym();
+
+	push_ir_code(codegen().mk_stx(sym->get_unsgn_or_sgn(),
+		sym->get_ldst_size(), addr, index, expr));
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitIfStatement
@@ -1031,6 +903,7 @@ void Frontend::__visit_ident_access
 	}
 
 	//push_ir_code(codegen().mk_ldx(addr, index));
+	push_sym(sym);
 	push_ir_code(index);
 	push_ir_code(addr);
 }
@@ -1050,7 +923,13 @@ antlrcpp::Any Frontend::visitIdentRhs
 	auto addr = pop_ir_code();
 	auto index = pop_ir_code();
 
-	push_ir_code(codegen().mk_ldx(addr, index));
+
+	auto sym = pop_sym();
+
+
+	push_ir_code(codegen().mk_ldx(sym->get_unsgn_or_sgn(), 
+		sym->get_ldst_size(), addr, index));
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitIdentDecl
