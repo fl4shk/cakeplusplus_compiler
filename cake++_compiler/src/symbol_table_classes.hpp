@@ -41,7 +41,22 @@ private:		// variables
 
 	SymType __type;
 	BuiltinTypename __var_type;
+
+
+
+	// If this is an argument to the function
+	bool __is_arg = false;
+
+	// Offset for "argx" or "varx".  If this is zero, then we can use the
+	// "arg" or "var" instruction.
+	// 
+	// For local variable arrays or classes, this is the offset for the
+	// start of the array or class.
+	// 
+	// Argument arrays and classes are passed by reference, however.
+	s64 __offset = 0;
 	size_t __size;
+
 
 public:		// functions
 	inline Symbol()
@@ -51,6 +66,12 @@ public:		// functions
 		BuiltinTypename s_var_type, size_t s_size)
 		: __name(s_name), __type(s_type), __var_type(s_var_type),
 		__size(s_size)
+	{
+	}
+	inline Symbol(Ident s_name, SymType s_type,
+		BuiltinTypename s_var_type, bool s_is_arg, size_t s_size)
+		: __name(s_name), __type(s_type), __var_type(s_var_type),
+		__is_arg(s_is_arg), __size(s_size)
 	{
 	}
 	inline Symbol(const Symbol& to_copy) = default;
@@ -63,6 +84,8 @@ public:		// functions
 	gen_setter_by_rval_ref(name);
 	gen_getter_and_setter_by_val(type);
 	gen_getter_and_setter_by_val(var_type);
+	gen_getter_and_setter_by_val(is_arg);
+	gen_getter_and_setter_by_val(offset);
 	gen_getter_and_setter_by_val(size);
 };
 
@@ -109,11 +132,17 @@ public:		// functions
 
 	inline Function& operator = (Function&& to_move) = default;
 
-	template<typename Type>
-	inline Type* append_vm_code()
+	inline VmCode* append_vm_code()
 	{
 		//return ::append_vm_code<Type>(*this);
-		return ::append_vm_code<Type>(__vm_code);
+		return ::append_vm_code(__vm_code);
+	}
+
+	template<typename Type>
+	inline Type* append_ir_code()
+	{
+		//return ::append_ir_code<Type>(*this);
+		return ::append_ir_code<Type>(__ir_code);
 	}
 
 	gen_getter_and_setter_by_val(name);

@@ -168,7 +168,7 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 //
 //
 //	push_ast_node(to_push);
-	//ctx->identName()
+	ctx->identName()->accept(this);
 
 	return nullptr;
 }

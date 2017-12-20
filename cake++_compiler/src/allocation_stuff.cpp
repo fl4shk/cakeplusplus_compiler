@@ -6,6 +6,7 @@
 std::map<int, std::unique_ptr<int>> AllocStuff::__int_pool;
 std::map<std::string, std::unique_ptr<std::string>> AllocStuff::__str_pool;
 std::vector<std::unique_ptr<VmCode>> AllocStuff::__vm_code_pool;
+std::vector<std::unique_ptr<IrCode>> AllocStuff::__ir_code_pool;
 //std::vector<std::unique_ptr<AstNode>> AllocStuff::__ast_node_pool;
 
 int* cstm_intdup(int to_dup)
@@ -38,6 +39,19 @@ std::string* cstm_strdup(const std::string& to_dup)
 	return pool.at(to_dup).get();
 }
 
+VmCode* append_vm_code(VmCode& some_head)
+{
+	auto& pool = AllocStuff::__vm_code_pool;
+
+	std::unique_ptr<VmCode> p;
+	p.reset(new VmCode());
+	p->next = &some_head;
+	(p->prev = some_head.prev)->next = p.get();
+	some_head.prev = p.get();
+
+	pool.push_back(std::move(p));
+	return pool.back().get();
+}
 
 //AstNode* mk_ast_node()
 //{

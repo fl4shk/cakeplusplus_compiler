@@ -53,6 +53,8 @@ public:		// variables
 		s8 imm_s8;
 	};
 
+	std::vector<IrCode*> args;
+
 	IrCode * next, * prev;
 
 public:		// functions
