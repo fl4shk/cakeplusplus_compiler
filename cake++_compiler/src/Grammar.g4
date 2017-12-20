@@ -49,7 +49,7 @@ builtinTypename: TokBuiltinTypename ;
 
 
 nonSizedArrayIdentName: identName '[' ']' ;
-assignment: identExpr '=' expr ;
+assignment: identLhs '=' expr ;
 
 ifStatement: TokIf '(' expr ')' statements ;
 
@@ -94,7 +94,7 @@ exprMulDivModEtc:
 	exprUnary
 	| numExpr
 	| funcCall
-	| identExpr
+	| identRhs
 	| lenExpr
 	| sizeofExpr
 	| '(' expr ')'
@@ -110,7 +110,12 @@ exprBitInvert: '~' expr ;
 exprNegate: '-' expr ;
 exprLogNot: '!' expr ;
 
-identExpr:
+identLhs:
+	identName
+	| identName subscriptExpr
+	;
+
+identRhs:
 	identName
 	| identName subscriptExpr
 	;
@@ -122,8 +127,8 @@ identDecl:
 
 identName: TokIdent ;
 numExpr: TokDecNum ;
-lenExpr: 'len' '(' identExpr ')' ;
-sizeofExpr: 'sizeof' '(' identExpr ')' ;
+lenExpr: 'len' '(' identRhs ')' ;
+sizeofExpr: 'sizeof' '(' identRhs ')' ;
 subscriptExpr: '[' expr ']' ;
 subscriptConst: '[' numExpr ']' ;
 

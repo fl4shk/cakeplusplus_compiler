@@ -406,26 +406,6 @@ antlrcpp::Any Frontend::visitStmt
 antlrcpp::Any Frontend::visitVarDecl
 	(GrammarParser::VarDeclContext *ctx)
 {
-//	//auto to_push = mk_ast_node(AstOp::stmt_var_decl);
-//	auto to_push = mk_ast_stmt(AstStmtOp::VarDecl);
-//	ctx->builtinTypename()->accept(this);
-//	to_push->builtin_typename = pop_builtin_typename();
-//
-//	{
-//
-//	auto&& identDecl = ctx->identDecl();
-//
-//	for (auto ident_decl : identDecl)
-//	{
-//		ident_decl->accept(this);
-//		to_push->append_child(pop_ast_node());
-//	}
-//
-//	}
-//
-//
-//	push_ast_node(to_push);
-
 	ctx->builtinTypename()->accept(this);
 	const auto some_builtin_typename = pop_builtin_typename();
 
@@ -545,12 +525,22 @@ antlrcpp::Any Frontend::visitAssignment
 //	//auto to_push = mk_ast_node(AstOp::stmt_assignment);
 //	auto to_push = mk_ast_stmt(AstStmtOp::Assignment);
 //
-//	ctx->identExpr()->accept(this);
+//	ctx->identRhs()->accept(this);
 //	to_push->append_child(pop_ast_node());
 //	ctx->expr()->accept(this);
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+
+	ctx->identLhs()->accept(this);
+
+	auto addr = pop_ir_code();
+	auto index = pop_ir_code();
+
+	ctx->expr()->accept(this);
+	auto expr = pop_ir_code();
+
+	push_ir_code(codegen().mk_stx(addr, index, expr));
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitIfStatement
@@ -910,9 +900,9 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 	{
 		ctx->funcCall()->accept(this);
 	}
-	else if (ctx->identExpr())
+	else if (ctx->identRhs())
 	{
-		ctx->identExpr()->accept(this);
+		ctx->identRhs()->accept(this);
 	}
 	else if (ctx->lenExpr())
 	{
@@ -994,33 +984,11 @@ antlrcpp::Any Frontend::visitExprLogNot
 	return nullptr;
 }
 
-
-antlrcpp::Any Frontend::visitIdentExpr
-	(GrammarParser::IdentExprContext *ctx)
+void Frontend::__visit_ident_access
+	(GrammarParser::IdentNameContext* ctx_ident_name,
+	GrammarParser::SubscriptExprContext* ctx_subscript_expr)
 {
-//	//auto to_push = mk_ast_node();
-//	auto to_push = mk_ast_node(AstOp::Expr);
-//	ctx->identName()->accept(this);
-//	to_push->ident = pop_str();
-//
-//	if (!ctx->subscriptExpr())
-//	{
-//		//to_push->op = AstOp::expr_ident_scalar;
-//		to_push->expr_op = AstExprOp::IdentScalar;
-//	}
-//	else // if (ctx->subscriptExpr())
-//	{
-//		//to_push->op = AstOp::expr_ident_arr_elem;
-//		to_push->expr_op = AstExprOp::IdentArrElem;
-//
-//		ctx->subscriptExpr()->accept(this);
-//		to_push->append_child(pop_ast_node());
-//	}
-//
-//	push_ast_node(to_push);
-
-
-	ctx->identName()->accept(this);
+	ctx_ident_name->accept(this);
 	auto ident = pop_str();
 
 	auto sym = find_sym_or_err(ident, 
@@ -1033,11 +1001,11 @@ antlrcpp::Any Frontend::visitIdentExpr
 	
 	if (sym->type() == SymType::ScalarVarName)
 	{
-		if (!ctx->subscriptExpr())
+		if (!ctx_subscript_expr)
 		{
 			index = codegen().mk_const(0);
 		}
-		else // if (ctx->subscriptExpr())
+		else // if (ctx_subscript_expr)
 		{
 			err(sconcat("Symbol with identifier \"", *ident, 
 				"\" is not an array!"));
@@ -1046,21 +1014,41 @@ antlrcpp::Any Frontend::visitIdentExpr
 
 	else if (sym->type() == SymType::ArrayVarName)
 	{
-		if (!ctx->subscriptExpr())
+		if (!ctx_subscript_expr)
 		{
 			err(sconcat("Symbol with identifier \"", *ident, 
 				"\" is an array!"));
 		}
-		else // if (ctx->subscriptExpr())
+		else // if (ctx_subscript_expr)
 		{
-			ctx->subscriptExpr()->accept(this);
+			ctx_subscript_expr->accept(this);
 			index = pop_ir_code();
 		}
 	}
 	else
 	{
-		err("visitIdentExpr():  Unknown SymType!");
+		err("__visit_ident_access():  Unknown SymType!");
 	}
+
+	//push_ir_code(codegen().mk_ldx(addr, index));
+	push_ir_code(index);
+	push_ir_code(addr);
+}
+
+antlrcpp::Any Frontend::visitIdentLhs
+	(GrammarParser::IdentLhsContext *ctx)
+{
+	__visit_ident_access(ctx->identName(), ctx->subscriptExpr());
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitIdentRhs
+	(GrammarParser::IdentRhsContext *ctx)
+{
+	__visit_ident_access(ctx->identName(), ctx->subscriptExpr());
+
+	auto addr = pop_ir_code();
+	auto index = pop_ir_code();
 
 	push_ir_code(codegen().mk_ldx(addr, index));
 	return nullptr;
@@ -1122,7 +1110,7 @@ antlrcpp::Any Frontend::visitLenExpr
 //	//auto to_push = mk_ast_node(AstOp::expr_len);
 //	auto to_push = mk_ast_expr(AstExprOp::Len);
 //
-//	ctx->identExpr()->accept(this);
+//	ctx->identRhs()->accept(this);
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
@@ -1136,7 +1124,7 @@ antlrcpp::Any Frontend::visitSizeofExpr
 //	//auto to_push = mk_ast_node(AstOp::expr_sizeof);
 //	auto to_push = mk_ast_expr(AstExprOp::Sizeof);
 //
-//	ctx->identExpr()->accept(this);
+//	ctx->identRhs()->accept(this);
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);

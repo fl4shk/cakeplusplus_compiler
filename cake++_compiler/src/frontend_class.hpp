@@ -172,8 +172,13 @@ public:		// functions
 	antlrcpp::Any visitExprLogNot
 		(GrammarParser::ExprLogNotContext *ctx);
 
-	antlrcpp::Any visitIdentExpr
-		(GrammarParser::IdentExprContext *ctx);
+	void __visit_ident_access
+		(GrammarParser::IdentNameContext* ctx_ident_name,
+		GrammarParser::SubscriptExprContext* ctx_subscript_expr);
+	antlrcpp::Any visitIdentLhs
+		(GrammarParser::IdentLhsContext *ctx);
+	antlrcpp::Any visitIdentRhs
+		(GrammarParser::IdentRhsContext *ctx);
 	antlrcpp::Any visitIdentDecl
 		(GrammarParser::IdentDeclContext *ctx);
 	antlrcpp::Any visitIdentName
@@ -276,11 +281,6 @@ protected:		// functions
 	{
 		__ir_code_stack.push(to_push);
 	}
-	//inline void push_and_relink_ir_code(IrCode* to_push_and_relink)
-	//{
-	//	push_ir_code(to_push_and_relink);
-	//	relink_ir_code(to_push_and_relink);
-	//}
 	inline auto pop_ir_code()
 	{
 		auto ret = __ir_code_stack.top();
