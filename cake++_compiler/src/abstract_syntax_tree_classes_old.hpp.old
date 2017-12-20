@@ -4,7 +4,7 @@
 #include "misc_includes.hpp"
 
 //#include "symbol_table_classes.hpp"
-#include "ident_table_class.hpp"
+#include "ident_table_classes.hpp"
 
 
 #include "symbol_table_classes.hpp"

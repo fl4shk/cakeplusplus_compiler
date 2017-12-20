@@ -3,7 +3,7 @@
 
 
 #include "misc_includes.hpp"
-#include "ident_table_class.hpp"
+#include "ident_table_classes.hpp"
 
 
 
@@ -63,7 +63,8 @@ public:		// classes
 protected:		// variables
 	Node __tree;
 
-	Node* __curr_node = &__tree;
+	//Node* __curr_node = &__tree;
+	Node* __curr_node = nullptr;
 
 
 	// The number of scopes that have been made - 1
@@ -77,6 +78,7 @@ public:		// functions
 	inline SymbolTableBase()
 	{
 		//table.push_back(std::vector<OneTable>());
+		__curr_node = &__tree;
 		mkscope();
 	}
 	virtual ~SymbolTableBase()
@@ -113,7 +115,9 @@ public:		// functions
 		__node_pool.push_back(new Node(__curr_node));
 
 		__curr_node->append_child(__node_pool.back());
+		auto old_curr_node = __curr_node;
 		__curr_node = __curr_node->children.back();
+		__curr_node->parent = old_curr_node;
 
 		//__curr_node->table = scope_num();
 	}
@@ -171,6 +175,13 @@ public:		// functions
 
 	inline Type* find_in_first_blklev(Ident some_name)
 	{
+		if (__tree.children.size() == 0)
+		{
+			return nullptr;
+		}
+
+
+
 		if (__tree.children.front()->table.contains(some_name))
 		{
 			return &__tree.children.front()->table.at(some_name);

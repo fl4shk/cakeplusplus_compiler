@@ -44,8 +44,11 @@ public:		// typedefs
 
 protected:		// variables
 
-	// Table of functions
-	FunctionTable __func_tbl;
+	//// Table of functions
+	//FunctionTable __func_tbl;
+	IdentToPointerTable<Function> __func_tbl;
+
+	std::vector<std::unique_ptr<Function>> __func_pool;
 
 	// Current function
 	Function* __curr_func;
@@ -155,6 +158,24 @@ protected:		// functions
 	{
 		printerr("Error:  ", msg, "\n");
 		exit(1);
+	}
+
+	inline Function* mkfunc()
+	{
+		std::unique_ptr<Function> to_append(new Function());
+
+		__func_pool.push_back(std::move(to_append));
+
+		return __func_pool.back().get();
+	}
+
+	inline Function* mkfunc(Ident s_name)
+	{
+		std::unique_ptr<Function> to_append(new Function(s_name));
+
+		__func_pool.push_back(std::move(to_append));
+
+		return __func_pool.back().get();
 	}
 
 	inline auto& curr_func()

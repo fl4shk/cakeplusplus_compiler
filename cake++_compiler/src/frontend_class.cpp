@@ -63,12 +63,9 @@ antlrcpp::Any Frontend::visitProgram
 				*ident, "\"!"));
 		}
 
-		{
-		Function to_insert_or_assign(ident);
-		__func_tbl.insert_or_assign(std::move(to_insert_or_assign));
-		}
+		__func_tbl.insert_or_assign(mkfunc(ident));
 
-		__curr_func = &__func_tbl.at(ident);
+		__curr_func = __func_tbl.at(ident);
 
 		auto&& funcArgDecl = func_decl->funcArgDecl();
 
@@ -95,7 +92,7 @@ antlrcpp::Any Frontend::visitProgram
 	for (auto* iter : funcDecl)
 	{
 		auto ident = temp_ident_map.at(iter);
-		__curr_func = &__func_tbl.at(ident);
+		__curr_func = __func_tbl.at(ident);
 		iter->accept(this);
 	}
 
@@ -346,7 +343,8 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 			*arg.name(), "\"."));
 	}
 	}
-	
+
+	sym_tbl().insert_or_assign(std::move(arg));
 
 	return nullptr;
 }

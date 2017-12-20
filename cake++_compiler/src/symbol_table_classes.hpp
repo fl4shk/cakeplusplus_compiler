@@ -129,9 +129,13 @@ public:		// functions
 		__ir_code.next = &__ir_code;
 		__ir_code.prev = &__ir_code;
 	}
+
+	//inline Function(const Function& to_copy) = default;
 	inline Function(Function&& to_move) = default;
 
-	inline Function& operator = (Function&& to_move) = default;
+	//inline Function& operator = (const Function& to_copy) = default;
+	//inline Function& operator = (Function&& to_move) = default;
+
 
 	inline VmCode* append_vm_code()
 	{
@@ -156,12 +160,15 @@ public:		// functions
 	gen_getter_by_ref(last_arg_offset);
 };
 
-class FunctionTable : public IdentTable<Function>
-{
-public:		// functions
-	FunctionTable();
-	virtual ~FunctionTable();
-};
+//class FunctionTable : public IdentTable<Function*>
+//{
+//protected:		// variables
+//	std::vector<Function*> __pool;
+//
+//public:		// functions
+//	FunctionTable();
+//	virtual ~FunctionTable();
+//};
 
 
 //std::ostream& operator << (std::ostream& os, const SymType& to_print);

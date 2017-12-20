@@ -41,12 +41,4 @@ s64 Function::irntoi(IrCode* t) const
 	return ret;
 }
 
-FunctionTable::FunctionTable()
-{
-}
-
-FunctionTable::~FunctionTable()
-{
-}
-
 

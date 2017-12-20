@@ -3,7 +3,7 @@
 
 
 #include "misc_includes.hpp"
-#include "ident_table_class.hpp"
+#include "ident_table_classes.hpp"
 
 // This is kind of like a stack
 template<typename Type>
