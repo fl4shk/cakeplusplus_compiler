@@ -48,7 +48,7 @@ IrCode* Frontend::CodeGenerator::mk_const(s64 s_simm)
 {
 	auto ret = mk_unlinked_ir_code(IrOp::Constant);
 	ret->simm = s_simm;
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_binop(IrBinop s_binop, IrCode* a, 
 	IrCode* b)
@@ -58,7 +58,7 @@ IrCode* Frontend::CodeGenerator::mk_binop(IrBinop s_binop, IrCode* a,
 	ret->args.push_back(a);
 	ret->args.push_back(b);
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_label(Function& curr_func)
 {
@@ -69,7 +69,7 @@ IrCode* Frontend::CodeGenerator::mk_label(Function& curr_func)
 	
 	ret->lab_num = curr_func.last_label_num();
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_beq(s64 s_lab_num, IrCode* condition)
 {
@@ -78,7 +78,7 @@ IrCode* Frontend::CodeGenerator::mk_beq(s64 s_lab_num, IrCode* condition)
 	ret->lab_num = s_lab_num;
 	ret->args.push_back(condition);
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_bne(s64 s_lab_num, IrCode* condition)
 {
@@ -87,7 +87,7 @@ IrCode* Frontend::CodeGenerator::mk_bne(s64 s_lab_num, IrCode* condition)
 	ret->lab_num = s_lab_num;
 	ret->args.push_back(condition);
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_jump(s64 s_lab_num)
 {
@@ -95,7 +95,7 @@ IrCode* Frontend::CodeGenerator::mk_jump(s64 s_lab_num)
 
 	ret->lab_num = s_lab_num;
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_address(Symbol* s_sym)
 {
@@ -103,7 +103,7 @@ IrCode* Frontend::CodeGenerator::mk_address(Symbol* s_sym)
 
 	ret->sym = s_sym;
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_address(Function* s_func)
 {
@@ -111,7 +111,7 @@ IrCode* Frontend::CodeGenerator::mk_address(Function* s_func)
 
 	ret->func = s_func;
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_ldx(IrCode* addr, IrCode* index)
 {
@@ -120,7 +120,7 @@ IrCode* Frontend::CodeGenerator::mk_ldx(IrCode* addr, IrCode* index)
 	ret->args.push_back(addr);
 	ret->args.push_back(index);
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_stx(IrCode* addr, IrCode* index, 
 	IrCode* data)
@@ -131,7 +131,7 @@ IrCode* Frontend::CodeGenerator::mk_stx(IrCode* addr, IrCode* index,
 	ret->args.push_back(index);
 	ret->args.push_back(data);
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_unfinished_call()
 {
@@ -145,13 +145,13 @@ IrCode* Frontend::CodeGenerator::mk_ret_expr(IrCode* expr)
 
 	ret->args.push_back(expr);
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_ret_nothing()
 {
 	auto ret = mk_unlinked_ir_code(IrOp::RetNothing);
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_syscall
 	(IrSyscallShorthandOp s_syscall_shorthand_op)
@@ -160,7 +160,7 @@ IrCode* Frontend::CodeGenerator::mk_syscall
 
 	ret->syscall_shorthand_op = s_syscall_shorthand_op;
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 IrCode* Frontend::CodeGenerator::mk_quit(IrCode* expr)
 {
@@ -168,7 +168,7 @@ IrCode* Frontend::CodeGenerator::mk_quit(IrCode* expr)
 
 	ret->args.push_back(expr);
 
-	return ret;
+	return __frontend->relink_ir_code(ret);
 }
 
 Frontend::~Frontend()
@@ -285,12 +285,16 @@ antlrcpp::Any Frontend::visitFuncCall
 		to_push->args.push_back(pop_ir_code());
 	}
 
-	// Type checking and number of arguments checking should be done here.
+	// Type checking and number of arguments checking should be done here
+	// later
 
 	}
 
 
-	push_and_relink_ir_code(to_push);
+	// Necessary because codegen().mk_unfinished_call() doesn't perform
+	// relink_ir_code().
+	relink_ir_code(to_push);
+	push_ir_code(to_push);
 
 	return nullptr;
 }
@@ -310,13 +314,13 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 		auto addr = codegen().mk_address(sym);
 		auto index = codegen().mk_const(0);
 
-		push_and_relink_ir_code(codegen().mk_ldx(addr, index));
+		push_ir_code(codegen().mk_ldx(addr, index));
 	}
 	else if (sym->type() == SymType::ArrayVarName)
 	{
 		// Since arrays are passed by reference, we only need to grab the
 		// address for this argument
-		push_and_relink_ir_code(codegen().mk_address(sym));
+		push_ir_code(codegen().mk_address(sym));
 	}
 	else
 	{
@@ -1014,32 +1018,56 @@ antlrcpp::Any Frontend::visitIdentExpr
 //	}
 //
 //	push_ast_node(to_push);
+
+
+	ctx->identName()->accept(this);
+	auto ident = pop_str();
+
+	auto sym = find_sym_or_err(ident, 
+		sconcat("No symbol with identifier \"", *ident, 
+		"\" was found!"));
+
+	auto addr = codegen().mk_address(sym);
+	IrCode* index;
+
+	
+	if (sym->type() == SymType::ScalarVarName)
+	{
+		if (!ctx->subscriptExpr())
+		{
+			index = codegen().mk_const(0);
+		}
+		else // if (ctx->subscriptExpr())
+		{
+			err(sconcat("Symbol with identifier \"", *ident, 
+				"\" is not an array!"));
+		}
+	}
+
+	else if (sym->type() == SymType::ArrayVarName)
+	{
+		if (!ctx->subscriptExpr())
+		{
+			err(sconcat("Symbol with identifier \"", *ident, 
+				"\" is an array!"));
+		}
+		else // if (ctx->subscriptExpr())
+		{
+			ctx->subscriptExpr()->accept(this);
+			index = pop_ir_code();
+		}
+	}
+	else
+	{
+		err("visitIdentExpr():  Unknown SymType!");
+	}
+
+	push_ir_code(codegen().mk_ldx(addr, index));
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitIdentDecl
 	(GrammarParser::IdentDeclContext *ctx)
 {
-//	//auto to_push = mk_ast_node();
-//	auto to_push = mk_ast_node(AstOp::IdentDecl);
-//	ctx->identName()->accept(this);
-//	to_push->ident = pop_str();
-//
-//	if (!ctx->subscriptConst())
-//	{
-//		//to_push->op = AstOp::ident_decl_scalar;
-//		to_push->ident_decl_op = AstIdentDeclOp::Scalar;
-//	}
-//	else // if (ctx->subscriptConst())
-//	{
-//		//to_push->op = AstOp::ident_decl_arr;
-//		to_push->ident_decl_op = AstIdentDeclOp::Arr;
-//
-//		ctx->subscriptConst()->accept(this);
-//		to_push->append_child(pop_ast_node());
-//	}
-//
-//	push_ast_node(to_push);
-
 	Symbol var;
 	var.set_var_type(pop_builtin_typename());
 
