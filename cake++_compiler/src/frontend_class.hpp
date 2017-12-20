@@ -61,7 +61,7 @@ protected:		// variables
 	std::stack<std::string*> __str_stack;
 	std::stack<BuiltinTypename> __builtin_typename_stack;
 	//std::stack<VmCode*> __code_stack;
-	std::stack<IrCode*> __code_stack;
+	std::stack<IrCode*> __ir_code_stack;
 
 	//AstNode* __program_node;
 
@@ -186,30 +186,53 @@ protected:		// functions
 	{
 		return curr_func().sym_tbl();
 	}
-	inline IrCode* append_ir_code()
+	//inline IrCode* append_ir_code()
+	//{
+	//	return curr_func().append_ir_code();
+	//}
+	//inline IrCode* append_ir_code(IrOp s_op)
+	//{
+	//	auto ret = curr_func().append_ir_code();
+	//	ret->op = s_op;
+	//	return ret;
+	//}
+	inline IrCode* mk_unlinked_ir_code()
 	{
-		return curr_func().append_ir_code();
+		return ::mk_unlinked_ir_code();
 	}
-	inline IrCode* append_ir_code(IrOp s_op)
+	inline IrCode* mk_unlinked_ir_code(IrOp s_op)
 	{
-		auto ret = curr_func().append_ir_code();
+		auto ret = mk_unlinked_ir_code();
 		ret->op = s_op;
 		return ret;
 	}
+	inline void relink_ir_code(IrCode* p, IrCode* to_link_after)
+	{
+		IrCode* old_next = to_link_after->next;
 
-	inline void push_code(IrCode* to_push)
-	{
-		__code_stack.push(to_push);
+		to_link_after->next = p;
+		p->prev = to_link_after;
+		p->next = old_next;
+		old_next->prev = p;
 	}
-	inline auto pop_code()
+	inline void relink_ir_code(IrCode* p)
 	{
-		auto ret = __code_stack.top();
-		__code_stack.pop();
+		relink_ir_code(p, curr_func().ir_code().prev);
+	}
+
+	inline void push_ir_code(IrCode* to_push)
+	{
+		__ir_code_stack.push(to_push);
+	}
+	inline auto pop_ir_code()
+	{
+		auto ret = __ir_code_stack.top();
+		__ir_code_stack.pop();
 		return ret;
 	}
-	inline auto get_top_code()
+	inline auto get_top_ir_code()
 	{
-		return __code_stack.top();
+		return __ir_code_stack.top();
 	}
 
 	inline void push_num(s64 to_push)

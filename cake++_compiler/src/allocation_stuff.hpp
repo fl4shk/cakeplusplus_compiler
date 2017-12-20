@@ -20,7 +20,8 @@ class AllocStuff
 	//friend AstNode* mk_ast_node();
 	friend VmCode* append_vm_code(VmCode& some_head);
 
-	friend IrCode* append_ir_code(IrCode& some_head);
+	//friend IrCode* append_ir_code(IrCode& some_head);
+	friend IrCode* mk_unlinked_ir_code();
 
 private:			// static variables
 	static std::map<int, std::unique_ptr<int>> __int_pool;
@@ -35,6 +36,7 @@ private:			// static variables
 int* cstm_intdup(int to_dup);
 std::string* cstm_strdup(const std::string& to_dup);
 VmCode* append_vm_code(VmCode& some_head);
-IrCode* append_ir_code(IrCode& some_head);
+//IrCode* append_ir_code(IrCode& some_head);
+IrCode* mk_unlinked_ir_code();
 
 #endif		// allocation_stuff_hpp

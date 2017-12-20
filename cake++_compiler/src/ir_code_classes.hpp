@@ -33,16 +33,19 @@ enum class IrOp
 	Jump,
 
 
-	// Indexed load or store, with size and unsigned/signed determined by
-	// the symbol's type.
 
+	// Address of symbol
+	Address,
+
+
+	// Indexed load or store
 	// Load indexed
 	Ldx,
 
 	// Store indexed 
 	Stx,
 
-	// Function call (takes an ident as
+	// Function call (takes an ident, and also takes arguments
 	Call,
 
 	// return expr;
@@ -52,6 +55,7 @@ enum class IrOp
 	RetNothing,
 
 
+	// System call
 	Syscall,
 	Quit,
 };
@@ -95,13 +99,13 @@ enum class IrUS : bool
 	Sgn,
 };
 
-//enum class IrLdStConstSize : u32
-//{
-//	Sz64,
-//	Sz32,
-//	Sz16,
-//	Sz8,
-//};
+enum class IrLdStConstSize : u32
+{
+	Sz64,
+	Sz32,
+	Sz16,
+	Sz8,
+};
 
 //std::ostream& operator << (std::ostream& os, IrBinop binop);
 std::ostream& operator << (std::ostream& os, 
@@ -116,15 +120,17 @@ class Function;
 class IrCode
 {
 public:		// variables
+	// Operation stuff
 	IrOp op;
 
-	// unsgn_or_sgn is used for binary operators
+	// unsgn_or_sgn is used for binary operators and loads/stores
 	IrUS unsgn_or_sgn;
+	IrLdStConstSize ldstconst_size;
 
-	//IrLdStConstSize ldstconst_size;
+
 	IrSyscallShorthandOp syscall_shorthand_op;
 
-	Function* func = nullptr;
+	//Function* func = nullptr;
 
 
 	// Identifier, Binop type, constant value, or label number
@@ -143,7 +149,7 @@ public:		// variables
 	std::vector<IrCode*> args;
 
 	// Linked list links
-	IrCode * next, * prev;
+	IrCode * next = nullptr, * prev = nullptr;
 
 public:		// functions
 	IrCode();

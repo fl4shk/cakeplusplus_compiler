@@ -37,6 +37,8 @@ private:		// variables
 	BuiltinTypename __var_type;
 
 
+	// Which argument
+	size_t __arg_offset = 0;
 
 	// If this is an argument to the function
 	bool __is_arg = false;
@@ -77,6 +79,7 @@ public:		// functions
 	gen_getter_and_setter_by_con_ref(name);
 	gen_setter_by_rval_ref(name);
 	gen_getter_and_setter_by_val(type);
+	gen_getter_and_setter_by_val(arg_offset);
 	gen_getter_and_setter_by_val(var_type);
 	gen_getter_and_setter_by_val(is_arg);
 	gen_getter_and_setter_by_val(offset);
@@ -109,6 +112,7 @@ private:		// variables
 	s64 __last_label_num = -1;
 	std::map<s64, IrCode*> __num_to_label_map;
 
+	// Memory allocation stuff
 	size_t __last_arg_offset = -1;
 
 
@@ -142,12 +146,12 @@ public:		// functions
 		return ::append_vm_code(__vm_code);
 	}
 
-	inline IrCode* append_ir_code()
-	{
-		auto ret = ::append_ir_code(__ir_code);
-		ret->func = this;
-		return ret;
-	}
+	//inline IrCode* append_ir_code()
+	//{
+	//	auto ret = ::append_ir_code(__ir_code);
+	//	ret->func = this;
+	//	return ret;
+	//}
 
 	s64 irntoi(IrCode* t) const;
 

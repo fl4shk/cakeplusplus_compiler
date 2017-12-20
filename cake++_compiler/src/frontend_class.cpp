@@ -74,18 +74,6 @@ antlrcpp::Any Frontend::visitProgram
 		{
 			func_arg_decl->accept(this);
 		}
-
-
-
-
-
-		//__curr_func = &__func_tbl.at(ident);
-
-		//auto to_push = curr_func().append_vm_code();
-		//func_decl->accept(this);
-
-
-		//__program_node->append_child(pop_ast_node());
 	}
 
 	// Now visit the statements
@@ -102,31 +90,6 @@ antlrcpp::Any Frontend::visitProgram
 antlrcpp::Any Frontend::visitFuncDecl
 	(GrammarParser::FuncDeclContext *ctx)
 {
-//	auto to_push = mk_ast_node(AstOp::FuncDecl);
-//
-//	ctx->identName()->accept(this);
-//	to_push->ident = pop_str();
-//
-//	{
-//	auto&& funcArgDecl = ctx->funcArgDecl();
-//
-//	for (auto func_arg_decl : funcArgDecl)
-//	{
-//		func_arg_decl->accept(this);
-//		to_push->append_child(pop_ast_node());
-//	}
-//	}
-//	ctx->statements()->accept(this);
-//	to_push->append_child(pop_ast_node());
-//
-//
-//	push_ast_node(to_push);
-
-
-	//sym_tbl().mkscope();
-
-	//sym_tbl().rmscope();
-
 	// Just do the statements stuff here
 	ctx->statements()->accept(this);
 
@@ -153,41 +116,63 @@ antlrcpp::Any Frontend::visitFuncCall
 //
 //
 //	push_ast_node(to_push);
+
+
+	ctx->identName()->accept(this);
+	auto ident = pop_str();
+
+	Function* func;
+	{
+	func = __func_tbl.at(ident);
+	}
+
+	if (func == nullptr)
+	{
+		err(sconcat("Can't find function with identifier \"", *ident, 
+			"\"!"));
+	}
+
+	//auto to_push = append_ir_code(IrOp::Call);
+	auto to_push = mk_unlinked_ir_code(IrOp::Call);
+
+	{
+	auto&& funcArgExpr = ctx->funcArgExpr();
+
+	for (auto func_arg_expr : funcArgExpr)
+	{
+		func_arg_expr->accept(this);
+		//iter->accept(this);
+
+		auto some_arg = pop_ir_code();
+
+		relink_ir_code(some_arg);
+		to_push->args.push_back(some_arg);
+	}
+
+	}
+
+	relink_ir_code(to_push);
+
+	push_ir_code(to_push);
+
 	return nullptr;
 }
 
 antlrcpp::Any Frontend::visitFuncArgExpr
 	(GrammarParser::FuncArgExprContext *ctx)
 {
-//	auto to_push = mk_ast_node(AstOp::FuncArgExpr);
-//
-//	ctx->identName()->accept(this);
-//	to_push->ident = pop_str();
-//
-//
-//	push_ast_node(to_push);
 	ctx->identName()->accept(this);
+	auto ident = pop_str();
 
+	auto to_push = mk_unlinked_ir_code(IrOp::Address);
+
+	push_ir_code(to_push);
 	return nullptr;
 }
 
 antlrcpp::Any Frontend::visitStatements
 	(GrammarParser::StatementsContext *ctx)
 {
-//	auto to_push = mk_ast_stmt(AstStmtOp::List);
-//
-//	{
-//	auto&& stmt = ctx->stmt();
-//
-//	for (auto iter : stmt)
-//	{
-//		iter->accept(this);
-//	}
-//
-//	}
-//
-//	push_ast_node(to_push);
-
 	auto&& stmt = ctx->stmt();
 
 	sym_tbl().mkscope();

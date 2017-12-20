@@ -16,8 +16,7 @@ funcCall:
 funcArgExpr: identName ;
 
 
-statements: '{' stmt* '}'
-	;
+statements: '{' stmt* '}' ;
 
 //comment: 
 //	'/*' (~ '*/')*
