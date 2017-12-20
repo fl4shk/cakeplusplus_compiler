@@ -165,6 +165,16 @@ protected:		// functions
 	{
 		return curr_func().sym_tbl();
 	}
+	inline IrCode* append_ir_code()
+	{
+		return curr_func().append_ir_code();
+	}
+	inline IrCode* append_ir_code(IrOp s_op)
+	{
+		auto ret = curr_func().append_ir_code();
+		ret->op = s_op;
+		return ret;
+	}
 
 	inline void push_code(IrCode* to_push)
 	{

@@ -63,3 +63,18 @@ VmCode* append_vm_code(VmCode& some_head)
 //	pool.push_back(std::move(p));
 //	return pool.back().get();
 //}
+
+
+IrCode* append_ir_code(IrCode& some_head)
+{
+	auto& pool = AllocStuff::__ir_code_pool;
+
+	std::unique_ptr<IrCode> p;
+	p.reset(new IrCode());
+	p->next = &some_head;
+	(p->prev = some_head.prev)->next = p.get();
+	some_head.prev = p.get();
+
+	pool.push_back(std::move(p));
+	return pool.back().get();
+}

@@ -130,6 +130,7 @@ antlrcpp::Any Frontend::visitFuncDecl
 
 	//sym_tbl().rmscope();
 
+	// Just do the statements stuff here
 	ctx->statements()->accept(this);
 
 	return nullptr;
@@ -311,6 +312,42 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 //	to_push->ident = pop_str();
 //
 //	push_ast_node(to_push);
+
+	
+	Symbol arg;
+	ctx->builtinTypename()->accept(this);
+	arg.set_var_type(pop_builtin_typename());
+
+	if (ctx->identName())
+	{
+		ctx->identName()->accept(this);
+		arg.set_type(SymType::ScalarVarName);
+	}
+	else if (ctx->nonSizedArrayIdentName())
+	{
+		ctx->nonSizedArrayIdentName()->accept(this);
+		arg.set_type(SymType::ArrayVarName);
+	}
+	else
+	{
+		err("visitFuncArgDecl():  Eek!\n");
+	}
+
+	arg.set_name(pop_str());
+
+	{
+	auto sym = sym_tbl().find_in_first_blklev(arg.name());
+
+	if (sym != nullptr)
+	{
+		err(sconcat("Function called \"", *curr_func().name(), 
+			"\" cannot have two arguments with same identifiers!",
+			"Note:  offending argument has identifier \"",
+			*arg.name(), "\"."));
+	}
+	}
+	
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitBuiltinTypename
@@ -487,295 +524,295 @@ antlrcpp::Any Frontend::visitReturnNothingStatement
 antlrcpp::Any Frontend::visitExpr
 	(GrammarParser::ExprContext *ctx)
 {
-//	//if (ctx->exprLogical())
-//	if (!ctx->expr())
-//	{
-//		ctx->exprLogical()->accept(this);
-//	}
-//	else if (ctx->expr())
-//	{
-//		//auto to_push = mk_ast_node(AstOp::expr_binop);
-//		auto to_push = mk_ast_expr(AstExprOp::Binop);
-//
-//
-//		ctx->expr()->accept(this);
-//		to_push->append_child(pop_ast_node());
-//
-//		auto&& op = ctx->TokOpLogical()->toString();
-//
-//		if (op == "&&")
-//		{
-//			to_push->bin_op = AstBinOp::LogAnd;
-//		}
-//		else if (op == "||")
-//		{
-//			to_push->bin_op = AstBinOp::LogOr;
-//		}
-//		else
-//		{
-//			err("visitExpr():  binop type Eek!\n");
-//		}
-//
-//		ctx->exprLogical()->accept(this);
-//		to_push->append_child(pop_ast_node());
-//		push_ast_node(to_push);
-//	}
-//	else
-//	{
-//		err("visitExpr():  Eek!\n");
-//	}
-//
+	//if (ctx->exprLogical())
+	if (!ctx->expr())
+	{
+		ctx->exprLogical()->accept(this);
+	}
+	else if (ctx->expr())
+	{
+		////auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_expr(AstExprOp::Binop);
+
+
+		ctx->expr()->accept(this);
+		//to_push->append_child(pop_ast_node());
+
+		auto&& op = ctx->TokOpLogical()->toString();
+
+		if (op == "&&")
+		{
+			//to_push->bin_op = AstBinOp::LogAnd;
+		}
+		else if (op == "||")
+		{
+			//to_push->bin_op = AstBinOp::LogOr;
+		}
+		else
+		{
+			err("visitExpr():  binop type Eek!\n");
+		}
+
+		ctx->exprLogical()->accept(this);
+		//to_push->append_child(pop_ast_node());
+		//push_ast_node(to_push);
+	}
+	else
+	{
+		err("visitExpr():  Eek!\n");
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitExprLogical
 	(GrammarParser::ExprLogicalContext *ctx)
 {
-//	//if (ctx->exprCompare())
-//	if (!ctx->exprLogical())
-//	{
-//		ctx->exprCompare()->accept(this);
-//	}
-//	else if (ctx->exprLogical())
-//	{
-//		//auto to_push = mk_ast_node(AstOp::expr_binop);
-//		auto to_push = mk_ast_expr(AstExprOp::Binop);
-//
-//
-//		ctx->exprLogical()->accept(this);
-//		to_push->append_child(pop_ast_node());
-//
-//		auto&& op = ctx->TokOpCompare()->toString();
-//
-//		if (op == "==")
-//		{
-//			to_push->bin_op = AstBinOp::CmpEq;
-//		}
-//		else if (op == "!=")
-//		{
-//			to_push->bin_op = AstBinOp::CmpNe;
-//		}
-//		else if (op == "<")
-//		{
-//			// Temporary!
-//			to_push->bin_op = AstBinOp::CmpSLt;
-//		}
-//		else if (op == ">")
-//		{
-//			// Temporary
-//			to_push->bin_op = AstBinOp::CmpSGt;
-//		}
-//		else if (op == "<=")
-//		{
-//			// Temporary!
-//			to_push->bin_op = AstBinOp::CmpSLe;
-//		}
-//		else if (op == ">=")
-//		{
-//			// Temporary
-//			to_push->bin_op = AstBinOp::CmpSGe;
-//		}
-//		else
-//		{
-//			err("visitExprLogical():  binop type Eek!\n");
-//		}
-//
-//		ctx->exprCompare()->accept(this);
-//		to_push->append_child(pop_ast_node());
-//		push_ast_node(to_push);
-//	}
-//	else
-//	{
-//		err("visitExprCompare():  Eek!\n");
-//	}
-//
+	//if (ctx->exprCompare())
+	if (!ctx->exprLogical())
+	{
+		ctx->exprCompare()->accept(this);
+	}
+	else if (ctx->exprLogical())
+	{
+		////auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_expr(AstExprOp::Binop);
+
+
+		ctx->exprLogical()->accept(this);
+		//to_push->append_child(pop_ast_node());
+
+		auto&& op = ctx->TokOpCompare()->toString();
+
+		if (op == "==")
+		{
+			//to_push->bin_op = AstBinOp::CmpEq;
+		}
+		else if (op == "!=")
+		{
+			//to_push->bin_op = AstBinOp::CmpNe;
+		}
+		else if (op == "<")
+		{
+			// Temporary!
+			//to_push->bin_op = AstBinOp::CmpSLt;
+		}
+		else if (op == ">")
+		{
+			// Temporary
+			//to_push->bin_op = AstBinOp::CmpSGt;
+		}
+		else if (op == "<=")
+		{
+			// Temporary!
+			//to_push->bin_op = AstBinOp::CmpSLe;
+		}
+		else if (op == ">=")
+		{
+			// Temporary
+			//to_push->bin_op = AstBinOp::CmpSGe;
+		}
+		else
+		{
+			err("visitExprLogical():  binop type Eek!\n");
+		}
+
+		ctx->exprCompare()->accept(this);
+		//to_push->append_child(pop_ast_node());
+		//push_ast_node(to_push);
+	}
+	else
+	{
+		err("visitExprCompare():  Eek!\n");
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitExprCompare
 	(GrammarParser::ExprCompareContext *ctx)
 {
-//	//if (ctx->exprAddSub())
-//	if (!ctx->exprCompare())
-//	{
-//		ctx->exprAddSub()->accept(this);
-//	}
-//	else if (ctx->exprCompare())
-//	{
-//		//auto to_push = mk_ast_node(AstOp::expr_binop);
-//		auto to_push = mk_ast_expr(AstExprOp::Binop);
-//
-//
-//		ctx->exprCompare()->accept(this);
-//		to_push->append_child(pop_ast_node());
-//
-//		auto&& op = ctx->TokOpAddSub()->toString();
-//
-//		if (op == "+")
-//		{
-//			to_push->bin_op = AstBinOp::Add;
-//		}
-//		else if (op == "-")
-//		{
-//			to_push->bin_op = AstBinOp::Sub;
-//		}
-//		else
-//		{
-//			err("visitExprCompare():  binop type Eek!\n");
-//		}
-//
-//		ctx->exprAddSub()->accept(this);
-//		to_push->append_child(pop_ast_node());
-//		push_ast_node(to_push);
-//	}
-//	else
-//	{
-//		err("visitExprCompare():  Eek!\n");
-//	}
-//
+	//if (ctx->exprAddSub())
+	if (!ctx->exprCompare())
+	{
+		ctx->exprAddSub()->accept(this);
+	}
+	else if (ctx->exprCompare())
+	{
+		////auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_expr(AstExprOp::Binop);
+
+
+		ctx->exprCompare()->accept(this);
+		//to_push->append_child(pop_ast_node());
+
+		auto&& op = ctx->TokOpAddSub()->toString();
+
+		if (op == "+")
+		{
+			//to_push->bin_op = AstBinOp::Add;
+		}
+		else if (op == "-")
+		{
+			//to_push->bin_op = AstBinOp::Sub;
+		}
+		else
+		{
+			err("visitExprCompare():  binop type Eek!\n");
+		}
+
+		ctx->exprAddSub()->accept(this);
+		//to_push->append_child(pop_ast_node());
+		//push_ast_node(to_push);
+	}
+	else
+	{
+		err("visitExprCompare():  Eek!\n");
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitExprAddSub
 	(GrammarParser::ExprAddSubContext *ctx)
 {
-//	//if (ctx->exprMulDivModEtc())
-//	if (!ctx->exprAddSub())
-//	{
-//		ctx->exprMulDivModEtc()->accept(this);
-//	}
-//	else if (ctx->exprAddSub())
-//	{
-//		//auto to_push = mk_ast_node(AstOp::expr_binop);
-//		auto to_push = mk_ast_expr(AstExprOp::Binop);
-//
-//
-//		ctx->exprAddSub()->accept(this);
-//		to_push->append_child(pop_ast_node());
-//
-//		std::string op;
-//		
-//		if (ctx->TokOpMulDivMod())
-//		{
-//			op = ctx->TokOpMulDivMod()->toString();
-//		}
-//		else if (ctx->TokOpBitwise())
-//		{
-//			op = ctx->TokOpBitwise()->toString();
-//		}
-//		else
-//		{
-//			err("visitExprAddSub():  operator Eek!\n");
-//		}
-//
-//		if (op == "*")
-//		{
-//			to_push->bin_op = AstBinOp::Mul;
-//		}
-//		else if (op == "/")
-//		{
-//			// Temporary!
-//			to_push->bin_op = AstBinOp::SDiv;
-//		}
-//		else if (op == "%")
-//		{
-//			// Temporary!
-//			to_push->bin_op = AstBinOp::SMod;
-//		}
-//		else if (op == "&")
-//		{
-//			to_push->bin_op = AstBinOp::BitAnd;
-//		}
-//		else if (op == "|")
-//		{
-//			to_push->bin_op = AstBinOp::BitOr;
-//		}
-//		else if (op == "^")
-//		{
-//			to_push->bin_op = AstBinOp::BitXor;
-//		}
-//		else if (op == "<<")
-//		{
-//			to_push->bin_op = AstBinOp::BitLsl;
-//		}
-//		else if (op == ">>")
-//		{
-//			to_push->bin_op = AstBinOp::BitLsr;
-//		}
-//		else if (op == ">>>")
-//		{
-//			to_push->bin_op = AstBinOp::BitAsr;
-//		}
-//		else
-//		{
-//			err("visitExprAddSub():  binop type Eek!\n");
-//		}
-//
-//		ctx->exprMulDivModEtc()->accept(this);
-//		to_push->append_child(pop_ast_node());
-//		push_ast_node(to_push);
-//	}
-//	else
-//	{
-//		err("visitExprAddSub():  Eek!\n");
-//	}
-//
+	//if (ctx->exprMulDivModEtc())
+	if (!ctx->exprAddSub())
+	{
+		ctx->exprMulDivModEtc()->accept(this);
+	}
+	else if (ctx->exprAddSub())
+	{
+		////auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_expr(AstExprOp::Binop);
+
+
+		ctx->exprAddSub()->accept(this);
+		//to_push->append_child(pop_ast_node());
+
+		std::string op;
+		
+		if (ctx->TokOpMulDivMod())
+		{
+			op = ctx->TokOpMulDivMod()->toString();
+		}
+		else if (ctx->TokOpBitwise())
+		{
+			op = ctx->TokOpBitwise()->toString();
+		}
+		else
+		{
+			err("visitExprAddSub():  operator Eek!\n");
+		}
+
+		if (op == "*")
+		{
+			//to_push->bin_op = AstBinOp::Mul;
+		}
+		else if (op == "/")
+		{
+			// Temporary!
+			//to_push->bin_op = AstBinOp::SDiv;
+		}
+		else if (op == "%")
+		{
+			// Temporary!
+			//to_push->bin_op = AstBinOp::SMod;
+		}
+		else if (op == "&")
+		{
+			//to_push->bin_op = AstBinOp::BitAnd;
+		}
+		else if (op == "|")
+		{
+			//to_push->bin_op = AstBinOp::BitOr;
+		}
+		else if (op == "^")
+		{
+			//to_push->bin_op = AstBinOp::BitXor;
+		}
+		else if (op == "<<")
+		{
+			//to_push->bin_op = AstBinOp::BitLsl;
+		}
+		else if (op == ">>")
+		{
+			//to_push->bin_op = AstBinOp::BitLsr;
+		}
+		else if (op == ">>>")
+		{
+			//to_push->bin_op = AstBinOp::BitAsr;
+		}
+		else
+		{
+			err("visitExprAddSub():  binop type Eek!\n");
+		}
+
+		ctx->exprMulDivModEtc()->accept(this);
+		//to_push->append_child(pop_ast_node());
+		//push_ast_node(to_push);
+	}
+	else
+	{
+		err("visitExprAddSub():  Eek!\n");
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitExprMulDivModEtc
 	(GrammarParser::ExprMulDivModEtcContext *ctx)
 {
-//	if (ctx->exprUnary())
-//	{
-//		ctx->exprUnary()->accept(this);
-//	}
-//	else if (ctx->numExpr())
-//	{
-//		ctx->numExpr()->accept(this);
-//	}
-//	else if (ctx->funcCall())
-//	{
-//		ctx->funcCall()->accept(this);
-//	}
-//	else if (ctx->identExpr())
-//	{
-//		ctx->identExpr()->accept(this);
-//	}
-//	else if (ctx->lenExpr())
-//	{
-//		ctx->lenExpr()->accept(this);
-//	}
-//	else if (ctx->sizeofExpr())
-//	{
-//		ctx->sizeofExpr()->accept(this);
-//	}
-//	else if (ctx->expr())
-//	{
-//		ctx->expr()->accept(this);
-//	}
-//	else
-//	{
-//		err("visitExprMulDivModEtc():  Eek!\n");
-//	}
+	if (ctx->exprUnary())
+	{
+		ctx->exprUnary()->accept(this);
+	}
+	else if (ctx->numExpr())
+	{
+		ctx->numExpr()->accept(this);
+	}
+	else if (ctx->funcCall())
+	{
+		ctx->funcCall()->accept(this);
+	}
+	else if (ctx->identExpr())
+	{
+		ctx->identExpr()->accept(this);
+	}
+	else if (ctx->lenExpr())
+	{
+		ctx->lenExpr()->accept(this);
+	}
+	else if (ctx->sizeofExpr())
+	{
+		ctx->sizeofExpr()->accept(this);
+	}
+	else if (ctx->expr())
+	{
+		ctx->expr()->accept(this);
+	}
+	else
+	{
+		err("visitExprMulDivModEtc():  Eek!\n");
+	}
 	return nullptr;
 }
 
 antlrcpp::Any Frontend::visitExprUnary
 	(GrammarParser::ExprUnaryContext *ctx)
 {
-//	if (ctx->exprBitInvert())
-//	{
-//		ctx->exprBitInvert()->accept(this);
-//	}
-//	else if (ctx->exprNegate())
-//	{
-//		ctx->exprNegate()->accept(this);
-//	}
-//	else if (ctx->exprLogNot())
-//	{
-//		ctx->exprLogNot()->accept(this);
-//	}
-//	else
-//	{
-//		printerr("visitExprUnary():  Eek!\n");
-//	}
+	if (ctx->exprBitInvert())
+	{
+		ctx->exprBitInvert()->accept(this);
+	}
+	else if (ctx->exprNegate())
+	{
+		ctx->exprNegate()->accept(this);
+	}
+	else if (ctx->exprLogNot())
+	{
+		ctx->exprLogNot()->accept(this);
+	}
+	else
+	{
+		printerr("visitExprUnary():  Eek!\n");
+	}
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitExprBitInvert
@@ -879,24 +916,6 @@ antlrcpp::Any Frontend::visitIdentName
 antlrcpp::Any Frontend::visitNumExpr
 	(GrammarParser::NumExprContext *ctx)
 {
-	////auto to_push = mk_ast_node(AstOp::expr_constant);
-	//auto to_push = mk_ast_expr(AstExprOp::Constant);
-
-
-	//{
-	//s64 temp;
-	//std::stringstream sstm;
-	//sstm << ctx->TokDecNum()->toString();
-	//sstm >> temp;
-	//to_push->num = temp;
-	//}
-
-
-	//push_ast_node(to_push);
-
-
-	//auto to_push = curr_func().append_vm_code
-
 	s64 to_push;
 	std::stringstream sstm;
 	sstm << ctx->TokDecNum()->toString();

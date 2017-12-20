@@ -76,7 +76,7 @@ protected:		// variables
 public:		// functions
 	inline SymbolTableBase()
 	{
-		//table().push_back(std::vector<OneTable>());
+		//table.push_back(std::vector<OneTable>());
 		mkscope();
 	}
 	virtual ~SymbolTableBase()
@@ -160,10 +160,20 @@ public:		// functions
 			//{
 			//	return &table().at(i).at(some_name);
 			//}
-			if (p->table().contains(some_name))
+			if (p->table.contains(some_name))
 			{
-				return &p->table().at(some_name);
+				return &p->table.at(some_name);
 			}
+		}
+
+		return nullptr;
+	}
+
+	inline Type* find_in_first_blklev(Ident some_name)
+	{
+		if (__tree.children.front()->table.contains(some_name))
+		{
+			return &__tree.children.front()->table.at(some_name);
 		}
 
 		return nullptr;
@@ -171,14 +181,14 @@ public:		// functions
 
 	inline Type* find_in_this_blklev(Ident some_name)
 	{
-		//if (table().at(scope_lev()).back().contains(some_name))
+		//if (table.at(scope_lev()).back().contains(some_name))
 		//{
-		//	return &table().at(scope_lev()).back().at(some_name);
+		//	return &table.at(scope_lev()).back().at(some_name);
 		//}
 
 		if (__curr_node->table.contains(some_name))
 		{
-			return &__curr_node->table().at(some_name);
+			return &__curr_node->table.at(some_name);
 		}
 
 		return nullptr;

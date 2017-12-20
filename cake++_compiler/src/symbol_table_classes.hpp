@@ -12,17 +12,10 @@
 
 enum class SymType : int
 {
-	//Keyword,
-	//BuiltinTypename,
-
-
-	//// Used by the lexer, fixed by the parser
-	//UnknownUserIdent,
-
 	ScalarVarName,
 	ArrayVarName,
 	//FuncName,
-	//StructName,
+	//ClassName,
 };
 
 enum class BuiltinTypename : int
@@ -116,6 +109,9 @@ private:		// variables
 	s64 __last_label_num = -1;
 	std::map<s64, IrCode*> __num_to_label_map;
 
+	size_t __last_arg_offset = -1;
+
+
 
 public:		// functions
 	inline Function()
@@ -139,16 +135,17 @@ public:		// functions
 
 	inline VmCode* append_vm_code()
 	{
-		//return ::append_vm_code<Type>(*this);
 		return ::append_vm_code(__vm_code);
 	}
 
-	template<typename Type>
-	inline Type* append_ir_code()
+	inline IrCode* append_ir_code()
 	{
-		//return ::append_ir_code<Type>(*this);
-		return ::append_ir_code<Type>(__ir_code);
+		auto ret = ::append_ir_code(__ir_code);
+		ret->func = this;
+		return ret;
 	}
+
+	s64 irntoi(IrCode* t) const;
 
 	gen_getter_and_setter_by_val(name);
 	gen_getter_by_ref(sym_tbl);
@@ -156,6 +153,7 @@ public:		// functions
 	gen_getter_by_ref(ir_code);
 	gen_getter_by_ref(last_label_num);
 	gen_getter_by_ref(num_to_label_map);
+	gen_getter_by_ref(last_arg_offset);
 };
 
 class FunctionTable : public IdentTable<Function>

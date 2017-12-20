@@ -20,8 +20,7 @@ class AllocStuff
 	//friend AstNode* mk_ast_node();
 	friend VmCode* append_vm_code(VmCode& some_head);
 
-	template<typename Type>
-	friend Type* append_ir_code(IrCode& some_head);
+	friend IrCode* append_ir_code(IrCode& some_head);
 
 private:			// static variables
 	static std::map<int, std::unique_ptr<int>> __int_pool;
@@ -36,23 +35,6 @@ private:			// static variables
 int* cstm_intdup(int to_dup);
 std::string* cstm_strdup(const std::string& to_dup);
 VmCode* append_vm_code(VmCode& some_head);
-
-template<typename Type>
-Type* append_ir_code(IrCode& some_head) __attribute__((noinline));
-
-template<typename Type>
-Type* append_ir_code(IrCode& some_head)
-{
-	auto& pool = AllocStuff::__ir_code_pool;
-
-	std::unique_ptr<IrCode> p;
-	p.reset(new Type());
-	p->next = &some_head;
-	(p->prev = some_head.prev)->next = p.get();
-	some_head.prev = p.get();
-
-	pool.push_back(std::move(p));
-	return pool.back().get();
-}
+IrCode* append_ir_code(IrCode& some_head);
 
 #endif		// allocation_stuff_hpp

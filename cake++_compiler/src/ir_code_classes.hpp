@@ -12,11 +12,11 @@ enum class IrOp
 	// Constant number
 	Constant,
 
-	// Get address of argument or local variable
-	// Takes an index as argument
-	// The index does not have to be constant
-	Argx,
-	Varx,
+	//// Get address of argument or local variable
+	//// Takes an index as argument
+	//// The index does not have to be constant
+	//Argx,
+	//Varx,
 
 	// Binary operator
 	Binop,
@@ -32,15 +32,23 @@ enum class IrOp
 	// Unconditional jump to a label
 	Jump,
 
+
 	// Indexed load or store, with size and unsigned/signed determined by
-	// the symbol.
+	// the symbol's type.
+
+	// Load indexed
 	Ldx,
 
-	// Store indexed takes as its argument an identifier, 
+	// Store indexed 
 	Stx,
 
+	// Function call (takes an ident as
 	Call,
+
+	// return expr;
 	RetExpr,
+
+	// return;
 	RetNothing,
 
 
@@ -48,7 +56,7 @@ enum class IrOp
 	Quit,
 };
 
-enum class IrBinOp
+enum class IrBinop
 {
 	Add,
 	Sub,
@@ -69,6 +77,7 @@ enum class IrBinOp
 	CmpLe,
 
 };
+
 
 enum class IrSyscallShorthandOp : u64
 {
@@ -94,26 +103,40 @@ enum class IrUS : bool
 //	Sz8,
 //};
 
+//std::ostream& operator << (std::ostream& os, IrBinop binop);
+std::ostream& operator << (std::ostream& os, 
+	IrSyscallShorthandOp syscall_shorthand_op);
+std::ostream& operator << (std::ostream& os, IrUS unsgn_or_sgn);
+//std::ostream& operator << (std::ostream& os, 
+//	IrLdStConstSize ldstconst_size);
+
+class Function;
+
 // Base class for internal representation of code
 class IrCode
 {
 public:		// variables
 	IrOp op;
 
-	IrBinOp binop;
+	// unsgn_or_sgn is used for binary operators
 	IrUS unsgn_or_sgn;
 
 	//IrLdStConstSize ldstconst_size;
 	IrSyscallShorthandOp syscall_shorthand_op;
 
-	// Identifier:  used for loads, stores, and calls
-	Ident ident;
+	Function* func = nullptr;
 
-	// Constant value, or label number
+
+	// Identifier, Binop type, constant value, or label number
 	union
 	{
+		// Identifier:  used for loads, stores, and calls
+		Ident ident;
+
+		IrBinop binop;
 		u64 uimm;
 		s64 simm;
+		s64 lab_num;
 	};
 
 	// Arguments
@@ -126,14 +149,8 @@ public:		// functions
 	IrCode();
 	virtual ~IrCode();
 
-	virtual std::string name() const
-	{
-		printerr("IrCode::name():  Eek!\n");
-		exit(1);
-		return "IrCode";
-	}
-
 };
+
 
 
 
