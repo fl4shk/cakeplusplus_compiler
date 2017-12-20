@@ -45,18 +45,35 @@ public:		// typedefs
 public:		// classes
 	class CodeGenerator
 	{
-	public:		// static functions
-		static IrCode* mk_const(s64 s_simm);
-		static IrCode* mk_binop(IrBinop s_binop, IrCode* a, IrCode* b);
-		static IrCode* mk_label(Function& curr_func);
-		static IrCode* mk_beq(s64 s_lab_num);
-		static IrCode* mk_bne(s64 s_lab_num);
-		static IrCode* mk_jump(s64 s_lab_num);
-		static IrCode* mk_address(Symbol* sym);
-		static IrCode* mk_ldx(IrCode* addr, IrCode* index);
-		static IrCode* mk_stx(IrCode* addr, IrCode* index, IrCode* data);
-		static IrCode* mk_unfinished_call();
+	protected:		// variables
+		Frontend* __frontend;
+
+	public:		// functions
+		CodeGenerator(Frontend* s_frontend);
+		virtual ~CodeGenerator();
+
+		IrCode* mk_const(s64 s_simm);
+		IrCode* mk_binop(IrBinop s_binop, IrCode* a, IrCode* b);
+		IrCode* mk_label(Function& curr_func);
+		IrCode* mk_beq(s64 s_lab_num, IrCode* condition);
+		IrCode* mk_bne(s64 s_lab_num, IrCode* condition);
+		IrCode* mk_jump(s64 s_lab_num);
+		IrCode* mk_address(Symbol* s_sym);
+		IrCode* mk_address(Function* s_func);
+		IrCode* mk_ldx(IrCode* addr, IrCode* index);
+		IrCode* mk_stx(IrCode* addr, IrCode* index, IrCode* data);
+
+		// Unfinished call because we don't know how many arguments there
+		// are in the code generator.
+		IrCode* mk_unfinished_call();
+
+		IrCode* mk_ret_expr(IrCode* expr);
+		IrCode* mk_ret_nothing();
+		IrCode* mk_syscall(IrSyscallShorthandOp s_syscall_shorthand_op);
+		IrCode* mk_quit(IrCode* expr);
 	};
+
+	friend class CodeGenerator;
 	
 
 protected:		// variables
@@ -81,8 +98,13 @@ protected:		// variables
 	std::stack<IrCode*> __ir_code_stack;
 
 	//AstNode* __program_node;
+	CodeGenerator __codegen;
 
 public:		// functions
+	inline Frontend()
+		: __codegen(this)
+	{
+	}
 	virtual ~Frontend();
 
 	/**
@@ -211,7 +233,7 @@ protected:		// functions
 	////	ret->op = s_op;
 	////	return ret;
 	////}
-	inline void relink_ir_code(IrCode* p, IrCode* to_link_after)
+	inline IrCode* relink_ir_code(IrCode* p, IrCode* to_link_after)
 	{
 		IrCode* old_next = to_link_after->next;
 
@@ -219,10 +241,12 @@ protected:		// functions
 		p->prev = to_link_after;
 		p->next = old_next;
 		old_next->prev = p;
+
+		return p;
 	}
-	inline void relink_ir_code(IrCode* p)
+	inline IrCode* relink_ir_code(IrCode* p)
 	{
-		relink_ir_code(p, curr_func().ir_code().prev);
+		return relink_ir_code(p, curr_func().ir_code().prev);
 	}
 
 	inline void push_ir_code(IrCode* to_push)
@@ -307,6 +331,8 @@ protected:		// functions
 		}
 		return nullptr;
 	}
+
+	gen_getter_by_ref(codegen);
 
 
 };

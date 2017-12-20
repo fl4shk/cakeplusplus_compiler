@@ -34,7 +34,7 @@ enum class IrOp
 
 
 
-	// Address of symbol
+	// Address of symbol or function
 	Address,
 
 
@@ -45,7 +45,8 @@ enum class IrOp
 	// Store indexed 
 	Stx,
 
-	// Function call (takes an ident, and also takes arguments
+	// Function call (for now, takes an identifier, but will later take an
+	// address)
 	Call,
 
 	// return expr;
@@ -57,6 +58,7 @@ enum class IrOp
 
 	// System call
 	Syscall,
+
 	Quit,
 };
 
@@ -115,6 +117,7 @@ std::ostream& operator << (std::ostream& os, IrUS unsgn_or_sgn);
 //	IrLdStSize ldstconst_size);
 
 class Function;
+class Symbol;
 
 // Base class for internal representation of code
 class IrCode
@@ -130,7 +133,11 @@ public:		// variables
 
 	IrSyscallShorthandOp syscall_shorthand_op;
 
-	//Function* func = nullptr;
+	union
+	{
+		Function* func;
+		Symbol* sym;
+	};
 
 
 	// Identifier, Binop type, constant value, or label number

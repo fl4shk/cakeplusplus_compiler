@@ -36,6 +36,14 @@ void FrntErrorListener::reportContextSensitivity
 	antlr4::atn::ATNConfigSet *configs)
 {
 }
+
+Frontend::CodeGenerator::CodeGenerator(Frontend* s_frontend)
+	: __frontend(s_frontend)
+{
+}
+Frontend::CodeGenerator::~CodeGenerator()
+{
+}
 IrCode* Frontend::CodeGenerator::mk_const(s64 s_simm)
 {
 	auto ret = mk_unlinked_ir_code(IrOp::Constant);
@@ -60,6 +68,105 @@ IrCode* Frontend::CodeGenerator::mk_label(Function& curr_func)
 	curr_func.num_to_label_map()[curr_func.last_label_num()] = ret;
 	
 	ret->lab_num = curr_func.last_label_num();
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_beq(s64 s_lab_num, IrCode* condition)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Beq);
+
+	ret->lab_num = s_lab_num;
+	ret->args.push_back(condition);
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_bne(s64 s_lab_num, IrCode* condition)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Bne);
+
+	ret->lab_num = s_lab_num;
+	ret->args.push_back(condition);
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_jump(s64 s_lab_num)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Jump);
+
+	ret->lab_num = s_lab_num;
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_address(Symbol* s_sym)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Address);
+
+	ret->sym = s_sym;
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_address(Function* s_func)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Address);
+
+	ret->func = s_func;
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_ldx(IrCode* addr, IrCode* index)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Ldx);
+
+	ret->args.push_back(addr);
+	ret->args.push_back(index);
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_stx(IrCode* addr, IrCode* index, 
+	IrCode* data)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Stx);
+
+	ret->args.push_back(addr);
+	ret->args.push_back(index);
+	ret->args.push_back(data);
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_unfinished_call()
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Call);
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_ret_expr(IrCode* expr)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::RetExpr);
+
+	ret->args.push_back(expr);
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_ret_nothing()
+{
+	auto ret = mk_unlinked_ir_code(IrOp::RetNothing);
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_syscall
+	(IrSyscallShorthandOp s_syscall_shorthand_op)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Syscall);
+
+	ret->syscall_shorthand_op = s_syscall_shorthand_op;
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_quit(IrCode* expr)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Quit);
+
+	ret->args.push_back(expr);
 
 	return ret;
 }
@@ -160,7 +267,14 @@ antlrcpp::Any Frontend::visitFuncCall
 	}
 
 	//auto to_push = mk_unlinked_ir_code(IrOp::Call);
-	auto to_push = CodeGenerator::mk_unfinished_call();
+
+	// here we are making an 
+	auto to_push = codegen().mk_unfinished_call();
+
+
+	// The first argument of a Call IrCode node is the address of whatever
+	// function we're calling
+	to_push->args.push_back(codegen().mk_address(func));
 
 	{
 	auto&& funcArgExpr = ctx->funcArgExpr();
@@ -170,6 +284,8 @@ antlrcpp::Any Frontend::visitFuncCall
 		func_arg_expr->accept(this);
 		to_push->args.push_back(pop_ir_code());
 	}
+
+	// Type checking and number of arguments checking should be done here.
 
 	}
 
@@ -188,10 +304,25 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 	auto sym = find_sym_or_err(ident,
 		sconcat("No symbol exists called \"", *ident, "\"!"));
 
-	//auto to_push = mk_unlinked_ir_code(IrOp::Address);
-	auto to_push = CodeGenerator::mk_address(sym);
+	if (sym->type() == SymType::ScalarVarName)
+	{
+		// Scalars are passed by value
+		auto addr = codegen().mk_address(sym);
+		auto index = codegen().mk_const(0);
 
-	push_and_relink_ir_code(to_push);
+		push_and_relink_ir_code(codegen().mk_ldx(addr, index));
+	}
+	else if (sym->type() == SymType::ArrayVarName)
+	{
+		// Since arrays are passed by reference, we only need to grab the
+		// address for this argument
+		push_and_relink_ir_code(codegen().mk_address(sym));
+	}
+	else
+	{
+		err("visitFuncArgExpr():  Eek!\n");
+	}
+
 	return nullptr;
 }
 
