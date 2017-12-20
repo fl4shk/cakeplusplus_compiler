@@ -421,6 +421,21 @@ antlrcpp::Any Frontend::visitVarDecl
 //
 //
 //	push_ast_node(to_push);
+
+	ctx->builtinTypename()->accept(this);
+	const auto some_builtin_typename = pop_builtin_typename();
+
+	auto&& identDecl = ctx->identDecl();
+
+	for (auto iter : identDecl)
+	{
+		// Pushing some_builtin_typename every iteration is fine because
+		// visitIdentDecl() performs pop_builtin_typename().
+		push_builtin_typename(some_builtin_typename);
+		iter->accept(this);
+	}
+
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitFuncArgDecl
@@ -1024,6 +1039,34 @@ antlrcpp::Any Frontend::visitIdentDecl
 //	}
 //
 //	push_ast_node(to_push);
+
+	Symbol var;
+	var.set_var_type(pop_builtin_typename());
+
+	ctx->identName()->accept(this);
+	var.set_name(pop_str());
+
+	if (sym_tbl().find_in_this_blklev(var.name()) != nullptr)
+	{
+		err(sconcat("Symbol with identifier \"", *var.name(), 
+			"\" already exists in this scope!\n"));
+	}
+
+	if (!ctx->subscriptConst())
+	{
+		var.set_size(1);
+	}
+	else // if (ctx->subscriptConst())
+	{
+		ctx->subscriptConst()->accept(this);
+		var.set_size(pop_num());
+	}
+
+	var.set_is_arg(false);
+
+	sym_tbl().insert_or_assign(std::move(var));
+
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitIdentName
@@ -1055,6 +1098,8 @@ antlrcpp::Any Frontend::visitLenExpr
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+
+	err("visitLenExpr() is not fully implemented!");
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitSizeofExpr
@@ -1067,6 +1112,7 @@ antlrcpp::Any Frontend::visitSizeofExpr
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+	err("visitSizeofExpr() is not fully implemented!");
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitSubscriptExpr

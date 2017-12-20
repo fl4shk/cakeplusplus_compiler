@@ -191,6 +191,8 @@ public:		// functions
 		(GrammarParser::SubscriptConstContext *ctx);
 
 protected:		// functions
+	gen_getter_by_ref(codegen);
+
 	inline void err(const std::string& msg)
 	{
 		printerr("Error:  ", msg, "\n");
@@ -233,6 +235,27 @@ protected:		// functions
 	////	ret->op = s_op;
 	////	return ret;
 	////}
+
+	inline Symbol* find_sym_or_err(Ident ident, 
+		const std::string& error_msg)
+	{
+		auto sym = sym_tbl().find(ident);
+
+		if (sym != nullptr)
+		{
+			return sym;
+		}
+		else
+		{
+			//err(sconcat(error_msg_left, *ident, error_msg_right));
+			err(error_msg);
+		}
+		return nullptr;
+	}
+
+
+
+
 	inline IrCode* relink_ir_code(IrCode* p, IrCode* to_link_after)
 	{
 		IrCode* old_next = to_link_after->next;
@@ -314,26 +337,6 @@ protected:		// functions
 	{
 		return __builtin_typename_stack.top();
 	}
-
-	inline Symbol* find_sym_or_err(Ident ident, 
-		const std::string& error_msg)
-	{
-		auto sym = sym_tbl().find(ident);
-
-		if (sym != nullptr)
-		{
-			return sym;
-		}
-		else
-		{
-			//err(sconcat(error_msg_left, *ident, error_msg_right));
-			err(error_msg);
-		}
-		return nullptr;
-	}
-
-	gen_getter_by_ref(codegen);
-
 
 };
 
