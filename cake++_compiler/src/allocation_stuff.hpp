@@ -30,15 +30,11 @@ private:			// static variables
 int* cstm_intdup(int to_dup);
 std::string* cstm_strdup(const std::string& to_dup);
 
-//VmCode* append_vm_code(Function& func);
-//class AstNode;
-//AstNode* mk_ast_node();
+template<typename Type>
+Type* append_vm_code(VmCode& some_vm_code) __attribute__((noinline));
 
 template<typename Type>
-VmCode* append_vm_code(VmCode& some_vm_code) __attribute__((noinline));
-
-template<typename Type>
-VmCode* append_vm_code(VmCode& some_vm_code)
+Type* append_vm_code(VmCode& some_vm_code)
 {
 	auto& pool = AllocStuff::__vm_code_pool;
 
@@ -51,10 +47,5 @@ VmCode* append_vm_code(VmCode& some_vm_code)
 	pool.push_back(std::move(p));
 	return pool.back().get();
 }
-
-//inline VmCode* append_vm_code(Function& func)
-//{
-//	return append_vm_code<VmCode>(func);
-//}
 
 #endif		// allocation_stuff_hpp

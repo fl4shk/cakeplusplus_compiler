@@ -151,7 +151,7 @@ public:		// functions
 protected:		// functions
 	inline void err(const std::string& msg)
 	{
-		printerr(msg);
+		printerr("Error:  ", msg, "\n");
 		exit(1);
 	}
 

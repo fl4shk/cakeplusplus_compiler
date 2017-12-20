@@ -44,35 +44,48 @@ Frontend::~Frontend()
 antlrcpp::Any Frontend::visitProgram
 	(GrammarParser::ProgramContext *ctx)
 {
-//	//__program_node = mk_ast_node(AstOp::Prog);
-//
-//	{
-//	auto&& funcDecl = ctx->funcDecl();
-//
-//	for (auto* decl : funcDecl)
-//	{
-//		decl->
-//		if (__func_tbl.contains(decl->ident))
-//		{
-//			err(sconcat("cannot have more than one function called \"",
-//				*decl->ident, "\"!"));
-//		}
-//
-//		{
-//		Function to_insert_or_assign(decl->ident);
-//		__func_tbl.insert_or_assign(std::move(to_insert_or_assign));
-//		}
-//
-//		__curr_func = &__func_tbl.at(decl->ident);
-//
-//		auto to_push = curr_func().append_vm_code();
-//		//decl->accept(this);
-//
-//
-//		//__program_node->append_child(pop_ast_node());
-//	}
-//	}
-//
+	//__program_node = mk_ast_node(AstOp::Prog);
+
+	{
+	auto&& funcDecl = ctx->funcDecl();
+
+	std::map<GrammarParser::FuncDeclContext*, Ident> temp_ident_map;
+
+	for (auto* iter : funcDecl)
+	{
+		iter->identName()->accept(this);
+		auto ident = pop_str();
+
+		temp_ident_map[iter] = ident;
+
+		if (__func_tbl.contains(ident))
+		{
+			err(sconcat("Can't have more than one function called \"",
+				*ident, "\"!"));
+		}
+
+		{
+		Function to_insert_or_assign(ident);
+		__func_tbl.insert_or_assign(std::move(to_insert_or_assign));
+		}
+
+		//__curr_func = &__func_tbl.at(ident);
+
+		//auto to_push = curr_func().append_vm_code();
+		//iter->accept(this);
+
+
+		//__program_node->append_child(pop_ast_node());
+	}
+
+	for (auto* iter : funcDecl)
+	{
+		auto ident = temp_ident_map.at(iter);
+		__curr_func = &__func_tbl.at(ident);
+		iter->accept(this);
+	}
+	}
+
 	return nullptr;
 }
 
@@ -831,20 +844,30 @@ antlrcpp::Any Frontend::visitIdentName
 antlrcpp::Any Frontend::visitNumExpr
 	(GrammarParser::NumExprContext *ctx)
 {
-//	//auto to_push = mk_ast_node(AstOp::expr_constant);
-//	auto to_push = mk_ast_expr(AstExprOp::Constant);
-//
-//
-//	{
-//	s64 temp;
-//	std::stringstream sstm;
-//	sstm << ctx->TokDecNum()->toString();
-//	sstm >> temp;
-//	to_push->num = temp;
-//	}
-//
-//
-//	push_ast_node(to_push);
+	////auto to_push = mk_ast_node(AstOp::expr_constant);
+	//auto to_push = mk_ast_expr(AstExprOp::Constant);
+
+
+	//{
+	//s64 temp;
+	//std::stringstream sstm;
+	//sstm << ctx->TokDecNum()->toString();
+	//sstm >> temp;
+	//to_push->num = temp;
+	//}
+
+
+	//push_ast_node(to_push);
+
+
+	//auto to_push = curr_func().append_vm_code
+
+	s64 to_push;
+	std::stringstream sstm;
+	sstm << ctx->TokDecNum()->toString();
+	sstm >> to_push;
+
+	push_num(to_push);
 	return nullptr;
 }
 

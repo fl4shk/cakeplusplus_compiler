@@ -5,8 +5,7 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/249c3c0/
-f	test_1.c	/^f()$/;"	kind:f	signature:()
+add	test_1.c	/^add()$/;"	kind:f	signature:()
+add	test_1.c	/^add(s64 a, s64 b, s64 ret[])$/;"	kind:f	signature:(s64 a,s64 b,s64 ret[])
 f	test_2.c	/^f()$/;"	kind:f	signature:()
 f	test_3.c	/^f()$/;"	kind:f	signature:()
-g	test_1.c	/^g()$/;"	kind:f	signature:()
-peanut_butter	test_1.c	/^peanut_butter(s64 a, s64 b[], s64 aa[])$/;"	kind:f	signature:(s64 a,s64 b[],s64 aa[])

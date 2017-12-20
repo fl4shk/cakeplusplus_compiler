@@ -164,6 +164,12 @@ public:		// functions
 	virtual ~VmCode();
 
 	virtual VmRawInstrOp raw_op() const;
+	virtual std::string name() const
+	{
+		printerr("VmCode::name():  Eek!\n");
+		exit(1);
+		return "VmCode";
+	}
 
 	
 };
@@ -175,6 +181,12 @@ public:		// functions
 	{
 		//args.resize(0);
 	}
+
+	inline std::string name() const
+	{
+		return "Constant";
+	}
+
 	VmRawInstrOp raw_op() const;
 };
 
@@ -185,6 +197,12 @@ public:		// functions
 	{
 		//args.resize(0);
 	}
+
+	inline std::string name() const
+	{
+		return "Arg";
+	}
+
 	VmRawInstrOp raw_op() const;
 
 };
@@ -195,6 +213,12 @@ public:		// functions
 	{
 		args.resize(1);
 	}
+
+	inline std::string name() const
+	{
+		return "Argx";
+	}
+
 	VmRawInstrOp raw_op() const;
 	inline auto& index()
 	{
@@ -208,6 +232,12 @@ public:		// functions
 	{
 		//args.resize(0);
 	}
+
+	inline std::string name() const
+	{
+		return "Var";
+	}
+
 	VmRawInstrOp raw_op() const;
 };
 class VmOpVarx : public VmCode
@@ -217,6 +247,12 @@ public:		// functions
 	{
 		args.resize(1);
 	}
+
+	inline std::string name() const
+	{
+		return "Varx";
+	}
+
 	VmRawInstrOp raw_op() const;
 
 	inline auto& index()
@@ -231,6 +267,12 @@ public:		// functions
 	{
 		//args.resize(0);
 	}
+
+	inline std::string name() const
+	{
+		return "GetPc";
+	}
+
 	VmRawInstrOp raw_op() const;
 };
 class VmOpJump : public VmCode
@@ -240,6 +282,12 @@ public:		// functions
 	{
 		args.resize(1);
 	}
+
+	inline std::string name() const
+	{
+		return "Jump";
+	}
+
 	VmRawInstrOp raw_op() const;
 
 	inline auto& dest()
@@ -252,6 +300,16 @@ public:		// functions
 class VmOpBeq : public VmCode
 {
 public:		// functions
+	inline VmOpBeq()
+	{
+		//args.resize(0);
+	}
+
+	inline std::string name() const
+	{
+		return "Beq";
+	}
+
 	VmRawInstrOp raw_op() const;
 };
 
@@ -259,17 +317,52 @@ public:		// functions
 class VmOpBne : public VmCode
 {
 public:		// functions
+	inline VmOpBne()
+	{
+		//args.resize(0);
+	}
+
+	inline std::string name() const
+	{
+		return "Bne";
+	}
+
 	VmRawInstrOp raw_op() const;
 };
 
 class VmOpCall : public VmCode
 {
 public:		// functions
+	inline VmOpCall()
+	{
+		args.resize(1);
+	}
+
+	inline std::string name() const
+	{
+		return "Call";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& addr()
+	{
+		return args.at(0);
+	}
 };
 class VmOpRet : public VmCode
 {
 public:		// functions
+	inline VmOpRet()
+	{
+		//args.resize(0);
+	}
+
+	inline std::string name() const
+	{
+		return "Ret";
+	}
+
 	VmRawInstrOp raw_op() const;
 };
 
@@ -277,74 +370,336 @@ public:		// functions
 class VmOpLd : public VmCode
 {
 public:		// functions
+	inline VmOpLd()
+	{
+		args.resize(1);
+	}
+
+	inline std::string name() const
+	{
+		return "Ld";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& base()
+	{
+		return args.at(0);
+	}
 };
 class VmOpLdx : public VmCode
 {
 public:		// functions
+	inline VmOpLdx()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "Ldx";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& base()
+	{
+		return args.at(0);
+	}
+	inline auto& index()
+	{
+		return args.at(1);
+	}
 };
 class VmOpSt : public VmCode
 {
 public:		// functions
+	inline VmOpSt()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "St";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& base()
+	{
+		return args.at(0);
+	}
+	inline auto& data()
+	{
+		return args.at(1);
+	}
 };
 class VmOpStx : public VmCode
 {
 public:		// functions
+	inline VmOpStx()
+	{
+		args.resize(3);
+	}
+
+	inline std::string name() const
+	{
+		return "Stx";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& base()
+	{
+		return args.at(0);
+	}
+	inline auto& index()
+	{
+		return args.at(1);
+	}
+	inline auto& data()
+	{
+		return args.at(2);
+	}
 };
 
 class VmOpAddToSp : public VmCode
 {
 public:		// functions
+	inline VmOpAddToSp()
+	{
+		args.resize(1);
+	}
+
+	inline std::string name() const
+	{
+		return "AddToSp";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& amount()
+	{
+		return args.at(0);
+	}
 };
 class VmOpAdd : public VmCode
 {
 public:		// functions
+	inline VmOpAdd()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "Add";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpSub : public VmCode
 {
 public:		// functions
+	inline VmOpSub()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "Sub";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpMul : public VmCode
 {
 public:		// functions
+	inline VmOpMul()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "Mul";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpDiv : public VmCode
 {
 public:		// functions
+	inline VmOpDiv()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "Div";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpMod : public VmCode
 {
 public:		// functions
+	inline VmOpMod()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "Mod";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 
 class VmOpBitAnd : public VmCode
 {
 public:		// functions
+	inline VmOpBitAnd()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "BitAnd";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpBitOr : public VmCode
 {
 public:		// functions
+	inline VmOpBitOr()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "BitOr";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpBitXor : public VmCode
 {
 public:		// functions
+	inline VmOpBitXor()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "BitXor";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpBitLsl : public VmCode
 {
 public:		// functions
+	inline VmOpBitLsl()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "BitLsl";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 
 // since ">>" and ">>>" are different operators in the source code,
@@ -352,55 +707,237 @@ public:		// functions
 class VmOpBitLsr : public VmCode
 {
 public:		// functions
+	inline VmOpBitLsr()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "BitLsr";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpBitAsr : public VmCode
 {
 public:		// functions
+	inline VmOpBitAsr()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "BitAsr";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 
 class VmOpCmpEq : public VmCode
 {
 public:		// functions
+	inline VmOpCmpEq()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "CmpEq";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpCmpNe : public VmCode
 {
 public:		// functions
+	inline VmOpCmpNe()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "CmpNe";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpCmpLt : public VmCode
 {
 public:		// functions
+	inline VmOpCmpLt()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "CmpLt";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpCmpGt : public VmCode
 {
 public:		// functions
+	inline VmOpCmpGt()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "CmpGt";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpCmpLe : public VmCode
 {
 public:		// functions
+	inline VmOpCmpLe()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "CmpLe";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 class VmOpCmpGe : public VmCode
 {
 public:		// functions
+	inline VmOpCmpGe()
+	{
+		args.resize(2);
+	}
+
+	inline std::string name() const
+	{
+		return "CmpGe";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& arg_a()
+	{
+		return args.at(0);
+	}
+	inline auto& arg_b()
+	{
+		return args.at(1);
+	}
 };
 
 class VmOpSyscall : public VmCode
 {
 public:		// functions
+	inline VmOpSyscall()
+	{
+		args.resize(1);
+	}
+
+	inline std::string name() const
+	{
+		return "Syscall";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& id()
+	{
+		return args.at(0);
+	}
 };
 
 class VmOpQuit : public VmCode
 {
 public:		// functions
+	inline VmOpQuit()
+	{
+		args.resize(1);
+	}
+
+	inline std::string name() const
+	{
+		return "Quit";
+	}
+
 	VmRawInstrOp raw_op() const;
+
+	inline auto& exit_code()
+	{
+		return args.at(0);
+	}
 };
 
 
