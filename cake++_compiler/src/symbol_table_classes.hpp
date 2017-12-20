@@ -51,7 +51,7 @@ private:		// variables
 	// 
 	// However, argument arrays and classes are passed by reference.
 	s64 __offset = 0;
-	size_t __size;
+	size_t __size = 1;
 
 
 public:		// functions
@@ -64,12 +64,12 @@ public:		// functions
 		__size(s_size)
 	{
 	}
-	inline Symbol(Ident s_name, SymType s_type,
-		BuiltinTypename s_var_type, bool s_is_arg, size_t s_size)
-		: __name(s_name), __type(s_type), __var_type(s_var_type),
-		__is_arg(s_is_arg), __size(s_size)
-	{
-	}
+	//inline Symbol(Ident s_name, SymType s_type,
+	//	BuiltinTypename s_var_type, bool s_is_arg, size_t s_size)
+	//	: __name(s_name), __type(s_type), __var_type(s_var_type),
+	//	__is_arg(s_is_arg), __size(s_size)
+	//{
+	//}
 	inline Symbol(const Symbol& to_copy) = default;
 	inline Symbol(Symbol&& to_move) = default;
 
@@ -112,7 +112,7 @@ private:		// variables
 	s64 __last_label_num = -1;
 	std::map<s64, IrCode*> __num_to_label_map;
 
-	// Memory allocation stuff
+	// Argument ordering stuff (used by Frontend::visitFuncArgDecl())
 	size_t __last_arg_offset = -1;
 
 

@@ -36,6 +36,33 @@ void FrntErrorListener::reportContextSensitivity
 	antlr4::atn::ATNConfigSet *configs)
 {
 }
+IrCode* Frontend::CodeGenerator::mk_const(s64 s_simm)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Constant);
+	ret->simm = s_simm;
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_binop(IrBinop s_binop, IrCode* a, 
+	IrCode* b)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Binop);
+	ret->binop = s_binop;
+	ret->args.push_back(a);
+	ret->args.push_back(b);
+
+	return ret;
+}
+IrCode* Frontend::CodeGenerator::mk_label(Function& curr_func)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Label);
+
+	++curr_func.last_label_num();
+	curr_func.num_to_label_map()[curr_func.last_label_num()] = ret;
+	
+	ret->lab_num = curr_func.last_label_num();
+
+	return ret;
+}
 
 Frontend::~Frontend()
 {
@@ -132,8 +159,8 @@ antlrcpp::Any Frontend::visitFuncCall
 			"\"!"));
 	}
 
-	//auto to_push = append_ir_code(IrOp::Call);
-	auto to_push = mk_unlinked_ir_code(IrOp::Call);
+	//auto to_push = mk_unlinked_ir_code(IrOp::Call);
+	auto to_push = CodeGenerator::mk_unfinished_call();
 
 	{
 	auto&& funcArgExpr = ctx->funcArgExpr();
@@ -141,19 +168,13 @@ antlrcpp::Any Frontend::visitFuncCall
 	for (auto func_arg_expr : funcArgExpr)
 	{
 		func_arg_expr->accept(this);
-		//iter->accept(this);
-
-		auto some_arg = pop_ir_code();
-
-		relink_ir_code(some_arg);
-		to_push->args.push_back(some_arg);
+		to_push->args.push_back(pop_ir_code());
 	}
 
 	}
 
-	relink_ir_code(to_push);
 
-	push_ir_code(to_push);
+	push_and_relink_ir_code(to_push);
 
 	return nullptr;
 }
@@ -164,9 +185,13 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 	ctx->identName()->accept(this);
 	auto ident = pop_str();
 
-	auto to_push = mk_unlinked_ir_code(IrOp::Address);
+	auto sym = find_sym_or_err(ident,
+		sconcat("No symbol exists called \"", *ident, "\"!"));
 
-	push_ir_code(to_push);
+	//auto to_push = mk_unlinked_ir_code(IrOp::Address);
+	auto to_push = CodeGenerator::mk_address(sym);
+
+	push_and_relink_ir_code(to_push);
 	return nullptr;
 }
 
@@ -270,32 +295,6 @@ antlrcpp::Any Frontend::visitVarDecl
 antlrcpp::Any Frontend::visitFuncArgDecl
 	(GrammarParser::FuncArgDeclContext *ctx)
 {
-//	//auto to_push = mk_ast_node();
-//	auto to_push = mk_ast_node(AstOp::FuncArgDecl);
-//	ctx->builtinTypename()->accept(this);
-//	to_push->builtin_typename = pop_builtin_typename();
-//	
-//	if (ctx->identName())
-//	{
-//		//to_push->op = AstOp::func_arg_decl_scalar;
-//		to_push->func_arg_decl_op = AstFuncArgDeclOp::Scalar;
-//		ctx->identName()->accept(this);
-//	}
-//	else if (ctx->nonSizedArrayIdentName())
-//	{
-//		//to_push->op = AstOp::func_arg_decl_arr;
-//		to_push->func_arg_decl_op = AstFuncArgDeclOp::Arr;
-//		ctx->nonSizedArrayIdentName()->accept(this);
-//	}
-//	else
-//	{
-//		err("visitFuncArgDecl():  Eek!\n");
-//	}
-//	to_push->ident = pop_str();
-//
-//	push_ast_node(to_push);
-
-	
 	Symbol arg;
 	ctx->builtinTypename()->accept(this);
 	arg.set_var_type(pop_builtin_typename());
@@ -328,6 +327,13 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 			*arg.name(), "\"."));
 	}
 	}
+
+	// This is an argument
+	arg.set_is_arg(true);
+
+	// Which argument in the list is this? 
+	++curr_func().last_arg_offset();
+	arg.set_arg_offset(curr_func().last_arg_offset());
 
 	sym_tbl().insert_or_assign(std::move(arg));
 

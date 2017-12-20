@@ -99,7 +99,7 @@ enum class IrUS : bool
 	Sgn,
 };
 
-enum class IrLdStConstSize : u32
+enum class IrLdStSize : u32
 {
 	Sz64,
 	Sz32,
@@ -112,7 +112,7 @@ std::ostream& operator << (std::ostream& os,
 	IrSyscallShorthandOp syscall_shorthand_op);
 std::ostream& operator << (std::ostream& os, IrUS unsgn_or_sgn);
 //std::ostream& operator << (std::ostream& os, 
-//	IrLdStConstSize ldstconst_size);
+//	IrLdStSize ldstconst_size);
 
 class Function;
 
@@ -125,7 +125,7 @@ public:		// variables
 
 	// unsgn_or_sgn is used for binary operators and loads/stores
 	IrUS unsgn_or_sgn;
-	IrLdStConstSize ldstconst_size;
+	IrLdStSize ldst_size;
 
 
 	IrSyscallShorthandOp syscall_shorthand_op;
@@ -136,12 +136,14 @@ public:		// variables
 	// Identifier, Binop type, constant value, or label number
 	union
 	{
-		// Identifier:  used for loads, stores, and calls
+		// Identifier:  used for Address
 		Ident ident;
 
 		IrBinop binop;
 		u64 uimm;
 		s64 simm;
+
+		// Label numbers are used so 
 		s64 lab_num;
 	};
 

@@ -90,3 +90,10 @@ IrCode* mk_unlinked_ir_code()
 	return pool.back().get();
 
 }
+
+IrCode* mk_unlinked_ir_code(IrOp s_op)
+{
+	auto ret = mk_unlinked_ir_code();
+	ret->op = s_op;
+	return ret;
+}

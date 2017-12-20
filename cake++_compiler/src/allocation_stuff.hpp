@@ -38,5 +38,6 @@ std::string* cstm_strdup(const std::string& to_dup);
 VmCode* append_vm_code(VmCode& some_head);
 //IrCode* append_ir_code(IrCode& some_head);
 IrCode* mk_unlinked_ir_code();
+IrCode* mk_unlinked_ir_code(IrOp s_op);
 
 #endif		// allocation_stuff_hpp

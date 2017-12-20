@@ -42,6 +42,23 @@ class Frontend : public GrammarVisitor
 public:		// typedefs
 	//typedef std::vector<AstNode*> AstVec;
 
+public:		// classes
+	class CodeGenerator
+	{
+	public:		// static functions
+		static IrCode* mk_const(s64 s_simm);
+		static IrCode* mk_binop(IrBinop s_binop, IrCode* a, IrCode* b);
+		static IrCode* mk_label(Function& curr_func);
+		static IrCode* mk_beq(s64 s_lab_num);
+		static IrCode* mk_bne(s64 s_lab_num);
+		static IrCode* mk_jump(s64 s_lab_num);
+		static IrCode* mk_address(Symbol* sym);
+		static IrCode* mk_ldx(IrCode* addr, IrCode* index);
+		static IrCode* mk_stx(IrCode* addr, IrCode* index, IrCode* data);
+		static IrCode* mk_unfinished_call();
+	};
+	
+
 protected:		// variables
 
 	//// Table of functions
@@ -64,8 +81,6 @@ protected:		// variables
 	std::stack<IrCode*> __ir_code_stack;
 
 	//AstNode* __program_node;
-
-	//CodeGenerator __codegen;
 
 public:		// functions
 	virtual ~Frontend();
@@ -186,26 +201,16 @@ protected:		// functions
 	{
 		return curr_func().sym_tbl();
 	}
-	//inline IrCode* append_ir_code()
+	//inline IrCode* mk_unlinked_ir_code()
 	//{
-	//	return curr_func().append_ir_code();
+	//	return ::mk_unlinked_ir_code();
 	//}
-	//inline IrCode* append_ir_code(IrOp s_op)
-	//{
-	//	auto ret = curr_func().append_ir_code();
-	//	ret->op = s_op;
-	//	return ret;
-	//}
-	inline IrCode* mk_unlinked_ir_code()
-	{
-		return ::mk_unlinked_ir_code();
-	}
-	inline IrCode* mk_unlinked_ir_code(IrOp s_op)
-	{
-		auto ret = mk_unlinked_ir_code();
-		ret->op = s_op;
-		return ret;
-	}
+	////inline IrCode* mk_unlinked_ir_code(IrOp s_op)
+	////{
+	////	auto ret = mk_unlinked_ir_code();
+	////	ret->op = s_op;
+	////	return ret;
+	////}
 	inline void relink_ir_code(IrCode* p, IrCode* to_link_after)
 	{
 		IrCode* old_next = to_link_after->next;
@@ -223,6 +228,11 @@ protected:		// functions
 	inline void push_ir_code(IrCode* to_push)
 	{
 		__ir_code_stack.push(to_push);
+	}
+	inline void push_and_relink_ir_code(IrCode* to_push_and_relink)
+	{
+		push_ir_code(to_push_and_relink);
+		relink_ir_code(to_push_and_relink);
 	}
 	inline auto pop_ir_code()
 	{
@@ -265,6 +275,7 @@ protected:		// functions
 		return __str_stack.top();
 	}
 
+
 	inline void push_builtin_typename(BuiltinTypename to_push)
 	{
 		__builtin_typename_stack.push(to_push);
@@ -278,6 +289,23 @@ protected:		// functions
 	inline auto get_top_builtin_typename()
 	{
 		return __builtin_typename_stack.top();
+	}
+
+	inline Symbol* find_sym_or_err(Ident ident, 
+		const std::string& error_msg)
+	{
+		auto sym = sym_tbl().find(ident);
+
+		if (sym != nullptr)
+		{
+			return sym;
+		}
+		else
+		{
+			//err(sconcat(error_msg_left, *ident, error_msg_right));
+			err(error_msg);
+		}
+		return nullptr;
 	}
 
 
