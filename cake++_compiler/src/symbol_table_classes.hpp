@@ -4,6 +4,7 @@
 #include "misc_includes.hpp"
 
 #include "scoped_ident_table_class.hpp"
+#include "symbol_table_base_class.hpp"
 
 #include "vm_code_class.hpp"
 #include "ir_code_classes.hpp"
@@ -90,7 +91,7 @@ public:		// functions
 };
 
 
-class SymbolTable : public ScopedIdentTable<Symbol>
+class SymbolTable : public SymbolTableBase<Symbol>
 {
 public:		// functions
 	SymbolTable();

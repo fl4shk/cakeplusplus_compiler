@@ -71,7 +71,7 @@ protected:		// variables
 
 	//s64 __scope_lev = -1;
 
-	std::vector<std::unique_ptr<Node>> __node_pool;
+	std::vector<Node*> __node_pool;
 
 public:		// functions
 	inline SymbolTableBase()
@@ -81,6 +81,10 @@ public:		// functions
 	}
 	virtual ~SymbolTableBase()
 	{
+		for (size_t i=0; i<__node_pool.size(); ++i)
+		{
+			delete __node_pool.at(i);
+		}
 	}
 
 	void mkscope() __attribute__((noinline))
@@ -106,10 +110,9 @@ public:		// functions
 			exit(1);
 		}
 
-		std::unique_ptr<Node> p(new Node(__curr_node));
-		__node_pool.push_back(std::move(p));
+		__node_pool.push_back(new Node(__curr_node));
 
-		__curr_node->append_child(__node_pool.back().get());
+		__curr_node->append_child(__node_pool.back());
 		__curr_node = __curr_node->children.back();
 
 		//__curr_node->table = scope_num();
