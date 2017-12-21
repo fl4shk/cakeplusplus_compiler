@@ -160,7 +160,7 @@ public:		// variables
 	};
 
 	// Arguments
-	std::vector<IrCode*> args;
+	std::deque<IrCode*> args;
 
 	// Linked list links
 	IrCode * next = nullptr, * prev = nullptr;

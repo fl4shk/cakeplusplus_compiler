@@ -179,7 +179,8 @@ antlrcpp::Any Frontend::visitFuncCall
 		auto func_arg_expr = funcArgExpr.at(i);
 
 		func_arg_expr->accept(this);
-		to_push->args.push_back(pop_ir_code());
+		//to_push->args.push_back(pop_ir_code());
+		to_push->args.push_front(pop_ir_code());
 	}
 
 
@@ -345,7 +346,8 @@ antlrcpp::Any Frontend::visitPutnStatement
 	(GrammarParser::PutnStatementContext *ctx)
 {
 	ctx->expr()->accept(this);
-	IrCode* expr = pop_ir_code();
+	//IrCode* expr = pop_ir_code();
+	pop_ir_code();
 
 	codegen().mk_syscall(IrSyscallShorthandOp::DispNum);
 
