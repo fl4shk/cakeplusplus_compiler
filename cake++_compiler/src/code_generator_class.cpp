@@ -160,11 +160,13 @@ IrCode* CodeGenerator::mk_quit(IrCode* expr)
 std::ostream& CodeGenerator::osprint_func(std::ostream& os, 
 	Function& curr_func)
 {
+	osprintout(os, *curr_func.name(), "\n");
+	osprintout(os, "{\n");
 	for (auto p=curr_func.ir_code().next;
 		p!=&curr_func.ir_code();
 		p=p->next)
 	{
-		osprintout(os, curr_func.irntoi(p), "\t");
+		osprintout(os, "\t", curr_func.irntoi(p), "\t");
 		switch (p->op)
 		{
 			// Constant number
@@ -346,6 +348,8 @@ std::ostream& CodeGenerator::osprint_func(std::ostream& os,
 
 		osprintout(os, "\n");
 	}
+
+	osprintout(os, "}\n");
 
 	return os;
 }

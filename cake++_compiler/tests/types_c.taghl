@@ -1,2 +1,2 @@
-syn keyword CTagsFunction add f
+syn keyword CTagsFunction func add s64 f
 

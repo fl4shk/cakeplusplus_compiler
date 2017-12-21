@@ -1124,10 +1124,12 @@ antlrcpp::Any Frontend::visitIdentDecl
 
 	if (!ctx->subscriptConst())
 	{
+		var.set_type(SymType::ScalarVarName);
 		var.set_size(1);
 	}
 	else // if (ctx->subscriptConst())
 	{
+		var.set_type(SymType::ArrayVarName);
 		ctx->subscriptConst()->accept(this);
 		var.set_size(pop_num());
 	}
