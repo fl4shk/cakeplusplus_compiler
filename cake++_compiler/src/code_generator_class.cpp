@@ -164,7 +164,7 @@ std::ostream& CodeGenerator::osprint_func(std::ostream& os,
 		p!=&curr_func.ir_code();
 		p=p->next)
 	{
-		osprintout(os, curr_func.irntoi(p), "\t\t");
+		osprintout(os, curr_func.irntoi(p), "\t");
 		switch (p->op)
 		{
 			// Constant number
