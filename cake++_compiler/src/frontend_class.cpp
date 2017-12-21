@@ -623,17 +623,17 @@ antlrcpp::Any Frontend::visitExpr
 
 		auto&& op = ctx->TokOpLogical()->toString();
 
-		IrBinop s_bitwise_binop;
+		IrBinop s_binop;
 
 		if (op == "&&")
 		{
 			//to_push->bin_op = AstBinOp::LogAnd;
-			s_bitwise_binop = IrBinop::BitAnd;
+			s_binop = IrBinop::BitAnd;
 		}
 		else if (op == "||")
 		{
 			//to_push->bin_op = AstBinOp::LogOr;
-			s_bitwise_binop = IrBinop::BitOr;
+			s_binop = IrBinop::BitOr;
 		}
 		else
 		{
@@ -643,7 +643,7 @@ antlrcpp::Any Frontend::visitExpr
 		ctx->exprLogical()->accept(this);
 		auto b = pop_ir_code();
 
-		auto some_binop = codegen().mk_binop(s_bitwise_binop, a, b);
+		auto some_binop = codegen().mk_binop(s_binop, a, b);
 
 
 		// ((a bitop b) != 0)
@@ -769,17 +769,23 @@ antlrcpp::Any Frontend::visitExprCompare
 
 
 		ctx->exprCompare()->accept(this);
+		auto a = pop_ir_code();
+
 		//to_push->append_child(pop_ast_node());
 
 		auto&& op = ctx->TokOpAddSub()->toString();
 
+		IrBinop s_binop;
+
 		if (op == "+")
 		{
 			//to_push->bin_op = AstBinOp::Add;
+			s_binop = IrBinop::Add;
 		}
 		else if (op == "-")
 		{
 			//to_push->bin_op = AstBinOp::Sub;
+			s_binop = IrBinop::Sub;
 		}
 		else
 		{
@@ -787,8 +793,11 @@ antlrcpp::Any Frontend::visitExprCompare
 		}
 
 		ctx->exprAddSub()->accept(this);
+		auto b = pop_ir_code();
 		//to_push->append_child(pop_ast_node());
 		//push_ast_node(to_push);
+
+		push_ir_code(codegen().mk_binop(s_binop, a, b));
 	}
 	else
 	{
@@ -812,6 +821,8 @@ antlrcpp::Any Frontend::visitExprAddSub
 
 
 		ctx->exprAddSub()->accept(this);
+		auto a = pop_ir_code();
+
 		//to_push->append_child(pop_ast_node());
 
 		std::string op;
@@ -829,43 +840,54 @@ antlrcpp::Any Frontend::visitExprAddSub
 			err("visitExprAddSub():  operator Eek!\n");
 		}
 
+		IrBinop s_binop;
+
 		if (op == "*")
 		{
 			//to_push->bin_op = AstBinOp::Mul;
+			s_binop = IrBinop::Mul;
 		}
 		else if (op == "/")
 		{
 			// Temporary!
 			//to_push->bin_op = AstBinOp::SDiv;
+			s_binop = IrBinop::Div;
 		}
 		else if (op == "%")
 		{
 			// Temporary!
 			//to_push->bin_op = AstBinOp::SMod;
+			s_binop = IrBinop::Mod;
 		}
 		else if (op == "&")
 		{
 			//to_push->bin_op = AstBinOp::BitAnd;
+			s_binop = IrBinop::BitAnd;
 		}
 		else if (op == "|")
 		{
 			//to_push->bin_op = AstBinOp::BitOr;
+			s_binop = IrBinop::BitOr;
 		}
 		else if (op == "^")
 		{
 			//to_push->bin_op = AstBinOp::BitXor;
+			s_binop = IrBinop::BitXor;
 		}
 		else if (op == "<<")
 		{
 			//to_push->bin_op = AstBinOp::BitLsl;
+			s_binop = IrBinop::BitLsl;
 		}
 		else if (op == ">>")
 		{
 			//to_push->bin_op = AstBinOp::BitLsr;
+			s_binop = IrBinop::BitLsr;
 		}
 		else if (op == ">>>")
 		{
 			//to_push->bin_op = AstBinOp::BitAsr;
+			s_binop = IrBinop::BitAsr;
 		}
 		else
 		{
@@ -873,8 +895,11 @@ antlrcpp::Any Frontend::visitExprAddSub
 		}
 
 		ctx->exprMulDivModEtc()->accept(this);
+		auto b = pop_ir_code();
 		//to_push->append_child(pop_ast_node());
 		//push_ast_node(to_push);
+
+		push_ir_code(codegen().mk_binop(s_binop, a, b));
 	}
 	else
 	{
@@ -893,6 +918,8 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 	else if (ctx->numExpr())
 	{
 		ctx->numExpr()->accept(this);
+
+		codegen().mk_const(pop_num());
 	}
 	else if (ctx->funcCall())
 	{
@@ -953,6 +980,13 @@ antlrcpp::Any Frontend::visitExprBitInvert
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+	ctx->expr()->accept(this);
+	auto expr = pop_ir_code();
+
+	auto negative_one = codegen().mk_const(-1);
+
+	push_ir_code(codegen().mk_binop(IrBinop::BitXor, expr, negative_one));
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitExprNegate
@@ -966,6 +1000,14 @@ antlrcpp::Any Frontend::visitExprNegate
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+	
+	ctx->expr()->accept(this);
+	auto expr = pop_ir_code();
+
+	auto zero = codegen().mk_const(0);
+
+	push_ir_code(codegen().mk_binop(IrBinop::Sub, zero, expr));
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitExprLogNot
@@ -979,6 +1021,11 @@ antlrcpp::Any Frontend::visitExprLogNot
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+	
+	ctx->expr()->accept(this);
+	auto expr = pop_ir_code();
+
+	push_ir_code(codegen().mk_log_not(expr));
 	return nullptr;
 }
 
