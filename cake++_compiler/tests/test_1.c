@@ -14,5 +14,12 @@
 add(s64 a, s64 b, s64 ret[])
 {
 	s64 z;
-	z = a + b;
+
+	s64 i;
+
+	while (i < 3)
+	{
+		ret[i] = z;
+		i = i + 1;
+	}
 }

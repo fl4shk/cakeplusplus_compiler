@@ -139,8 +139,8 @@ public:		// variables
 	IrSyscallShorthandOp syscall_shorthand_op;
 
 
-	Function* func;
-	Symbol* sym;
+	Function* func = nullptr;
+	Symbol* sym = nullptr;
 
 
 	// Identifier, Binop type, constant value, or label number

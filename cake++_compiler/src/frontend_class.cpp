@@ -921,7 +921,7 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 	{
 		ctx->numExpr()->accept(this);
 
-		codegen().mk_const(pop_num());
+		push_ir_code(codegen().mk_const(pop_num()));
 	}
 	else if (ctx->funcCall())
 	{
