@@ -112,6 +112,8 @@ public:		// functions
 
 class Function
 {
+public:		// class
+
 private:		// variables
 	Ident __name;
 
@@ -156,6 +158,7 @@ public:		// functions
 	//inline Function& operator = (const Function& to_copy) = default;
 	//inline Function& operator = (Function&& to_move) = default;
 
+	std::vector<Symbol*> get_args() const;
 
 	inline VmCode* append_vm_code()
 	{

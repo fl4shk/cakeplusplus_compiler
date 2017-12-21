@@ -67,6 +67,7 @@ protected:		// variables
 	std::stack<BuiltinTypename> __builtin_typename_stack;
 	//std::stack<VmCode*> __code_stack;
 	std::stack<Symbol*> __sym_stack;
+	std::stack<Function*> __func_stack;
 	std::stack<IrCode*> __ir_code_stack;
 
 	//AstNode* __program_node;
@@ -295,6 +296,20 @@ protected:		// functions
 	inline auto get_top_sym()
 	{
 		return __sym_stack.top();
+	}
+	inline void push_func(Function* to_push)
+	{
+		__func_stack.push(to_push);
+	}
+	inline auto pop_func()
+	{
+		auto ret = __func_stack.top(); 
+		__func_stack.pop();
+		return ret;
+	}
+	inline auto get_top_func()
+	{
+		return __func_stack.top();
 	}
 
 	inline IrCode* relink_ir_code(IrCode* p, IrCode* to_link_after)

@@ -79,6 +79,24 @@ SymbolTable::~SymbolTable()
 {
 }
 
+std::vector<Symbol*> Function::get_args() const
+{
+	std::vector<Symbol*> ret;
+
+	std::map<size_t, Symbol*> pos_to_sym_map;
+
+	//{
+	//const auto& table = __sym_tbl.tree().children.front()->table.table();
+	//for (const auto& iter : table)
+	//{
+	//	Symbol* sym = iter.second;
+
+	//}
+	//}
+
+	return ret;
+}
+
 s64 Function::irntoi(IrCode* t) const
 {
 	s64 ret = -1;

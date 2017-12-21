@@ -148,14 +148,16 @@ antlrcpp::Any Frontend::visitFuncCall
 	{
 	auto&& funcArgExpr = ctx->funcArgExpr();
 
-	for (auto func_arg_expr : funcArgExpr)
+	//for (auto func_arg_expr : funcArgExpr)
+	for (size_t i=0; i<funcArgExpr.size(); ++i)
 	{
+		auto func_arg_expr = funcArgExpr.at(i);
+
+
 		func_arg_expr->accept(this);
 		to_push->args.push_back(pop_ir_code());
 	}
 
-	// Type checking and number of arguments checking should be done here
-	// later
 
 	}
 

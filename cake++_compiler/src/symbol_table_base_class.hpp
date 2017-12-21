@@ -17,7 +17,8 @@ template<typename Type>
 class SymbolTableBase
 {
 public:		// typedefs and constants
-	typedef IdentTable<Type> OneTable;
+	//typedef IdentTable<Type> OneTable;
+	typedef IdentToPointerTable<Type> OneTable;
 	//typedef int OneTable;
 
 	static constexpr s64 builtin_scope_level = 0;
@@ -73,6 +74,7 @@ protected:		// variables
 	//s64 __scope_lev = -1;
 
 	std::vector<Node*> __node_pool;
+	std::vector<Type*> __data_pool;
 
 public:		// functions
 	inline SymbolTableBase()
@@ -86,6 +88,11 @@ public:		// functions
 		for (size_t i=0; i<__node_pool.size(); ++i)
 		{
 			delete __node_pool.at(i);
+		}
+
+		for (size_t i=0; i<__data_pool.size(); ++i)
+		{
+			delete __data_pool.at(i);
 		}
 	}
 
@@ -146,12 +153,18 @@ public:		// functions
 
 	inline void insert_or_assign(const Type& to_insert_or_assign)
 	{
-		__curr_node->table.insert_or_assign(to_insert_or_assign);
+		//__curr_node->table.insert_or_assign(to_insert_or_assign);
+
+		__data_pool.push_back(new Type(to_insert_or_assign));
+		__curr_node->table.insert_or_assign(__data_pool.back());
 	}
 	inline void insert_or_assign(Type&& to_insert_or_assign)
 	{
-		__curr_node->table.insert_or_assign
-			(std::move(to_insert_or_assign));
+		//__curr_node->table.insert_or_assign
+		//	(std::move(to_insert_or_assign));
+
+		__data_pool.push_back(new Type(std::move(to_insert_or_assign)));
+		__curr_node->table.insert_or_assign(__data_pool.back());
 	}
 
 
@@ -166,7 +179,7 @@ public:		// functions
 			//}
 			if (p->table.contains(some_name))
 			{
-				return &p->table.at(some_name);
+				return p->table.at(some_name);
 			}
 		}
 
@@ -184,7 +197,7 @@ public:		// functions
 
 		if (__tree.children.front()->table.contains(some_name))
 		{
-			return &__tree.children.front()->table.at(some_name);
+			return __tree.children.front()->table.at(some_name);
 		}
 
 		return nullptr;
@@ -199,7 +212,7 @@ public:		// functions
 
 		if (__curr_node->table.contains(some_name))
 		{
-			return &__curr_node->table.at(some_name);
+			return __curr_node->table.at(some_name);
 		}
 
 		return nullptr;
