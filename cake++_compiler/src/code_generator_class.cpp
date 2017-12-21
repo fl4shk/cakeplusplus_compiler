@@ -298,7 +298,8 @@ std::ostream& CodeGenerator::osprint_func(std::ostream& os,
 			case IrOp::Stx:
 				osprintout(os, "stx(", strappcom2
 					(curr_func.irntoi(p->args.at(0)),
-					curr_func.irntoi(p->args.at(1))), ")");
+					curr_func.irntoi(p->args.at(1)),
+					curr_func.irntoi(p->args.at(2))), ")");
 				break;
 
 			// Function call (takes an address address)
