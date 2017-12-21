@@ -27,6 +27,8 @@ enum class BuiltinTypename : int
 	S8, S16, S32, S64,
 };
 
+std::ostream& operator << (std::ostream& os, 
+	BuiltinTypename some_builtin_type);
 
 class Symbol
 {
@@ -159,6 +161,7 @@ public:		// functions
 	//inline Function& operator = (Function&& to_move) = default;
 
 	std::vector<Symbol*> get_args() const;
+	Symbol* get_one_arg(size_t some_arg_offset) const;
 
 	inline VmCode* append_vm_code()
 	{

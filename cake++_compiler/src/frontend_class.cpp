@@ -148,11 +148,23 @@ antlrcpp::Any Frontend::visitFuncCall
 	{
 	auto&& funcArgExpr = ctx->funcArgExpr();
 
+	auto&& args = func->get_args();
+
+	if (args.size() != funcArgExpr.size())
+	{
+		err(sconcat("Function called \"", *ident, "\" expects ",
+			args.size(), " arguments, but instead got ",
+			funcArgExpr.size(), " arguments!"));
+	}
+
 	//for (auto func_arg_expr : funcArgExpr)
 	for (size_t i=0; i<funcArgExpr.size(); ++i)
 	{
-		auto func_arg_expr = funcArgExpr.at(i);
+		push_func(func);
+		push_num(i);
+		push_sym(args.at(i));
 
+		auto func_arg_expr = funcArgExpr.at(i);
 
 		func_arg_expr->accept(this);
 		to_push->args.push_back(pop_ir_code());
@@ -173,11 +185,48 @@ antlrcpp::Any Frontend::visitFuncCall
 antlrcpp::Any Frontend::visitFuncArgExpr
 	(GrammarParser::FuncArgExprContext *ctx)
 {
+	auto func = pop_func();
+	const auto which_arg = pop_num();
+	auto arg_sym = pop_sym();
+
+
 	ctx->identName()->accept(this);
 	auto ident = pop_str();
 
 	auto sym = find_sym_or_err(ident,
 		sconcat("No symbol exists called \"", *ident, "\"!"));
+
+	// Function argument type checking
+	if ((arg_sym->type() == SymType::ScalarVarName)
+		&& (sym->type() != SymType::ScalarVarName))
+	{
+		err(sconcat("Function called \"", *func->name(),
+			"\" expects a scalar value for argument number ",
+			which_arg, "!"));
+	}
+	if (arg_sym->type() == SymType::ArrayVarName)
+	{
+		if (sym->type() != SymType::ArrayVarName)
+		{
+			err(sconcat("Function called \"", *func->name(),
+				"\" expects an array value for argument number ",
+				which_arg, "!"));
+		}
+		else if (sym->type() == SymType::ArrayVarName)
+		{
+			if (arg_sym->var_type() != sym->var_type())
+			{
+				err(sconcat("Function called \"", *func->name(),
+					"\" expects an array of type ",
+					arg_sym->var_type(), " for argument number ",
+					which_arg, "!"));
+			}
+		}
+		else
+		{
+			err("visitFuncArgExpr():  Argument type checking Eek!");
+		}
+	}
 
 	if (sym->type() == SymType::ScalarVarName)
 	{

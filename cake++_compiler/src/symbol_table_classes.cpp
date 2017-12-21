@@ -15,6 +15,37 @@
 //	sym_tbl.rmscope();
 //}
 
+std::ostream& operator << (std::ostream& os, 
+	BuiltinTypename some_builtin_type)
+{
+	switch (some_builtin_type)
+	{
+		case BuiltinTypename::Blank:
+			return osprintout(os, "Blank");
+		case BuiltinTypename::U8:
+			return osprintout(os, "u8");
+		case BuiltinTypename::U16:
+			return osprintout(os, "u16");
+		case BuiltinTypename::U32:
+			return osprintout(os, "u32");
+		case BuiltinTypename::U64:
+			return osprintout(os, "u64");
+		case BuiltinTypename::S8:
+			return osprintout(os, "s8");
+		case BuiltinTypename::S16:
+			return osprintout(os, "s16");
+		case BuiltinTypename::S32:
+			return osprintout(os, "s32");
+		case BuiltinTypename::S64:
+			return osprintout(os, "s64");
+		default:
+			printerr("BuiltinTypename osprintout stuff:  Eek!\n");
+			exit(1);
+	}
+
+	return os;
+}
+
 bool Symbol::is_unsgn_builtin() const
 {
 	return ((__var_type == BuiltinTypename::U8)
@@ -83,18 +114,57 @@ std::vector<Symbol*> Function::get_args() const
 {
 	std::vector<Symbol*> ret;
 
-	std::map<size_t, Symbol*> pos_to_sym_map;
+	std::map<size_t, Symbol*> arg_pos_to_sym_map;
 
-	//{
-	//const auto& table = __sym_tbl.tree().children.front()->table.table();
-	//for (const auto& iter : table)
-	//{
-	//	Symbol* sym = iter.second;
+	size_t num_args = 0;
 
-	//}
-	//}
+	{
+	const auto& table = __sym_tbl.tree().children.front()->table.table();
+	for (const auto& iter : table)
+	{
+		auto sym = iter.second;
+
+		if (arg_pos_to_sym_map.count(sym->arg_offset()) != 0)
+		{
+			printerr("Function::get_args():  Eek!\n");
+			exit(1);
+		}
+
+		arg_pos_to_sym_map[sym->arg_offset()] = sym;
+
+		// Find the highest argument offset
+		if (num_args < sym->arg_offset())
+		{
+			num_args = sym->arg_offset();
+		}
+	}
+	}
+
+	// Increment because no argument symbol keeps track of how many
+	// arguments this function accepts
+	++num_args;
+
+	for (size_t i=0; i<num_args; ++i)
+	{
+		ret.push_back(arg_pos_to_sym_map.at(i));
+	}
 
 	return ret;
+}
+
+Symbol* Function::get_one_arg(size_t some_arg_offset) const
+{
+	const auto& table = __sym_tbl.tree().children.front()->table.table();
+
+	for (const auto& iter : table)
+	{
+		if (iter.second->arg_offset() == some_arg_offset)
+		{
+			return iter.second;
+		}
+	}
+
+	return nullptr;
 }
 
 s64 Function::irntoi(IrCode* t) const

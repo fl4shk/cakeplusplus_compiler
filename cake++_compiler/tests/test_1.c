@@ -1,10 +1,10 @@
 main()
 {
+	s64 i;
 	s64 temp[3];
 
 	func(temp);
 
-	s64 i;
 
 	i = 0;
 
