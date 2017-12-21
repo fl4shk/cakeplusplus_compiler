@@ -198,10 +198,18 @@ public:		// functions
 	gen_getter_by_ref(last_arg_offset);
 
 private:		// functions
-	//VmCode* mk_linked_vm_code();
-	VmCode* mk_linked_vm_code(VmRawInstrOp s_raw_op);
-	//VmCode* mk_unlinked_vm_code();
-	VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op);
+	inline VmCode* mk_linked_vm_code(VmRawInstrOp s_raw_op)
+	{
+		return ::mk_linked_vm_code(__vm_code, s_raw_op);
+	}
+	inline VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op)
+	{
+		return ::mk_unlinked_vm_code(s_raw_op);
+	}
+	inline void relink_vm_code(VmCode* p)
+	{
+		::relink_vm_code(p, __vm_code.prev);
+	}
 };
 
 class FunctionTable : public IdentToPointerTable<Function>

@@ -473,22 +473,6 @@ std::ostream& Function::osprint_vm_code(std::ostream& os)
 }
 
 
-VmCode* Function::mk_linked_vm_code(VmRawInstrOp s_raw_op)
-{
-	auto ret = ::mk_linked_vm_code(__vm_code, s_raw_op);
-
-
-	return ret;
-}
-
-VmCode* Function::mk_unlinked_vm_code(VmRawInstrOp s_raw_op)
-{
-	auto ret = ::mk_unlinked_vm_code(s_raw_op);
-
-
-	return ret;
-}
-
 FunctionTable::FunctionTable()
 {
 }
