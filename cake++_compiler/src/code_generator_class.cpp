@@ -156,3 +156,194 @@ IrCode* CodeGenerator::mk_quit(IrCode* expr)
 
 	return __frontend->relink_ir_code(ret);
 }
+
+std::ostream& CodeGenerator::osprint_func(std::ostream& os, 
+	Function& curr_func)
+{
+	for (auto p=curr_func.ir_code().next;
+		p!=&curr_func.ir_code();
+		p=p->next)
+	{
+		osprintout(os, curr_func.irntoi(p), "\t\t");
+		switch (p->op)
+		{
+			// Constant number
+			case IrOp::Constant:
+				osprintout(os, "const(", p->simm, ")");
+				break;
+
+
+			// Binary operator
+			case IrOp::Binop:
+				switch(p->binop)
+				{
+					case IrBinop::Add:
+						osprintout(os, "add");
+						break;
+					case IrBinop::Sub:
+						osprintout(os, "sub");
+						break;
+					case IrBinop::Mul:
+						osprintout(os, "mul");
+						break;
+					case IrBinop::Div:
+						osprintout(os, "div");
+						break;
+					case IrBinop::Mod:
+						osprintout(os, "mod");
+						break;
+
+					case IrBinop::BitAnd:
+						osprintout(os, "bit_and");
+						break;
+					case IrBinop::BitOr:
+						osprintout(os, "bit_or");
+						break;
+					case IrBinop::BitXor:
+						osprintout(os, "bit_xor");
+						break;
+
+					case IrBinop::BitLsl:
+						osprintout(os, "bit_lsl");
+						break;
+					case IrBinop::BitLsr:
+						osprintout(os, "bit_lsr");
+						break;
+					case IrBinop::BitAsr:
+						osprintout(os, "bit_asr");
+						break;
+
+					case IrBinop::CmpEq:
+						osprintout(os, "cmp_eq");
+						break;
+					case IrBinop::CmpNe:
+						osprintout(os, "cmp_ne");
+						break;
+					case IrBinop::CmpLt:
+						osprintout(os, "cmp_lt");
+						break;
+					case IrBinop::CmpLe:
+						osprintout(os, "cmp_ge");
+						break;
+
+					default:
+						printerr("CodeGenerator::osprint_func():  ",
+							"Binop Eek!\n");
+						exit(1);
+				}
+				osprintout(os, 
+					"(", strappcom2(curr_func.irntoi(p->args.at(0)),
+					curr_func.irntoi(p->args.at(1))), ")");
+				break;
+
+
+			// Label, given a number
+			case IrOp::Label:
+				osprintout(os, "label(", p->lab_num, ")");
+				break;
+
+			// Conditional branch to a label
+			case IrOp::Beq:
+				osprintout(os, "beq(", strappcom2(p->lab_num,
+					curr_func.irntoi(p->args.at(0))), ")");
+				break;
+			case IrOp::Bne:
+				osprintout(os, "bne(", strappcom2(p->lab_num,
+					curr_func.irntoi(p->args.at(0))), ")");
+				break;
+
+			// Unconditional branch to a label
+			case IrOp::Bra:
+				osprintout(os, "bra(", p->lab_num, ")");
+				break;
+
+
+			// Unconditional jump to a label
+			case IrOp::Jump:
+				osprintout(os, "jump(", p->lab_num, ")");
+				break;
+
+
+
+			// Address of symbol or function
+			case IrOp::Address:
+				osprintout(os, "address(");
+				if (p->func)
+				{
+					osprintout(os, *p->func->name());
+				}
+				else if (p->sym)
+				{
+					osprintout(os, *p->sym->name());
+				}
+				else
+				{
+					printerr("CodeGenerator::osprint_func():  ",
+						"address Eek!\n");
+					exit(1);
+				}
+				osprintout(os, ")");
+				break;
+
+
+			// Indexed load or store
+			// Load indexed
+			case IrOp::Ldx:
+				osprintout(os, "ldx(", strappcom2
+					(curr_func.irntoi(p->args.at(0)),
+					curr_func.irntoi(p->args.at(1))), ")");
+				break;
+
+			// Store indexed 
+			case IrOp::Stx:
+				osprintout(os, "stx(", strappcom2
+					(curr_func.irntoi(p->args.at(0)),
+					curr_func.irntoi(p->args.at(1))), ")");
+				break;
+
+			// Function call (takes an address address)
+			case IrOp::Call:
+				osprintout(os, "call(", 
+					curr_func.irntoi(p->args.at(0)), "(");
+				for (size_t i=1; i<p->args.size(); ++i)
+				{
+					osprintout(os, curr_func.irntoi(p->args.at(i)));
+
+					if ((i + 1) != p->args.size())
+					{
+						osprintout(os, ", ");
+					}
+				}
+				break;
+
+			// return expr;
+			case IrOp::RetExpr:
+				break;
+
+			// return;
+			case IrOp::RetNothing:
+				osprintout(os, "ret_nothing");
+				break;
+
+
+			// System call
+			case IrOp::Syscall:
+				osprintout(os, "syscall",
+					"(", curr_func.irntoi(p->args.at(0)), ")");
+				break;
+
+			case IrOp::Quit:
+				osprintout(os, "quit",
+					"(", curr_func.irntoi(p->args.at(0)), ")");
+				break;
+
+			default:
+				printerr("CodeGenerator::osprint_func():  Op Eek!\n");
+				exit(1);
+		}
+
+		osprintout(os, "\n");
+	}
+
+	return os;
+}

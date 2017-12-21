@@ -49,8 +49,7 @@ enum class IrOp
 	// Store indexed 
 	Stx,
 
-	// Function call (for now, takes an identifier, but will later take an
-	// address)
+	// Function call (takes an address address)
 	Call,
 
 	// return expr;
@@ -139,11 +138,9 @@ public:		// variables
 
 	IrSyscallShorthandOp syscall_shorthand_op;
 
-	union
-	{
-		Function* func;
-		Symbol* sym;
-	};
+
+	Function* func;
+	Symbol* sym;
 
 
 	// Identifier, Binop type, constant value, or label number

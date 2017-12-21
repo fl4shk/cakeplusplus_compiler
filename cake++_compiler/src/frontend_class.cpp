@@ -83,6 +83,8 @@ antlrcpp::Any Frontend::visitProgram
 		auto ident = temp_ident_map.at(iter);
 		__curr_func = __func_tbl.at(ident);
 		iter->accept(this);
+
+		codegen().osprint_func(cout, curr_func());
 	}
 
 	return nullptr;
