@@ -23,4 +23,6 @@ add(s64 a, s64 b, s64 ret[])
 		ret[i] = z;
 		i = i + 1;
 	}
+
+	add(a, b, ret);
 }

@@ -315,6 +315,7 @@ std::ostream& CodeGenerator::osprint_func(std::ostream& os,
 						osprintout(os, ", ");
 					}
 				}
+				osprintout(os, ")");
 				break;
 
 			// return expr;
