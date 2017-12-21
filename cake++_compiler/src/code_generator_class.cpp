@@ -165,7 +165,7 @@ IrCode* CodeGenerator::mk_quit(IrCode* expr)
 	return ret;
 }
 
-std::ostream& CodeGenerator::osprint_func(std::ostream& os, 
+std::ostream& CodeGenerator::osprint_func_ircode(std::ostream& os, 
 	Function& curr_func)
 {
 	osprintout(os, *curr_func.name(), "\n");
@@ -237,7 +237,7 @@ std::ostream& CodeGenerator::osprint_func(std::ostream& os,
 						break;
 
 					default:
-						printerr("CodeGenerator::osprint_func():  ",
+						printerr("CodeGenerator::osprint_func_ircode():  ",
 							"Binop Eek!\n");
 						exit(1);
 				}
@@ -288,7 +288,7 @@ std::ostream& CodeGenerator::osprint_func(std::ostream& os,
 				}
 				else
 				{
-					printerr("CodeGenerator::osprint_func():  ",
+					printerr("CodeGenerator::osprint_func_ircode():  ",
 						"address Eek!\n");
 					exit(1);
 				}
@@ -356,7 +356,8 @@ std::ostream& CodeGenerator::osprint_func(std::ostream& os,
 				break;
 
 			default:
-				printerr("CodeGenerator::osprint_func():  Op Eek!\n");
+				printerr("CodeGenerator::osprint_func_ircode():  ",
+					"Op Eek!\n");
 				exit(1);
 		}
 

@@ -98,7 +98,8 @@ public:		// functions
 		return mk_binop(IrBinop::CmpNe, expr, mk_const(0));
 	}
 
-	std::ostream& osprint_func(std::ostream& os, Function& curr_func);
+	std::ostream& osprint_func_ircode(std::ostream& os, 
+		Function& curr_func);
 };
 
 

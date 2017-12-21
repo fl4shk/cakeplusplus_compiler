@@ -27,13 +27,14 @@ stmt:
 	statements
 	| putnStatement ';'
 	| varDecl ';'
-	//| expr ';'
-	| exprMulDivModEtc ';'
+	| expr ';'
+	//| exprMulDivModEtc ';'
 	| assignment ';'
 	| ifStatement
 	| ifChainStatement
 	| whileStatement
 	| doWhileStatement
+	//| forStatement
 	| returnExprStatement ';'
 	| returnNothingStatement ';'
 	;
@@ -68,6 +69,7 @@ elseStatements:
 
 whileStatement: TokWhile '(' expr ')' statements ;
 doWhileStatement: TokDo statements TokWhile '(' expr ')' ;
+//forStatement: TokFor '(' stmt expr ';' expr ')' statements ;
 
 returnExprStatement: TokReturn expr ;
 returnNothingStatement: TokReturn ;
@@ -142,6 +144,7 @@ TokIf: 'if' ;
 TokElse: 'else' ;
 TokWhile: 'while' ;
 TokDo: 'do' ;
+TokFor: 'for' ;
 TokReturn: 'return' ;
 LexLineComment: '//' (~ '\n')* -> skip;
 LexMultilineComment: '/*' (.*?) '*/' -> skip ;

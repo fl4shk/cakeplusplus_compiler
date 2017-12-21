@@ -13,6 +13,8 @@
 
 #include "code_generator_class.hpp"
 
+#include "allocation_stuff.hpp"
+
 class FrntErrorListener : public antlr4::ANTLRErrorListener
 {
 public:		// functions
@@ -51,7 +53,7 @@ protected:		// variables
 
 	//// Table of functions
 	//FunctionTable __func_tbl;
-	IdentToPointerTable<Function> __func_tbl;
+	FunctionTable __func_tbl;
 
 	std::vector<std::unique_ptr<Function>> __func_pool;
 
@@ -175,6 +177,7 @@ protected:		// functions
 
 	inline void err(const std::string& msg)
 	{
+		// This needs to be augmented with line number and character
 		printerr("Error:  ", msg, "\n");
 		exit(1);
 	}
@@ -312,20 +315,9 @@ protected:		// functions
 		return __func_stack.top();
 	}
 
-	inline IrCode* relink_ir_code(IrCode* p, IrCode* to_link_after)
-	{
-		IrCode* old_next = to_link_after->next;
-
-		to_link_after->next = p;
-		p->prev = to_link_after;
-		p->next = old_next;
-		old_next->prev = p;
-
-		return p;
-	}
 	inline IrCode* relink_ir_code(IrCode* p)
 	{
-		return relink_ir_code(p, curr_func().ir_code().prev);
+		return ::relink_ir_code(p, curr_func().ir_code().prev);
 	}
 
 	inline void push_ir_code(IrCode* to_push)

@@ -102,6 +102,10 @@ enum class VmRawInstrOp : u16
 	syscall,
 
 	quit,
+
+
+	// Not a real operation
+	fake_op_label,
 };
 
 class VmCode
@@ -109,13 +113,23 @@ class VmCode
 public:		// variables
 	VmRawInstrOp raw_op;
 
+	size_t size = sizeof(u16);
+
 	//VmIntermediateOp op;
 
 	//IrUS unsgn_or_sgn;
 	//IrLdStConstSize ldstconst_size;
 	//IrSyscallShorthandOp syscall_shorthand_op;
 
-	//Ident var_ident;
+
+	union
+	{
+		// Label identifier:  used by branches, jumps, and fake_op_label
+		Ident lab_ident;
+
+		// called Function identifier
+		Ident func_ident;
+	};
 
 	union
 	{

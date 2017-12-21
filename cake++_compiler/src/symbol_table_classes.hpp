@@ -45,6 +45,7 @@ private:		// variables
 	// If this is an argument to the function
 	bool __is_arg = false;
 
+
 	// Offset for "argx" or "varx".  If this is zero, then we can use the
 	// "arg" or "var" instruction.
 	// 
@@ -112,6 +113,8 @@ public:		// functions
 	virtual ~SymbolTable();
 };
 
+class FunctionTable;
+
 class Function
 {
 public:		// class
@@ -134,6 +137,9 @@ private:		// variables
 
 	// Argument ordering stuff (used by Frontend::visitFuncArgDecl())
 	size_t __last_arg_offset = -1;
+
+
+	std::set<VmCode*> __unfinished_func_refs_set;
 
 
 
@@ -163,10 +169,11 @@ public:		// functions
 	std::vector<Symbol*> get_args() const;
 	Symbol* get_one_arg(size_t some_arg_offset) const;
 
-	inline VmCode* append_vm_code()
-	{
-		return ::append_vm_code(__vm_code);
-	}
+	//inline VmCode* append_vm_code()
+	//{
+	//	return ::append_vm_code(__vm_code);
+	//}
+	//VmCode* append_vm_code(VmRawInstrOp s_raw_op);
 
 	//inline IrCode* append_ir_code()
 	//{
@@ -176,6 +183,11 @@ public:		// functions
 	//}
 
 	s64 irntoi(IrCode* t) const;
+	s64 offset_of_vm_code(VmCode* v) const;
+
+	void gen_initial_vm_code();
+	//void adjust_vm_code();
+	std::ostream& osprint_vm_code(std::ostream& os);
 
 	gen_getter_and_setter_by_val(name);
 	gen_getter_by_ref(sym_tbl);
@@ -184,17 +196,20 @@ public:		// functions
 	gen_getter_by_ref(last_label_num);
 	gen_getter_by_ref(num_to_label_map);
 	gen_getter_by_ref(last_arg_offset);
+
+private:		// functions
+	//VmCode* mk_linked_vm_code();
+	VmCode* mk_linked_vm_code(VmRawInstrOp s_raw_op);
+	//VmCode* mk_unlinked_vm_code();
+	VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op);
 };
 
-//class FunctionTable : public IdentTable<Function*>
-//{
-//protected:		// variables
-//	std::vector<Function*> __pool;
-//
-//public:		// functions
-//	FunctionTable();
-//	virtual ~FunctionTable();
-//};
+class FunctionTable : public IdentToPointerTable<Function>
+{
+public:		// functions
+	FunctionTable();
+	virtual ~FunctionTable();
+};
 
 
 //std::ostream& operator << (std::ostream& os, const SymType& to_print);

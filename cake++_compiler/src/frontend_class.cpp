@@ -84,7 +84,19 @@ antlrcpp::Any Frontend::visitProgram
 		__curr_func = __func_tbl.at(ident);
 		iter->accept(this);
 
-		codegen().osprint_func(cout, curr_func());
+		//codegen().osprint_func(cout, curr_func());
+
+		curr_func().gen_initial_vm_code();
+	}
+
+	for (auto* iter : funcDecl)
+	{
+		auto ident = temp_ident_map.at(iter);
+		__curr_func = __func_tbl.at(ident);
+
+		//curr_func().adjust_vm_code();
+
+		curr_func().osprint_vm_code(cout);
 	}
 
 	return nullptr;
@@ -285,14 +297,14 @@ antlrcpp::Any Frontend::visitStmt
 	{
 		ctx->varDecl()->accept(this);
 	}
-	//else if (ctx->expr())
-	//{
-	//	ctx->expr()->accept(this);
-	//}
-	else if (ctx->exprMulDivModEtc())
+	else if (ctx->expr())
 	{
-		ctx->exprMulDivModEtc()->accept(this);
+		ctx->expr()->accept(this);
 	}
+	//else if (ctx->exprMulDivModEtc())
+	//{
+	//	ctx->exprMulDivModEtc()->accept(this);
+	//}
 	else if (ctx->assignment())
 	{
 		ctx->assignment()->accept(this);
