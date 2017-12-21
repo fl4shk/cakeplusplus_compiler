@@ -391,16 +391,6 @@ antlrcpp::Any Frontend::visitNonSizedArrayIdentName
 antlrcpp::Any Frontend::visitAssignment
 	(GrammarParser::AssignmentContext *ctx)
 {
-//	//auto to_push = mk_ast_node(AstOp::stmt_assignment);
-//	auto to_push = mk_ast_stmt(AstStmtOp::Assignment);
-//
-//	ctx->identRhs()->accept(this);
-//	to_push->append_child(pop_ast_node());
-//	ctx->expr()->accept(this);
-//	to_push->append_child(pop_ast_node());
-//
-//	push_ast_node(to_push);
-
 	ctx->identLhs()->accept(this);
 
 	auto addr = pop_ir_code();
@@ -427,6 +417,20 @@ antlrcpp::Any Frontend::visitIfStatement
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+
+
+	ctx->expr()->accept(this);
+	auto expr = pop_ir_code();
+
+
+	auto label_after_statements = codegen().mk_unlinked_label();
+
+	codegen().mk_branch_if_false(label_after_statements, expr);
+
+	ctx->statements()->accept(this);
+
+	relink_ir_code(label_after_statements);
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitIfChainStatement
@@ -445,6 +449,34 @@ antlrcpp::Any Frontend::visitIfChainStatement
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+
+	ctx->expr()->accept(this);
+	auto expr = pop_ir_code();
+
+	auto label_after_statements = codegen().mk_unlinked_label();
+
+
+	// Branch to the else stuff if false
+	codegen().mk_branch_if_false(label_after_statements, expr);
+
+	ctx->statements()->accept(this);
+
+
+
+	auto label_after_else_statements = codegen().mk_unlinked_label();
+
+
+	// Branch to the part that's after the elseStatements
+	codegen().mk_bra(label_after_else_statements);
+
+	relink_ir_code(label_after_statements);
+
+	ctx->elseStatements()->accept(this);
+
+	relink_ir_code(label_after_else_statements);
+
+
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitElseStatements
@@ -468,6 +500,21 @@ antlrcpp::Any Frontend::visitElseStatements
 //
 //	to_push->append_child(pop_ast_node());
 //	push_ast_node(to_push);
+	
+
+	if (ctx->ifStatement())
+	{
+		ctx->ifStatement()->accept(this);
+	}
+	else if (ctx->ifChainStatement())
+	{
+		ctx->ifChainStatement()->accept(this);
+	}
+	else if (ctx->statements())
+	{
+		ctx->statements()->accept(this);
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitWhileStatement
@@ -483,6 +530,26 @@ antlrcpp::Any Frontend::visitWhileStatement
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+
+	auto label_before_expr = codegen().mk_label();
+
+	ctx->expr()->accept(this);
+	auto expr = pop_ir_code();
+
+
+	auto label_after_while = codegen().mk_unlinked_label();
+	codegen().mk_branch_if_false(label_after_while, expr);
+
+	ctx->statements()->accept(this);
+
+
+	// For a while loop, always branch back up to the label_before_expr if
+	// we didn't conditionally end the loop.
+	codegen().mk_bra(label_before_expr);
+
+	relink_ir_code(label_after_while);
+
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitDoWhileStatement
@@ -498,6 +565,18 @@ antlrcpp::Any Frontend::visitDoWhileStatement
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+
+	auto label_before_statements = codegen().mk_label();
+
+	ctx->statements()->accept(this);
+
+
+	ctx->expr()->accept(this);
+	auto expr = pop_ir_code();
+
+	codegen().mk_bne(label_before_statements, expr);
+
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitReturnExprStatement
@@ -510,6 +589,7 @@ antlrcpp::Any Frontend::visitReturnExprStatement
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
+	err("visitReturnExprStatement() is not fully implemented!");
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitReturnNothingStatement
@@ -519,6 +599,7 @@ antlrcpp::Any Frontend::visitReturnNothingStatement
 //	auto to_push = mk_ast_stmt(AstStmtOp::ReturnNothing);
 //
 //	push_ast_node(to_push);
+	err("visitReturnNothingStatement() is not fully implemented!");
 	return nullptr;
 }
 
@@ -537,17 +618,22 @@ antlrcpp::Any Frontend::visitExpr
 
 
 		ctx->expr()->accept(this);
+		auto a = pop_ir_code();
 		//to_push->append_child(pop_ast_node());
 
 		auto&& op = ctx->TokOpLogical()->toString();
 
+		IrBinop s_bitwise_binop;
+
 		if (op == "&&")
 		{
 			//to_push->bin_op = AstBinOp::LogAnd;
+			s_bitwise_binop = IrBinop::BitAnd;
 		}
 		else if (op == "||")
 		{
 			//to_push->bin_op = AstBinOp::LogOr;
+			s_bitwise_binop = IrBinop::BitOr;
 		}
 		else
 		{
@@ -555,6 +641,15 @@ antlrcpp::Any Frontend::visitExpr
 		}
 
 		ctx->exprLogical()->accept(this);
+		auto b = pop_ir_code();
+
+		auto some_binop = codegen().mk_binop(s_bitwise_binop, a, b);
+
+
+		// ((a bitop b) != 0)
+		push_ir_code(codegen().mk_log_not(some_binop));
+
+
 		//to_push->append_child(pop_ast_node());
 		//push_ast_node(to_push);
 	}
@@ -580,46 +675,77 @@ antlrcpp::Any Frontend::visitExprLogical
 
 
 		ctx->exprLogical()->accept(this);
+		auto a = pop_ir_code();
 		//to_push->append_child(pop_ast_node());
 
 		auto&& op = ctx->TokOpCompare()->toString();
 
+
+		IrCode* to_push;
+
 		if (op == "==")
 		{
 			//to_push->bin_op = AstBinOp::CmpEq;
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_code();
+
+			to_push = codegen().mk_binop(IrBinop::CmpEq, a, b);
 		}
 		else if (op == "!=")
 		{
 			//to_push->bin_op = AstBinOp::CmpNe;
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_code();
+
+			to_push = codegen().mk_binop(IrBinop::CmpNe, a, b);
 		}
 		else if (op == "<")
 		{
 			// Temporary!
 			//to_push->bin_op = AstBinOp::CmpSLt;
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_code();
+
+			to_push = codegen().mk_binop(IrBinop::CmpLt, a, b);
 		}
 		else if (op == ">")
 		{
 			// Temporary
 			//to_push->bin_op = AstBinOp::CmpSGt;
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_code();
+
+			to_push = codegen().mk_log_not(codegen().mk_binop
+				(IrBinop::CmpLe, a, b));
 		}
 		else if (op == "<=")
 		{
 			// Temporary!
 			//to_push->bin_op = AstBinOp::CmpSLe;
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_code();
+
+			to_push = codegen().mk_binop(IrBinop::CmpLe, a, b);
 		}
 		else if (op == ">=")
 		{
 			// Temporary
 			//to_push->bin_op = AstBinOp::CmpSGe;
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_code();
+
+			to_push = codegen().mk_log_not(codegen().mk_binop
+				(IrBinop::CmpLt, a, b));
 		}
 		else
 		{
 			err("visitExprLogical():  binop type Eek!\n");
 		}
 
-		ctx->exprCompare()->accept(this);
 		//to_push->append_child(pop_ast_node());
 		//push_ast_node(to_push);
+
+		push_ir_code(to_push);
 	}
 	else
 	{

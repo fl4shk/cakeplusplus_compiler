@@ -29,6 +29,10 @@ enum class IrOp
 	Beq,
 	Bne,
 
+	// Unconditional branch to a label
+	Bra,
+
+
 	// Unconditional jump to a label
 	Jump,
 
@@ -79,6 +83,7 @@ enum class IrBinop
 	BitAsr,
 
 	CmpEq,
+	CmpNe,
 	CmpLt,
 	CmpLe,
 

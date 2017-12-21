@@ -52,13 +52,13 @@ nonSizedArrayIdentName: identName '[' ']' ;
 assignment: identLhs '=' expr ;
 
 ifStatement: TokIf '(' expr ')' statements ;
-
 ifChainStatement: TokIf '(' expr ')' statements TokElse elseStatements ;
 
 
 // Used so that if - else if - else chains can be formed correctly
 elseStatements:
-	ifChainStatement
+	ifStatement
+	| ifChainStatement
 	| statements
 	;
 

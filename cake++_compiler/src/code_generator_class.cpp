@@ -26,16 +26,23 @@ IrCode* CodeGenerator::mk_binop(IrUS s_unsgn_or_sgn,
 
 	return __frontend->relink_ir_code(ret);
 }
-IrCode* CodeGenerator::mk_label(Function& curr_func)
+IrCode* CodeGenerator::mk_unlinked_label()
 {
 	auto ret = mk_unlinked_ir_code(IrOp::Label);
+
+	auto& curr_func = __frontend->curr_func();
 
 	++curr_func.last_label_num();
 	curr_func.num_to_label_map()[curr_func.last_label_num()] = ret;
 	
 	ret->lab_num = curr_func.last_label_num();
 
-	return __frontend->relink_ir_code(ret);
+	//return __frontend->relink_ir_code(ret);
+	return ret;
+}
+IrCode* CodeGenerator::mk_label()
+{
+	return __frontend->relink_ir_code(mk_unlinked_label());
 }
 IrCode* CodeGenerator::mk_beq(s64 s_lab_num, IrCode* condition)
 {
@@ -52,6 +59,14 @@ IrCode* CodeGenerator::mk_bne(s64 s_lab_num, IrCode* condition)
 
 	ret->lab_num = s_lab_num;
 	ret->args.push_back(condition);
+
+	return __frontend->relink_ir_code(ret);
+}
+IrCode* CodeGenerator::mk_bra(s64 s_lab_num)
+{
+	auto ret = mk_unlinked_ir_code(IrOp::Bra);
+
+	ret->lab_num = s_lab_num;
 
 	return __frontend->relink_ir_code(ret);
 }
