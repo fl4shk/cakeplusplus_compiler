@@ -38,8 +38,7 @@ PROJ:=$(shell basename $(CURDIR))$(DEBUG_SUFFIX)
 # Compilers and initial compiler flags
 CXX:=$(PREFIX)g++
 CXX_FLAGS:=$(CXX_FLAGS) -std=c++17 -Wall \
-	-I/home/fl4shk/local/include/antlr4-runtime/ \
-	$(shell pkg-config --cflags jsoncpp)
+	 $(shell pkg-config --cflags jsoncpp)
 
 CC:=$(PREFIX)gcc
 C_FLAGS:=$(C_FLAGS) -std=c11 -Wall
@@ -54,8 +53,7 @@ OBJDUMP:=$(PREFIX)objdump
 LD:=$(CXX)
 
 # Initial linker flags
-LD_FLAGS:=$(LD_FLAGS) -L/home/fl4shk/local/lib -lm -ljsoncpp \
-	-lantlr4-runtime
+LD_FLAGS:=$(LD_FLAGS) -lm -ljsoncpp -lantlr4-runtime
 
 
 
