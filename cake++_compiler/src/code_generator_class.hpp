@@ -89,6 +89,7 @@ public:		// functions
 
 	IrCode* mk_ret_expr(IrCode* expr);
 	IrCode* mk_ret_nothing();
+	IrCode* mk_len(Symbol* s_sym);
 	IrCode* mk_syscall(IrSyscallShorthandOp s_syscall_shorthand_op);
 	IrCode* mk_quit(IrCode* expr);
 

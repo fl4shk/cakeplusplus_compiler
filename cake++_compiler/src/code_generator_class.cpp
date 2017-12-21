@@ -11,20 +11,20 @@ CodeGenerator::~CodeGenerator()
 }
 IrCode* CodeGenerator::mk_const(s64 s_simm)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Constant);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Constant);
 	ret->simm = s_simm;
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_binop(IrUS s_unsgn_or_sgn, 
 	IrBinop s_binop, IrCode* a, IrCode* b)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Binop);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Binop);
 	ret->unsgn_or_sgn = s_unsgn_or_sgn;
 	ret->binop = s_binop;
 	ret->args.push_back(a);
 	ret->args.push_back(b);
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_unlinked_label()
 {
@@ -46,70 +46,70 @@ IrCode* CodeGenerator::mk_label()
 }
 IrCode* CodeGenerator::mk_beq(s64 s_lab_num, IrCode* condition)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Beq);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Beq);
 
 	ret->lab_num = s_lab_num;
 	ret->args.push_back(condition);
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_bne(s64 s_lab_num, IrCode* condition)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Bne);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Bne);
 
 	ret->lab_num = s_lab_num;
 	ret->args.push_back(condition);
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_bra(s64 s_lab_num)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Bra);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Bra);
 
 	ret->lab_num = s_lab_num;
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_jump(s64 s_lab_num)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Jump);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Jump);
 
 	ret->lab_num = s_lab_num;
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_address(Symbol* s_sym)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Address);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Address);
 
 	ret->sym = s_sym;
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_address(Function* s_func)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Address);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Address);
 
 	ret->func = s_func;
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_ldx(IrUS s_unsgn_or_sgn, 
 	IrLdStSize s_ldst_size, IrCode* addr, IrCode* index)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Ldx);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Ldx);
 
 	ret->unsgn_or_sgn = s_unsgn_or_sgn;
 	ret->ldst_size = s_ldst_size;
 	ret->args.push_back(addr);
 	ret->args.push_back(index);
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_stx(IrUS s_unsgn_or_sgn, 
 	IrLdStSize s_ldst_size, IrCode* addr, IrCode* index, IrCode* data)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Stx);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Stx);
 
 	ret->unsgn_or_sgn = s_unsgn_or_sgn;
 	ret->ldst_size = s_ldst_size;
@@ -117,7 +117,7 @@ IrCode* CodeGenerator::mk_stx(IrUS s_unsgn_or_sgn,
 	ret->args.push_back(index);
 	ret->args.push_back(data);
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_unfinished_call()
 {
@@ -127,34 +127,42 @@ IrCode* CodeGenerator::mk_unfinished_call()
 }
 IrCode* CodeGenerator::mk_ret_expr(IrCode* expr)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::RetExpr);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::RetExpr);
 
 	ret->args.push_back(expr);
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_ret_nothing()
 {
-	auto ret = mk_unlinked_ir_code(IrOp::RetNothing);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::RetNothing);
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
+}
+IrCode* CodeGenerator::mk_len(Symbol* s_sym)
+{
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Len);
+
+	ret->sym = s_sym;
+
+	return ret;
 }
 IrCode* CodeGenerator::mk_syscall
 	(IrSyscallShorthandOp s_syscall_shorthand_op)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Syscall);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Syscall);
 
 	ret->syscall_shorthand_op = s_syscall_shorthand_op;
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 IrCode* CodeGenerator::mk_quit(IrCode* expr)
 {
-	auto ret = mk_unlinked_ir_code(IrOp::Quit);
+	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Quit);
 
 	ret->args.push_back(expr);
 
-	return __frontend->relink_ir_code(ret);
+	return ret;
 }
 
 std::ostream& CodeGenerator::osprint_func(std::ostream& os, 
@@ -306,8 +314,10 @@ std::ostream& CodeGenerator::osprint_func(std::ostream& os,
 
 			// Function call (takes an address address)
 			case IrOp::Call:
-				osprintout(os, "call(", 
-					curr_func.irntoi(p->args.at(0)), "(");
+				osprintout(os, "call",
+					"(", 
+					curr_func.irntoi(p->args.at(0)), 
+					"(");
 				for (size_t i=1; i<p->args.size(); ++i)
 				{
 					osprintout(os, curr_func.irntoi(p->args.at(i)));
@@ -329,11 +339,15 @@ std::ostream& CodeGenerator::osprint_func(std::ostream& os,
 				osprintout(os, "ret_nothing");
 				break;
 
+			// len(identName)
+			case IrOp::Len:
+				osprintout(os, "len(", *p->sym->name(), ")");
+				break;
 
 			// System call
 			case IrOp::Syscall:
 				osprintout(os, "syscall",
-					"(", curr_func.irntoi(p->args.at(0)), ")");
+					"(", p->syscall_shorthand_op, ")");
 				break;
 
 			case IrOp::Quit:

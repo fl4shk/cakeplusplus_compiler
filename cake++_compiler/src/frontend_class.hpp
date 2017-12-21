@@ -97,6 +97,8 @@ public:		// functions
 	antlrcpp::Any visitStmt
 		(GrammarParser::StmtContext *ctx);
 
+	antlrcpp::Any visitPutnStatement
+		(GrammarParser::PutnStatementContext *ctx);
 	antlrcpp::Any visitVarDecl
 		(GrammarParser::VarDeclContext *ctx);
 	antlrcpp::Any visitFuncArgDecl

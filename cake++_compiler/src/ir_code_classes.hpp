@@ -58,6 +58,8 @@ enum class IrOp
 	// return;
 	RetNothing,
 
+	// len(identName)
+	Len,
 
 	// System call
 	Syscall,

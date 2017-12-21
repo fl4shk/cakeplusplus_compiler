@@ -1,10 +1,27 @@
+main()
+{
+	s64 temp[3];
+
+	func(temp);
+
+	s64 i;
+
+	i = 0;
+
+	while (i < 3)
+	{
+		putn(temp[i]);
+		i = i + 1;
+	}
+}
+
 add(s64 ret[], s64 a, s64 b)
 {
 	ret[0] = a + b;
 }
 
 
-func(s64 a, s64 b, s64 ret[])
+func(s64 ret[])
 {
 	s64 z;
 
@@ -13,9 +30,19 @@ func(s64 a, s64 b, s64 ret[])
 	s64 i;
 	i = 0;
 
-	while (i < 3)
+	{
+	s64 temp[1];
+
+	s64 one;
+	one = 1;
+
+	while (i < len(ret))
 	{
 		ret[i] = z;
-		i = i + 1;
+		//i = i + 1;
+
+		add(temp, i, one);
+		i = temp[0];
+	}
 	}
 }

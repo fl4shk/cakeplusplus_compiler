@@ -79,6 +79,28 @@ VmCode* append_vm_code(VmCode& some_head)
 //	return pool.back().get();
 //}
 
+IrCode* mk_linked_ir_code(Function& curr_func)
+{
+	auto p = mk_unlinked_ir_code();
+
+	auto to_link_after = curr_func.ir_code().prev;
+
+	IrCode* old_next = to_link_after->next;
+
+	to_link_after->next = p;
+	p->prev = to_link_after;
+	p->next = old_next;
+	old_next->prev = p;
+
+	return p;
+}
+IrCode* mk_linked_ir_code(Function& curr_func, IrOp s_op)
+{
+	auto p = mk_linked_ir_code(curr_func);
+	p->op = s_op;
+	return p;
+}
+
 IrCode* mk_unlinked_ir_code()
 {
 	auto& pool = AllocStuff::__ir_code_pool;
@@ -88,12 +110,11 @@ IrCode* mk_unlinked_ir_code()
 
 	pool.push_back(std::move(p));
 	return pool.back().get();
-
 }
 
 IrCode* mk_unlinked_ir_code(IrOp s_op)
 {
-	auto ret = mk_unlinked_ir_code();
-	ret->op = s_op;
-	return ret;
+	auto p = mk_unlinked_ir_code();
+	p->op = s_op;
+	return p;
 }

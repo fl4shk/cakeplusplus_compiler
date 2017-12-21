@@ -25,6 +25,7 @@ statements: '{' stmt* '}' ;
 
 stmt:
 	statements
+	| putnStatement ';'
 	| varDecl ';'
 	//| expr ';'
 	| exprMulDivModEtc ';'
@@ -36,6 +37,8 @@ stmt:
 	| returnExprStatement ';'
 	| returnNothingStatement ';'
 	;
+
+putnStatement: 'putn(' expr ')' ;
 
 
 varDecl: builtinTypename (identDecl ',')* identDecl ;
@@ -127,8 +130,8 @@ identDecl:
 
 identName: TokIdent ;
 numExpr: TokDecNum ;
-lenExpr: 'len' '(' identRhs ')' ;
-sizeofExpr: 'sizeof' '(' identRhs ')' ;
+lenExpr: 'len' '(' identName ')' ;
+sizeofExpr: 'sizeof' '(' identName ')' ;
 subscriptExpr: '[' expr ']' ;
 subscriptConst: '[' numExpr ']' ;
 

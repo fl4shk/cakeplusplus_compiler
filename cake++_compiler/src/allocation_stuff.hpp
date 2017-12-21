@@ -11,6 +11,7 @@
 
 class VmCode;
 class Function;
+class Function;
 
 class AllocStuff
 {
@@ -21,6 +22,7 @@ class AllocStuff
 	friend VmCode* append_vm_code(VmCode& some_head);
 
 	//friend IrCode* append_ir_code(IrCode& some_head);
+	friend IrCode* mk_linked_ir_code();
 	friend IrCode* mk_unlinked_ir_code();
 
 private:			// static variables
@@ -37,6 +39,8 @@ int* cstm_intdup(int to_dup);
 std::string* cstm_strdup(const std::string& to_dup);
 VmCode* append_vm_code(VmCode& some_head);
 //IrCode* append_ir_code(IrCode& some_head);
+IrCode* mk_linked_ir_code(Function& curr_func);
+IrCode* mk_linked_ir_code(Function& curr_func, IrOp s_op);
 IrCode* mk_unlinked_ir_code();
 IrCode* mk_unlinked_ir_code(IrOp s_op);
 

@@ -226,6 +226,10 @@ antlrcpp::Any Frontend::visitStmt
 	{
 		ctx->statements()->accept(this);
 	}
+	else if (ctx->putnStatement())
+	{
+		ctx->putnStatement()->accept(this);
+	}
 	else if (ctx->varDecl())
 	{
 		ctx->varDecl()->accept(this);
@@ -274,6 +278,19 @@ antlrcpp::Any Frontend::visitStmt
 	return nullptr;
 }
 
+antlrcpp::Any Frontend::visitPutnStatement
+	(GrammarParser::PutnStatementContext *ctx)
+{
+	ctx->expr()->accept(this);
+	IrCode* expr = pop_ir_code();
+
+	codegen().mk_syscall(IrSyscallShorthandOp::DispNum);
+
+	codegen().mk_const('\n');
+	codegen().mk_syscall(IrSyscallShorthandOp::DispChar);
+
+	return nullptr;
+}
 antlrcpp::Any Frontend::visitVarDecl
 	(GrammarParser::VarDeclContext *ctx)
 {
@@ -1171,7 +1188,31 @@ antlrcpp::Any Frontend::visitLenExpr
 //
 //	push_ast_node(to_push);
 
-	err("visitLenExpr() is not fully implemented!");
+	//err("visitLenExpr() is not fully implemented!");
+
+	ctx->identName()->accept(this);
+
+	auto ident = pop_str();
+
+	auto sym = find_sym_or_err(ident, 
+		sconcat("Cannot find symbol called \"", *ident, 
+		"\" for len() expression!"));
+
+	//if (sym->type() == SymType::ScalarVarName)
+	//{
+	//	//push_ir_code(codegen().mk_const(1));
+	//}
+	//else if (sym->type() == SymType::ArrayVarName)
+	//{
+	//	//push_ir_code(codegen().mk_const(sym->size()));
+	//}
+	//else
+	//{
+	//	err("visitLenExpr():  Eek!\n");
+	//}
+	push_ir_code(codegen().mk_len(sym));
+
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitSizeofExpr

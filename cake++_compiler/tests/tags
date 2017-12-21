@@ -8,5 +8,5 @@
 add	test_1.c	/^add(s64 ret[], s64 a, s64 b)$/;"	kind:f	signature:(s64 ret[],s64 a,s64 b)
 f	test_2.c	/^f()$/;"	kind:f	signature:()
 f	test_3.c	/^f()$/;"	kind:f	signature:()
-func	test_1.c	/^func(s64 a, s64 b, s64 ret[])$/;"	kind:f	signature:(s64 a,s64 b,s64 ret[])
-s64	test_1.c	/^s64()$/;"	kind:f	signature:()
+func	test_1.c	/^func(s64 ret[])$/;"	kind:f	signature:(s64 ret[])
+main	test_1.c	/^main()$/;"	kind:f	signature:()
