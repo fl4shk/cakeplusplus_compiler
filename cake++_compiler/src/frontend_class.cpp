@@ -42,97 +42,77 @@ Frontend::~Frontend()
 {
 }
 
-//antlrcpp::Any Frontend::visitProgram
-//	(GrammarParser::ProgramContext *ctx)
-//{
-//	//__program_node = mk_ast_node(AstOp::Prog);
-//
-//	auto&& funcDecl = ctx->funcDecl();
-//
-//	std::map<GrammarParser::FuncDeclContext*, Ident> temp_ident_map;
-//
-//	for (auto* func_decl : funcDecl)
-//	{
-//		func_decl->identName()->accept(this);
-//		auto ident = pop_str();
-//
-//		temp_ident_map[func_decl] = ident;
-//
-//		if (__func_tbl.contains(ident))
-//		{
-//			err(sconcat("Can't have more than one function called \"",
-//				*ident, "\"!"));
-//		}
-//
-//		__func_tbl.insert_or_assign(mkfunc(ident));
-//
-//		__curr_func = __func_tbl.at(ident);
-//
-//		auto&& funcArgDecl = func_decl->funcArgDecl();
-//
-//		// Fill up the symbol table with the arguments to the function
-//		for (auto* func_arg_decl : funcArgDecl)
-//		{
-//			func_arg_decl->accept(this);
-//		}
-//	}
-//
-//	// Now visit the statements
-//	for (auto* iter : funcDecl)
-//	{
-//		auto ident = temp_ident_map.at(iter);
-//		__curr_func = __func_tbl.at(ident);
-//		iter->accept(this);
-//
-//		//codegen().osprint_func(cout, curr_func());
-//
-//		curr_func().gen_vm_code();
-//	}
-//
-//	for (auto* iter : funcDecl)
-//	{
-//		auto ident = temp_ident_map.at(iter);
-//		__curr_func = __func_tbl.at(ident);
-//
-//		//curr_func().adjust_vm_code();
-//
-//		curr_func().osprint_vm_code(cout);
-//	}
-//
-//	return nullptr;
-//}
-//
-//antlrcpp::Any Frontend::visitFuncDecl
-//	(GrammarParser::FuncDeclContext *ctx)
-//{
-//	// Just do the statements stuff here
-//	ctx->statements()->accept(this);
-//
-//	return nullptr;
-//}
+antlrcpp::Any Frontend::visitProgram
+	(GrammarParser::ProgramContext *ctx)
+{
+	//__program_node = mk_ast_node(AstOp::Prog);
+
+	auto&& funcDecl = ctx->funcDecl();
+
+	std::map<GrammarParser::FuncDeclContext*, Ident> temp_ident_map;
+
+	for (auto* func_decl : funcDecl)
+	{
+		func_decl->identName()->accept(this);
+		auto ident = pop_str();
+
+		temp_ident_map[func_decl] = ident;
+
+		if (__func_tbl.contains(ident))
+		{
+			err(sconcat("Can't have more than one function called \"",
+				*ident, "\"!"));
+		}
+
+		__func_tbl.insert_or_assign(mkfunc(ident));
+
+		__curr_func = __func_tbl.at(ident);
+
+		auto&& funcArgDecl = func_decl->funcArgDecl();
+
+		// Fill up the symbol table with the arguments to the function
+		for (auto* func_arg_decl : funcArgDecl)
+		{
+			func_arg_decl->accept(this);
+		}
+	}
+
+	// Now visit the statements
+	for (auto* iter : funcDecl)
+	{
+		auto ident = temp_ident_map.at(iter);
+		__curr_func = __func_tbl.at(ident);
+		iter->accept(this);
+
+		//codegen().osprint_func(cout, curr_func());
+
+		curr_func().gen_vm_code();
+	}
+
+	for (auto* iter : funcDecl)
+	{
+		auto ident = temp_ident_map.at(iter);
+		__curr_func = __func_tbl.at(ident);
+
+		//curr_func().adjust_vm_code();
+
+		curr_func().osprint_vm_code(cout);
+	}
+
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitFuncDecl
+	(GrammarParser::FuncDeclContext *ctx)
+{
+	// Just do the statements stuff here
+	ctx->statements()->accept(this);
+
+	return nullptr;
+}
 //antlrcpp::Any Frontend::visitFuncCall
 //	(GrammarParser::FuncCallContext *ctx)
 //{
-////	auto to_push = mk_ast_expr(AstExprOp::FuncCall);
-////
-////	ctx->identName()->accept(this);
-////	to_push->ident = pop_str();
-////
-////	{
-////	auto&& funcArgExpr = ctx->funcArgExpr();
-////
-////	for (auto func_arg_expr : funcArgExpr)
-////	{
-////		func_arg_expr->accept(this);
-////		to_push->append_child(pop_ast_node());
-////	}
-////
-////	}
-////
-////
-////	push_ast_node(to_push);
-//
-//
 //	ctx->identName()->accept(this);
 //	auto ident = pop_str();
 //

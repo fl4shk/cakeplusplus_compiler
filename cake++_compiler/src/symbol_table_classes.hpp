@@ -135,14 +135,13 @@ private:		// variables
 
 	// Label numbering stuff
 	s64 __last_label_num = -1;
-	//std::map<s64, IrCode*> __num_to_label_map;
 	std::map<s64, RtlCode*> __num_to_label_map;
 
 	// Argument ordering stuff (used by Frontend::visitFuncArgDecl())
 	size_t __last_arg_offset = -1;
 
 
-	std::set<VmCode*> __unfinished_func_refs_set;
+	//std::set<VmCode*> __unfinished_func_refs_set;
 
 
 
@@ -151,8 +150,6 @@ public:		// functions
 	{
 		__vm_code.next = &__vm_code;
 		__vm_code.prev = &__vm_code;
-		//__ir_code.next = &__ir_code;
-		//__ir_code.prev = &__ir_code;
 		__rtl_code.next = &__rtl_code;
 		__rtl_code.prev = &__rtl_code;
 	}
@@ -161,8 +158,6 @@ public:		// functions
 	{
 		__vm_code.next = &__vm_code;
 		__vm_code.prev = &__vm_code;
-		//__ir_code.next = &__ir_code;
-		//__ir_code.prev = &__ir_code;
 		__rtl_code.next = &__rtl_code;
 		__rtl_code.prev = &__rtl_code;
 	}

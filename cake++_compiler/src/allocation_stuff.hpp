@@ -17,10 +17,14 @@ class AllocStuff
 {
 	friend int* cstm_intdup(int to_dup);
 	friend std::string* cstm_strdup(const std::string& to_dup);
+
 	//friend VmCode* append_vm_code(Function& func);
 	//friend AstNode* mk_ast_node();
 	//friend VmCode* append_vm_code(VmCode& some_head);
 	friend VmCode* mk_unlinked_vm_code();
+
+	friend RtlExpr* mk_rtl_expr(RtlExpr* some_parent);
+	friend RtlExpr* mk_rtl_expr(RtlExpr&& to_move);
 
 	//friend RtlCode* append_rtl_code(RtlCode& some_head);
 	friend RtlCode* mk_unlinked_rtl_code();
@@ -30,6 +34,7 @@ private:			// static variables
 	static std::map<std::string, std::unique_ptr<std::string>>
 		__str_pool;
 	static std::vector<std::unique_ptr<VmCode>> __vm_code_pool;
+	static std::vector<std::unique_ptr<RtlExpr>> __rtl_expr_pool;
 	static std::vector<std::unique_ptr<RtlCode>> __rtl_code_pool;
 	//static std::vector<std::unique_ptr<AstNode>> __ast_node_pool;
 
@@ -53,6 +58,10 @@ inline VmCode* relink_vm_code(VmCode* p, VmCode* to_link_after)
 
 	return p;
 }
+
+RtlExpr* mk_rtl_expr(RtlExpr* some_parent);
+RtlExpr* mk_rtl_expr(RtlExpr&& to_move);
+
 //RtlCode* append_rtl_code(RtlCode& some_head);
 RtlCode* mk_linked_rtl_code(Function& curr_func);
 RtlCode* mk_linked_rtl_code(Function& curr_func, RtlInOp s_op);
@@ -69,5 +78,6 @@ inline RtlCode* relink_rtl_code(RtlCode* p, RtlCode* to_link_after)
 
 	return p;
 }
+
 
 #endif		// allocation_stuff_hpp

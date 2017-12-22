@@ -137,6 +137,7 @@ class RtlExpr
 public:		// variables
 	RtlExOp op;
 
+	// Making this a union saves space (perhaps unnecessarily so).
 	union
 	{
 		RtlBinop binop;
@@ -149,10 +150,25 @@ public:		// variables
 
 public:		// functions
 	RtlExpr(RtlExpr* s_parent);
+
+	RtlExpr(RtlExpr&& to_move) = default;
+
 	virtual ~RtlExpr();
+
+	RtlExpr& operator = (RtlExpr&& to_move) = default;
+
+	inline auto append_child(RtlExpr* to_append)
+	{
+		children.push_back(to_append);
+		return children.back();
+	}
 
 
 };
+
+
+extern RtlExpr* mk_rtl_expr(RtlExpr* some_parent);
+extern RtlExpr* mk_rtl_expr(RtlExpr&& to_move);
 
 class RtlCode
 {
@@ -161,18 +177,22 @@ private:		// variables
 
 	std::vector<RtlExpr*> __children;
 
-	std::vector<RtlExpr*> __rtl_expr_pool;
-
 
 public:		// variables
 	// Linked list stuff
 	RtlCode * next, * prev;
 
 public:		// functions
-	//RtlCode();
-	//virtual ~RtlCode();
+	RtlCode();
+	virtual ~RtlCode();
 	//virtual RtlType type();
 	//virtual void accept(RtlVisitor& v);
+
+	inline auto append_child(RtlExpr&& to_append)
+	{
+		__children.push_back(mk_rtl_expr(std::move(to_append)));
+		return __children.back();
+	}
 
 	gen_getter_and_setter_by_val(op);
 	gen_getter_by_ref(children);

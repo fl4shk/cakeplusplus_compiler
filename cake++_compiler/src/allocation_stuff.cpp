@@ -6,6 +6,7 @@
 std::map<int, std::unique_ptr<int>> AllocStuff::__int_pool;
 std::map<std::string, std::unique_ptr<std::string>> AllocStuff::__str_pool;
 std::vector<std::unique_ptr<VmCode>> AllocStuff::__vm_code_pool;
+std::vector<std::unique_ptr<RtlExpr>> AllocStuff::__rtl_expr_pool;
 std::vector<std::unique_ptr<RtlCode>> AllocStuff::__rtl_code_pool;
 //std::vector<std::unique_ptr<AstNode>> AllocStuff::__ast_node_pool;
 
@@ -306,6 +307,29 @@ VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op)
 	}
 
 	return p;
+}
+
+
+RtlExpr* mk_rtl_expr(RtlExpr* some_parent)
+{
+	auto& pool = AllocStuff::__rtl_expr_pool;
+
+	std::unique_ptr<RtlExpr> p;
+	p.reset(new RtlExpr(some_parent));
+
+	pool.push_back(std::move(p));
+	return pool.back().get();
+}
+
+RtlExpr* mk_rtl_expr(RtlExpr&& to_move)
+{
+	auto& pool = AllocStuff::__rtl_expr_pool;
+
+	std::unique_ptr<RtlExpr> p;
+	p.reset(new RtlExpr(std::move(to_move)));
+
+	pool.push_back(std::move(p));
+	return pool.back().get();
 }
 
 RtlCode* mk_linked_rtl_code(Function& curr_func)
