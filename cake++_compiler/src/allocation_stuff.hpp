@@ -5,12 +5,12 @@
 
 //#include "symbol_table_classes.hpp"
 #include "vm_code_class.hpp"
-#include "ir_code_classes.hpp"
+//#include "ir_code_classes.hpp"
+#include "rtl_stuff.hpp"
 
 #include <map>
 
 class VmCode;
-class Function;
 class Function;
 
 class AllocStuff
@@ -22,15 +22,15 @@ class AllocStuff
 	//friend VmCode* append_vm_code(VmCode& some_head);
 	friend VmCode* mk_unlinked_vm_code();
 
-	//friend IrCode* append_ir_code(IrCode& some_head);
-	friend IrCode* mk_unlinked_ir_code();
+	//friend RtlCode* append_rtl_code(RtlCode& some_head);
+	friend RtlCode* mk_unlinked_rtl_code();
 
 private:			// static variables
 	static std::map<int, std::unique_ptr<int>> __int_pool;
 	static std::map<std::string, std::unique_ptr<std::string>>
 		__str_pool;
 	static std::vector<std::unique_ptr<VmCode>> __vm_code_pool;
-	static std::vector<std::unique_ptr<IrCode>> __ir_code_pool;
+	static std::vector<std::unique_ptr<RtlCode>> __rtl_code_pool;
 	//static std::vector<std::unique_ptr<AstNode>> __ast_node_pool;
 
 };
@@ -53,14 +53,14 @@ inline VmCode* relink_vm_code(VmCode* p, VmCode* to_link_after)
 
 	return p;
 }
-//IrCode* append_ir_code(IrCode& some_head);
-IrCode* mk_linked_ir_code(Function& curr_func);
-IrCode* mk_linked_ir_code(Function& curr_func, IrOp s_op);
-IrCode* mk_unlinked_ir_code();
-IrCode* mk_unlinked_ir_code(IrOp s_op);
-inline IrCode* relink_ir_code(IrCode* p, IrCode* to_link_after)
+//RtlCode* append_rtl_code(RtlCode& some_head);
+RtlCode* mk_linked_rtl_code(Function& curr_func);
+RtlCode* mk_linked_rtl_code(Function& curr_func, RtlInOp s_op);
+RtlCode* mk_unlinked_rtl_code();
+RtlCode* mk_unlinked_rtl_code(RtlInOp s_op);
+inline RtlCode* relink_rtl_code(RtlCode* p, RtlCode* to_link_after)
 {
-	IrCode* old_next = to_link_after->next;
+	RtlCode* old_next = to_link_after->next;
 
 	to_link_after->next = p;
 	p->prev = to_link_after;

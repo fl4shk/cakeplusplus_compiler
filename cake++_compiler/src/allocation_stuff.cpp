@@ -6,7 +6,7 @@
 std::map<int, std::unique_ptr<int>> AllocStuff::__int_pool;
 std::map<std::string, std::unique_ptr<std::string>> AllocStuff::__str_pool;
 std::vector<std::unique_ptr<VmCode>> AllocStuff::__vm_code_pool;
-std::vector<std::unique_ptr<IrCode>> AllocStuff::__ir_code_pool;
+std::vector<std::unique_ptr<RtlCode>> AllocStuff::__rtl_code_pool;
 //std::vector<std::unique_ptr<AstNode>> AllocStuff::__ast_node_pool;
 
 int* cstm_intdup(int to_dup)
@@ -65,12 +65,12 @@ std::string* cstm_strdup(const std::string& to_dup)
 //}
 
 
-//IrCode* append_ir_code(IrCode& some_head)
+//RtlCode* append_rtl_code(RtlCode& some_head)
 //{
-//	auto& pool = AllocStuff::__ir_code_pool;
+//	auto& pool = AllocStuff::__rtl_code_pool;
 //
-//	std::unique_ptr<IrCode> p;
-//	p.reset(new IrCode());
+//	std::unique_ptr<RtlCode> p;
+//	p.reset(new RtlCode());
 //	p->next = &some_head;
 //	(p->prev = some_head.prev)->next = p.get();
 //	some_head.prev = p.get();
@@ -308,37 +308,37 @@ VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op)
 	return p;
 }
 
-IrCode* mk_linked_ir_code(Function& curr_func)
+RtlCode* mk_linked_rtl_code(Function& curr_func)
 {
-	auto p = mk_unlinked_ir_code();
+	auto p = mk_unlinked_rtl_code();
 
-	relink_ir_code(p, curr_func.ir_code().prev);
+	relink_rtl_code(p, curr_func.rtl_code().prev);
 
 	return p;
 }
-IrCode* mk_linked_ir_code(Function& curr_func, IrOp s_op)
+RtlCode* mk_linked_rtl_code(Function& curr_func, RtlInOp s_op)
 {
-	auto p = mk_unlinked_ir_code(s_op);
+	auto p = mk_unlinked_rtl_code(s_op);
 
-	relink_ir_code(p, curr_func.ir_code().prev);
+	relink_rtl_code(p, curr_func.rtl_code().prev);
 
 	return p;
 }
 
-IrCode* mk_unlinked_ir_code()
+RtlCode* mk_unlinked_rtl_code()
 {
-	auto& pool = AllocStuff::__ir_code_pool;
+	auto& pool = AllocStuff::__rtl_code_pool;
 
-	std::unique_ptr<IrCode> p;
-	p.reset(new IrCode());
+	std::unique_ptr<RtlCode> p;
+	p.reset(new RtlCode());
 
 	pool.push_back(std::move(p));
 	return pool.back().get();
 }
 
-IrCode* mk_unlinked_ir_code(IrOp s_op)
+RtlCode* mk_unlinked_rtl_code(RtlInOp s_op)
 {
-	auto p = mk_unlinked_ir_code();
-	p->op = s_op;
+	auto p = mk_unlinked_rtl_code();
+	p->set_op(s_op);
 	return p;
 }

@@ -115,13 +115,6 @@ public:		// variables
 
 	size_t size = sizeof(u16);
 
-	//VmIntermediateOp op;
-
-	//IrUS unsgn_or_sgn;
-	//IrLdStConstSize ldstconst_size;
-	//IrSyscallShorthandOp syscall_shorthand_op;
-
-
 	union
 	{
 		// Label identifier:  used by branches, jumps, and fake_op_label

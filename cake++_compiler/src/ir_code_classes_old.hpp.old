@@ -148,8 +148,8 @@ public:		// variables
 	// Identifier, Binop type, constant value, or label number
 	union
 	{
-		// Identifier:  used for Address
-		Ident ident;
+		//// Identifier:  used for Address
+		//Ident ident;
 
 		IrBinop binop;
 		u64 uimm;
@@ -160,7 +160,7 @@ public:		// variables
 	};
 
 	// Arguments
-	std::deque<IrCode*> args;
+	std::vector<IrCode*> args;
 
 	// Linked list links
 	IrCode * next = nullptr, * prev = nullptr;
@@ -170,6 +170,7 @@ public:		// functions
 	virtual ~IrCode();
 
 };
+
 
 
 

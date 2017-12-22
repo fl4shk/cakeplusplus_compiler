@@ -82,26 +82,26 @@ s64 Symbol::builtin_type_size() const
 			return -1;
 	}
 }
-IrLdStSize Symbol::get_ldst_size() const
-{
-	switch (var_type())
-	{
-		case BuiltinTypename::U64:
-		case BuiltinTypename::S64:
-			return IrLdStSize::Sz64;
-		case BuiltinTypename::U32:
-		case BuiltinTypename::S32:
-			return IrLdStSize::Sz32;
-		case BuiltinTypename::U16:
-		case BuiltinTypename::S16:
-			return IrLdStSize::Sz16;
-		case BuiltinTypename::U8:
-		case BuiltinTypename::S8:
-			return IrLdStSize::Sz8;
-		default:
-			return IrLdStSize::Unknown;
-	}
-}
+//IrLdStSize Symbol::get_ldst_size() const
+//{
+//	switch (var_type())
+//	{
+//		case BuiltinTypename::U64:
+//		case BuiltinTypename::S64:
+//			return IrLdStSize::Sz64;
+//		case BuiltinTypename::U32:
+//		case BuiltinTypename::S32:
+//			return IrLdStSize::Sz32;
+//		case BuiltinTypename::U16:
+//		case BuiltinTypename::S16:
+//			return IrLdStSize::Sz16;
+//		case BuiltinTypename::U8:
+//		case BuiltinTypename::S8:
+//			return IrLdStSize::Sz8;
+//		default:
+//			return IrLdStSize::Unknown;
+//	}
+//}
 
 SymbolTable::SymbolTable()
 {
@@ -167,22 +167,22 @@ Symbol* Function::get_one_arg(size_t some_arg_offset) const
 
 	return nullptr;
 }
-s64 Function::irntoi(IrCode* t) const
-{
-	s64 ret = -1;
-
-	for (auto p=__ir_code.next; p!=&__ir_code; p=p->next)
-	{
-		++ret;
-
-		if (p == t)
-		{
-			break;
-		}
-	}
-
-	return ret;
-}
+//s64 Function::irntoi(IrCode* t) const
+//{
+//	s64 ret = -1;
+//
+//	for (auto p=__ir_code.next; p!=&__ir_code; p=p->next)
+//	{
+//		++ret;
+//
+//		if (p == t)
+//		{
+//			break;
+//		}
+//	}
+//
+//	return ret;
+//}
 
 s64 Function::offset_of_vm_code(VmCode* v) const
 {
@@ -200,18 +200,21 @@ s64 Function::offset_of_vm_code(VmCode* v) const
 	return -1;
 }
 
-void Function::gen_initial_vm_code()
+void Function::gen_vm_code()
 {
+	
 	// Allocate local variables
 
-	{
-	IrCode* p;
 
-	for (p=__ir_code.next; p!=&__ir_code; )
-	{
-	}
 
-	}
+	//auto&& tree = gen_ir_tree();
+
+
+
+
+
+
+
 
 	// Deallocate local variables
 }
@@ -227,25 +230,34 @@ std::ostream& Function::osprint_vm_code(std::ostream& os)
 		switch (p->raw_op)
 		{
 			case VmRawInstrOp::constant_64:
-				osprintout(os, "const(", p->imm_s64, ")");
+				osprintout(os, "const(");
+				if (!p->func_ident)
+				{
+					osprintout(os, p->imm_s64);
+				}
+				else
+				{
+					osprintout(os, *p->func_ident);
+				}
+				osprintout(os, ")");
 				break;
 			case VmRawInstrOp::constant_u32:
-				osprintout(os, "const_u32(", p->imm_u32, ")");
+				osprintout(os, "const_u32(", (u64)p->imm_u32, ")");
 				break;
 			case VmRawInstrOp::constant_s32:
-				osprintout(os, "const_s32(", p->imm_s32, ")");
+				osprintout(os, "const_s32(", (s64)p->imm_s32, ")");
 				break;
 			case VmRawInstrOp::constant_u16:
-				osprintout(os, "const_u16(", p->imm_u16, ")");
+				osprintout(os, "const_u16(", (u64)p->imm_u16, ")");
 				break;
 			case VmRawInstrOp::constant_s16:
-				osprintout(os, "const_s16(", p->imm_s16, ")");
+				osprintout(os, "const_s16(", (s64)p->imm_s16, ")");
 				break;
 			case VmRawInstrOp::constant_u8:
-				osprintout(os, "const_u8(", p->imm_u8, ")");
+				osprintout(os, "const_u8(", (u64)p->imm_u8, ")");
 				break;
 			case VmRawInstrOp::constant_s8:
-				osprintout(os, "const_s8(", p->imm_s8, ")");
+				osprintout(os, "const_s8(", (s64)p->imm_s8, ")");
 				break;
 
 			case VmRawInstrOp::arg:
@@ -462,10 +474,15 @@ std::ostream& Function::osprint_vm_code(std::ostream& os)
 				osprintout(os, "quit");
 				break;
 
+			case VmRawInstrOp::fake_op_label:
+				osprintout(os, *p->lab_ident, ":");
+				break;
+
 			default:
 				printerr("Function::osprint_vm_code():  Eek!\n");
 				exit(1);
 		}
+		osprintout(os, "\n");
 	}
 	return osprintout(os, "}\n");
 

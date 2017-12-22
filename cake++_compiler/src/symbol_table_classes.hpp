@@ -7,7 +7,8 @@
 #include "symbol_table_base_class.hpp"
 
 #include "vm_code_class.hpp"
-#include "ir_code_classes.hpp"
+//#include "ir_code_classes.hpp"
+#include "rtl_stuff.hpp"
 #include "allocation_stuff.hpp"
 
 enum class SymType : int
@@ -89,11 +90,11 @@ public:		// functions
 
 	s64 builtin_type_size() const;
 
-	inline IrUS get_unsgn_or_sgn() const
-	{
-		return is_unsgn_builtin() ? IrUS::Unsgn : IrUS::Sgn;
-	}
-	IrLdStSize get_ldst_size() const;
+	//inline IrUS get_unsgn_or_sgn() const
+	//{
+	//	return is_unsgn_builtin() ? IrUS::Unsgn : IrUS::Sgn;
+	//}
+	//IrLdStSize get_ldst_size() const;
 
 	gen_getter_and_setter_by_con_ref(name);
 	gen_setter_by_rval_ref(name);
@@ -129,11 +130,13 @@ private:		// variables
 	SymbolTable __sym_tbl;
 
 	VmCode __vm_code;
-	IrCode __ir_code;
+	RtlCode __rtl_code;
+	//IrCode __ir_code;
 
 	// Label numbering stuff
 	s64 __last_label_num = -1;
-	std::map<s64, IrCode*> __num_to_label_map;
+	//std::map<s64, IrCode*> __num_to_label_map;
+	std::map<s64, RtlCode*> __num_to_label_map;
 
 	// Argument ordering stuff (used by Frontend::visitFuncArgDecl())
 	size_t __last_arg_offset = -1;
@@ -148,16 +151,20 @@ public:		// functions
 	{
 		__vm_code.next = &__vm_code;
 		__vm_code.prev = &__vm_code;
-		__ir_code.next = &__ir_code;
-		__ir_code.prev = &__ir_code;
+		//__ir_code.next = &__ir_code;
+		//__ir_code.prev = &__ir_code;
+		__rtl_code.next = &__rtl_code;
+		__rtl_code.prev = &__rtl_code;
 	}
 	inline Function(Ident s_name)
 		: __name(s_name)
 	{
 		__vm_code.next = &__vm_code;
 		__vm_code.prev = &__vm_code;
-		__ir_code.next = &__ir_code;
-		__ir_code.prev = &__ir_code;
+		//__ir_code.next = &__ir_code;
+		//__ir_code.prev = &__ir_code;
+		__rtl_code.next = &__rtl_code;
+		__rtl_code.prev = &__rtl_code;
 	}
 
 	//inline Function(const Function& to_copy) = default;
@@ -182,17 +189,18 @@ public:		// functions
 	//	return ret;
 	//}
 
-	s64 irntoi(IrCode* t) const;
+	//s64 irntoi(IrCode* t) const;
 	s64 offset_of_vm_code(VmCode* v) const;
 
-	void gen_initial_vm_code();
+	void gen_vm_code();
 	//void adjust_vm_code();
 	std::ostream& osprint_vm_code(std::ostream& os);
 
 	gen_getter_and_setter_by_val(name);
 	gen_getter_by_ref(sym_tbl);
 	gen_getter_by_ref(vm_code);
-	gen_getter_by_ref(ir_code);
+	//gen_getter_by_ref(ir_code);
+	gen_getter_by_ref(rtl_code);
 	gen_getter_by_ref(last_label_num);
 	gen_getter_by_ref(num_to_label_map);
 	gen_getter_by_ref(last_arg_offset);
@@ -202,14 +210,16 @@ private:		// functions
 	{
 		return ::mk_linked_vm_code(__vm_code, s_raw_op);
 	}
-	inline VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op)
-	{
-		return ::mk_unlinked_vm_code(s_raw_op);
-	}
-	inline void relink_vm_code(VmCode* p)
-	{
-		::relink_vm_code(p, __vm_code.prev);
-	}
+	//inline VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op)
+	//{
+	//	return ::mk_unlinked_vm_code(s_raw_op);
+	//}
+	//inline void relink_vm_code(VmCode* p)
+	//{
+	//	::relink_vm_code(p, __vm_code.prev);
+	//}
+
+
 };
 
 class FunctionTable : public IdentToPointerTable<Function>

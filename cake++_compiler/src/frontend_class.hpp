@@ -9,7 +9,7 @@
 #include "symbol_table_classes.hpp"
 //#include "abstract_syntax_tree_classes.hpp"
 #include "vm_code_class.hpp"
-#include "ir_code_classes.hpp"
+//#include "ir_code_classes.hpp"
 
 #include "code_generator_class.hpp"
 
@@ -70,7 +70,8 @@ protected:		// variables
 	//std::stack<VmCode*> __code_stack;
 	std::stack<Symbol*> __sym_stack;
 	std::stack<Function*> __func_stack;
-	std::stack<IrCode*> __ir_code_stack;
+	//std::stack<IrCode*> __ir_code_stack;
+	std::stack<RtlCode*> __rtl_code_stack;
 
 	//AstNode* __program_node;
 	CodeGenerator __codegen;
@@ -315,24 +316,40 @@ protected:		// functions
 		return __func_stack.top();
 	}
 
-	inline IrCode* relink_ir_code(IrCode* p)
-	{
-		return ::relink_ir_code(p, curr_func().ir_code().prev);
-	}
+	//inline IrCode* relink_ir_code(IrCode* p)
+	//{
+	//	return ::relink_ir_code(p, curr_func().ir_code().prev);
+	//}
 
-	inline void push_ir_code(IrCode* to_push)
+	//inline void push_ir_code(IrCode* to_push)
+	//{
+	//	__ir_code_stack.push(to_push);
+	//}
+	//inline auto pop_ir_code()
+	//{
+	//	auto ret = __ir_code_stack.top();
+	//	__ir_code_stack.pop();
+	//	return ret;
+	//}
+	//inline auto get_top_ir_code()
+	//{
+	//	return __ir_code_stack.top();
+	//}
+
+
+	inline void push_rtl_code(RtlCode* to_push)
 	{
-		__ir_code_stack.push(to_push);
+		__rtl_code_stack.push(to_push);
 	}
-	inline auto pop_ir_code()
+	inline auto pop_rtl_code()
 	{
-		auto ret = __ir_code_stack.top();
-		__ir_code_stack.pop();
+		auto ret = __rtl_code_stack.top();
+		__rtl_code_stack.pop();
 		return ret;
 	}
-	inline auto get_top_ir_code()
+	inline auto get_top_rtl_code()
 	{
-		return __ir_code_stack.top();
+		return __rtl_code_stack.top();
 	}
 };
 
