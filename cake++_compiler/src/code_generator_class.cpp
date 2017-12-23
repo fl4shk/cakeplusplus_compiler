@@ -559,11 +559,106 @@ IrCode* CodeGenerator::mk_code_linked_label()
 std::ostream& CodeGenerator::osprint_func_ir_code(std::ostream& os,
 	Function& curr_func)
 {
-	printout("CodeGenerator::osprint_func_ir_code() is not finished!\n");
-	return os;
+	//printout("CodeGenerator::osprint_func_ir_code() is not finished!\n");
+
+	osprintout(os, curr_func.name(), "\n");
+	osprintout(os, "{\n");
+
+	for (auto p=curr_func.ir_code().next;
+		p!=&curr_func.ir_code();
+		p=p->next)
+	{
+		osprintout(os, "\t");
+		switch (p->iop())
+		{
+			// Store
+			case IrInOp::St:
+				osprintout(os, "\tst(", p->st_mm(), ", ");
+				break;
+
+			// Return from subroutine
+			case IrInOp::ReturnExpr:
+				osprintout(os, "\treturn_expr(");
+				break;
+			case IrInOp::ReturnNothing:
+				osprintout(os, "\treturn_nothing(");
+				break;
+
+			// Stop the program
+			case IrInOp::Quit:
+				osprintout(os, "\tquit(");
+				break;
+
+
+			case IrInOp::Jump:
+				osprintout(os, "\tjump(");
+				break;
+			case IrInOp::Call:
+				osprintout(os, "\tcall(");
+				break;
+
+			case IrInOp::Syscall:
+				osprintout(os, "\tsyscall(", p->syscall_shorthand_op());
+				break;
+			case IrInOp::Label:
+				osprintout(os, get_label_name(p), ":  ");
+				break;
+		}
+
+		if (p->iop() == IrInOp::Syscall)
+		{
+			if (p->args().size() > 0)
+			{
+				osprintout(os, ", ");
+			}
+		}
+		for (size_t i=0; i<p->args().size(); ++i)
+		{
+			auto arg = p->args().at(i);
+
+			//osprintout(os, arg);
+			osprint_ir_expr(os, arg);
+
+			if ((i + 1) < p->args().size())
+			{
+				osprintout(os, ", ");
+			}
+		}
+
+		//osprintout(os, ")\n");
+
+		if (p->iop() != IrInOp::Label)
+		{
+			osprintout(os, ")");
+		}
+		osprintout(os, "\n");
+	}
+
+	return osprintout(os, "}\n");
 }
 
 IrCode* CodeGenerator::mk_linked_ir_code(IrInOp s_iop)
 {
 	return ::mk_linked_ir_code(__frontend->curr_func(), s_iop);
+}
+
+std::ostream& CodeGenerator::osprint_ir_expr(std::ostream& os, 
+	IrExpr* to_print)
+{
+	switch (to_print->op)
+	{
+	}
+}
+
+
+std::string CodeGenerator::get_label_name(IrCode* some_label) const
+{
+	std::string ret = sconcat(some_label->lab_num());
+
+	do
+	{
+		ret = sconcat("_", ret);
+	} while (__frontend->__func_tbl.contains(cstm_strdup(ret)));
+
+	return ret;
 }

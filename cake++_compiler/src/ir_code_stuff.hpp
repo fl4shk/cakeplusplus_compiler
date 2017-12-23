@@ -141,6 +141,10 @@ enum class IrMachineMode
 	S8,
 };
 
+std::ostream& operator << (std::ostream& os, 
+	IrSyscallShorthandOp syscall_shorthand_op);
+std::ostream& operator << (std::ostream& os, IrMachineMode mm);
+
 class IrExpr;
 
 class Function;

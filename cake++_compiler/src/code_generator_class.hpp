@@ -139,6 +139,10 @@ public:		// functions
 protected:		// functions
 	IrCode* mk_linked_ir_code(IrInOp s_iop);
 
+	std::ostream& osprint_ir_expr(std::ostream& os, IrExpr* to_print);
+
+	std::string get_label_name(IrCode* some_label) const;
+
 
 };
 
