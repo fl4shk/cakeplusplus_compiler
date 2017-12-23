@@ -8,7 +8,7 @@
 
 #include "vm_code_class.hpp"
 //#include "ir_code_classes.hpp"
-#include "rtl_stuff.hpp"
+#include "ir_code_stuff.hpp"
 #include "allocation_stuff.hpp"
 
 enum class SymType : int
@@ -130,12 +130,12 @@ private:		// variables
 	SymbolTable __sym_tbl;
 
 	VmCode __vm_code;
-	RtlCode __rtl_code;
+	IrCode __ir_code;
 	//IrCode __ir_code;
 
 	// Label numbering stuff
 	s64 __last_label_num = -1;
-	std::map<s64, RtlCode*> __num_to_label_map;
+	std::map<s64, IrCode*> __num_to_label_map;
 
 	// Argument ordering stuff (used by Frontend::visitFuncArgDecl())
 	size_t __last_arg_offset = -1;
@@ -150,16 +150,16 @@ public:		// functions
 	{
 		__vm_code.next = &__vm_code;
 		__vm_code.prev = &__vm_code;
-		__rtl_code.next = &__rtl_code;
-		__rtl_code.prev = &__rtl_code;
+		__ir_code.next = &__ir_code;
+		__ir_code.prev = &__ir_code;
 	}
 	inline Function(Ident s_name)
 		: __name(s_name)
 	{
 		__vm_code.next = &__vm_code;
 		__vm_code.prev = &__vm_code;
-		__rtl_code.next = &__rtl_code;
-		__rtl_code.prev = &__rtl_code;
+		__ir_code.next = &__ir_code;
+		__ir_code.prev = &__ir_code;
 	}
 
 	//inline Function(const Function& to_copy) = default;
@@ -195,7 +195,7 @@ public:		// functions
 	gen_getter_by_ref(sym_tbl);
 	gen_getter_by_ref(vm_code);
 	//gen_getter_by_ref(ir_code);
-	gen_getter_by_ref(rtl_code);
+	gen_getter_by_ref(ir_code);
 	gen_getter_by_ref(last_label_num);
 	gen_getter_by_ref(num_to_label_map);
 	gen_getter_by_ref(last_arg_offset);

@@ -67,11 +67,11 @@ protected:		// variables
 	std::stack<s64> __num_stack;
 	std::stack<std::string*> __str_stack;
 	std::stack<BuiltinTypename> __builtin_typename_stack;
-	//std::stack<VmCode*> __code_stack;
+
 	std::stack<Symbol*> __sym_stack;
 	std::stack<Function*> __func_stack;
+	std::stack<IrExpr*> __ir_expr_stack;
 	//std::stack<IrCode*> __ir_code_stack;
-	std::stack<RtlCode*> __rtl_code_stack;
 
 	//AstNode* __program_node;
 	CodeGenerator __codegen;
@@ -336,21 +336,42 @@ protected:		// functions
 	//	return __ir_code_stack.top();
 	//}
 
-
-	inline void push_rtl_code(RtlCode* to_push)
+	inline IrCode* relink_ir_code(IrCode* p)
 	{
-		__rtl_code_stack.push(to_push);
+		return ::relink_ir_code(p, curr_func().ir_code().prev);
 	}
-	inline auto pop_rtl_code()
+
+	inline void push_ir_expr(IrExpr* to_push)
 	{
-		auto ret = __rtl_code_stack.top();
-		__rtl_code_stack.pop();
+		__ir_expr_stack.push(to_push);
+	}
+	inline auto pop_ir_expr()
+	{
+		auto ret = __ir_expr_stack.top();
+		__ir_expr_stack.pop();
 		return ret;
 	}
-	inline auto get_top_rtl_code()
+	inline auto get_top_ir_expr()
 	{
-		return __rtl_code_stack.top();
+		return __ir_expr_stack.top();
 	}
+
+
+
+	//inline void push_ir_code(IrCode* to_push)
+	//{
+	//	__ir_code_stack.push(to_push);
+	//}
+	//inline auto pop_ir_code()
+	//{
+	//	auto ret = __ir_code_stack.top();
+	//	__ir_code_stack.pop();
+	//	return ret;
+	//}
+	//inline auto get_top_ir_code()
+	//{
+	//	return __ir_code_stack.top();
+	//}
 };
 
 #endif		// frontend_class_hpp

@@ -368,3 +368,202 @@ CodeGenerator::~CodeGenerator()
 //
 //	return os;
 //}
+
+IrExpr* CodeGenerator::mk_expr_constant(IrMachineMode s_mm, s64 s_simm)
+{
+	auto ret = mk_ir_expr(IrExOp::Constant, s_mm);
+
+	ret->simm = s_simm;
+
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_binop(IrMachineMode s_mm, 
+	IrBinop s_binop, IrExpr* a, IrExpr* b)
+{
+	auto ret = mk_ir_expr(IrExOp::Binop, s_mm);
+
+	ret->binop = s_binop;
+
+	ret->append_arg(a);
+	ret->append_arg(b);
+
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_unop(IrMachineMode s_mm, IrUnop s_unop, 
+	IrExpr* a)
+{
+	auto ret = mk_ir_expr(IrExOp::Unop, s_mm);
+
+	ret->unop = s_unop;
+
+	ret->append_arg(a);
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_ref_sym(IrMachineMode s_mm, Symbol* s_sym)
+{
+	auto ret = mk_ir_expr(IrExOp::RefSym, s_mm);
+
+	ret->sym = s_sym;
+
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_ref_func(IrMachineMode s_mm, 
+	Function* s_func)
+{
+	auto ret = mk_ir_expr(IrExOp::RefFunc, s_mm);
+
+	ret->func = s_func;
+
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_ref_lab(IrMachineMode s_mm, s64 s_lab_num)
+{
+	auto ret = mk_ir_expr(IrExOp::RefLab, s_mm);
+
+	ret->lab_num = s_lab_num;
+
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_len(IrMachineMode s_mm, IrExpr* what)
+{
+	auto ret = mk_ir_expr(IrExOp::Len, s_mm);
+
+	ret->append_arg(what);
+
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_sizeof(IrMachineMode s_mm, IrExpr* what)
+{
+	auto ret = mk_ir_expr(IrExOp::Sizeof, s_mm);
+
+	ret->append_arg(what);
+
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_unfinished_call_with_ret
+	(IrMachineMode s_mm, IrExpr* where)
+{
+	auto ret = mk_ir_expr(IrExOp::CallWithRet, s_mm);
+
+	ret->append_arg(where);
+
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_mem(IrMachineMode s_mm, IrExpr* where)
+{
+	auto ret = mk_ir_expr(IrExOp::Mem, s_mm);
+
+	ret->append_arg(where);
+
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_ld(IrMachineMode s_mm, IrExpr* where)
+{
+	auto ret = mk_ir_expr(IrExOp::Ld, s_mm);
+
+	ret->append_arg(where);
+
+	return ret;
+}
+IrExpr* CodeGenerator::mk_expr_get_next_pc(IrMachineMode s_mm)
+{
+	return mk_ir_expr(IrExOp::GetNextPc, s_mm);
+}
+IrExpr* CodeGenerator::mk_expr_if_then_else(IrMachineMode s_mm, 
+	IrExpr* cond, IrExpr* what_if, IrExpr* what_else)
+{
+	auto ret = mk_ir_expr(IrExOp::IfThenElse, s_mm);
+
+	ret->append_arg(cond);
+	ret->append_arg(what_if);
+	ret->append_arg(what_else);
+
+	return ret;
+}
+
+IrCode* CodeGenerator::mk_code_st(IrMachineMode s_st_mm, IrExpr* where, 
+	IrExpr* what)
+{
+	auto ret = mk_linked_ir_code(IrInOp::St);
+
+	ret->set_st_mm(s_st_mm);
+	ret->append_arg(where);
+	ret->append_arg(what);
+
+	return ret;
+}
+IrCode* CodeGenerator::mk_code_return_expr(IrExpr* expr)
+{
+	auto ret = mk_linked_ir_code(IrInOp::ReturnExpr);
+
+	ret->append_arg(expr);
+
+	return ret;
+}
+IrCode* CodeGenerator::mk_code_return_nothing()
+{
+	return mk_linked_ir_code(IrInOp::ReturnNothing);
+}
+IrCode* CodeGenerator::mk_code_quit(IrExpr* val)
+{
+	auto ret = mk_linked_ir_code(IrInOp::Quit);
+
+	ret->append_arg(val);
+
+	return ret;
+}
+IrCode* CodeGenerator::mk_code_jump(IrExpr* where)
+{
+	auto ret = mk_linked_ir_code(IrInOp::Jump);
+
+	ret->append_arg(where);
+
+	return ret;
+}
+IrCode* CodeGenerator::mk_code_unfinished_call(IrExpr* where)
+{
+	auto ret = mk_linked_ir_code(IrInOp::Call);
+
+	ret->append_arg(where);
+
+	return ret;
+}
+IrCode* CodeGenerator::mk_code_unfinished_syscall
+	(IrSyscallShorthandOp s_syscall_shorthand_op)
+{
+	auto ret = mk_linked_ir_code(IrInOp::Syscall);
+	ret->set_syscall_shorthand_op(s_syscall_shorthand_op);
+	return ret;
+}
+IrCode* CodeGenerator::mk_code_unlinked_label()
+{
+	auto ret = mk_unlinked_ir_code(IrInOp::Label);
+
+	auto& curr_func = __frontend->curr_func();
+
+	++curr_func.last_label_num();
+	curr_func.num_to_label_map()[curr_func.last_label_num()] = ret;
+	
+	ret->set_lab_num(curr_func.last_label_num());
+
+	//return __frontend->relink_ir_code(ret);
+	return ret;
+}
+IrCode* CodeGenerator::mk_code_linked_label()
+{
+	return __frontend->relink_ir_code(mk_code_unlinked_label());
+}
+
+
+
+std::ostream& CodeGenerator::osprint_func_ir_code(std::ostream& os,
+	Function& curr_func)
+{
+	printout("CodeGenerator::osprint_func_ir_code() is not finished!\n");
+	return os;
+}
+
+IrCode* CodeGenerator::mk_linked_ir_code(IrInOp s_iop)
+{
+	return ::mk_linked_ir_code(__frontend->curr_func(), s_iop);
+}

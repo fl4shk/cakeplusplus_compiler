@@ -6,8 +6,8 @@
 std::map<int, std::unique_ptr<int>> AllocStuff::__int_pool;
 std::map<std::string, std::unique_ptr<std::string>> AllocStuff::__str_pool;
 std::vector<std::unique_ptr<VmCode>> AllocStuff::__vm_code_pool;
-std::vector<std::unique_ptr<RtlExpr>> AllocStuff::__rtl_expr_pool;
-std::vector<std::unique_ptr<RtlCode>> AllocStuff::__rtl_code_pool;
+std::vector<std::unique_ptr<IrExpr>> AllocStuff::__ir_expr_pool;
+std::vector<std::unique_ptr<IrCode>> AllocStuff::__ir_code_pool;
 //std::vector<std::unique_ptr<AstNode>> AllocStuff::__ast_node_pool;
 
 int* cstm_intdup(int to_dup)
@@ -66,12 +66,12 @@ std::string* cstm_strdup(const std::string& to_dup)
 //}
 
 
-//RtlCode* append_rtl_code(RtlCode& some_head)
+//IrCode* append_ir_code(IrCode& some_head)
 //{
-//	auto& pool = AllocStuff::__rtl_code_pool;
+//	auto& pool = AllocStuff::__ir_code_pool;
 //
-//	std::unique_ptr<RtlCode> p;
-//	p.reset(new RtlCode());
+//	std::unique_ptr<IrCode> p;
+//	p.reset(new IrCode());
 //	p->next = &some_head;
 //	(p->prev = some_head.prev)->next = p.get();
 //	some_head.prev = p.get();
@@ -309,60 +309,66 @@ VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op)
 	return p;
 }
 
-
-RtlExpr* mk_rtl_expr(RtlExpr* some_parent)
+IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm)
 {
-	auto& pool = AllocStuff::__rtl_expr_pool;
+	return mk_ir_expr(s_op, s_mm, nullptr);
+}
 
-	std::unique_ptr<RtlExpr> p;
-	p.reset(new RtlExpr(some_parent));
+IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm, IrExpr* some_parent)
+{
+	auto& pool = AllocStuff::__ir_expr_pool;
+
+	std::unique_ptr<IrExpr> p;
+	p.reset(new IrExpr(some_parent));
+	p->op = s_op;
+	p->mm = s_mm;
 
 	pool.push_back(std::move(p));
 	return pool.back().get();
 }
 
-RtlExpr* mk_rtl_expr(RtlExpr&& to_move)
+IrExpr* mk_ir_expr(IrExpr&& to_move)
 {
-	auto& pool = AllocStuff::__rtl_expr_pool;
+	auto& pool = AllocStuff::__ir_expr_pool;
 
-	std::unique_ptr<RtlExpr> p;
-	p.reset(new RtlExpr(std::move(to_move)));
+	std::unique_ptr<IrExpr> p;
+	p.reset(new IrExpr(std::move(to_move)));
 
 	pool.push_back(std::move(p));
 	return pool.back().get();
 }
 
-RtlCode* mk_linked_rtl_code(Function& curr_func)
+IrCode* mk_linked_ir_code(Function& curr_func)
 {
-	auto p = mk_unlinked_rtl_code();
+	auto p = mk_unlinked_ir_code();
 
-	relink_rtl_code(p, curr_func.rtl_code().prev);
+	relink_ir_code(p, curr_func.ir_code().prev);
 
 	return p;
 }
-RtlCode* mk_linked_rtl_code(Function& curr_func, RtlInOp s_op)
+IrCode* mk_linked_ir_code(Function& curr_func, IrInOp s_iop)
 {
-	auto p = mk_unlinked_rtl_code(s_op);
+	auto p = mk_unlinked_ir_code(s_iop);
 
-	relink_rtl_code(p, curr_func.rtl_code().prev);
+	relink_ir_code(p, curr_func.ir_code().prev);
 
 	return p;
 }
 
-RtlCode* mk_unlinked_rtl_code()
+IrCode* mk_unlinked_ir_code()
 {
-	auto& pool = AllocStuff::__rtl_code_pool;
+	auto& pool = AllocStuff::__ir_code_pool;
 
-	std::unique_ptr<RtlCode> p;
-	p.reset(new RtlCode());
+	std::unique_ptr<IrCode> p;
+	p.reset(new IrCode());
 
 	pool.push_back(std::move(p));
 	return pool.back().get();
 }
 
-RtlCode* mk_unlinked_rtl_code(RtlInOp s_op)
+IrCode* mk_unlinked_ir_code(IrInOp s_iop)
 {
-	auto p = mk_unlinked_rtl_code();
-	p->set_op(s_op);
+	auto p = mk_unlinked_ir_code();
+	p->set_iop(s_iop);
 	return p;
 }

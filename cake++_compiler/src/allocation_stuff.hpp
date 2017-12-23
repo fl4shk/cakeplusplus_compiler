@@ -6,7 +6,7 @@
 //#include "symbol_table_classes.hpp"
 #include "vm_code_class.hpp"
 //#include "ir_code_classes.hpp"
-#include "rtl_stuff.hpp"
+#include "ir_code_stuff.hpp"
 
 #include <map>
 
@@ -23,19 +23,21 @@ class AllocStuff
 	//friend VmCode* append_vm_code(VmCode& some_head);
 	friend VmCode* mk_unlinked_vm_code();
 
-	friend RtlExpr* mk_rtl_expr(RtlExpr* some_parent);
-	friend RtlExpr* mk_rtl_expr(RtlExpr&& to_move);
+	friend IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm);
+	friend IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm, 
+		IrExpr* some_parent);
+	friend IrExpr* mk_ir_expr(IrExpr&& to_move);
 
-	//friend RtlCode* append_rtl_code(RtlCode& some_head);
-	friend RtlCode* mk_unlinked_rtl_code();
+	//friend IrCode* append_ir_code(IrCode& some_head);
+	friend IrCode* mk_unlinked_ir_code();
 
 private:			// static variables
 	static std::map<int, std::unique_ptr<int>> __int_pool;
 	static std::map<std::string, std::unique_ptr<std::string>>
 		__str_pool;
 	static std::vector<std::unique_ptr<VmCode>> __vm_code_pool;
-	static std::vector<std::unique_ptr<RtlExpr>> __rtl_expr_pool;
-	static std::vector<std::unique_ptr<RtlCode>> __rtl_code_pool;
+	static std::vector<std::unique_ptr<IrExpr>> __ir_expr_pool;
+	static std::vector<std::unique_ptr<IrCode>> __ir_code_pool;
 	//static std::vector<std::unique_ptr<AstNode>> __ast_node_pool;
 
 };
@@ -59,17 +61,18 @@ inline VmCode* relink_vm_code(VmCode* p, VmCode* to_link_after)
 	return p;
 }
 
-RtlExpr* mk_rtl_expr(RtlExpr* some_parent);
-RtlExpr* mk_rtl_expr(RtlExpr&& to_move);
+IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm);
+IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm, IrExpr* some_parent);
+IrExpr* mk_ir_expr(IrExpr&& to_move);
 
-//RtlCode* append_rtl_code(RtlCode& some_head);
-RtlCode* mk_linked_rtl_code(Function& curr_func);
-RtlCode* mk_linked_rtl_code(Function& curr_func, RtlInOp s_op);
-RtlCode* mk_unlinked_rtl_code();
-RtlCode* mk_unlinked_rtl_code(RtlInOp s_op);
-inline RtlCode* relink_rtl_code(RtlCode* p, RtlCode* to_link_after)
+//IrCode* append_ir_code(IrCode& some_head);
+IrCode* mk_linked_ir_code(Function& curr_func);
+IrCode* mk_linked_ir_code(Function& curr_func, IrInOp s_iop);
+IrCode* mk_unlinked_ir_code();
+IrCode* mk_unlinked_ir_code(IrInOp s_iop);
+inline IrCode* relink_ir_code(IrCode* p, IrCode* to_link_after)
 {
-	RtlCode* old_next = to_link_after->next;
+	IrCode* old_next = to_link_after->next;
 
 	to_link_after->next = p;
 	p->prev = to_link_after;

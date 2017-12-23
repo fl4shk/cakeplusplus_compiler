@@ -85,19 +85,20 @@ antlrcpp::Any Frontend::visitProgram
 		iter->accept(this);
 
 		//codegen().osprint_func(cout, curr_func());
+		codegen().osprint_func_ir_code(cout, curr_func());
 
-		curr_func().gen_vm_code();
+		//curr_func().gen_vm_code();
 	}
 
-	for (auto* iter : funcDecl)
-	{
-		auto ident = temp_ident_map.at(iter);
-		__curr_func = __func_tbl.at(ident);
+	//for (auto* iter : funcDecl)
+	//{
+	//	auto ident = temp_ident_map.at(iter);
+	//	__curr_func = __func_tbl.at(ident);
 
-		//curr_func().adjust_vm_code();
+	//	//curr_func().adjust_vm_code();
 
-		curr_func().osprint_vm_code(cout);
-	}
+	//	curr_func().osprint_vm_code(cout);
+	//}
 
 	return nullptr;
 }
@@ -159,18 +160,19 @@ antlrcpp::Any Frontend::visitFuncDecl
 //		auto func_arg_expr = funcArgExpr.at(i);
 //
 //		func_arg_expr->accept(this);
-//		to_push->args.push_back(pop_ir_code());
-//		//to_push->args.push_front(pop_ir_code());
+//
+//		//to_push->args.push_back(pop_ir_code());
+//		////to_push->args.push_front(pop_ir_code());
 //	}
 //
 //
 //	}
 //
 //
-//	// Necessary because codegen().mk_unfinished_call() doesn't perform
-//	// relink_ir_code().
-//	relink_ir_code(to_push);
-//	push_ir_code(to_push);
+//	//// Necessary because codegen().mk_unfinished_call() doesn't perform
+//	//// relink_ir_code().
+//	//relink_ir_code(to_push);
+//	//push_ir_code(to_push);
 //
 //	return nullptr;
 //}
@@ -972,67 +974,69 @@ antlrcpp::Any Frontend::visitFuncDecl
 //
 //	return nullptr;
 //}
-//antlrcpp::Any Frontend::visitExprMulDivModEtc
-//	(GrammarParser::ExprMulDivModEtcContext *ctx)
-//{
-//	if (ctx->exprUnary())
-//	{
-//		ctx->exprUnary()->accept(this);
-//	}
-//	else if (ctx->numExpr())
-//	{
-//		ctx->numExpr()->accept(this);
-//
-//		push_ir_code(codegen().mk_const(pop_num()));
-//	}
-//	else if (ctx->funcCall())
-//	{
-//		ctx->funcCall()->accept(this);
-//	}
-//	else if (ctx->identRhs())
-//	{
-//		ctx->identRhs()->accept(this);
-//	}
-//	else if (ctx->lenExpr())
-//	{
-//		ctx->lenExpr()->accept(this);
-//	}
-//	else if (ctx->sizeofExpr())
-//	{
-//		ctx->sizeofExpr()->accept(this);
-//	}
-//	else if (ctx->expr())
-//	{
-//		ctx->expr()->accept(this);
-//	}
-//	else
-//	{
-//		err("visitExprMulDivModEtc():  Eek!\n");
-//	}
-//	return nullptr;
-//}
-//
-//antlrcpp::Any Frontend::visitExprUnary
-//	(GrammarParser::ExprUnaryContext *ctx)
-//{
-//	if (ctx->exprBitInvert())
-//	{
-//		ctx->exprBitInvert()->accept(this);
-//	}
-//	else if (ctx->exprNegate())
-//	{
-//		ctx->exprNegate()->accept(this);
-//	}
-//	else if (ctx->exprLogNot())
-//	{
-//		ctx->exprLogNot()->accept(this);
-//	}
-//	else
-//	{
-//		printerr("visitExprUnary():  Eek!\n");
-//	}
-//	return nullptr;
-//}
+antlrcpp::Any Frontend::visitExprMulDivModEtc
+	(GrammarParser::ExprMulDivModEtcContext *ctx)
+{
+	if (ctx->exprUnary())
+	{
+		ctx->exprUnary()->accept(this);
+	}
+	else if (ctx->numExpr())
+	{
+		ctx->numExpr()->accept(this);
+
+		//push_ir_code(codegen().mk_const(pop_num()));
+		push_ir_expr(codegen().mk_expr_constant(IrMachineMode::S64, 
+			pop_num()));
+	}
+	else if (ctx->funcCall())
+	{
+		ctx->funcCall()->accept(this);
+	}
+	else if (ctx->identRhs())
+	{
+		ctx->identRhs()->accept(this);
+	}
+	else if (ctx->lenExpr())
+	{
+		ctx->lenExpr()->accept(this);
+	}
+	else if (ctx->sizeofExpr())
+	{
+		ctx->sizeofExpr()->accept(this);
+	}
+	else if (ctx->expr())
+	{
+		ctx->expr()->accept(this);
+	}
+	else
+	{
+		err("visitExprMulDivModEtc():  Eek!\n");
+	}
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitExprUnary
+	(GrammarParser::ExprUnaryContext *ctx)
+{
+	if (ctx->exprBitInvert())
+	{
+		ctx->exprBitInvert()->accept(this);
+	}
+	else if (ctx->exprNegate())
+	{
+		ctx->exprNegate()->accept(this);
+	}
+	else if (ctx->exprLogNot())
+	{
+		ctx->exprLogNot()->accept(this);
+	}
+	else
+	{
+		printerr("visitExprUnary():  Eek!\n");
+	}
+	return nullptr;
+}
 //antlrcpp::Any Frontend::visitExprBitInvert
 //	(GrammarParser::ExprBitInvertContext *ctx)
 //{
@@ -1045,11 +1049,13 @@ antlrcpp::Any Frontend::visitFuncDecl
 ////
 ////	push_ast_node(to_push);
 //	ctx->expr()->accept(this);
-//	auto expr = pop_ir_code();
+//	//auto expr = pop_ir_code();
+//	auto expr = pop_ir_expr();
 //
-//	auto negative_one = codegen().mk_const(-1);
+//	//auto negative_one = codegen().mk_const(-1);
 //
-//	push_ir_code(codegen().mk_binop(IrBinop::BitXor, expr, negative_one));
+//	//push_ir_code(codegen().mk_binop(IrBinop::BitXor, expr, negative_one));
+//	push_ir_code(codegen().mk_expr_unop(pop_mm());
 //
 //	return nullptr;
 //}
@@ -1092,7 +1098,7 @@ antlrcpp::Any Frontend::visitFuncDecl
 //	push_ir_code(codegen().mk_log_not(expr));
 //	return nullptr;
 //}
-//
+
 //void Frontend::__visit_ident_access
 //	(GrammarParser::IdentNameContext* ctx_ident_name,
 //	GrammarParser::SubscriptExprContext* ctx_subscript_expr)
@@ -1145,13 +1151,13 @@ antlrcpp::Any Frontend::visitFuncDecl
 //	push_ir_code(addr);
 //}
 //
-//antlrcpp::Any Frontend::visitIdentLhs
-//	(GrammarParser::IdentLhsContext *ctx)
-//{
-//	__visit_ident_access(ctx->identName(), ctx->subscriptExpr());
-//	return nullptr;
-//}
-//
+antlrcpp::Any Frontend::visitIdentLhs
+	(GrammarParser::IdentLhsContext *ctx)
+{
+	__visit_ident_access(ctx->identName(), ctx->subscriptExpr());
+	return nullptr;
+}
+
 //antlrcpp::Any Frontend::visitIdentRhs
 //	(GrammarParser::IdentRhsContext *ctx)
 //{
@@ -1169,59 +1175,59 @@ antlrcpp::Any Frontend::visitFuncDecl
 //
 //	return nullptr;
 //}
-//antlrcpp::Any Frontend::visitIdentDecl
-//	(GrammarParser::IdentDeclContext *ctx)
-//{
-//	Symbol var;
-//	var.set_var_type(pop_builtin_typename());
-//
-//	ctx->identName()->accept(this);
-//	var.set_name(pop_str());
-//
-//	if (sym_tbl().find_in_this_blklev(var.name()) != nullptr)
-//	{
-//		err(sconcat("Symbol with identifier \"", *var.name(), 
-//			"\" already exists in this scope!\n"));
-//	}
-//
-//	if (!ctx->subscriptConst())
-//	{
-//		var.set_type(SymType::ScalarVarName);
-//		var.set_size(1);
-//	}
-//	else // if (ctx->subscriptConst())
-//	{
-//		var.set_type(SymType::ArrayVarName);
-//		ctx->subscriptConst()->accept(this);
-//		var.set_size(pop_num());
-//	}
-//
-//	var.set_is_arg(false);
-//
-//	sym_tbl().insert_or_assign(std::move(var));
-//
-//
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitIdentName
-//	(GrammarParser::IdentNameContext *ctx)
-//{
-//	push_str(cstm_strdup(ctx->TokIdent()->toString()));
-//	return nullptr;
-//}
-//
-//antlrcpp::Any Frontend::visitNumExpr
-//	(GrammarParser::NumExprContext *ctx)
-//{
-//	s64 to_push;
-//	std::stringstream sstm;
-//	sstm << ctx->TokDecNum()->toString();
-//	sstm >> to_push;
-//
-//	push_num(to_push);
-//	return nullptr;
-//}
-//
+antlrcpp::Any Frontend::visitIdentDecl
+	(GrammarParser::IdentDeclContext *ctx)
+{
+	Symbol var;
+	var.set_var_type(pop_builtin_typename());
+
+	ctx->identName()->accept(this);
+	var.set_name(pop_str());
+
+	if (sym_tbl().find_in_this_blklev(var.name()) != nullptr)
+	{
+		err(sconcat("Symbol with identifier \"", *var.name(), 
+			"\" already exists in this scope!\n"));
+	}
+
+	if (!ctx->subscriptConst())
+	{
+		var.set_type(SymType::ScalarVarName);
+		var.set_size(1);
+	}
+	else // if (ctx->subscriptConst())
+	{
+		var.set_type(SymType::ArrayVarName);
+		ctx->subscriptConst()->accept(this);
+		var.set_size(pop_num());
+	}
+
+	var.set_is_arg(false);
+
+	sym_tbl().insert_or_assign(std::move(var));
+
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitIdentName
+	(GrammarParser::IdentNameContext *ctx)
+{
+	push_str(cstm_strdup(ctx->TokIdent()->toString()));
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitNumExpr
+	(GrammarParser::NumExprContext *ctx)
+{
+	s64 to_push;
+	std::stringstream sstm;
+	sstm << ctx->TokDecNum()->toString();
+	sstm >> to_push;
+
+	push_num(to_push);
+	return nullptr;
+}
+
 //antlrcpp::Any Frontend::visitLenExpr
 //	(GrammarParser::LenExprContext *ctx)
 //{
@@ -1260,29 +1266,29 @@ antlrcpp::Any Frontend::visitFuncDecl
 //
 //	return nullptr;
 //}
-//antlrcpp::Any Frontend::visitSizeofExpr
-//	(GrammarParser::SizeofExprContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::expr_sizeof);
-////	auto to_push = mk_ast_expr(AstExprOp::Sizeof);
-////
-////	ctx->identRhs()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	push_ast_node(to_push);
-//	err("visitSizeofExpr() is not fully implemented!");
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitSubscriptExpr
-//	(GrammarParser::SubscriptExprContext *ctx)
-//{
-//	ctx->expr()->accept(this);
-//	return nullptr;
-//}
+antlrcpp::Any Frontend::visitSizeofExpr
+	(GrammarParser::SizeofExprContext *ctx)
+{
+//	//auto to_push = mk_ast_node(AstOp::expr_sizeof);
+//	auto to_push = mk_ast_expr(AstExprOp::Sizeof);
 //
-//antlrcpp::Any Frontend::visitSubscriptConst
-//	(GrammarParser::SubscriptConstContext *ctx)
-//{
-//	ctx->numExpr()->accept(this);
-//	return nullptr;
-//}
+//	ctx->identRhs()->accept(this);
+//	to_push->append_child(pop_ast_node());
+//
+//	push_ast_node(to_push);
+	err("visitSizeofExpr() is not fully implemented!");
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitSubscriptExpr
+	(GrammarParser::SubscriptExprContext *ctx)
+{
+	ctx->expr()->accept(this);
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitSubscriptConst
+	(GrammarParser::SubscriptConstContext *ctx)
+{
+	ctx->numExpr()->accept(this);
+	return nullptr;
+}
