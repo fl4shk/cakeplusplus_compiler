@@ -561,7 +561,7 @@ std::ostream& CodeGenerator::osprint_func_ir_code(std::ostream& os,
 {
 	//printout("CodeGenerator::osprint_func_ir_code() is not finished!\n");
 
-	osprintout(os, curr_func.name(), "\n");
+	osprintout(os, *curr_func.name(), "\n");
 	osprintout(os, "{\n");
 
 	for (auto p=curr_func.ir_code().next;
@@ -642,19 +642,207 @@ IrCode* CodeGenerator::mk_linked_ir_code(IrInOp s_iop)
 	return ::mk_linked_ir_code(__frontend->curr_func(), s_iop);
 }
 
-std::ostream& CodeGenerator::osprint_ir_expr(std::ostream& os, 
-	IrExpr* to_print)
+std::ostream& CodeGenerator::osprint_ir_expr(std::ostream& os, IrExpr* p)
 {
-	switch (to_print->op)
+	static const std::string temp("\n\t\t\t(\n\t\t\t");
+
+	switch (p->op)
 	{
+		osprintout(os, "\t\t\t");
+		case IrExOp::Constant:
+			osprintout(os, "const", temp,
+				strappcom2(p->mm, p->simm));
+			break;
+
+		// Binary operator
+		case IrExOp::Binop:
+			osprintout(os, "binop", temp, p->mm);
+
+			switch (p->binop)
+			{
+				case IrBinop::Add:
+					osprintout(os, "add, ");
+					break;
+				case IrBinop::Sub:
+					osprintout(os, "sub, ");
+					break;
+				case IrBinop::Mul:
+					osprintout(os, "mul, ");
+					break;
+				case IrBinop::Div:
+					osprintout(os, "div, ");
+					break;
+				case IrBinop::Mod:
+					osprintout(os, "mod, ");
+					break;
+
+				case IrBinop::LogAnd:
+					osprintout(os, "log_and, ");
+					break;
+				case IrBinop::LogOr:
+					osprintout(os, "log_or, ");
+					break;
+
+				case IrBinop::BitAnd:
+					osprintout(os, "bit_and, ");
+					break;
+				case IrBinop::BitOr:
+					osprintout(os, "bit_or, ");
+					break;
+				case IrBinop::BitXor:
+					osprintout(os, "bit_xor, ");
+					break;
+
+				case IrBinop::BitShiftLeft:
+					osprintout(os, "bit_shift_left, ");
+					break;
+				case IrBinop::BitShiftRight:
+					osprintout(os, "bit_shift_right, ");
+					break;
+
+				//case IrBinop::BitRotateLeft:
+				//case IrBinop::BitRotateRight:
+
+				case IrBinop::CmpEq:
+					osprintout(os, "cmp_eq, ");
+					break;
+				case IrBinop::CmpNe:
+					osprintout(os, "cmp_ne, ");
+					break;
+				case IrBinop::CmpLt:
+					osprintout(os, "cmp_lt, ");
+					break;
+				case IrBinop::CmpGt:
+					osprintout(os, "cmp_gt, ");
+					break;
+				case IrBinop::CmpLe:
+					osprintout(os, "cmp_le, ");
+					break;
+				case IrBinop::CmpGe:
+					osprintout(os, "cmp_ge, ");
+					break;
+
+				default:
+					printerr("CodeGenerator::osprint_ir_expr():  ",
+						"Binop Eek!\n");
+					exit(1);
+					break;
+			}
+			break;
+
+		// Unary operator
+		case IrExOp::Unop:
+			osprintout(os, "unop", temp,
+				p->mm);
+
+			switch (p->unop)
+			{
+				case IrUnop::BitNot:
+					osprintout(os, "bit_not, ");
+					break;
+				case IrUnop::Negate:
+					osprintout(os, "negate, ");
+					break;
+				case IrUnop::LogNot:
+					osprintout(os, "log_not, ");
+					break;
+				default:
+					printerr("CodeGenerator::osprint_ir_expr():  ",
+						"Unop Eek!\n");
+					exit(1);
+					break;
+			}
+			break;
+
+		// Symbol reference
+		case IrExOp::RefSym:
+			osprintout(os, "ref_sym", temp,
+				strappcom2(p->mm, *p->sym->name()));
+			break;
+
+		// Function reference
+		case IrExOp::RefFunc:
+			osprintout(os, "ref_func", temp,
+				strappcom2(p->mm, *p->func->name()));
+			break;
+
+		// Label reference
+		case IrExOp::RefLab:
+			osprintout(os, "ref_lab", temp,
+				strappcom2(p->mm, get_label_name(p->lab_num)));
+			break;
+
+		// Length of symbol
+		case IrExOp::Len:
+			osprintout(os, "len", temp, p->mm);
+			break;
+
+		// Size of symbol
+		case IrExOp::Sizeof:
+			osprintout(os, "sizeof", temp, p->mm);
+			break;
+
+
+		// Call with a return value
+		case IrExOp::CallWithRet:
+			osprintout(os, "call_with_ret", temp, p->mm);
+			break;
+
+
+		// Memory address (example of use:  grabs address from symbol, 
+		case IrExOp::Mem:
+			osprintout(os, "mem", temp, p->mm);
+			break;
+
+		// Load
+		case IrExOp::Ld:
+			osprintout(os, "ld", temp, p->mm);
+			break;
+
+		// Sometimes used for the "Else" portion of IfThenElse
+		case IrExOp::GetNextPc:
+			osprintout(os, "get_next_pc", temp, p->mm);
+			break;
+
+
+		// Control flow
+		case IrExOp::IfThenElse:
+			osprintout(os, "if_then_else", temp, p->mm);
+			break;
+
+		default:
+			printerr("CodeGenerator::osprint_ir_expr():  Eek!\n");
+			exit(1);
+			break;
 	}
+
+	if (p->args.size() > 0)
+	{
+		osprintout(os, ",\n\t\t\t");
+	}
+	for (size_t i=0; i<p->args.size(); ++i)
+	{
+		auto arg = p->args.at(i);
+
+		//osprintout(os, arg);
+		osprint_ir_expr(os, arg);
+
+		if ((i + 1) < p->args.size())
+		{
+			osprintout(os, ", ");
+		}
+	}
+
+
+	osprintout(os, ")\n");
 }
 
 
-std::string CodeGenerator::get_label_name(IrCode* some_label) const
+std::string CodeGenerator::get_label_name(s64 some_lab_num) const
 {
-	std::string ret = sconcat(some_label->lab_num());
+	std::string ret = sconcat(some_lab_num);
 
+	// Don't have any labels with the same identifier as any functions
 	do
 	{
 		ret = sconcat("_", ret);
