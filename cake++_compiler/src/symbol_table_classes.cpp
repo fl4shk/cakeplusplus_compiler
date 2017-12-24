@@ -166,40 +166,40 @@ std::vector<Symbol*> Function::get_args() const
 {
 	std::vector<Symbol*> ret;
 
-	//std::map<size_t, Symbol*> arg_pos_to_sym_map;
+	std::map<size_t, Symbol*> arg_pos_to_sym_map;
 
-	//size_t num_args = 0;
+	size_t num_args = 0;
 
-	//{
-	//const auto& table = __sym_tbl.tree().children.front()->table.table();
-	//for (const auto& iter : table)
-	//{
-	//	auto sym = iter.second;
+	{
+	const auto& table = __sym_tbl.tree().children.front()->table.table();
+	for (const auto& iter : table)
+	{
+		auto sym = iter.second;
 
-	//	if (arg_pos_to_sym_map.count(sym->arg_offset()) != 0)
-	//	{
-	//		printerr("Function::get_args():  Eek!\n");
-	//		exit(1);
-	//	}
+		if (arg_pos_to_sym_map.count(sym->var()->arg_offset()) != 0)
+		{
+			printerr("Function::get_args():  Eek!\n");
+			exit(1);
+		}
 
-	//	arg_pos_to_sym_map[sym->arg_offset()] = sym;
+		arg_pos_to_sym_map[sym->var()->arg_offset()] = sym;
 
-	//	// Find the highest argument offset
-	//	if (num_args < sym->arg_offset())
-	//	{
-	//		num_args = sym->arg_offset();
-	//	}
-	//}
-	//}
+		// Find the highest argument offset
+		if (num_args < sym->var()->arg_offset())
+		{
+			num_args = sym->var()->arg_offset();
+		}
+	}
+	}
 
-	//// Increment because no argument symbol keeps track of how many
-	//// arguments this function accepts
-	//++num_args;
+	// Increment because no argument symbol keeps track of how many
+	// arguments this function accepts
+	++num_args;
 
-	//for (size_t i=0; i<num_args; ++i)
-	//{
-	//	ret.push_back(arg_pos_to_sym_map.at(i));
-	//}
+	for (size_t i=0; i<num_args; ++i)
+	{
+		ret.push_back(arg_pos_to_sym_map.at(i));
+	}
 
 	return ret;
 }

@@ -213,6 +213,7 @@ public:		// functions
 	//inline Function& operator = (Function&& to_move) = default;
 
 	std::vector<Symbol*> get_args() const;
+	//std::vector<Symbol*> get_args(SymbolTable& some_sym_tbl) const;
 	//Symbol* get_one_arg(size_t some_arg_offset) const;
 
 	//inline VmCode* append_vm_code()

@@ -70,7 +70,7 @@ protected:		// variables
 	std::stack<std::string*> __str_stack;
 	std::stack<BuiltinTypename> __builtin_typename_stack;
 
-	std::stack<Var*> __sym_stack;
+	std::stack<Symbol*> __sym_stack;
 	std::stack<Function*> __func_stack;
 	std::stack<IrExpr*> __ir_expr_stack;
 	//std::stack<IrMachineMode> __mm_stack;
@@ -298,17 +298,17 @@ protected:		// functions
 		return __builtin_typename_stack.top();
 	}
 
-	inline void push_var(Var* to_push)
+	inline void push_sym(Symbol* to_push)
 	{
 		__sym_stack.push(to_push);
 	}
-	inline auto pop_var()
+	inline auto pop_sym()
 	{
 		auto ret = __sym_stack.top(); 
 		__sym_stack.pop();
 		return ret;
 	}
-	inline auto get_top_var()
+	inline auto get_top_sym()
 	{
 		return __sym_stack.top();
 	}
