@@ -154,7 +154,8 @@ TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
 TokOpAddSub: ('+' | '-') ;
 TokOpMulDivMod: ('*' | '/' | '%') ;
-TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
+//TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
+TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>');
 TokBuiltinTypename:
 	's64'
 	;

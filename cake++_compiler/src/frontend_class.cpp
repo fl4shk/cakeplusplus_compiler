@@ -931,108 +931,105 @@ antlrcpp::Any Frontend::visitExprCompare
 
 	return nullptr;
 }
-//antlrcpp::Any Frontend::visitExprAddSub
-//	(GrammarParser::ExprAddSubContext *ctx)
-//{
-//	//if (ctx->exprMulDivModEtc())
-//	if (!ctx->exprAddSub())
-//	{
-//		ctx->exprMulDivModEtc()->accept(this);
-//	}
-//	else if (ctx->exprAddSub())
-//	{
-//		////auto to_push = mk_ast_node(AstOp::expr_binop);
-//		//auto to_push = mk_ast_expr(AstExprOp::Binop);
-//
-//
-//		ctx->exprAddSub()->accept(this);
-//		auto a = pop_ir_code();
-//
-//		//to_push->append_child(pop_ast_node());
-//
-//		std::string op;
-//		
-//		if (ctx->TokOpMulDivMod())
-//		{
-//			op = ctx->TokOpMulDivMod()->toString();
-//		}
-//		else if (ctx->TokOpBitwise())
-//		{
-//			op = ctx->TokOpBitwise()->toString();
-//		}
-//		else
-//		{
-//			err("visitExprAddSub():  operator Eek!\n");
-//		}
-//
-//		IrBinop s_binop;
-//
-//		if (op == "*")
-//		{
-//			//to_push->bin_op = AstBinOp::Mul;
-//			s_binop = IrBinop::Mul;
-//		}
-//		else if (op == "/")
-//		{
-//			// Temporary!
-//			//to_push->bin_op = AstBinOp::SDiv;
-//			s_binop = IrBinop::Div;
-//		}
-//		else if (op == "%")
-//		{
-//			// Temporary!
-//			//to_push->bin_op = AstBinOp::SMod;
-//			s_binop = IrBinop::Mod;
-//		}
-//		else if (op == "&")
-//		{
-//			//to_push->bin_op = AstBinOp::BitAnd;
-//			s_binop = IrBinop::BitAnd;
-//		}
-//		else if (op == "|")
-//		{
-//			//to_push->bin_op = AstBinOp::BitOr;
-//			s_binop = IrBinop::BitOr;
-//		}
-//		else if (op == "^")
-//		{
-//			//to_push->bin_op = AstBinOp::BitXor;
-//			s_binop = IrBinop::BitXor;
-//		}
-//		else if (op == "<<")
-//		{
-//			//to_push->bin_op = AstBinOp::BitLsl;
-//			s_binop = IrBinop::BitLsl;
-//		}
-//		else if (op == ">>")
-//		{
-//			//to_push->bin_op = AstBinOp::BitLsr;
-//			s_binop = IrBinop::BitLsr;
-//		}
-//		else if (op == ">>>")
-//		{
-//			//to_push->bin_op = AstBinOp::BitAsr;
-//			s_binop = IrBinop::BitAsr;
-//		}
-//		else
-//		{
-//			err("visitExprAddSub():  binop type Eek!\n");
-//		}
-//
-//		ctx->exprMulDivModEtc()->accept(this);
-//		auto b = pop_ir_code();
-//		//to_push->append_child(pop_ast_node());
-//		//push_ast_node(to_push);
-//
-//		push_ir_code(codegen().mk_binop(s_binop, a, b));
-//	}
-//	else
-//	{
-//		err("visitExprAddSub():  Eek!\n");
-//	}
-//
-//	return nullptr;
-//}
+antlrcpp::Any Frontend::visitExprAddSub
+	(GrammarParser::ExprAddSubContext *ctx)
+{
+	//if (ctx->exprMulDivModEtc())
+	if (!ctx->exprAddSub())
+	{
+		ctx->exprMulDivModEtc()->accept(this);
+	}
+	else // if (ctx->exprAddSub())
+	{
+		////auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_expr(AstExprOp::Binop);
+
+
+		ctx->exprAddSub()->accept(this);
+		auto a = pop_ir_expr();
+
+		//to_push->append_child(pop_ast_node());
+
+		std::string op;
+		
+		if (ctx->TokOpMulDivMod())
+		{
+			op = ctx->TokOpMulDivMod()->toString();
+		}
+		else if (ctx->TokOpBitwise())
+		{
+			op = ctx->TokOpBitwise()->toString();
+		}
+		else
+		{
+			err("visitExprAddSub():  operator Eek!\n");
+		}
+
+		IrBinop s_binop;
+
+		if (op == "*")
+		{
+			//to_push->bin_op = AstBinOp::Mul;
+			s_binop = IrBinop::Mul;
+		}
+		else if (op == "/")
+		{
+			// Temporary!
+			//to_push->bin_op = AstBinOp::SDiv;
+			s_binop = IrBinop::Div;
+		}
+		else if (op == "%")
+		{
+			// Temporary!
+			//to_push->bin_op = AstBinOp::SMod;
+			s_binop = IrBinop::Mod;
+		}
+		else if (op == "&")
+		{
+			//to_push->bin_op = AstBinOp::BitAnd;
+			s_binop = IrBinop::BitAnd;
+		}
+		else if (op == "|")
+		{
+			//to_push->bin_op = AstBinOp::BitOr;
+			s_binop = IrBinop::BitOr;
+		}
+		else if (op == "^")
+		{
+			//to_push->bin_op = AstBinOp::BitXor;
+			s_binop = IrBinop::BitXor;
+		}
+		else if (op == "<<")
+		{
+			//to_push->bin_op = AstBinOp::BitLsl;
+			s_binop = IrBinop::BitShiftLeft;
+		}
+		else if (op == ">>")
+		{
+			//to_push->bin_op = AstBinOp::BitLsr;
+			s_binop = IrBinop::BitShiftRight;
+		}
+		//else if (op == ">>>")
+		//{
+		//	//to_push->bin_op = AstBinOp::BitAsr;
+		//	s_binop = IrBinop::BitAsr;
+		//}
+		else
+		{
+			err("visitExprAddSub():  binop type Eek!\n");
+		}
+
+		ctx->exprMulDivModEtc()->accept(this);
+		auto b = pop_ir_expr();
+		//to_push->append_child(pop_ast_node());
+		//push_ast_node(to_push);
+
+		//push_ir_code(codegen().mk_binop(s_binop, a, b));
+		push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+	}
+
+	return nullptr;
+}
 antlrcpp::Any Frontend::visitExprMulDivModEtc
 	(GrammarParser::ExprMulDivModEtcContext *ctx)
 {
