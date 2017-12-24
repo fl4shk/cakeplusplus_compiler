@@ -52,24 +52,24 @@ std::ostream& operator << (std::ostream& os,
 	return os;
 }
 
-bool Symbol::is_unsgn_builtin() const
+bool Var::is_unsgn_builtin() const
 {
-	return ((__var_type == BuiltinTypename::U8)
-		|| (__var_type == BuiltinTypename::U16)
-		|| (__var_type == BuiltinTypename::U32)
-		|| (__var_type == BuiltinTypename::U64));
+	return ((__type == BuiltinTypename::U8)
+		|| (__type == BuiltinTypename::U16)
+		|| (__type == BuiltinTypename::U32)
+		|| (__type == BuiltinTypename::U64));
 }
 
-bool Symbol::is_sgn_builtin() const
+bool Var::is_sgn_builtin() const
 {
-	return ((__var_type == BuiltinTypename::S8)
-		|| (__var_type == BuiltinTypename::S16)
-		|| (__var_type == BuiltinTypename::S32)
-		|| (__var_type == BuiltinTypename::S64));
+	return ((__type == BuiltinTypename::S8)
+		|| (__type == BuiltinTypename::S16)
+		|| (__type == BuiltinTypename::S32)
+		|| (__type == BuiltinTypename::S64));
 }
-s64 Symbol::builtin_type_size() const
+s64 Var::builtin_type_size() const
 {
-	switch (var_type())
+	switch (type())
 	{
 		case BuiltinTypename::U64:
 		case BuiltinTypename::S64:
@@ -107,6 +107,52 @@ s64 Symbol::builtin_type_size() const
 //			return IrLdStSize::Unknown;
 //	}
 //}
+Ident Symbol::name() const
+{
+	switch (type())
+	{
+		case SymType::ScalarVarName:
+		case SymType::ArrayVarName:
+			return var()->name();
+			break;
+
+		case SymType::FuncName:
+			return func()->name();
+			break;
+
+		//case SymType::ClassName:
+		//	cls()->set_name(n_name);
+		//	break;
+		
+		default:
+			printerr("Symbol::name():  Eek!\n");
+			exit(1);
+			break;
+	}
+}
+void Symbol::set_name(Ident n_name)
+{
+	switch (type())
+	{
+		case SymType::ScalarVarName:
+		case SymType::ArrayVarName:
+			var()->set_name(n_name);
+			break;
+
+		case SymType::FuncName:
+			func()->set_name(n_name);
+			break;
+
+		//case SymType::ClassName:
+		//	cls()->set_name(n_name);
+		//	break;
+		
+		default:
+			printerr("Symbol::set_name():  Eek!\n");
+			exit(1);
+			break;
+	}
+}
 
 SymbolTable::SymbolTable()
 {
@@ -120,73 +166,57 @@ std::vector<Symbol*> Function::get_args() const
 {
 	std::vector<Symbol*> ret;
 
-	std::map<size_t, Symbol*> arg_pos_to_sym_map;
+	//std::map<size_t, Symbol*> arg_pos_to_sym_map;
 
-	size_t num_args = 0;
+	//size_t num_args = 0;
 
-	{
-	const auto& table = __sym_tbl.tree().children.front()->table.table();
-	for (const auto& iter : table)
-	{
-		auto sym = iter.second;
+	//{
+	//const auto& table = __sym_tbl.tree().children.front()->table.table();
+	//for (const auto& iter : table)
+	//{
+	//	auto sym = iter.second;
 
-		if (arg_pos_to_sym_map.count(sym->arg_offset()) != 0)
-		{
-			printerr("Function::get_args():  Eek!\n");
-			exit(1);
-		}
+	//	if (arg_pos_to_sym_map.count(sym->arg_offset()) != 0)
+	//	{
+	//		printerr("Function::get_args():  Eek!\n");
+	//		exit(1);
+	//	}
 
-		arg_pos_to_sym_map[sym->arg_offset()] = sym;
+	//	arg_pos_to_sym_map[sym->arg_offset()] = sym;
 
-		// Find the highest argument offset
-		if (num_args < sym->arg_offset())
-		{
-			num_args = sym->arg_offset();
-		}
-	}
-	}
+	//	// Find the highest argument offset
+	//	if (num_args < sym->arg_offset())
+	//	{
+	//		num_args = sym->arg_offset();
+	//	}
+	//}
+	//}
 
-	// Increment because no argument symbol keeps track of how many
-	// arguments this function accepts
-	++num_args;
+	//// Increment because no argument symbol keeps track of how many
+	//// arguments this function accepts
+	//++num_args;
 
-	for (size_t i=0; i<num_args; ++i)
-	{
-		ret.push_back(arg_pos_to_sym_map.at(i));
-	}
+	//for (size_t i=0; i<num_args; ++i)
+	//{
+	//	ret.push_back(arg_pos_to_sym_map.at(i));
+	//}
 
 	return ret;
 }
 
-Symbol* Function::get_one_arg(size_t some_arg_offset) const
-{
-	const auto& table = __sym_tbl.tree().children.front()->table.table();
-
-	for (const auto& iter : table)
-	{
-		if (iter.second->arg_offset() == some_arg_offset)
-		{
-			return iter.second;
-		}
-	}
-
-	return nullptr;
-}
-//s64 Function::irntoi(IrCode* t) const
+//Symbol* Function::get_one_arg(size_t some_arg_offset) const
 //{
-//	s64 ret = -1;
+//	const auto& table = __sym_tbl.tree().children.front()->table.table();
 //
-//	for (auto p=__ir_code.next; p!=&__ir_code; p=p->next)
+//	for (const auto& iter : table)
 //	{
-//		++ret;
-//
-//		if (p == t)
+//		if (iter.second->arg_offset() == some_arg_offset)
 //		{
-//			break;
+//			return iter.second;
 //		}
 //	}
 //
-//	return ret;
+//	return nullptr;
 //}
 
 s64 Function::offset_of_vm_code(VmCode* v) const

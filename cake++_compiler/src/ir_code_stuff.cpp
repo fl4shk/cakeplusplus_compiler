@@ -81,6 +81,8 @@ IrMachineMode convert_builtin_typename_to_mm
 			err("convert_builtin_typename_to_mm():  Eek!\n");
 			break;
 	}
+
+	return IrMachineMode::U64;
 }
 
 IrExpr::IrExpr(IrExpr* s_parent)

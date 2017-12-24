@@ -5,6 +5,7 @@
 
 std::map<int, std::unique_ptr<int>> AllocStuff::__int_pool;
 std::map<std::string, std::unique_ptr<std::string>> AllocStuff::__str_pool;
+std::vector<std::unique_ptr<Var>> AllocStuff::__var_pool;
 std::vector<std::unique_ptr<VmCode>> AllocStuff::__vm_code_pool;
 std::vector<std::unique_ptr<IrExpr>> AllocStuff::__ir_expr_pool;
 std::vector<std::unique_ptr<IrCode>> AllocStuff::__ir_code_pool;
@@ -40,6 +41,26 @@ std::string* cstm_strdup(const std::string& to_dup)
 	return pool.at(to_dup).get();
 }
 
+Var* mk_var()
+{
+	auto& pool = AllocStuff::__var_pool;
+
+	std::unique_ptr<Var> p;
+	p.reset(new Var());
+
+	pool.push_back(std::move(p));
+	return pool.back().get();
+}
+Var* mk_var(Ident s_name, BuiltinTypename s_type, size_t s_size)
+{
+	auto& pool = AllocStuff::__var_pool;
+
+	std::unique_ptr<Var> p;
+	p.reset(new Var(s_name, s_type, s_size));
+
+	pool.push_back(std::move(p));
+	return pool.back().get();
+}
 //VmCode* append_vm_code(VmCode& some_head)
 //{
 //	auto& pool = AllocStuff::__vm_code_pool;

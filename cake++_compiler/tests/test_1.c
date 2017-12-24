@@ -8,7 +8,8 @@ main()
 
 	i = 0;
 
-	while (i < 3)
+	//while (i < 3)
+	while (i < len(temp))
 	{
 		//putn(temp[i]);
 		putn(func(temp));

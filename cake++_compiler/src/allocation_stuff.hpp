@@ -10,18 +10,24 @@
 
 #include <map>
 
-class VmCode;
 class Function;
+class Var;
+class VmCode;
 
 class AllocStuff
 {
 	friend int* cstm_intdup(int to_dup);
 	friend std::string* cstm_strdup(const std::string& to_dup);
 
+	friend Var* mk_var();
+	friend Var* mk_var(Ident s_name, BuiltinTypename s_type, 
+		size_t s_size);
+
 	//friend VmCode* append_vm_code(Function& func);
 	//friend AstNode* mk_ast_node();
 	//friend VmCode* append_vm_code(VmCode& some_head);
 	friend VmCode* mk_unlinked_vm_code();
+
 
 	friend IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm);
 	friend IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm, 
@@ -33,8 +39,9 @@ class AllocStuff
 
 private:			// static variables
 	static std::map<int, std::unique_ptr<int>> __int_pool;
-	static std::map<std::string, std::unique_ptr<std::string>>
-		__str_pool;
+	static std::map<std::string, std::unique_ptr<std::string>> __str_pool;
+
+	static std::vector<std::unique_ptr<Var>> __var_pool;
 	static std::vector<std::unique_ptr<VmCode>> __vm_code_pool;
 	static std::vector<std::unique_ptr<IrExpr>> __ir_expr_pool;
 	static std::vector<std::unique_ptr<IrCode>> __ir_code_pool;
@@ -44,6 +51,10 @@ private:			// static variables
 
 int* cstm_intdup(int to_dup);
 std::string* cstm_strdup(const std::string& to_dup);
+
+Var* mk_var();
+Var* mk_var(Ident s_name, BuiltinTypename s_type, size_t s_size);
+
 //VmCode* append_vm_code(VmCode& some_head);
 VmCode* mk_linked_vm_code(VmCode& some_head);
 VmCode* mk_linked_vm_code(VmCode& some_head, VmRawInstrOp s_raw_op);

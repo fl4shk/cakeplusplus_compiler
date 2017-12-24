@@ -441,7 +441,7 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node,
 			//osprintout(os, "ref_sym", temp,
 			//	strappcom2(p->mm, *p->sym->name()));
 			node["__op"] = "ref_sym";
-			node["_name"] = *p->sym->name();
+			node["_name"] = *p->sym->var()->name();
 			break;
 
 		// Function reference

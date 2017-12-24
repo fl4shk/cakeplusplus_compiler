@@ -60,6 +60,8 @@ protected:		// variables
 	// Current function
 	Function* __curr_func;
 
+	//SymbolTable __sym_tbl;
+
 
 	//std::stack<AstNode*> __ast_node_stack;
 
@@ -68,7 +70,7 @@ protected:		// variables
 	std::stack<std::string*> __str_stack;
 	std::stack<BuiltinTypename> __builtin_typename_stack;
 
-	std::stack<Symbol*> __sym_stack;
+	std::stack<Var*> __sym_stack;
 	std::stack<Function*> __func_stack;
 	std::stack<IrExpr*> __ir_expr_stack;
 	//std::stack<IrMachineMode> __mm_stack;
@@ -213,6 +215,11 @@ protected:		// functions
 	{
 		return curr_func().sym_tbl();
 	}
+	//inline auto& sym_tbl()
+	//{
+	//	return __sym_tbl;
+	//}
+
 	//inline IrCode* mk_unlinked_ir_code()
 	//{
 	//	return ::mk_unlinked_ir_code();
@@ -291,17 +298,17 @@ protected:		// functions
 		return __builtin_typename_stack.top();
 	}
 
-	inline void push_sym(Symbol* to_push)
+	inline void push_var(Var* to_push)
 	{
 		__sym_stack.push(to_push);
 	}
-	inline auto pop_sym()
+	inline auto pop_var()
 	{
 		auto ret = __sym_stack.top(); 
 		__sym_stack.pop();
 		return ret;
 	}
-	inline auto get_top_sym()
+	inline auto get_top_var()
 	{
 		return __sym_stack.top();
 	}

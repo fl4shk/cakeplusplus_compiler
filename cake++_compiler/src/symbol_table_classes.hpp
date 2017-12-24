@@ -15,8 +15,10 @@ enum class SymType : u32
 {
 	ScalarVarName,
 	ArrayVarName,
-	//FuncName,
+	FuncName,
 	//ClassName,
+	////ScalarClassInstName,
+	////ArrayClassInstName,
 };
 
 enum class BuiltinTypename : u32
@@ -39,13 +41,15 @@ enum class BuiltinTypename : u32
 std::ostream& operator << (std::ostream& os, 
 	BuiltinTypename some_builtin_typename);
 
-class Symbol
+//class Function;
+
+class Var
 {
 private:		// variables
 	Ident __name;
 
-	SymType __type;
-	BuiltinTypename __var_type;
+	// Should be replaced with a pointer to a class repressenting typenames
+	BuiltinTypename __type;
 
 
 	// Which argument
@@ -63,30 +67,25 @@ private:		// variables
 	// 
 	// However, argument arrays and classes are passed by reference.
 	s64 __offset = 0;
+
+
+	// Dimensions
 	size_t __size = 1;
 
 
 public:		// functions
-	inline Symbol()
+	inline Var()
 	{
 	}
-	inline Symbol(Ident s_name, SymType s_type,
-		BuiltinTypename s_var_type, size_t s_size)
-		: __name(s_name), __type(s_type), __var_type(s_var_type),
-		__size(s_size)
+	inline Var(Ident s_name, BuiltinTypename s_type, size_t s_size)
+		: __name(s_name), __type(s_type), __size(s_size)
 	{
 	}
-	//inline Symbol(Ident s_name, SymType s_type,
-	//	BuiltinTypename s_var_type, bool s_is_arg, size_t s_size)
-	//	: __name(s_name), __type(s_type), __var_type(s_var_type),
-	//	__is_arg(s_is_arg), __size(s_size)
-	//{
-	//}
-	inline Symbol(const Symbol& to_copy) = default;
-	inline Symbol(Symbol&& to_move) = default;
+	inline Var(const Var& to_copy) = default;
+	inline Var(Var&& to_move) = default;
 
-	inline Symbol& operator = (const Symbol& to_copy) = default;
-	inline Symbol& operator = (Symbol&& to_move) = default;
+	inline Var& operator = (const Var& to_copy) = default;
+	inline Var& operator = (Var&& to_move) = default;
 
 	bool is_unsgn_builtin() const;
 	bool is_sgn_builtin() const;
@@ -108,10 +107,45 @@ public:		// functions
 	gen_setter_by_rval_ref(name);
 	gen_getter_and_setter_by_val(type);
 	gen_getter_and_setter_by_val(arg_offset);
-	gen_getter_and_setter_by_val(var_type);
 	gen_getter_and_setter_by_val(is_arg);
 	gen_getter_and_setter_by_val(offset);
 	gen_getter_and_setter_by_val(size);
+};
+
+class Symbol
+{
+private:		// variables
+	SymType __type;
+
+	union
+	{
+		Var* __var;
+		Function* __func;
+	};
+
+public:		// functions
+	inline Symbol()
+	{
+	}
+	inline Symbol(SymType s_type, Var* s_var)
+		: __type(s_type), __var(s_var)
+	{
+	}
+	inline Symbol(Function* s_func)
+		: __type(SymType::FuncName), __func(s_func)
+	{
+	}
+
+	inline Symbol(const Symbol& to_copy) = default;
+	Symbol& operator = (const Symbol& to_copy) = default;
+	
+	gen_getter_and_setter_by_val(type);
+	gen_getter_and_setter_by_val(var);
+	gen_getter_and_setter_by_val(func);
+
+	// name() and set_name() passthroughs
+	Ident name() const;
+	void set_name(Ident s_name);
 };
 
 
@@ -179,7 +213,7 @@ public:		// functions
 	//inline Function& operator = (Function&& to_move) = default;
 
 	std::vector<Symbol*> get_args() const;
-	Symbol* get_one_arg(size_t some_arg_offset) const;
+	//Symbol* get_one_arg(size_t some_arg_offset) const;
 
 	//inline VmCode* append_vm_code()
 	//{
