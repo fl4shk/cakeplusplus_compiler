@@ -178,7 +178,7 @@ public:		// functions
 protected:		// functions
 	gen_getter_by_ref(codegen);
 
-	IrMachineMode get_mm_for_binop(IrExpr* a, IrExpr* b) const;
+	IrMachineMode get_mm_for_binop(IrExpr* a, IrExpr* b);
 
 	inline void err(const std::string& msg)
 	{

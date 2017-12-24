@@ -38,8 +38,9 @@ enum class IrExOp
 	CallWithRet,
 
 
-	// Memory address (example of use:  grabs address from symbol, 
-	Mem,
+	// Memory address (example of use:  grabs address from symbol,
+	// function, or label)
+	Address,
 
 	// Load
 	Ld,
@@ -51,8 +52,8 @@ enum class IrExOp
 	// Control flow
 	IfThenElse,
 
-	//// Type Casting
-	//Cast,
+	// Type Casting
+	Cast,
 };
 
 // Instruction operator
@@ -135,7 +136,7 @@ enum class IrSyscallShorthandOp : u64
 	GetNum,
 };
 
-enum class IrMachineMode
+enum class IrMachineMode : u32
 {
 	U64,
 	S64,
@@ -160,6 +161,43 @@ std::ostream& operator << (std::ostream& os, IrMachineMode mm);
 enum class BuiltinTypename : u32;
 IrMachineMode convert_builtin_typename_to_mm
 	(BuiltinTypename some_builtin_typename);
+
+inline bool mm_is_unsigned (IrMachineMode some_mm)
+{
+	return ((some_mm == IrMachineMode::U64)
+		|| (some_mm == IrMachineMode::U32)
+		|| (some_mm == IrMachineMode::U16)
+		|| (some_mm == IrMachineMode::U8));
+}
+inline bool mm_is_signed (IrMachineMode some_mm)
+{
+	return ((some_mm == IrMachineMode::S64)
+		|| (some_mm == IrMachineMode::S32)
+		|| (some_mm == IrMachineMode::S16)
+		|| (some_mm == IrMachineMode::S8));
+}
+inline bool mm_is_regular(IrMachineMode some_mm)
+{
+	return (mm_is_unsigned(some_mm) || mm_is_signed(some_mm));
+};
+inline IrMachineMode get_unsigned_mm(IrMachineMode some_mm)
+{
+	u32 temp = (u32)some_mm;
+
+	// Clear bit 0
+	temp &= ~0x1;
+
+	return (IrMachineMode)temp;
+};
+inline IrMachineMode get_signed_mm(IrMachineMode some_mm)
+{
+	u32 temp = (u32)some_mm;
+
+	// Set bit 0
+	temp |= 0x1;
+
+	return (IrMachineMode)temp;
+};
 
 class IrExpr;
 

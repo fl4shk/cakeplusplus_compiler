@@ -124,8 +124,8 @@ antlrcpp::Any Frontend::visitFuncDecl
 {
 	// Just do the statements stuff here
 
-	printerr("visitFuncDecl() Fixme:  temporarily performing ",
-		"push_mm(IrMachineMode::S64)!\n");
+	//printerr("visitFuncDecl() Fixme:  temporarily performing ",
+	//	"push_mm(IrMachineMode::S64)!\n");
 	ctx->statements()->accept(this);
 
 	return nullptr;
@@ -133,7 +133,6 @@ antlrcpp::Any Frontend::visitFuncDecl
 antlrcpp::Any Frontend::visitFuncCall
 	(GrammarParser::FuncCallContext *ctx)
 {
-
 	ctx->identName()->accept(this);
 	auto ident = pop_str();
 
@@ -148,8 +147,6 @@ antlrcpp::Any Frontend::visitFuncCall
 			"\"!"));
 	}
 
-	//auto to_push = codegen().mk_expr_unfinished_call_with_ret(get_top_mm(),
-	//	codegen().mk_expr_ref_func(func));
 	auto to_push = codegen().mk_expr_unfinished_call_with_ret
 		(convert_builtin_typename_to_mm(func->ret_type()), 
 		codegen().mk_expr_ref_func(func));
@@ -235,16 +232,8 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 	{
 		// Scalars are passed by value
 
-		//auto addr = codegen().mk_address(sym);
-		//auto index = codegen().mk_const(0);
-
-
-		//push_ir_code(codegen().mk_ldx(sym->get_unsgn_or_sgn(),
-		//	sym->get_ldst_size(), addr, index));
-
-		auto mem = codegen().mk_expr_mem
+		auto mem = codegen().mk_expr_address
 			(codegen().mk_expr_ref_sym(sym));
-		//push_ir_expr(codegen().mk_expr_ld(get_top_mm(), mem));
 		push_ir_expr(codegen().mk_expr_ld
 			(convert_builtin_typename_to_mm(sym->var_type()), mem));
 	}
@@ -252,10 +241,7 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 	{
 		// Since arrays are passed by reference, we only need to grab the
 		// address for this argument
-
-		//push_ir_code(codegen().mk_address(sym));
-
-		push_ir_expr(codegen().mk_expr_mem
+		push_ir_expr(codegen().mk_expr_address
 			(codegen().mk_expr_ref_sym(sym)));
 	}
 	else
@@ -556,7 +542,7 @@ antlrcpp::Any Frontend::visitIfStatement
 
 	//auto ite = codegen().mk_expr_if_then_else(IrMachineMode::Pointer,
 	//	cond, codegen().mk_expr_get_next_pc(), 
-	//	codegen().mk_expr_mem(codegen().mk_expr_ref_lab
+	//	codegen().mk_expr_address(codegen().mk_expr_ref_lab
 	//	(label_after_statements->lab_num())));
 	auto ite = codegen().mk_expr_if_then_else(cond,
 		codegen().mk_expr_get_next_pc(), 
@@ -719,7 +705,7 @@ antlrcpp::Any Frontend::visitDoWhileStatement
 	// Continue the loop if the condition is non-zero
 	codegen().mk_code_jump(codegen().mk_expr_if_then_else
 		(IrMachineMode::Pointer, cond,
-		codegen().mk_expr_mem(codegen().mk_expr_ref_lab
+		codegen().mk_expr_address(codegen().mk_expr_ref_lab
 		(label_before_statements->lab_num())), 
 		codegen().mk_expr_get_next_pc()));
 
@@ -1064,7 +1050,7 @@ antlrcpp::Any Frontend::visitExprUnary
 	}
 	else
 	{
-		printerr("visitExprUnary():  Eek!\n");
+		err("visitExprUnary():  Eek!\n");
 	}
 	return nullptr;
 }
@@ -1146,7 +1132,7 @@ void Frontend::__visit_ident_access
 		"\" was found!"));
 
 	//auto addr = codegen().mk_address(sym);
-	auto mem = codegen().mk_expr_mem(codegen().mk_expr_ref_sym(sym));
+	auto mem = codegen().mk_expr_address(codegen().mk_expr_ref_sym(sym));
 	IrExpr* index;
 
 	
@@ -1155,7 +1141,8 @@ void Frontend::__visit_ident_access
 		if (!ctx_subscript_expr)
 		{
 			//index = codegen().mk_const(0);
-			index = codegen().mk_expr_constant(IrMachineMode::Pointer, 0);
+			index = codegen().mk_expr_constant
+				(IrMachineMode::Pointer, 0);
 		}
 		else // if (ctx_subscript_expr)
 		{
@@ -1330,6 +1317,8 @@ antlrcpp::Any Frontend::visitSizeofExpr
 	//	codegen().mk_expr_ref_sym(sym)));
 	push_ir_expr(codegen().mk_expr_sizeof(IrMachineMode::Length,
 		codegen().mk_expr_ref_sym(sym)));
+
+	return nullptr;
 }
 
 antlrcpp::Any Frontend::visitCastExpr
@@ -1338,12 +1327,17 @@ antlrcpp::Any Frontend::visitCastExpr
 	ctx->TokBuiltinTypename()->accept(this);
 
 	ctx->expr()->accept(this);
-	auto expr = pop_ir_expr();
 
-	expr->mm = convert_builtin_typename_to_mm(pop_builtin_typename());
+	//auto expr = pop_ir_expr();
+	//expr->mm = convert_builtin_typename_to_mm(pop_builtin_typename());
+	//push_ir_expr(expr);
 
+	push_ir_expr(codegen().mk_expr_cast
+		(convert_builtin_typename_to_mm(pop_builtin_typename()),
+		pop_ir_expr()));
 
-	push_ir_expr(expr);
+	return nullptr;
+
 }
 antlrcpp::Any Frontend::visitSubscriptExpr
 	(GrammarParser::SubscriptExprContext *ctx)
@@ -1358,6 +1352,111 @@ antlrcpp::Any Frontend::visitSubscriptConst
 	ctx->numExpr()->accept(this);
 	return nullptr;
 }
-IrMachineMode Frontend::get_mm_for_binop(IrExpr* a, IrExpr* b) const
+IrMachineMode Frontend::get_mm_for_binop(IrExpr* a, IrExpr* b)
 {
+	if (a->mm == b->mm)
+	{
+		return a->mm;
+	}
+
+	//if (((u32)a->mm) < ((u32)b->mm))
+	//{
+	//	return 
+	//}
+
+
+
+
+
+	const auto a_mm_unsigned = get_unsigned_mm(a->mm);
+	const auto b_mm_unsigned = get_unsigned_mm(b->mm);
+	const auto a_mm_signed = get_signed_mm(a->mm);
+	const auto b_mm_signed = get_signed_mm(b->mm);
+
+	const u32 a_mm_unsigned_u32 = static_cast<u32>(a_mm_unsigned);
+	const u32 b_mm_unsigned_u32 = static_cast<u32>(b_mm_unsigned);
+	const u32 a_mm_signed_u32 = static_cast<u32>(a_mm_signed);
+	const u32 b_mm_signed_u32 = static_cast<u32>(b_mm_signed);
+
+	if ((a->mm == IrMachineMode::Pointer)
+		|| (a->mm == IrMachineMode::Length))
+	{
+		if ((b->mm == IrMachineMode::Pointer)
+			|| (b->mm == IrMachineMode::Length))
+		{
+			return a->mm;
+		}
+		else
+		{
+			return b->mm;
+		}
+	}
+	else if ((b->mm == IrMachineMode::Pointer)
+		|| (b->mm == IrMachineMode::Length))
+	{
+		if ((a->mm == IrMachineMode::Pointer)
+			|| (a->mm == IrMachineMode::Length))
+		{
+			return b->mm;
+		}
+		else
+		{
+			return a->mm;
+		}
+	}
+
+	else if ((!mm_is_regular(a->mm)) || (!mm_is_regular(b->mm)))
+	{
+		err("get_mm_for_binop():  Eek!");
+	}
+
+	if (mm_is_unsigned(a->mm) && mm_is_unsigned(b->mm))
+	{
+		if (a_mm_unsigned_u32 <= b_mm_unsigned_u32)
+		{
+			return a->mm;
+		}
+		else
+		{
+			return b->mm;
+		}
+	}
+	else if (mm_is_unsigned(a->mm) && mm_is_signed(b->mm))
+	{
+		// Promote to signed
+		if (a_mm_unsigned_u32 <= b_mm_unsigned_u32)
+		{
+			return a_mm_signed;
+		}
+		else
+		{
+			return b_mm_signed;
+		}
+	}
+	else if (mm_is_signed(a->mm) && mm_is_unsigned(b->mm))
+	{
+		// Promote to signed
+		if (a_mm_unsigned_u32 <= b_mm_unsigned_u32)
+		{
+			return a_mm_signed;
+		}
+		else
+		{
+			return b_mm_signed;
+		}
+	}
+	else // if (mm_is_signed(a->mm) && mm_is_signed(b->mm))
+	{
+		if (a_mm_signed_u32 <= b_mm_signed_u32)
+		{
+			return a->mm;
+		}
+		else
+		{
+			return b->mm;
+		}
+	}
+
+
+	err("get_mm_for_binop():  Eek (2)!");
 }

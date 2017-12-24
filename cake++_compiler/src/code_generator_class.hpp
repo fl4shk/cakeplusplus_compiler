@@ -32,7 +32,7 @@ public:		// functions
 	IrExpr* mk_expr_sizeof(IrMachineMode s_mm, IrExpr* what);
 	IrExpr* mk_expr_unfinished_call_with_ret(IrMachineMode s_mm,
 		IrExpr* where);
-	IrExpr* mk_expr_mem(IrExpr* where);
+	IrExpr* mk_expr_address(IrExpr* where);
 	IrExpr* mk_expr_ld(IrMachineMode s_mm, IrExpr* where);
 	IrExpr* mk_expr_get_next_pc();
 	IrExpr* mk_expr_if_then_else(IrMachineMode s_mm, IrExpr* cond, 
@@ -41,16 +41,16 @@ public:		// functions
 		IrExpr* what_if, s64 what_else_lab_num)
 	{
 		return mk_expr_if_then_else(IrMachineMode::Pointer, cond, what_if, 
-			mk_expr_mem(mk_expr_ref_lab(what_else_lab_num)));
+			mk_expr_address(mk_expr_ref_lab(what_else_lab_num)));
 	}
 	inline IrExpr* mk_expr_if_then_else(IrExpr* cond,
 		s64 what_if_lab_num, s64 what_else_lab_num)
 	{
 		return mk_expr_if_then_else(IrMachineMode::Pointer, cond, 
-			mk_expr_mem(mk_expr_ref_lab(what_if_lab_num)),
-			mk_expr_mem(mk_expr_ref_lab(what_else_lab_num)));
+			mk_expr_address(mk_expr_ref_lab(what_if_lab_num)),
+			mk_expr_address(mk_expr_ref_lab(what_else_lab_num)));
 	}
-	//IrExpr* mk_expr_cast(IrMachineMode s_mm, IrExpr* expr);
+	IrExpr* mk_expr_cast(IrMachineMode s_mm, IrExpr* expr);
 
 	IrCode* mk_code_st(IrMachineMode s_st_mm, IrExpr* where, 
 		IrExpr* what);

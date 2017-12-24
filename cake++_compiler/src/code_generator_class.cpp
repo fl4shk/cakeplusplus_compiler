@@ -89,9 +89,9 @@ IrExpr* CodeGenerator::mk_expr_unfinished_call_with_ret
 
 	return ret;
 }
-IrExpr* CodeGenerator::mk_expr_mem(IrExpr* where)
+IrExpr* CodeGenerator::mk_expr_address(IrExpr* where)
 {
-	auto ret = mk_ir_expr(IrExOp::Mem, IrMachineMode::Pointer);
+	auto ret = mk_ir_expr(IrExOp::Address, IrMachineMode::Pointer);
 
 	ret->append_arg(where);
 
@@ -120,14 +120,14 @@ IrExpr* CodeGenerator::mk_expr_if_then_else(IrMachineMode s_mm,
 
 	return ret;
 }
-//IrExpr* CodeGenerator::mk_expr_cast(IrMachineMode s_mm, IrExpr* expr)
-//{
-//	auto ret = mk_ir_expr(IrExOp::Cast, s_mm);
-//
-//	ret->append_arg(expr);
-//
-//	return ret;
-//}
+IrExpr* CodeGenerator::mk_expr_cast(IrMachineMode s_mm, IrExpr* expr)
+{
+	auto ret = mk_ir_expr(IrExOp::Cast, s_mm);
+
+	ret->append_arg(expr);
+
+	return ret;
+}
 
 IrCode* CodeGenerator::mk_code_st(IrMachineMode s_st_mm, IrExpr* where, 
 	IrExpr* what)
@@ -269,7 +269,7 @@ void CodeGenerator::output_func_ir_code_as_json(Json::Value& output_root,
 			case IrInOp::Syscall:
 				//osprintout(os, "syscall(", p->syscall_shorthand_op());
 				node["__iop"] = "syscall";
-				node["syscall_shorthand_op"] 
+				node["_syscall_shorthand_op"] 
 					= sconcat(p->syscall_shorthand_op());
 				break;
 			case IrInOp::Label:
@@ -316,7 +316,7 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node,
 		// Binary operator
 		case IrExOp::Binop:
 			//osprintout(os, "_binop", temp, p->mm);
-			node["__op"] = "_binop";
+			node["__op"] = "binop";
 
 			switch (p->binop)
 			{
@@ -481,9 +481,9 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node,
 
 
 		// Memory address (example of use:  grabs address from symbol, 
-		case IrExOp::Mem:
-			//osprintout(os, "mem", temp, p->mm);
-			node["__op"] = "mem";
+		case IrExOp::Address:
+			//osprintout(os, "address", temp, p->mm);
+			node["__op"] = "address";
 			break;
 
 		// Load
@@ -505,9 +505,9 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node,
 			node["__op"] = "if_then_else";
 			break;
 
-		//case IrExOp::Cast
-		//	node["__op"] = "cast";
-		//	break;
+		case IrExOp::Cast:
+			node["__op"] = "cast";
+			break;
 
 		default:
 			printerr("CodeGenerator::output_ir_expr_as_json():  Eek!\n");

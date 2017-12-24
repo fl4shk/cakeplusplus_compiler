@@ -1,16 +1,17 @@
 main()
 {
-	s64 i;
+	u64 i;
 	s64 temp[3];
 
-	func(temp);
+	//func(temp);
 
 
 	i = 0;
 
 	while (i < 3)
 	{
-		putn(temp[i]);
+		//putn(temp[i]);
+		putn(func(temp));
 		i = i + 1;
 	}
 }
