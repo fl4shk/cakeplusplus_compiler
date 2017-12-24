@@ -18,6 +18,7 @@ cake++_compiler/objs_debug/*
 cake++_compiler/objs_dis_debug/*
 cake++_compiler/asmouts_debug/*
 cake++_compiler/preprocs_debug/*
+cake++_compiler/tests/*.json
 cake++_vm/deps/*
 cake++_vm/objs/*
 cake++_vm/objs_dis/*
@@ -83,3 +84,4 @@ cake++_vm_assembler/cake++_vm_assembler_debug
 cake++_compiler/src/gen_src/*
 cake++_vm/src/gen_src/*
 cake++_vm_assembler/src/gen_src/*
+*.json.ignore
