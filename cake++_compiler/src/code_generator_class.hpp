@@ -118,6 +118,19 @@ public:		// functions
 	IrExpr* mk_expr_get_next_pc();
 	IrExpr* mk_expr_if_then_else(IrMachineMode s_mm, IrExpr* cond, 
 		IrExpr* what_if, IrExpr* what_else);
+	inline IrExpr* mk_expr_if_then_else(IrExpr* cond,
+		IrExpr* what_if, s64 what_else_lab_num)
+	{
+		return mk_expr_if_then_else(IrMachineMode::Pointer, cond, what_if, 
+			mk_expr_mem(mk_expr_ref_lab(what_else_lab_num)));
+	}
+	inline IrExpr* mk_expr_if_then_else(IrExpr* cond,
+		s64 what_if_lab_num, s64 what_else_lab_num)
+	{
+		return mk_expr_if_then_else(IrMachineMode::Pointer, cond, 
+			mk_expr_mem(mk_expr_ref_lab(what_if_lab_num)),
+			mk_expr_mem(mk_expr_ref_lab(what_else_lab_num)));
+	}
 
 	IrCode* mk_code_st(IrMachineMode s_st_mm, IrExpr* where, 
 		IrExpr* what);

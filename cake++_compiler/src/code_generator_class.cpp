@@ -653,9 +653,9 @@ std::ostream& CodeGenerator::osprint_ir_expr(std::ostream& os, IrExpr* p)
 {
 	static const std::string temp("\n\t\t\t(\n\t\t\t");
 
+	osprintout(os, "\t\t\t");
 	switch (p->op)
 	{
-		osprintout(os, "\t\t\t");
 		case IrExOp::Constant:
 			osprintout(os, "const", temp,
 				strappcom2(p->mm, p->simm));

@@ -507,6 +507,8 @@ antlrcpp::Any Frontend::visitAssignment
 	//push_ir_code(codegen().mk_stx(sym->get_unsgn_or_sgn(),
 	//	sym->get_ldst_size(), addr, index, expr));
 
+	pop_sym();
+
 	auto mem = pop_ir_expr();
 	auto index = pop_ir_expr();
 
@@ -530,18 +532,6 @@ antlrcpp::Any Frontend::visitAssignment
 antlrcpp::Any Frontend::visitIfStatement
 	(GrammarParser::IfStatementContext *ctx)
 {
-//	//auto to_push = mk_ast_node(AstOp::stmt_if);
-//	auto to_push = mk_ast_stmt(AstStmtOp::If);
-//
-//	ctx->expr()->accept(this);
-//	to_push->append_child(pop_ast_node());
-//	ctx->statements()->accept(this);
-//	to_push->append_child(pop_ast_node());
-//
-//	push_ast_node(to_push);
-
-
-
 	//ctx->expr()->accept(this);
 	//auto expr = pop_ir_code();
 
@@ -561,80 +551,87 @@ antlrcpp::Any Frontend::visitIfStatement
 
 	auto label_after_statements = codegen().mk_code_unlinked_label();
 
-	//codegen().mk_code_jump
-	//	(codegen.mk_expr_if_then_else);
+	//auto ite = codegen().mk_expr_if_then_else(IrMachineMode::Pointer,
+	//	cond, codegen().mk_expr_get_next_pc(), 
+	//	codegen().mk_expr_mem(codegen().mk_expr_ref_lab
+	//	(label_after_statements->lab_num())));
+	auto ite = codegen().mk_expr_if_then_else(cond,
+		codegen().mk_expr_get_next_pc(), 
+		label_after_statements->lab_num());
+
+	codegen().mk_code_jump(ite);
+
+	ctx->statements()->accept(this);
+
+	relink_ir_code(label_after_statements);
 
 	return nullptr;
 }
-//antlrcpp::Any Frontend::visitIfChainStatement
-//	(GrammarParser::IfChainStatementContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::stmt_if_chain);
-////	auto to_push = mk_ast_stmt(AstStmtOp::IfChain);
-////
-////	ctx->expr()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	ctx->statements()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	ctx->elseStatements()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	push_ast_node(to_push);
-//
-//	ctx->expr()->accept(this);
-//	auto expr = pop_ir_code();
-//
-//	auto label_after_statements = codegen().mk_unlinked_label();
-//
-//
-//	// Branch to the else stuff if false
-//	codegen().mk_branch_if_false(label_after_statements, expr);
-//
-//	ctx->statements()->accept(this);
-//
-//
-//
-//	auto label_after_else_statements = codegen().mk_unlinked_label();
-//
-//
-//	// Branch to the part that's after the elseStatements
-//	codegen().mk_bra(label_after_else_statements);
-//
-//	relink_ir_code(label_after_statements);
-//
-//	ctx->elseStatements()->accept(this);
-//
-//	relink_ir_code(label_after_else_statements);
-//
-//
-//
-//	return nullptr;
-//}
+antlrcpp::Any Frontend::visitIfChainStatement
+	(GrammarParser::IfChainStatementContext *ctx)
+{
+	//ctx->expr()->accept(this);
+	//auto expr = pop_ir_code();
+
+	//auto label_after_statements = codegen().mk_unlinked_label();
+
+
+	//// Branch to the else stuff if false
+	//codegen().mk_branch_if_false(label_after_statements, expr);
+
+	//ctx->statements()->accept(this);
+
+
+
+	//auto label_after_else_statements = codegen().mk_unlinked_label();
+
+
+	//// Branch to the part that's after the elseStatements
+	//codegen().mk_bra(label_after_else_statements);
+
+	//relink_ir_code(label_after_statements);
+
+	//ctx->elseStatements()->accept(this);
+
+	//relink_ir_code(label_after_else_statements);
+
+
+
+	ctx->expr()->accept(this);
+	auto cond = pop_ir_expr();
+
+	auto label_before_else_statements = codegen().mk_code_unlinked_label();
+
+
+	// Branch to the else stuff if false, or continue if true
+	{
+	auto ite = codegen().mk_expr_if_then_else(cond,
+		codegen().mk_expr_get_next_pc(), 
+		label_before_else_statements->lab_num());
+	
+	codegen().mk_code_jump(ite);
+	}
+
+	ctx->statements()->accept(this);
+
+	auto label_after_else_statements = codegen().mk_code_unlinked_label();
+
+	// Unconditionally branch to the part that's after the elseStatements
+	codegen().mk_code_jump(codegen().mk_expr_ref_lab
+		(label_after_else_statements->lab_num()));
+
+	relink_ir_code(label_before_else_statements);
+
+	ctx->elseStatements()->accept(this);
+
+	relink_ir_code(label_after_else_statements);
+
+
+	return nullptr;
+}
 antlrcpp::Any Frontend::visitElseStatements
 	(GrammarParser::ElseStatementsContext *ctx)
 {
-//	//auto to_push = mk_ast_node(AstOp::list_stmts_else);
-//	auto to_push = mk_ast_stmt(AstStmtOp::ListStmtsElse);
-//
-//	if (ctx->ifChainStatement())
-//	{
-//		ctx->ifChainStatement()->accept(this);
-//	}
-//	else if (ctx->statements())
-//	{
-//		ctx->statements()->accept(this);
-//	}
-//	else
-//	{
-//		err("visitElseStatements():  Eek!\n");
-//	}
-//
-//	to_push->append_child(pop_ast_node());
-//	push_ast_node(to_push);
-	
-
 	if (ctx->ifStatement())
 	{
 		ctx->ifStatement()->accept(this);
@@ -650,295 +647,290 @@ antlrcpp::Any Frontend::visitElseStatements
 
 	return nullptr;
 }
-//antlrcpp::Any Frontend::visitWhileStatement
-//	(GrammarParser::WhileStatementContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::stmt_while);
-////	auto to_push = mk_ast_stmt(AstStmtOp::While);
-////
-////	ctx->expr()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	ctx->statements()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	push_ast_node(to_push);
-//
-//	auto label_before_expr = codegen().mk_label();
+antlrcpp::Any Frontend::visitWhileStatement
+	(GrammarParser::WhileStatementContext *ctx)
+{
+	//auto label_before_expr = codegen().mk_label();
+
+	//ctx->expr()->accept(this);
+	//auto expr = pop_ir_code();
+
+
+	//auto label_after_while = codegen().mk_unlinked_label();
+	//codegen().mk_branch_if_false(label_after_while, expr);
+
+	//ctx->statements()->accept(this);
+
+
+	//// For a while loop, always branch back up to the label_before_expr if
+	//// we didn't conditionally end the loop.
+	//codegen().mk_bra(label_before_expr);
+
+	//relink_ir_code(label_after_while);
+
+
+	auto label_before_expr = codegen().mk_code_linked_label();
+
+	ctx->expr()->accept(this);
+	auto cond = pop_ir_expr();
+
+
+	auto label_after_while = codegen().mk_code_unlinked_label();
+
+	codegen().mk_code_jump(codegen().mk_expr_if_then_else(cond,
+		codegen().mk_expr_get_next_pc(),
+		label_after_while->lab_num()));
+	
+	ctx->statements()->accept(this);
+
+	// For a while loop, always branch back up to the label_before_expr if
+	// we didn't conditionally end the loop.
+	codegen().mk_code_jump(codegen().mk_expr_ref_lab
+		(label_before_expr->lab_num()));
+	
+	relink_ir_code(label_after_while);
+
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitDoWhileStatement
+	(GrammarParser::DoWhileStatementContext *ctx)
+{
+	//auto label_before_statements = codegen().mk_label();
+
+	//ctx->statements()->accept(this);
+
+
+	//ctx->expr()->accept(this);
+	//auto expr = pop_ir_code();
+
+	//codegen().mk_bne(label_before_statements, expr);
+
+	auto label_before_statements = codegen().mk_code_linked_label();
+
+	ctx->statements()->accept(this);
+
+	ctx->expr()->accept(this);
+	auto cond = pop_ir_expr();
+
+	// Continue the loop if the condition is non-zero
+	codegen().mk_code_jump(codegen().mk_expr_if_then_else
+		(IrMachineMode::Pointer, cond,
+		codegen().mk_expr_mem(codegen().mk_expr_ref_lab
+		(label_before_statements->lab_num())), 
+		codegen().mk_expr_get_next_pc()));
+
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitReturnExprStatement
+	(GrammarParser::ReturnExprStatementContext *ctx)
+{
+//	//auto to_push = mk_ast_node(AstOp::stmt_return_expr);
+//	auto to_push = mk_ast_stmt(AstStmtOp::ReturnExpr);
 //
 //	ctx->expr()->accept(this);
-//	auto expr = pop_ir_code();
+//	to_push->append_child(pop_ast_node());
 //
+//	push_ast_node(to_push);
+	err("visitReturnExprStatement() is not fully implemented!");
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitReturnNothingStatement
+	(GrammarParser::ReturnNothingStatementContext *ctx)
+{
+//	//auto to_push = mk_ast_node(AstOp::stmt_return_nothing);
+//	auto to_push = mk_ast_stmt(AstStmtOp::ReturnNothing);
 //
-//	auto label_after_while = codegen().mk_unlinked_label();
-//	codegen().mk_branch_if_false(label_after_while, expr);
-//
-//	ctx->statements()->accept(this);
-//
-//
-//	// For a while loop, always branch back up to the label_before_expr if
-//	// we didn't conditionally end the loop.
-//	codegen().mk_bra(label_before_expr);
-//
-//	relink_ir_code(label_after_while);
-//
-//
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitDoWhileStatement
-//	(GrammarParser::DoWhileStatementContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::stmt_do_while);
-////	auto to_push = mk_ast_stmt(AstStmtOp::DoWhile);
-////
-////	ctx->statements()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	ctx->expr()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	push_ast_node(to_push);
-//
-//	auto label_before_statements = codegen().mk_label();
-//
-//	ctx->statements()->accept(this);
-//
-//
-//	ctx->expr()->accept(this);
-//	auto expr = pop_ir_code();
-//
-//	codegen().mk_bne(label_before_statements, expr);
-//
-//
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitReturnExprStatement
-//	(GrammarParser::ReturnExprStatementContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::stmt_return_expr);
-////	auto to_push = mk_ast_stmt(AstStmtOp::ReturnExpr);
-////
-////	ctx->expr()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	push_ast_node(to_push);
-//	err("visitReturnExprStatement() is not fully implemented!");
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitReturnNothingStatement
-//	(GrammarParser::ReturnNothingStatementContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::stmt_return_nothing);
-////	auto to_push = mk_ast_stmt(AstStmtOp::ReturnNothing);
-////
-////	push_ast_node(to_push);
-//	err("visitReturnNothingStatement() is not fully implemented!");
-//	return nullptr;
-//}
-//
-//antlrcpp::Any Frontend::visitExpr
-//	(GrammarParser::ExprContext *ctx)
-//{
-//	//if (ctx->exprLogical())
-//	if (!ctx->expr())
-//	{
-//		ctx->exprLogical()->accept(this);
-//	}
-//	else if (ctx->expr())
-//	{
-//		////auto to_push = mk_ast_node(AstOp::expr_binop);
-//		//auto to_push = mk_ast_expr(AstExprOp::Binop);
-//
-//
-//		ctx->expr()->accept(this);
-//		auto a = pop_ir_code();
-//		//to_push->append_child(pop_ast_node());
-//
-//		auto&& op = ctx->TokOpLogical()->toString();
-//
-//		IrBinop s_binop;
-//
-//		if (op == "&&")
-//		{
-//			//to_push->bin_op = AstBinOp::LogAnd;
-//			s_binop = IrBinop::BitAnd;
-//		}
-//		else if (op == "||")
-//		{
-//			//to_push->bin_op = AstBinOp::LogOr;
-//			s_binop = IrBinop::BitOr;
-//		}
-//		else
-//		{
-//			err("visitExpr():  binop type Eek!\n");
-//		}
-//
-//		ctx->exprLogical()->accept(this);
-//		auto b = pop_ir_code();
-//
-//		auto some_binop = codegen().mk_binop(s_binop, a, b);
-//
-//
-//		// ((a bitop b) != 0)
-//		push_ir_code(codegen().mk_log_not(some_binop));
-//
-//
-//		//to_push->append_child(pop_ast_node());
-//		//push_ast_node(to_push);
-//	}
-//	else
-//	{
-//		err("visitExpr():  Eek!\n");
-//	}
-//
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitExprLogical
-//	(GrammarParser::ExprLogicalContext *ctx)
-//{
-//	//if (ctx->exprCompare())
-//	if (!ctx->exprLogical())
-//	{
-//		ctx->exprCompare()->accept(this);
-//	}
-//	else if (ctx->exprLogical())
-//	{
-//		////auto to_push = mk_ast_node(AstOp::expr_binop);
-//		//auto to_push = mk_ast_expr(AstExprOp::Binop);
-//
-//
-//		ctx->exprLogical()->accept(this);
-//		auto a = pop_ir_code();
-//		//to_push->append_child(pop_ast_node());
-//
-//		auto&& op = ctx->TokOpCompare()->toString();
-//
-//
-//		IrExpr* to_push;
-//
-//		if (op == "==")
-//		{
-//			//to_push->bin_op = AstBinOp::CmpEq;
-//			ctx->exprCompare()->accept(this);
-//			auto b = pop_ir_code();
-//
-//			to_push = codegen().mk_binop(IrBinop::CmpEq, a, b);
-//		}
-//		else if (op == "!=")
-//		{
-//			//to_push->bin_op = AstBinOp::CmpNe;
-//			ctx->exprCompare()->accept(this);
-//			auto b = pop_ir_code();
-//
-//			to_push = codegen().mk_binop(IrBinop::CmpNe, a, b);
-//		}
-//		else if (op == "<")
-//		{
-//			// Temporary!
-//			//to_push->bin_op = AstBinOp::CmpSLt;
-//			ctx->exprCompare()->accept(this);
-//			auto b = pop_ir_code();
-//
-//			to_push = codegen().mk_binop(IrBinop::CmpLt, a, b);
-//		}
-//		else if (op == ">")
-//		{
-//			// Temporary
-//			//to_push->bin_op = AstBinOp::CmpSGt;
-//			ctx->exprCompare()->accept(this);
-//			auto b = pop_ir_code();
-//
-//			to_push = codegen().mk_log_not(codegen().mk_binop
-//				(IrBinop::CmpLe, a, b));
-//		}
-//		else if (op == "<=")
-//		{
-//			// Temporary!
-//			//to_push->bin_op = AstBinOp::CmpSLe;
-//			ctx->exprCompare()->accept(this);
-//			auto b = pop_ir_code();
-//
-//			to_push = codegen().mk_binop(IrBinop::CmpLe, a, b);
-//		}
-//		else if (op == ">=")
-//		{
-//			// Temporary
-//			//to_push->bin_op = AstBinOp::CmpSGe;
-//			ctx->exprCompare()->accept(this);
-//			auto b = pop_ir_code();
-//
-//			to_push = codegen().mk_log_not(codegen().mk_binop
-//				(IrBinop::CmpLt, a, b));
-//		}
-//		else
-//		{
-//			err("visitExprLogical():  binop type Eek!\n");
-//		}
-//
-//		//to_push->append_child(pop_ast_node());
-//		//push_ast_node(to_push);
-//
-//		push_ir_code(to_push);
-//	}
-//	else
-//	{
-//		err("visitExprCompare():  Eek!\n");
-//	}
-//
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitExprCompare
-//	(GrammarParser::ExprCompareContext *ctx)
-//{
-//	//if (ctx->exprAddSub())
-//	if (!ctx->exprCompare())
-//	{
-//		ctx->exprAddSub()->accept(this);
-//	}
-//	else if (ctx->exprCompare())
-//	{
-//		////auto to_push = mk_ast_node(AstOp::expr_binop);
-//		//auto to_push = mk_ast_expr(AstExprOp::Binop);
-//
-//
-//		ctx->exprCompare()->accept(this);
-//		auto a = pop_ir_code();
-//
-//		//to_push->append_child(pop_ast_node());
-//
-//		auto&& op = ctx->TokOpAddSub()->toString();
-//
-//		IrBinop s_binop;
-//
-//		if (op == "+")
-//		{
-//			//to_push->bin_op = AstBinOp::Add;
-//			s_binop = IrBinop::Add;
-//		}
-//		else if (op == "-")
-//		{
-//			//to_push->bin_op = AstBinOp::Sub;
-//			s_binop = IrBinop::Sub;
-//		}
-//		else
-//		{
-//			err("visitExprCompare():  binop type Eek!\n");
-//		}
-//
-//		ctx->exprAddSub()->accept(this);
-//		auto b = pop_ir_code();
-//		//to_push->append_child(pop_ast_node());
-//		//push_ast_node(to_push);
-//
-//		push_ir_code(codegen().mk_binop(s_binop, a, b));
-//	}
-//	else
-//	{
-//		err("visitExprCompare():  Eek!\n");
-//	}
-//
-//	return nullptr;
-//}
+//	push_ast_node(to_push);
+	err("visitReturnNothingStatement() is not fully implemented!");
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitExpr
+	(GrammarParser::ExprContext *ctx)
+{
+	//if (ctx->exprLogical())
+	if (!ctx->expr())
+	{
+		ctx->exprLogical()->accept(this);
+	}
+	else // if (ctx->expr())
+	{
+		////auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_expr(AstExprOp::Binop);
+
+
+		ctx->expr()->accept(this);
+		//auto a = pop_ir_code();
+		////to_push->append_child(pop_ast_node());
+		auto a = pop_ir_expr();
+
+		auto&& op = ctx->TokOpLogical()->toString();
+
+		IrBinop s_binop;
+
+		if (op == "&&")
+		{
+			//to_push->bin_op = AstBinOp::LogAnd;
+			//s_binop = IrBinop::BitAnd;
+			s_binop = IrBinop::LogAnd;
+		}
+		else if (op == "||")
+		{
+			//to_push->bin_op = AstBinOp::LogOr;
+			//s_binop = IrBinop::BitOr;
+			s_binop = IrBinop::LogOr;
+		}
+		else
+		{
+			err("visitExpr():  binop type Eek!\n");
+		}
+
+		ctx->exprLogical()->accept(this);
+		//auto b = pop_ir_code();
+		auto b = pop_ir_expr();
+
+		//auto some_binop = codegen().mk_binop(s_binop, a, b);
+
+		push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+	}
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprLogical
+	(GrammarParser::ExprLogicalContext *ctx)
+{
+	//if (ctx->exprCompare())
+	if (!ctx->exprLogical())
+	{
+		ctx->exprCompare()->accept(this);
+	}
+	else // if (ctx->exprLogical())
+	{
+		////auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_expr(AstExprOp::Binop);
+
+
+		ctx->exprLogical()->accept(this);
+		//auto a = pop_ir_code();
+		//to_push->append_child(pop_ast_node());
+
+		auto a = pop_ir_expr();
+
+		auto&& op = ctx->TokOpCompare()->toString();
+
+
+		IrExpr* to_push;
+
+		if (op == "==")
+		{
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_expr();
+
+			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpEq,
+				a, b);
+		}
+		else if (op == "!=")
+		{
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_expr();
+
+			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpNe,
+				a, b);
+		}
+		else if (op == "<")
+		{
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_expr();
+
+			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpLt,
+				a, b);
+		}
+		else if (op == ">")
+		{
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_expr();
+
+			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpGt,
+				a, b);
+		}
+		else if (op == "<=")
+		{
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_expr();
+
+			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpLe,
+				a, b);
+		}
+		else if (op == ">=")
+		{
+			ctx->exprCompare()->accept(this);
+			auto b = pop_ir_expr();
+
+			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpGe,
+				a, b);
+		}
+		else
+		{
+			err("visitExprLogical():  binop type Eek!\n");
+		}
+
+		//to_push->append_child(pop_ast_node());
+		//push_ast_node(to_push);
+
+		//push_ir_code(to_push);
+		push_ir_expr(to_push);
+	}
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprCompare
+	(GrammarParser::ExprCompareContext *ctx)
+{
+	//if (ctx->exprAddSub())
+	if (!ctx->exprCompare())
+	{
+		ctx->exprAddSub()->accept(this);
+	}
+	else // if (ctx->exprCompare())
+	{
+		////auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_expr(AstExprOp::Binop);
+
+
+		ctx->exprCompare()->accept(this);
+		auto a = pop_ir_expr();
+
+		//to_push->append_child(pop_ast_node());
+
+		auto&& op = ctx->TokOpAddSub()->toString();
+
+		IrBinop s_binop;
+
+		if (op == "+")
+		{
+			//to_push->bin_op = AstBinOp::Add;
+			s_binop = IrBinop::Add;
+		}
+		else if (op == "-")
+		{
+			//to_push->bin_op = AstBinOp::Sub;
+			s_binop = IrBinop::Sub;
+		}
+		else
+		{
+			err("visitExprCompare():  binop type Eek!\n");
+		}
+
+		ctx->exprAddSub()->accept(this);
+		auto b = pop_ir_expr();
+
+		push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+	}
+
+	return nullptr;
+}
 //antlrcpp::Any Frontend::visitExprAddSub
 //	(GrammarParser::ExprAddSubContext *ctx)
 //{
@@ -1232,7 +1224,8 @@ antlrcpp::Any Frontend::visitIdentRhs
 	auto index = pop_ir_expr();
 
 
-	auto sym = pop_sym();
+	//auto sym = pop_sym();
+	pop_sym();
 
 
 	//push_ir_code(codegen().mk_ldx(sym->get_unsgn_or_sgn(), 
