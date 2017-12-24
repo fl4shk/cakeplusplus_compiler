@@ -9,365 +9,6 @@ CodeGenerator::CodeGenerator(Frontend* s_frontend)
 CodeGenerator::~CodeGenerator()
 {
 }
-//IrCode* CodeGenerator::mk_const(s64 s_simm)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Constant);
-//	ret->simm = s_simm;
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_binop(IrUS s_unsgn_or_sgn, 
-//	IrBinop s_binop, IrCode* a, IrCode* b)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Binop);
-//	ret->unsgn_or_sgn = s_unsgn_or_sgn;
-//	ret->binop = s_binop;
-//	ret->args.push_back(a);
-//	ret->args.push_back(b);
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_unlinked_label()
-//{
-//	auto ret = mk_unlinked_ir_code(IrOp::Label);
-//
-//	auto& curr_func = __frontend->curr_func();
-//
-//	++curr_func.last_label_num();
-//	curr_func.num_to_label_map()[curr_func.last_label_num()] = ret;
-//	
-//	ret->lab_num = curr_func.last_label_num();
-//
-//	//return __frontend->relink_ir_code(ret);
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_label()
-//{
-//	return __frontend->relink_ir_code(mk_unlinked_label());
-//}
-//IrCode* CodeGenerator::mk_beq(s64 s_lab_num, IrCode* condition)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Beq);
-//
-//	ret->lab_num = s_lab_num;
-//	ret->args.push_back(condition);
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_bne(s64 s_lab_num, IrCode* condition)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Bne);
-//
-//	ret->lab_num = s_lab_num;
-//	ret->args.push_back(condition);
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_bra(s64 s_lab_num)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Bra);
-//
-//	ret->lab_num = s_lab_num;
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_jump(s64 s_lab_num)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Jump);
-//
-//	ret->lab_num = s_lab_num;
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_address(Symbol* s_sym)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Address);
-//
-//	ret->sym = s_sym;
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_address(Function* s_func)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Address);
-//
-//	ret->func = s_func;
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_ldx(IrUS s_unsgn_or_sgn, 
-//	IrLdStSize s_ldst_size, IrCode* addr, IrCode* index)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Ldx);
-//
-//	ret->unsgn_or_sgn = s_unsgn_or_sgn;
-//	ret->ldst_size = s_ldst_size;
-//	ret->args.push_back(addr);
-//	ret->args.push_back(index);
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_stx(IrUS s_unsgn_or_sgn, 
-//	IrLdStSize s_ldst_size, IrCode* addr, IrCode* index, IrCode* data)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Stx);
-//
-//	ret->unsgn_or_sgn = s_unsgn_or_sgn;
-//	ret->ldst_size = s_ldst_size;
-//	ret->args.push_back(addr);
-//	ret->args.push_back(index);
-//	ret->args.push_back(data);
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_unfinished_call()
-//{
-//	auto ret = mk_unlinked_ir_code(IrOp::Call);
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_ret_expr(IrCode* expr)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::RetExpr);
-//
-//	ret->args.push_back(expr);
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_ret_nothing()
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::RetNothing);
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_len(Symbol* s_sym)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Len);
-//
-//	ret->sym = s_sym;
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_syscall
-//	(IrSyscallShorthandOp s_syscall_shorthand_op)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Syscall);
-//
-//	ret->syscall_shorthand_op = s_syscall_shorthand_op;
-//
-//	return ret;
-//}
-//IrCode* CodeGenerator::mk_quit(IrCode* expr)
-//{
-//	auto ret = mk_linked_ir_code(__frontend->curr_func(), IrOp::Quit);
-//
-//	ret->args.push_back(expr);
-//
-//	return ret;
-//}
-//
-//std::ostream& CodeGenerator::osprint_func_ircode(std::ostream& os, 
-//	Function& curr_func)
-//{
-//	osprintout(os, *curr_func.name(), "\n");
-//	osprintout(os, "{\n");
-//	for (auto p=curr_func.ir_code().next;
-//		p!=&curr_func.ir_code();
-//		p=p->next)
-//	{
-//		osprintout(os, "\t", curr_func.irntoi(p), "\t");
-//		switch (p->op)
-//		{
-//			// Constant number
-//			case IrOp::Constant:
-//				osprintout(os, "const(", p->simm, ")");
-//				break;
-//
-//
-//			// Binary operator
-//			case IrOp::Binop:
-//				switch(p->binop)
-//				{
-//					case IrBinop::Add:
-//						osprintout(os, "add");
-//						break;
-//					case IrBinop::Sub:
-//						osprintout(os, "sub");
-//						break;
-//					case IrBinop::Mul:
-//						osprintout(os, "mul");
-//						break;
-//					case IrBinop::Div:
-//						osprintout(os, "div");
-//						break;
-//					case IrBinop::Mod:
-//						osprintout(os, "mod");
-//						break;
-//
-//					case IrBinop::BitAnd:
-//						osprintout(os, "bit_and");
-//						break;
-//					case IrBinop::BitOr:
-//						osprintout(os, "bit_or");
-//						break;
-//					case IrBinop::BitXor:
-//						osprintout(os, "bit_xor");
-//						break;
-//
-//					case IrBinop::BitLsl:
-//						osprintout(os, "bit_lsl");
-//						break;
-//					case IrBinop::BitLsr:
-//						osprintout(os, "bit_lsr");
-//						break;
-//					case IrBinop::BitAsr:
-//						osprintout(os, "bit_asr");
-//						break;
-//
-//					case IrBinop::CmpEq:
-//						osprintout(os, "cmp_eq");
-//						break;
-//					case IrBinop::CmpNe:
-//						osprintout(os, "cmp_ne");
-//						break;
-//					case IrBinop::CmpLt:
-//						osprintout(os, "cmp_lt");
-//						break;
-//					case IrBinop::CmpLe:
-//						osprintout(os, "cmp_ge");
-//						break;
-//
-//					default:
-//						printerr("CodeGenerator::osprint_func_ircode():  ",
-//							"Binop Eek!\n");
-//						exit(1);
-//				}
-//				osprintout(os, 
-//					"(", strappcom2(curr_func.irntoi(p->args.at(0)),
-//					curr_func.irntoi(p->args.at(1))), ")");
-//				break;
-//
-//
-//			// Label, given a number
-//			case IrOp::Label:
-//				osprintout(os, "label(", p->lab_num, ")");
-//				break;
-//
-//			// Conditional branch to a label
-//			case IrOp::Beq:
-//				osprintout(os, "beq(", strappcom2(p->lab_num,
-//					curr_func.irntoi(p->args.at(0))), ")");
-//				break;
-//			case IrOp::Bne:
-//				osprintout(os, "bne(", strappcom2(p->lab_num,
-//					curr_func.irntoi(p->args.at(0))), ")");
-//				break;
-//
-//			// Unconditional branch to a label
-//			case IrOp::Bra:
-//				osprintout(os, "bra(", p->lab_num, ")");
-//				break;
-//
-//
-//			// Unconditional jump to a label
-//			case IrOp::Jump:
-//				osprintout(os, "jump(", p->lab_num, ")");
-//				break;
-//
-//
-//
-//			// Address of symbol or function
-//			case IrOp::Address:
-//				osprintout(os, "address(");
-//				if (p->func)
-//				{
-//					osprintout(os, *p->func->name());
-//				}
-//				else if (p->sym)
-//				{
-//					osprintout(os, *p->sym->name());
-//				}
-//				else
-//				{
-//					printerr("CodeGenerator::osprint_func_ircode():  ",
-//						"address Eek!\n");
-//					exit(1);
-//				}
-//				osprintout(os, ")");
-//				break;
-//
-//
-//			// Indexed load or store
-//			// Load indexed
-//			case IrOp::Ldx:
-//				osprintout(os, "ldx(", strappcom2
-//					(curr_func.irntoi(p->args.at(0)),
-//					curr_func.irntoi(p->args.at(1))), ")");
-//				break;
-//
-//			// Store indexed 
-//			case IrOp::Stx:
-//				osprintout(os, "stx(", strappcom2
-//					(curr_func.irntoi(p->args.at(0)),
-//					curr_func.irntoi(p->args.at(1)),
-//					curr_func.irntoi(p->args.at(2))), ")");
-//				break;
-//
-//			// Function call (takes an address address)
-//			case IrOp::Call:
-//				osprintout(os, "call",
-//					"(", 
-//					curr_func.irntoi(p->args.at(0)), 
-//					"(");
-//				for (size_t i=1; i<p->args.size(); ++i)
-//				{
-//					osprintout(os, curr_func.irntoi(p->args.at(i)));
-//
-//					if ((i + 1) != p->args.size())
-//					{
-//						osprintout(os, ", ");
-//					}
-//				}
-//				osprintout(os, "))");
-//				break;
-//
-//			// return expr;
-//			case IrOp::RetExpr:
-//				break;
-//
-//			// return;
-//			case IrOp::RetNothing:
-//				osprintout(os, "ret_nothing");
-//				break;
-//
-//			// len(identName)
-//			case IrOp::Len:
-//				osprintout(os, "len(", *p->sym->name(), ")");
-//				break;
-//
-//			// System call
-//			case IrOp::Syscall:
-//				osprintout(os, "syscall",
-//					"(", p->syscall_shorthand_op, ")");
-//				break;
-//
-//			case IrOp::Quit:
-//				osprintout(os, "quit",
-//					"(", curr_func.irntoi(p->args.at(0)), ")");
-//				break;
-//
-//			default:
-//				printerr("CodeGenerator::osprint_func_ircode():  ",
-//					"Op Eek!\n");
-//				exit(1);
-//		}
-//
-//		osprintout(os, "\n");
-//	}
-//
-//	osprintout(os, "}\n");
-//
-//	return os;
-//}
 
 IrExpr* CodeGenerator::mk_expr_constant(IrMachineMode s_mm, s64 s_simm)
 {
@@ -563,85 +204,86 @@ IrCode* CodeGenerator::mk_code_linked_label()
 
 
 
-std::ostream& CodeGenerator::osprint_func_ir_code(std::ostream& os,
+void CodeGenerator::output_func_ir_code_as_json(Json::Value& output_root,
 	Function& curr_func)
 {
 	//printout("CodeGenerator::osprint_func_ir_code() is not finished!\n");
 
-	osprintout(os, *curr_func.name(), "\n");
-	osprintout(os, "{\n");
+	//osprintout(os, *curr_func.name(), "\n");
+	//osprintout(os, "{\n");
+
+	output_root["_func_name"] = *curr_func.name();
+	auto& contents = output_root["contents"];
+
+	{
+	Json::ArrayIndex index_i = 0;
 
 	for (auto p=curr_func.ir_code().next;
 		p!=&curr_func.ir_code();
 		p=p->next)
 	{
-		osprintout(os, "\t");
+		auto& node = contents[index_i];
 		switch (p->iop())
 		{
 			// Store
 			case IrInOp::St:
-				osprintout(os, "\tst(", p->st_mm(), ", ");
+				//osprintout(os, "st(", p->st_mm(), ", ");
+				node["__iop"] = "st";
+				node["_mm"] = sconcat(p->st_mm());
 				break;
 
 			// Return from subroutine
 			case IrInOp::ReturnExpr:
-				osprintout(os, "\treturn_expr(");
+				//osprintout(os, "return_expr(");
+				node["__iop"] = "return_expr";
 				break;
 			case IrInOp::ReturnNothing:
-				osprintout(os, "\treturn_nothing(");
+				//osprintout(os, "return_nothing(");
+				node["__iop"] = "return_nothing";
 				break;
 
 			// Stop the program
 			case IrInOp::Quit:
-				osprintout(os, "\tquit(");
+				//osprintout(os, "quit(");
+				node["__iop"] = "quit";
 				break;
 
 
 			case IrInOp::Jump:
-				osprintout(os, "\tjump(");
+				//osprintout(os, "jump(");
+				node["__iop"] = "jump";
 				break;
 			case IrInOp::Call:
-				osprintout(os, "\tcall(");
+				//osprintout(os, "call(");
+				node["__iop"] = "call";
 				break;
 
 			case IrInOp::Syscall:
-				osprintout(os, "\tsyscall(", p->syscall_shorthand_op());
+				//osprintout(os, "syscall(", p->syscall_shorthand_op());
+				node["__iop"] = "syscall";
+				node["syscall_shorthand_op"] 
+					= sconcat(p->syscall_shorthand_op());
 				break;
 			case IrInOp::Label:
-				osprintout(os, get_label_name(p), ":  ");
+				//osprintout(os, get_label_name(p), ":  ");
+				node["__iop"] = "label";
+				node["_name"] = get_label_name(p);
 				break;
 		}
 
-		if (p->iop() == IrInOp::Syscall)
-		{
-			if (p->args().size() > 0)
-			{
-				osprintout(os, ", ");
-			}
-		}
-		for (size_t i=0; i<p->args().size(); ++i)
-		{
-			auto arg = p->args().at(i);
 
-			//osprintout(os, arg);
-			osprint_ir_expr(os, arg);
+		for (size_t j=0; j<p->args().size(); ++j)
+		{
+			auto arg = p->args().at(j);
+			const Json::ArrayIndex index_j = j;
 
-			if ((i + 1) < p->args().size())
-			{
-				osprintout(os, ", ");
-			}
+			output_ir_expr_as_json(node["args"][index_j], arg);
+
 		}
 
-		//osprintout(os, ")\n");
-
-		if (p->iop() != IrInOp::Label)
-		{
-			osprintout(os, ")");
-		}
-		osprintout(os, "\n");
+		++index_i;
 	}
-
-	return osprintout(os, "}\n");
+	}
 }
 
 IrCode* CodeGenerator::mk_linked_ir_code(IrInOp s_iop)
@@ -649,88 +291,109 @@ IrCode* CodeGenerator::mk_linked_ir_code(IrInOp s_iop)
 	return ::mk_linked_ir_code(__frontend->curr_func(), s_iop);
 }
 
-std::ostream& CodeGenerator::osprint_ir_expr(std::ostream& os, IrExpr* p)
+void CodeGenerator::output_ir_expr_as_json(Json::Value& node, 
+	IrExpr* p)
 {
-	static const std::string temp("\n\t\t\t(\n\t\t\t");
+	node["_mm"] = sconcat(p->mm);
 
-	osprintout(os, "\t\t\t");
 	switch (p->op)
 	{
 		case IrExOp::Constant:
-			osprintout(os, "const", temp,
-				strappcom2(p->mm, p->simm));
+			//osprintout(os, "const", temp,
+			//	strappcom2(p->mm, p->simm));
+			node["__op"] = "const";
+			node["_immediate"] = sconcat(p->simm);
 			break;
 
 		// Binary operator
 		case IrExOp::Binop:
-			osprintout(os, "binop", temp, p->mm);
+			//osprintout(os, "_binop", temp, p->mm);
+			node["__op"] = "_binop";
 
 			switch (p->binop)
 			{
 				case IrBinop::Add:
-					osprintout(os, "add, ");
+					//osprintout(os, "add, ");
+					node["_binop"] = "add";
 					break;
 				case IrBinop::Sub:
-					osprintout(os, "sub, ");
+					//osprintout(os, "sub, ");
+					node["_binop"] = "sub";
 					break;
 				case IrBinop::Mul:
-					osprintout(os, "mul, ");
+					//osprintout(os, "mul, ");
+					node["_binop"] = "mul";
 					break;
 				case IrBinop::Div:
-					osprintout(os, "div, ");
+					//osprintout(os, "div, ");
+					node["_binop"] = "div";
 					break;
 				case IrBinop::Mod:
-					osprintout(os, "mod, ");
+					//osprintout(os, "mod, ");
+					node["_binop"] = "mod";
 					break;
 
 				case IrBinop::LogAnd:
-					osprintout(os, "log_and, ");
+					//osprintout(os, "log_and, ");
+					node["_binop"] = "log_and";
 					break;
 				case IrBinop::LogOr:
-					osprintout(os, "log_or, ");
+					//osprintout(os, "log_or, ");
+					node["_binop"] = "log_or";
 					break;
 
 				case IrBinop::BitAnd:
-					osprintout(os, "bit_and, ");
+					//osprintout(os, "bit_and, ");
+					node["_binop"] = "bit_and";
 					break;
 				case IrBinop::BitOr:
-					osprintout(os, "bit_or, ");
+					//osprintout(os, "bit_or, ");
+					node["_binop"] = "bit_or";
 					break;
 				case IrBinop::BitXor:
-					osprintout(os, "bit_xor, ");
+					//osprintout(os, "bit_xor, ");
+					node["_binop"] = "bit_xor";
 					break;
 
 				case IrBinop::BitShiftLeft:
-					osprintout(os, "bit_shift_left, ");
+					//osprintout(os, "bit_shift_left, ");
+					node["_binop"] = "bit_shift_left";
 					break;
 				case IrBinop::BitShiftRight:
-					osprintout(os, "bit_shift_right, ");
+					//osprintout(os, "bit_shift_right, ");
+					node["_binop"] = "bit_shift_right";
 					break;
 
 				//case IrBinop::BitRotateLeft:
 				//case IrBinop::BitRotateRight:
 
 				case IrBinop::CmpEq:
-					osprintout(os, "cmp_eq, ");
+					//osprintout(os, "cmp_eq, ");
+					node["_binop"] = "cmp_eq";
 					break;
 				case IrBinop::CmpNe:
-					osprintout(os, "cmp_ne, ");
+					//osprintout(os, "cmp_ne, ");
+					node["_binop"] = "cmp_ne";
 					break;
 				case IrBinop::CmpLt:
-					osprintout(os, "cmp_lt, ");
+					//osprintout(os, "cmp_lt, ");
+					node["_binop"] = "cmp_lt";
 					break;
 				case IrBinop::CmpGt:
-					osprintout(os, "cmp_gt, ");
+					//osprintout(os, "cmp_gt, ");
+					node["_binop"] = "cmp_gt";
 					break;
 				case IrBinop::CmpLe:
-					osprintout(os, "cmp_le, ");
+					//osprintout(os, "cmp_le, ");
+					node["_binop"] = "cmp_le";
 					break;
 				case IrBinop::CmpGe:
-					osprintout(os, "cmp_ge, ");
+					//osprintout(os, "cmp_ge, ");
+					node["_binop"] = "cmp_ge";
 					break;
 
 				default:
-					printerr("CodeGenerator::osprint_ir_expr():  ",
+					printerr("CodeGenerator::output_ir_expr_as_json():  ",
 						"Binop Eek!\n");
 					exit(1);
 					break;
@@ -739,22 +402,26 @@ std::ostream& CodeGenerator::osprint_ir_expr(std::ostream& os, IrExpr* p)
 
 		// Unary operator
 		case IrExOp::Unop:
-			osprintout(os, "unop", temp,
-				p->mm);
+			//osprintout(os, "unop", temp,
+			//	p->mm);
+			node["__op"] = "unop";
 
 			switch (p->unop)
 			{
 				case IrUnop::BitNot:
-					osprintout(os, "bit_not, ");
+					//osprintout(os, "bit_not, ");
+					node["_unop"] = "bit_not";
 					break;
 				case IrUnop::Negate:
-					osprintout(os, "negate, ");
+					//osprintout(os, "negate, ");
+					node["_unop"] = "negate";
 					break;
 				case IrUnop::LogNot:
-					osprintout(os, "log_not, ");
+					//osprintout(os, "log_not, ");
+					node["_unop"] = "log_not";
 					break;
 				default:
-					printerr("CodeGenerator::osprint_ir_expr():  ",
+					printerr("CodeGenerator::output_ir_expr_as_json():  ",
 						"Unop Eek!\n");
 					exit(1);
 					break;
@@ -763,85 +430,93 @@ std::ostream& CodeGenerator::osprint_ir_expr(std::ostream& os, IrExpr* p)
 
 		// Symbol reference
 		case IrExOp::RefSym:
-			osprintout(os, "ref_sym", temp,
-				strappcom2(p->mm, *p->sym->name()));
+			//osprintout(os, "ref_sym", temp,
+			//	strappcom2(p->mm, *p->sym->name()));
+			node["__op"] = "ref_sym";
+			node["_name"] = *p->sym->name();
 			break;
 
 		// Function reference
 		case IrExOp::RefFunc:
-			osprintout(os, "ref_func", temp,
-				strappcom2(p->mm, *p->func->name()));
+			///osprintout(os, "ref_func", temp,
+			///	strappcom2(p->mm, *p->func->name()));
+			node["__op"] = "ref_func";
+			node["_name"] = *p->func->name();
 			break;
 
 		// Label reference
 		case IrExOp::RefLab:
-			osprintout(os, "ref_lab", temp,
-				strappcom2(p->mm, get_label_name(p->lab_num)));
+			//osprintout(os, "ref_lab", temp,
+			//	strappcom2(p->mm, get_label_name(p->lab_num)));
+			node["__op"] = "ref_lab";
+			node["_name"] = get_label_name(p->lab_num);
 			break;
 
 		// Length of symbol
 		case IrExOp::Len:
-			osprintout(os, "len", temp, p->mm);
+			//osprintout(os, "len", temp, p->mm);
+			node["__op"] = "len";
 			break;
 
 		// Size of symbol
 		case IrExOp::Sizeof:
-			osprintout(os, "sizeof", temp, p->mm);
+			//osprintout(os, "sizeof", temp, p->mm);
+			node["__op"] = "sizeof";
 			break;
 
 
 		// Call with a return value
 		case IrExOp::CallWithRet:
-			osprintout(os, "call_with_ret", temp, p->mm);
+			//osprintout(os, "call_with_ret", temp, p->mm);
+			node["__op"] = "call_with_ret";
 			break;
 
 
 		// Memory address (example of use:  grabs address from symbol, 
 		case IrExOp::Mem:
-			osprintout(os, "mem", temp, p->mm);
+			//osprintout(os, "mem", temp, p->mm);
+			node["__op"] = "mem";
 			break;
 
 		// Load
 		case IrExOp::Ld:
-			osprintout(os, "ld", temp, p->mm);
+			//osprintout(os, "ld", temp, p->mm);
+			node["__op"] = "ld";
 			break;
 
 		// Sometimes used for the "Else" portion of IfThenElse
 		case IrExOp::GetNextPc:
-			osprintout(os, "get_next_pc", temp, p->mm);
+			//osprintout(os, "get_next_pc", temp, p->mm);
+			node["__op"] = "get_next_pc";
 			break;
 
 
 		// Control flow
 		case IrExOp::IfThenElse:
-			osprintout(os, "if_then_else", temp, p->mm);
+			//osprintout(os, "if_then_else", temp, p->mm);
+			node["__op"] = "if_then_else";
 			break;
 
 		default:
-			printerr("CodeGenerator::osprint_ir_expr():  Eek!\n");
+			printerr("CodeGenerator::output_ir_expr_as_json():  Eek!\n");
 			exit(1);
 			break;
 	}
 
-	if (p->args.size() > 0)
-	{
-		osprintout(os, ",\n\t\t\t");
-	}
+	//if (p->args.size() > 0)
+	//{
+	//	osprintout(os, ",\n");
+	//}
 	for (size_t i=0; i<p->args.size(); ++i)
 	{
 		auto arg = p->args.at(i);
+		const Json::ArrayIndex index_i = i;
 
-		//osprintout(os, arg);
-		osprint_ir_expr(os, arg);
-
-		if ((i + 1) < p->args.size())
-		{
-			osprintout(os, ", ");
-		}
+		output_ir_expr_as_json(node["args"][index_i], arg);
 	}
 
 
-	osprintout(os, ")\n");
+	//osprintout(os, ")\n");
 }
 
 

@@ -78,18 +78,31 @@ antlrcpp::Any Frontend::visitProgram
 	}
 
 	// Now visit the statements
+
+	{
+	Json::Value func_ir_code_json_output_root;
+
+	Json::ArrayIndex index_i = 0;
 	for (auto* iter : funcDecl)
 	{
 		auto ident = temp_ident_map.at(iter);
 		__curr_func = __func_tbl.at(ident);
 		iter->accept(this);
 
-		//codegen().osprint_func(cout, curr_func());
-		codegen().osprint_func_ir_code(cout, curr_func());
+		////codegen().osprint_func(cout, curr_func());
+		//codegen().osprint_func_ir_code(cout, curr_func());
+		auto& temp_json_output_root 
+			= func_ir_code_json_output_root[index_i];
+		codegen().output_func_ir_code_as_json
+			(temp_json_output_root, curr_func());
 
 
 		// Saving this for later
 		//curr_func().gen_vm_code();
+
+		++index_i;
+	}
+	write_json(cout, &func_ir_code_json_output_root);
 	}
 
 	// Saving this for later

@@ -1,0 +1,665 @@
+[
+	{
+		"_func_name" : "main",
+		"contents" : 
+		[
+			{
+				"__iop" : "call",
+				"args" : 
+				[
+					{
+						"__op" : "call_with_ret",
+						"_mm" : "s64",
+						"args" : 
+						[
+							{
+								"__op" : "ref_func",
+								"_mm" : "pointer",
+								"_name" : "func"
+							},
+							{
+								"__op" : "mem",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_sym",
+										"_mm" : "pointer",
+										"_name" : "temp"
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"__iop" : "st",
+				"args" : 
+				[
+					{
+						"__op" : "mem",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "i"
+							}
+						]
+					},
+					{
+						"__op" : "const",
+						"_immediate" : "0",
+						"_mm" : "s64"
+					}
+				],
+				"mm" : "s64"
+			},
+			{
+				"__iop" : "label",
+				"_name" : "_0"
+			},
+			{
+				"__iop" : "jump",
+				"args" : 
+				[
+					{
+						"__op" : "if_then_else",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "_binop",
+								"_binop" : "cmp_lt",
+								"_mm" : "s64",
+								"args" : 
+								[
+									{
+										"__op" : "ld",
+										"_mm" : "s64",
+										"args" : 
+										[
+											{
+												"__op" : "mem",
+												"_mm" : "pointer",
+												"args" : 
+												[
+													{
+														"__op" : "ref_sym",
+														"_mm" : "pointer",
+														"_name" : "i"
+													}
+												]
+											}
+										]
+									},
+									{
+										"__op" : "const",
+										"_immediate" : "3",
+										"_mm" : "s64"
+									}
+								]
+							},
+							{
+								"__op" : "get_next_pc",
+								"_mm" : "pointer"
+							},
+							{
+								"__op" : "mem",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_lab",
+										"_mm" : "pointer",
+										"_name" : "_1"
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"__iop" : "syscall",
+				"args" : 
+				[
+					{
+						"__op" : "ld",
+						"_mm" : "s64",
+						"args" : 
+						[
+							{
+								"__op" : "_binop",
+								"_binop" : "add",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "mem",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "temp"
+											}
+										]
+									},
+									{
+										"__op" : "ld",
+										"_mm" : "s64",
+										"args" : 
+										[
+											{
+												"__op" : "mem",
+												"_mm" : "pointer",
+												"args" : 
+												[
+													{
+														"__op" : "ref_sym",
+														"_mm" : "pointer",
+														"_name" : "i"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				],
+				"syscall_shorthand_op" : "disp_num"
+			},
+			{
+				"__iop" : "syscall",
+				"args" : 
+				[
+					{
+						"__op" : "const",
+						"_immediate" : "10",
+						"_mm" : "u8"
+					}
+				],
+				"syscall_shorthand_op" : "disp_char"
+			},
+			{
+				"__iop" : "st",
+				"args" : 
+				[
+					{
+						"__op" : "mem",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "i"
+							}
+						]
+					},
+					{
+						"__op" : "_binop",
+						"_binop" : "add",
+						"_mm" : "s64",
+						"args" : 
+						[
+							{
+								"__op" : "ld",
+								"_mm" : "s64",
+								"args" : 
+								[
+									{
+										"__op" : "mem",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "i"
+											}
+										]
+									}
+								]
+							},
+							{
+								"__op" : "const",
+								"_immediate" : "1",
+								"_mm" : "s64"
+							}
+						]
+					}
+				],
+				"mm" : "s64"
+			},
+			{
+				"__iop" : "jump",
+				"args" : 
+				[
+					{
+						"__op" : "ref_lab",
+						"_mm" : "pointer",
+						"_name" : "_0"
+					}
+				]
+			},
+			{
+				"__iop" : "label",
+				"_name" : "_1"
+			}
+		]
+	},
+	{
+		"_func_name" : "add",
+		"contents" : 
+		[
+			{
+				"__iop" : "st",
+				"args" : 
+				[
+					{
+						"__op" : "mem",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "ret"
+							}
+						]
+					},
+					{
+						"__op" : "_binop",
+						"_binop" : "add",
+						"_mm" : "s64",
+						"args" : 
+						[
+							{
+								"__op" : "ld",
+								"_mm" : "s64",
+								"args" : 
+								[
+									{
+										"__op" : "mem",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "a"
+											}
+										]
+									}
+								]
+							},
+							{
+								"__op" : "ld",
+								"_mm" : "s64",
+								"args" : 
+								[
+									{
+										"__op" : "mem",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "b"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				],
+				"mm" : "s64"
+			}
+		]
+	},
+	{
+		"_func_name" : "func",
+		"contents" : 
+		[
+			{
+				"__iop" : "st",
+				"args" : 
+				[
+					{
+						"__op" : "mem",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "z"
+							}
+						]
+					},
+					{
+						"__op" : "const",
+						"_immediate" : "9000",
+						"_mm" : "s64"
+					}
+				],
+				"mm" : "s64"
+			},
+			{
+				"__iop" : "st",
+				"args" : 
+				[
+					{
+						"__op" : "mem",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "i"
+							}
+						]
+					},
+					{
+						"__op" : "const",
+						"_immediate" : "0",
+						"_mm" : "s64"
+					}
+				],
+				"mm" : "s64"
+			},
+			{
+				"__iop" : "st",
+				"args" : 
+				[
+					{
+						"__op" : "mem",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "one"
+							}
+						]
+					},
+					{
+						"__op" : "const",
+						"_immediate" : "1",
+						"_mm" : "s64"
+					}
+				],
+				"mm" : "s64"
+			},
+			{
+				"__iop" : "label",
+				"_name" : "_0"
+			},
+			{
+				"__iop" : "jump",
+				"args" : 
+				[
+					{
+						"__op" : "if_then_else",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "_binop",
+								"_binop" : "cmp_lt",
+								"_mm" : "s64",
+								"args" : 
+								[
+									{
+										"__op" : "ld",
+										"_mm" : "s64",
+										"args" : 
+										[
+											{
+												"__op" : "mem",
+												"_mm" : "pointer",
+												"args" : 
+												[
+													{
+														"__op" : "ref_sym",
+														"_mm" : "pointer",
+														"_name" : "i"
+													}
+												]
+											}
+										]
+									},
+									{
+										"__op" : "len",
+										"_mm" : "s64",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "ret"
+											}
+										]
+									}
+								]
+							},
+							{
+								"__op" : "get_next_pc",
+								"_mm" : "pointer"
+							},
+							{
+								"__op" : "mem",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_lab",
+										"_mm" : "pointer",
+										"_name" : "_1"
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"__iop" : "st",
+				"args" : 
+				[
+					{
+						"__op" : "_binop",
+						"_binop" : "add",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "mem",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_sym",
+										"_mm" : "pointer",
+										"_name" : "ret"
+									}
+								]
+							},
+							{
+								"__op" : "ld",
+								"_mm" : "s64",
+								"args" : 
+								[
+									{
+										"__op" : "mem",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "i"
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					{
+						"__op" : "ld",
+						"_mm" : "s64",
+						"args" : 
+						[
+							{
+								"__op" : "mem",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_sym",
+										"_mm" : "pointer",
+										"_name" : "z"
+									}
+								]
+							}
+						]
+					}
+				],
+				"mm" : "s64"
+			},
+			{
+				"__iop" : "call",
+				"args" : 
+				[
+					{
+						"__op" : "call_with_ret",
+						"_mm" : "s64",
+						"args" : 
+						[
+							{
+								"__op" : "ref_func",
+								"_mm" : "pointer",
+								"_name" : "add"
+							},
+							{
+								"__op" : "mem",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_sym",
+										"_mm" : "pointer",
+										"_name" : "temp"
+									}
+								]
+							},
+							{
+								"__op" : "ld",
+								"_mm" : "s64",
+								"args" : 
+								[
+									{
+										"__op" : "mem",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "i"
+											}
+										]
+									}
+								]
+							},
+							{
+								"__op" : "ld",
+								"_mm" : "s64",
+								"args" : 
+								[
+									{
+										"__op" : "mem",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "one"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"__iop" : "st",
+				"args" : 
+				[
+					{
+						"__op" : "mem",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "i"
+							}
+						]
+					},
+					{
+						"__op" : "ld",
+						"_mm" : "s64",
+						"args" : 
+						[
+							{
+								"__op" : "mem",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_sym",
+										"_mm" : "pointer",
+										"_name" : "temp"
+									}
+								]
+							}
+						]
+					}
+				],
+				"mm" : "s64"
+			},
+			{
+				"__iop" : "jump",
+				"args" : 
+				[
+					{
+						"__op" : "ref_lab",
+						"_mm" : "pointer",
+						"_name" : "_0"
+					}
+				]
+			},
+			{
+				"__iop" : "label",
+				"_name" : "_1"
+			}
+		]
+	}
+]
