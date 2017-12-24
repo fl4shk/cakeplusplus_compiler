@@ -41,6 +41,8 @@ std::ostream& operator << (std::ostream& os, IrMachineMode mm)
 			return osprintout(os, "u8");
 		case IrMachineMode::S8:
 			return osprintout(os, "s8");
+		case IrMachineMode::Pointer:
+			return osprintout(os, "pointer");
 	}
 
 	printerr("osprintout of IrMachineMode:  Eek!\n");

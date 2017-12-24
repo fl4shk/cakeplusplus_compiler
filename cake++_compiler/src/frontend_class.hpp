@@ -72,6 +72,7 @@ protected:		// variables
 	std::stack<Function*> __func_stack;
 	std::stack<IrExpr*> __ir_expr_stack;
 	//std::stack<IrCode*> __ir_code_stack;
+	std::stack<IrMachineMode> __mm_stack;
 
 	//AstNode* __program_node;
 	CodeGenerator __codegen;
@@ -372,6 +373,21 @@ protected:		// functions
 	//{
 	//	return __ir_code_stack.top();
 	//}
+
+	inline void push_mm(IrMachineMode to_push)
+	{
+		__mm_stack.push(to_push);
+	}
+	inline auto pop_mm()
+	{
+		auto ret = __mm_stack.top();
+		__mm_stack.pop();
+		return ret;
+	}
+	inline auto get_top_mm()
+	{
+		return __mm_stack.top();
+	}
 };
 
 #endif		// frontend_class_hpp

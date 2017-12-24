@@ -87,9 +87,12 @@ antlrcpp::Any Frontend::visitProgram
 		//codegen().osprint_func(cout, curr_func());
 		codegen().osprint_func_ir_code(cout, curr_func());
 
+
+		// Saving this for later
 		//curr_func().gen_vm_code();
 	}
 
+	// Saving this for later
 	//for (auto* iter : funcDecl)
 	//{
 	//	auto ident = temp_ident_map.at(iter);
@@ -107,398 +110,462 @@ antlrcpp::Any Frontend::visitFuncDecl
 	(GrammarParser::FuncDeclContext *ctx)
 {
 	// Just do the statements stuff here
+
+	printerr("visitFuncDecl() Fixme:  temporarily performing ",
+		"push_mm(IrMachineMode::S64)!\n");
+	push_mm(IrMachineMode::S64);
 	ctx->statements()->accept(this);
+	pop_mm();
 
 	return nullptr;
 }
-//antlrcpp::Any Frontend::visitFuncCall
-//	(GrammarParser::FuncCallContext *ctx)
-//{
-//	ctx->identName()->accept(this);
-//	auto ident = pop_str();
+antlrcpp::Any Frontend::visitFuncCall
+	(GrammarParser::FuncCallContext *ctx)
+{
+	ctx->identName()->accept(this);
+	auto ident = pop_str();
+
+	Function* func;
+	{
+	func = __func_tbl.at(ident);
+	}
+
+	if (func == nullptr)
+	{
+		err(sconcat("Can't find function with identifier \"", *ident, 
+			"\"!"));
+	}
+
+	//auto to_push = mk_unlinked_ir_code(IrOp::Call);
+
+	//// here we are making an 
+	//auto to_push = codegen().mk_unfinished_call();
+
+	//const auto top_mm = pop_mm();
+
+	IrExpr* to_push;
+
+	{
+	// Temporary!  This should be switched to working for either an
+	// expression or a statement! 
+	to_push = codegen().mk_expr_unfinished_call_with_ret(get_top_mm(), 
+		codegen().mk_expr_ref_func(func));
+	}
+
+	{
+	auto&& funcArgExpr = ctx->funcArgExpr();
+
+	auto&& args = func->get_args();
+
+	if (args.size() != funcArgExpr.size())
+	{
+		err(sconcat("Function called \"", *ident, "\" expects ",
+			args.size(), " arguments, but instead got ",
+			funcArgExpr.size(), " arguments!"));
+	}
+
+	//for (auto func_arg_expr : funcArgExpr)
+	for (size_t i=0; i<funcArgExpr.size(); ++i)
+	{
+		push_func(func);
+		push_num(i);
+		push_sym(args.at(i));
+
+		auto func_arg_expr = funcArgExpr.at(i);
+
+		func_arg_expr->accept(this);
+
+		//to_push->args.push_back(pop_ir_code());
+		////to_push->args.push_front(pop_ir_code());
+		to_push->append_arg(pop_ir_expr());
+	}
+
+
+	}
+
+
+	push_ir_expr(to_push);
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitFuncArgExpr
+	(GrammarParser::FuncArgExprContext *ctx)
+{
+	auto func = pop_func();
+	const auto which_arg = pop_num();
+	auto arg_sym = pop_sym();
+
+
+	ctx->identName()->accept(this);
+	auto ident = pop_str();
+
+	auto sym = find_sym_or_err(ident,
+		sconcat("No symbol exists called \"", *ident, "\"!"));
+
+	// Function argument type checking
+	if ((arg_sym->type() == SymType::ScalarVarName)
+		&& (sym->type() != SymType::ScalarVarName))
+	{
+		err(sconcat("Function called \"", *func->name(),
+			"\" expects a scalar value for argument number ",
+			which_arg, "!"));
+	}
+	if (arg_sym->type() == SymType::ArrayVarName)
+	{
+		if (sym->type() != SymType::ArrayVarName)
+		{
+			err(sconcat("Function called \"", *func->name(),
+				"\" expects an array value for argument number ",
+				which_arg, "!"));
+		}
+		else if (sym->type() == SymType::ArrayVarName)
+		{
+			if (arg_sym->var_type() != sym->var_type())
+			{
+				err(sconcat("Function called \"", *func->name(),
+					"\" expects an array of type ",
+					arg_sym->var_type(), " for argument number ",
+					which_arg, "!"));
+			}
+		}
+		else
+		{
+			err("visitFuncArgExpr():  Argument type checking Eek!");
+		}
+	}
+
+	if (sym->type() == SymType::ScalarVarName)
+	{
+		// Scalars are passed by value
+
+		//auto addr = codegen().mk_address(sym);
+		//auto index = codegen().mk_const(0);
+
+
+		//push_ir_code(codegen().mk_ldx(sym->get_unsgn_or_sgn(),
+		//	sym->get_ldst_size(), addr, index));
+
+		auto mem = codegen().mk_expr_mem
+			(codegen().mk_expr_ref_sym(sym));
+		push_ir_expr(codegen().mk_expr_ld(get_top_mm(), mem));
+	}
+	else if (sym->type() == SymType::ArrayVarName)
+	{
+		// Since arrays are passed by reference, we only need to grab the
+		// address for this argument
+
+		//push_ir_code(codegen().mk_address(sym));
+
+		push_ir_expr(codegen().mk_expr_mem
+			(codegen().mk_expr_ref_sym(sym)));
+	}
+	else
+	{
+		err("visitFuncArgExpr():  Eek!\n");
+	}
+
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitStatements
+	(GrammarParser::StatementsContext *ctx)
+{
+	auto&& stmt = ctx->stmt();
+
+	sym_tbl().mkscope();
+
+	for (auto iter : stmt)
+	{
+		iter->accept(this);
+	}
+
+	sym_tbl().rmscope();
+
+	return nullptr;
+}
+
+
+antlrcpp::Any Frontend::visitStmt
+	(GrammarParser::StmtContext *ctx)
+{
+	if (ctx->statements())
+	{
+		ctx->statements()->accept(this);
+	}
+	else if (ctx->putnStatement())
+	{
+		ctx->putnStatement()->accept(this);
+	}
+	else if (ctx->varDecl())
+	{
+		ctx->varDecl()->accept(this);
+	}
+	else if (ctx->funcCall())
+	{
+		ctx->funcCall()->accept(this);
+		codegen().mk_code_call(pop_ir_expr());
+	}
+	//else if (ctx->expr())
+	//{
+	//	ctx->expr()->accept(this);
+	//}
+	////else if (ctx->exprMulDivModEtc())
+	////{
+	////	ctx->exprMulDivModEtc()->accept(this);
+	////}
+	else if (ctx->assignment())
+	{
+		ctx->assignment()->accept(this);
+	}
+	else if (ctx->ifStatement())
+	{
+		ctx->ifStatement()->accept(this);
+	}
+	else if (ctx->ifChainStatement())
+	{
+		ctx->ifChainStatement()->accept(this);
+	}
+	else if (ctx->whileStatement())
+	{
+		ctx->whileStatement()->accept(this);
+	}
+	else if (ctx->doWhileStatement())
+	{
+		ctx->doWhileStatement()->accept(this);
+	}
+	else if (ctx->returnExprStatement())
+	{
+		ctx->returnExprStatement()->accept(this);
+	}
+	else if (ctx->returnNothingStatement())
+	{
+		ctx->returnNothingStatement()->accept(this);
+	}
+	else
+	{
+		err("visitStmt():  Eek!\n");
+	}
+
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitPutnStatement
+	(GrammarParser::PutnStatementContext *ctx)
+{
+	//ctx->expr()->accept(this);
+	////IrExpr* expr = pop_ir_code();
+	//pop_ir_code();
+
+	//codegen().mk_syscall(IrSyscallShorthandOp::DispNum);
+
+	//codegen().mk_const('\n');
+	//codegen().mk_syscall(IrSyscallShorthandOp::DispChar);
+
+	ctx->expr()->accept(this);
+	//auto expr = pop_ir_expr();
+
+	auto some_disp_num = codegen().mk_code_unfinished_syscall
+		(IrSyscallShorthandOp::DispNum);
+	some_disp_num->append_arg(pop_ir_expr());
+
+	auto some_disp_char = codegen().mk_code_unfinished_syscall
+		(IrSyscallShorthandOp::DispChar);
+	some_disp_char->append_arg(codegen().mk_expr_constant
+		(IrMachineMode::U8, '\n'));
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitVarDecl
+	(GrammarParser::VarDeclContext *ctx)
+{
+	ctx->builtinTypename()->accept(this);
+	const auto some_builtin_typename = pop_builtin_typename();
+
+	auto&& identDecl = ctx->identDecl();
+
+	for (auto iter : identDecl)
+	{
+		// Pushing some_builtin_typename every iteration is fine because
+		// visitIdentDecl() performs pop_builtin_typename().
+		push_builtin_typename(some_builtin_typename);
+		iter->accept(this);
+	}
+
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitFuncArgDecl
+	(GrammarParser::FuncArgDeclContext *ctx)
+{
+	Symbol arg;
+	ctx->builtinTypename()->accept(this);
+	arg.set_var_type(pop_builtin_typename());
+
+	if (ctx->identName())
+	{
+		ctx->identName()->accept(this);
+		arg.set_type(SymType::ScalarVarName);
+	}
+	else if (ctx->nonSizedArrayIdentName())
+	{
+		ctx->nonSizedArrayIdentName()->accept(this);
+		arg.set_type(SymType::ArrayVarName);
+	}
+	else
+	{
+		err("visitFuncArgDecl():  Eek!\n");
+	}
+
+	arg.set_name(pop_str());
+
+	{
+	auto sym = sym_tbl().find_in_first_blklev(arg.name());
+
+	if (sym != nullptr)
+	{
+		err(sconcat("Function called \"", *curr_func().name(), 
+			"\" cannot have two arguments with same identifiers!",
+			"Note:  offending argument has identifier \"",
+			*arg.name(), "\"."));
+	}
+	}
+
+	// This is an argument
+	arg.set_is_arg(true);
+
+	// Which argument in the list is this? 
+	++curr_func().last_arg_offset();
+	arg.set_arg_offset(curr_func().last_arg_offset());
+
+	sym_tbl().insert_or_assign(std::move(arg));
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitBuiltinTypename
+	(GrammarParser::BuiltinTypenameContext *ctx)
+{
+	auto&& some_typename = ctx->TokBuiltinTypename()->toString();
+
+	if (some_typename == "u64")
+	{
+		push_builtin_typename(BuiltinTypename::U64);
+	}
+	else if (some_typename == "s64")
+	{
+		push_builtin_typename(BuiltinTypename::S64);
+	}
+	else if (some_typename == "u32")
+	{
+		push_builtin_typename(BuiltinTypename::U32);
+	}
+	else if (some_typename == "s32")
+	{
+		push_builtin_typename(BuiltinTypename::S32);
+	}
+	else if (some_typename == "u16")
+	{
+		push_builtin_typename(BuiltinTypename::U16);
+	}
+	else if (some_typename == "s16")
+	{
+		push_builtin_typename(BuiltinTypename::S16);
+	}
+	else if (some_typename == "u8")
+	{
+		push_builtin_typename(BuiltinTypename::U8);
+	}
+	else if (some_typename == "s8")
+	{
+		push_builtin_typename(BuiltinTypename::S8);
+	}
+	else
+	{
+		err("visitBuiltinTypename():  Eek!\n");
+	}
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitNonSizedArrayIdentName
+	(GrammarParser::NonSizedArrayIdentNameContext *ctx)
+{
+	ctx->identName()->accept(this);
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitAssignment
+	(GrammarParser::AssignmentContext *ctx)
+{
+	ctx->identLhs()->accept(this);
+
+	//auto addr = pop_ir_code();
+	//auto index = pop_ir_code();
+
+	//ctx->expr()->accept(this);
+	//auto expr = pop_ir_code();
+
+	//auto sym = pop_sym();
+
+	//push_ir_code(codegen().mk_stx(sym->get_unsgn_or_sgn(),
+	//	sym->get_ldst_size(), addr, index, expr));
+
+	auto mem = pop_ir_expr();
+	auto index = pop_ir_expr();
+
+	ctx->expr()->accept(this);
+	auto expr = pop_ir_expr();
+
+	if ((index->op == IrExOp::Constant) && (index->simm == 0))
+	{
+		codegen().mk_code_st(get_top_mm(), mem, expr);
+	}
+	else
+	{
+		codegen().mk_code_st(get_top_mm(), 
+			codegen().mk_expr_binop(IrMachineMode::Pointer,
+			IrBinop::Add, mem, index), expr);
+	}
+
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitIfStatement
+	(GrammarParser::IfStatementContext *ctx)
+{
+//	//auto to_push = mk_ast_node(AstOp::stmt_if);
+//	auto to_push = mk_ast_stmt(AstStmtOp::If);
 //
-//	Function* func;
-//	{
-//	func = __func_tbl.at(ident);
-//	}
-//
-//	if (func == nullptr)
-//	{
-//		err(sconcat("Can't find function with identifier \"", *ident, 
-//			"\"!"));
-//	}
-//
-//	//auto to_push = mk_unlinked_ir_code(IrOp::Call);
-//
-//	// here we are making an 
-//	auto to_push = codegen().mk_unfinished_call();
-//
-//
-//	// The first argument of a Call IrCode node is the address of whatever
-//	// function we're calling
-//	to_push->args.push_back(codegen().mk_address(func));
-//
-//	{
-//	auto&& funcArgExpr = ctx->funcArgExpr();
-//
-//	auto&& args = func->get_args();
-//
-//	if (args.size() != funcArgExpr.size())
-//	{
-//		err(sconcat("Function called \"", *ident, "\" expects ",
-//			args.size(), " arguments, but instead got ",
-//			funcArgExpr.size(), " arguments!"));
-//	}
-//
-//	//for (auto func_arg_expr : funcArgExpr)
-//	for (size_t i=0; i<funcArgExpr.size(); ++i)
-//	{
-//		push_func(func);
-//		push_num(i);
-//		push_sym(args.at(i));
-//
-//		auto func_arg_expr = funcArgExpr.at(i);
-//
-//		func_arg_expr->accept(this);
-//
-//		//to_push->args.push_back(pop_ir_code());
-//		////to_push->args.push_front(pop_ir_code());
-//	}
-//
-//
-//	}
-//
-//
-//	//// Necessary because codegen().mk_unfinished_call() doesn't perform
-//	//// relink_ir_code().
-//	//relink_ir_code(to_push);
-//	//push_ir_code(to_push);
-//
-//	return nullptr;
-//}
-//
-//antlrcpp::Any Frontend::visitFuncArgExpr
-//	(GrammarParser::FuncArgExprContext *ctx)
-//{
-//	auto func = pop_func();
-//	const auto which_arg = pop_num();
-//	auto arg_sym = pop_sym();
-//
-//
-//	ctx->identName()->accept(this);
-//	auto ident = pop_str();
-//
-//	auto sym = find_sym_or_err(ident,
-//		sconcat("No symbol exists called \"", *ident, "\"!"));
-//
-//	// Function argument type checking
-//	if ((arg_sym->type() == SymType::ScalarVarName)
-//		&& (sym->type() != SymType::ScalarVarName))
-//	{
-//		err(sconcat("Function called \"", *func->name(),
-//			"\" expects a scalar value for argument number ",
-//			which_arg, "!"));
-//	}
-//	if (arg_sym->type() == SymType::ArrayVarName)
-//	{
-//		if (sym->type() != SymType::ArrayVarName)
-//		{
-//			err(sconcat("Function called \"", *func->name(),
-//				"\" expects an array value for argument number ",
-//				which_arg, "!"));
-//		}
-//		else if (sym->type() == SymType::ArrayVarName)
-//		{
-//			if (arg_sym->var_type() != sym->var_type())
-//			{
-//				err(sconcat("Function called \"", *func->name(),
-//					"\" expects an array of type ",
-//					arg_sym->var_type(), " for argument number ",
-//					which_arg, "!"));
-//			}
-//		}
-//		else
-//		{
-//			err("visitFuncArgExpr():  Argument type checking Eek!");
-//		}
-//	}
-//
-//	if (sym->type() == SymType::ScalarVarName)
-//	{
-//		// Scalars are passed by value
-//		auto addr = codegen().mk_address(sym);
-//		auto index = codegen().mk_const(0);
-//
-//
-//		push_ir_code(codegen().mk_ldx(sym->get_unsgn_or_sgn(),
-//			sym->get_ldst_size(), addr, index));
-//	}
-//	else if (sym->type() == SymType::ArrayVarName)
-//	{
-//		// Since arrays are passed by reference, we only need to grab the
-//		// address for this argument
-//		push_ir_code(codegen().mk_address(sym));
-//	}
-//	else
-//	{
-//		err("visitFuncArgExpr():  Eek!\n");
-//	}
-//
-//	return nullptr;
-//}
-//
-//antlrcpp::Any Frontend::visitStatements
-//	(GrammarParser::StatementsContext *ctx)
-//{
-//	auto&& stmt = ctx->stmt();
-//
-//	sym_tbl().mkscope();
-//
-//	for (auto iter : stmt)
-//	{
-//		iter->accept(this);
-//	}
-//
-//	sym_tbl().rmscope();
-//
-//	return nullptr;
-//}
-//
-//
-//antlrcpp::Any Frontend::visitStmt
-//	(GrammarParser::StmtContext *ctx)
-//{
-//	if (ctx->statements())
-//	{
-//		ctx->statements()->accept(this);
-//	}
-//	else if (ctx->putnStatement())
-//	{
-//		ctx->putnStatement()->accept(this);
-//	}
-//	else if (ctx->varDecl())
-//	{
-//		ctx->varDecl()->accept(this);
-//	}
-//	else if (ctx->expr())
-//	{
-//		ctx->expr()->accept(this);
-//	}
-//	//else if (ctx->exprMulDivModEtc())
-//	//{
-//	//	ctx->exprMulDivModEtc()->accept(this);
-//	//}
-//	else if (ctx->assignment())
-//	{
-//		ctx->assignment()->accept(this);
-//	}
-//	else if (ctx->ifStatement())
-//	{
-//		ctx->ifStatement()->accept(this);
-//	}
-//	else if (ctx->ifChainStatement())
-//	{
-//		ctx->ifChainStatement()->accept(this);
-//	}
-//	else if (ctx->whileStatement())
-//	{
-//		ctx->whileStatement()->accept(this);
-//	}
-//	else if (ctx->doWhileStatement())
-//	{
-//		ctx->doWhileStatement()->accept(this);
-//	}
-//	else if (ctx->returnExprStatement())
-//	{
-//		ctx->returnExprStatement()->accept(this);
-//	}
-//	else if (ctx->returnNothingStatement())
-//	{
-//		ctx->returnNothingStatement()->accept(this);
-//	}
-//	else
-//	{
-//		err("visitStmt():  Eek!\n");
-//	}
-//
-//	return nullptr;
-//}
-//
-//antlrcpp::Any Frontend::visitPutnStatement
-//	(GrammarParser::PutnStatementContext *ctx)
-//{
 //	ctx->expr()->accept(this);
-//	//IrCode* expr = pop_ir_code();
-//	pop_ir_code();
-//
-//	codegen().mk_syscall(IrSyscallShorthandOp::DispNum);
-//
-//	codegen().mk_const('\n');
-//	codegen().mk_syscall(IrSyscallShorthandOp::DispChar);
-//
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitVarDecl
-//	(GrammarParser::VarDeclContext *ctx)
-//{
-//	ctx->builtinTypename()->accept(this);
-//	const auto some_builtin_typename = pop_builtin_typename();
-//
-//	auto&& identDecl = ctx->identDecl();
-//
-//	for (auto iter : identDecl)
-//	{
-//		// Pushing some_builtin_typename every iteration is fine because
-//		// visitIdentDecl() performs pop_builtin_typename().
-//		push_builtin_typename(some_builtin_typename);
-//		iter->accept(this);
-//	}
-//
-//
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitFuncArgDecl
-//	(GrammarParser::FuncArgDeclContext *ctx)
-//{
-//	Symbol arg;
-//	ctx->builtinTypename()->accept(this);
-//	arg.set_var_type(pop_builtin_typename());
-//
-//	if (ctx->identName())
-//	{
-//		ctx->identName()->accept(this);
-//		arg.set_type(SymType::ScalarVarName);
-//	}
-//	else if (ctx->nonSizedArrayIdentName())
-//	{
-//		ctx->nonSizedArrayIdentName()->accept(this);
-//		arg.set_type(SymType::ArrayVarName);
-//	}
-//	else
-//	{
-//		err("visitFuncArgDecl():  Eek!\n");
-//	}
-//
-//	arg.set_name(pop_str());
-//
-//	{
-//	auto sym = sym_tbl().find_in_first_blklev(arg.name());
-//
-//	if (sym != nullptr)
-//	{
-//		err(sconcat("Function called \"", *curr_func().name(), 
-//			"\" cannot have two arguments with same identifiers!",
-//			"Note:  offending argument has identifier \"",
-//			*arg.name(), "\"."));
-//	}
-//	}
-//
-//	// This is an argument
-//	arg.set_is_arg(true);
-//
-//	// Which argument in the list is this? 
-//	++curr_func().last_arg_offset();
-//	arg.set_arg_offset(curr_func().last_arg_offset());
-//
-//	sym_tbl().insert_or_assign(std::move(arg));
-//
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitBuiltinTypename
-//	(GrammarParser::BuiltinTypenameContext *ctx)
-//{
-//	auto&& some_typename = ctx->TokBuiltinTypename()->toString();
-//
-//	if (some_typename == "u64")
-//	{
-//		push_builtin_typename(BuiltinTypename::U64);
-//	}
-//	else if (some_typename == "s64")
-//	{
-//		push_builtin_typename(BuiltinTypename::S64);
-//	}
-//	else if (some_typename == "u32")
-//	{
-//		push_builtin_typename(BuiltinTypename::U32);
-//	}
-//	else if (some_typename == "s32")
-//	{
-//		push_builtin_typename(BuiltinTypename::S32);
-//	}
-//	else if (some_typename == "u16")
-//	{
-//		push_builtin_typename(BuiltinTypename::U16);
-//	}
-//	else if (some_typename == "s16")
-//	{
-//		push_builtin_typename(BuiltinTypename::S16);
-//	}
-//	else if (some_typename == "u8")
-//	{
-//		push_builtin_typename(BuiltinTypename::U8);
-//	}
-//	else if (some_typename == "s8")
-//	{
-//		push_builtin_typename(BuiltinTypename::S8);
-//	}
-//	else
-//	{
-//		err("visitBuiltinTypename():  Eek!\n");
-//	}
-//	return nullptr;
-//}
-//
-//antlrcpp::Any Frontend::visitNonSizedArrayIdentName
-//	(GrammarParser::NonSizedArrayIdentNameContext *ctx)
-//{
-//	ctx->identName()->accept(this);
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitAssignment
-//	(GrammarParser::AssignmentContext *ctx)
-//{
-//	ctx->identLhs()->accept(this);
-//
-//	auto addr = pop_ir_code();
-//	auto index = pop_ir_code();
-//
-//	ctx->expr()->accept(this);
-//	auto expr = pop_ir_code();
-//
-//	auto sym = pop_sym();
-//
-//	push_ir_code(codegen().mk_stx(sym->get_unsgn_or_sgn(),
-//		sym->get_ldst_size(), addr, index, expr));
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitIfStatement
-//	(GrammarParser::IfStatementContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::stmt_if);
-////	auto to_push = mk_ast_stmt(AstStmtOp::If);
-////
-////	ctx->expr()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////	ctx->statements()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	push_ast_node(to_push);
-//
-//
-//	ctx->expr()->accept(this);
-//	auto expr = pop_ir_code();
-//
-//
-//	auto label_after_statements = codegen().mk_unlinked_label();
-//
-//	codegen().mk_branch_if_false(label_after_statements, expr);
-//
+//	to_push->append_child(pop_ast_node());
 //	ctx->statements()->accept(this);
+//	to_push->append_child(pop_ast_node());
 //
-//	relink_ir_code(label_after_statements);
-//
-//	return nullptr;
-//}
+//	push_ast_node(to_push);
+
+
+
+	//ctx->expr()->accept(this);
+	//auto expr = pop_ir_code();
+
+
+	//auto label_after_statements = codegen().mk_unlinked_label();
+
+	//codegen().mk_branch_if_false(label_after_statements, expr);
+
+	//ctx->statements()->accept(this);
+
+	//relink_ir_code(label_after_statements);
+
+
+
+	ctx->expr()->accept(this);
+	auto cond = pop_ir_expr();
+
+	auto label_after_statements = codegen().mk_code_unlinked_label();
+
+	//codegen().mk_code_jump
+	//	(codegen.mk_expr_if_then_else);
+
+	return nullptr;
+}
 //antlrcpp::Any Frontend::visitIfChainStatement
 //	(GrammarParser::IfChainStatementContext *ctx)
 //{
@@ -545,34 +612,13 @@ antlrcpp::Any Frontend::visitFuncDecl
 //
 //	return nullptr;
 //}
-//antlrcpp::Any Frontend::visitElseStatements
-//	(GrammarParser::ElseStatementsContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::list_stmts_else);
-////	auto to_push = mk_ast_stmt(AstStmtOp::ListStmtsElse);
-////
-////	if (ctx->ifChainStatement())
-////	{
-////		ctx->ifChainStatement()->accept(this);
-////	}
-////	else if (ctx->statements())
-////	{
-////		ctx->statements()->accept(this);
-////	}
-////	else
-////	{
-////		err("visitElseStatements():  Eek!\n");
-////	}
-////
-////	to_push->append_child(pop_ast_node());
-////	push_ast_node(to_push);
-//	
+antlrcpp::Any Frontend::visitElseStatements
+	(GrammarParser::ElseStatementsContext *ctx)
+{
+//	//auto to_push = mk_ast_node(AstOp::list_stmts_else);
+//	auto to_push = mk_ast_stmt(AstStmtOp::ListStmtsElse);
 //
-//	if (ctx->ifStatement())
-//	{
-//		ctx->ifStatement()->accept(this);
-//	}
-//	else if (ctx->ifChainStatement())
+//	if (ctx->ifChainStatement())
 //	{
 //		ctx->ifChainStatement()->accept(this);
 //	}
@@ -580,9 +626,30 @@ antlrcpp::Any Frontend::visitFuncDecl
 //	{
 //		ctx->statements()->accept(this);
 //	}
+//	else
+//	{
+//		err("visitElseStatements():  Eek!\n");
+//	}
 //
-//	return nullptr;
-//}
+//	to_push->append_child(pop_ast_node());
+//	push_ast_node(to_push);
+	
+
+	if (ctx->ifStatement())
+	{
+		ctx->ifStatement()->accept(this);
+	}
+	else if (ctx->ifChainStatement())
+	{
+		ctx->ifChainStatement()->accept(this);
+	}
+	else if (ctx->statements())
+	{
+		ctx->statements()->accept(this);
+	}
+
+	return nullptr;
+}
 //antlrcpp::Any Frontend::visitWhileStatement
 //	(GrammarParser::WhileStatementContext *ctx)
 //{
@@ -747,7 +814,7 @@ antlrcpp::Any Frontend::visitFuncDecl
 //		auto&& op = ctx->TokOpCompare()->toString();
 //
 //
-//		IrCode* to_push;
+//		IrExpr* to_push;
 //
 //		if (op == "==")
 //		{
@@ -986,8 +1053,7 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 		ctx->numExpr()->accept(this);
 
 		//push_ir_code(codegen().mk_const(pop_num()));
-		push_ir_expr(codegen().mk_expr_constant(IrMachineMode::S64, 
-			pop_num()));
+		push_ir_expr(codegen().mk_expr_constant(get_top_mm(), pop_num()));
 	}
 	else if (ctx->funcCall())
 	{
@@ -1037,120 +1103,117 @@ antlrcpp::Any Frontend::visitExprUnary
 	}
 	return nullptr;
 }
-//antlrcpp::Any Frontend::visitExprBitInvert
-//	(GrammarParser::ExprBitInvertContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::expr_unop);
-////	auto to_push = mk_ast_expr(AstExprOp::Unop);
-////	to_push->un_op = AstUnOp::BitInvert;
-////
-////	ctx->expr()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	push_ast_node(to_push);
+antlrcpp::Any Frontend::visitExprBitInvert
+	(GrammarParser::ExprBitInvertContext *ctx)
+{
+//	//auto to_push = mk_ast_node(AstOp::expr_unop);
+//	auto to_push = mk_ast_expr(AstExprOp::Unop);
+//	to_push->un_op = AstUnOp::BitInvert;
+//
 //	ctx->expr()->accept(this);
-//	//auto expr = pop_ir_code();
-//	auto expr = pop_ir_expr();
+//	to_push->append_child(pop_ast_node());
 //
-//	//auto negative_one = codegen().mk_const(-1);
-//
-//	//push_ir_code(codegen().mk_binop(IrBinop::BitXor, expr, negative_one));
-//	push_ir_code(codegen().mk_expr_unop(pop_mm());
-//
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitExprNegate
-//	(GrammarParser::ExprNegateContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::expr_unop);
-////	auto to_push = mk_ast_expr(AstExprOp::Unop);
-////	to_push->un_op = AstUnOp::Negate;
-////
-////	ctx->expr()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	push_ast_node(to_push);
-//	
-//	ctx->expr()->accept(this);
-//	auto expr = pop_ir_code();
-//
-//	auto zero = codegen().mk_const(0);
-//
-//	push_ir_code(codegen().mk_binop(IrBinop::Sub, zero, expr));
-//
-//	return nullptr;
-//}
-//antlrcpp::Any Frontend::visitExprLogNot
-//	(GrammarParser::ExprLogNotContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::expr_unop);
-////	auto to_push = mk_ast_expr(AstExprOp::Unop);
-////	to_push->un_op = AstUnOp::LogNot;
-////
-////	ctx->expr()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	push_ast_node(to_push);
-//	
-//	ctx->expr()->accept(this);
-//	auto expr = pop_ir_code();
-//
-//	push_ir_code(codegen().mk_log_not(expr));
-//	return nullptr;
-//}
+//	push_ast_node(to_push);
+	ctx->expr()->accept(this);
+	push_ir_expr(codegen().mk_expr_unop(get_top_mm(), IrUnop::BitNot,
+		pop_ir_expr()));
 
-//void Frontend::__visit_ident_access
-//	(GrammarParser::IdentNameContext* ctx_ident_name,
-//	GrammarParser::SubscriptExprContext* ctx_subscript_expr)
-//{
-//	ctx_ident_name->accept(this);
-//	auto ident = pop_str();
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprNegate
+	(GrammarParser::ExprNegateContext *ctx)
+{
+//	//auto to_push = mk_ast_node(AstOp::expr_unop);
+//	auto to_push = mk_ast_expr(AstExprOp::Unop);
+//	to_push->un_op = AstUnOp::Negate;
 //
-//	auto sym = find_sym_or_err(ident, 
-//		sconcat("No symbol with identifier \"", *ident, 
-//		"\" was found!"));
+//	ctx->expr()->accept(this);
+//	to_push->append_child(pop_ast_node());
 //
-//	auto addr = codegen().mk_address(sym);
-//	IrCode* index;
+//	push_ast_node(to_push);
+	
+	ctx->expr()->accept(this);
+	push_ir_expr(codegen().mk_expr_unop(get_top_mm(), IrUnop::Negate,
+		pop_ir_expr()));
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprLogNot
+	(GrammarParser::ExprLogNotContext *ctx)
+{
+//	//auto to_push = mk_ast_node(AstOp::expr_unop);
+//	auto to_push = mk_ast_expr(AstExprOp::Unop);
+//	to_push->un_op = AstUnOp::LogNot;
 //
-//	
-//	if (sym->type() == SymType::ScalarVarName)
-//	{
-//		if (!ctx_subscript_expr)
-//		{
-//			index = codegen().mk_const(0);
-//		}
-//		else // if (ctx_subscript_expr)
-//		{
-//			err(sconcat("Symbol with identifier \"", *ident, 
-//				"\" is not an array!"));
-//		}
-//	}
+//	ctx->expr()->accept(this);
+//	to_push->append_child(pop_ast_node());
 //
-//	else if (sym->type() == SymType::ArrayVarName)
-//	{
-//		if (!ctx_subscript_expr)
-//		{
-//			err(sconcat("Symbol with identifier \"", *ident, 
-//				"\" is an array!"));
-//		}
-//		else // if (ctx_subscript_expr)
-//		{
-//			ctx_subscript_expr->accept(this);
-//			index = pop_ir_code();
-//		}
-//	}
-//	else
-//	{
-//		err("__visit_ident_access():  Unknown SymType!");
-//	}
-//
-//	//push_ir_code(codegen().mk_ldx(addr, index));
-//	push_sym(sym);
-//	push_ir_code(index);
-//	push_ir_code(addr);
-//}
-//
+//	push_ast_node(to_push);
+	
+	ctx->expr()->accept(this);
+	push_ir_expr(codegen().mk_expr_unop(get_top_mm(), IrUnop::LogNot,
+		pop_ir_expr()));
+
+	return nullptr;
+}
+
+void Frontend::__visit_ident_access
+	(GrammarParser::IdentNameContext* ctx_ident_name,
+	GrammarParser::SubscriptExprContext* ctx_subscript_expr)
+{
+	ctx_ident_name->accept(this);
+	auto ident = pop_str();
+
+	auto sym = find_sym_or_err(ident, 
+		sconcat("No symbol with identifier \"", *ident, 
+		"\" was found!"));
+
+	//auto addr = codegen().mk_address(sym);
+	auto mem = codegen().mk_expr_mem(codegen().mk_expr_ref_sym(sym));
+	IrExpr* index;
+
+	
+	if (sym->type() == SymType::ScalarVarName)
+	{
+		if (!ctx_subscript_expr)
+		{
+			//index = codegen().mk_const(0);
+			index = codegen().mk_expr_constant(IrMachineMode::Pointer, 0);
+		}
+		else // if (ctx_subscript_expr)
+		{
+			err(sconcat("Symbol with identifier \"", *ident, 
+				"\" is not an array!"));
+		}
+	}
+
+	else if (sym->type() == SymType::ArrayVarName)
+	{
+		if (!ctx_subscript_expr)
+		{
+			err(sconcat("Symbol with identifier \"", *ident, 
+				"\" is an array!"));
+		}
+		else // if (ctx_subscript_expr)
+		{
+			ctx_subscript_expr->accept(this);
+			//index = pop_ir_code();
+			index = pop_ir_expr();
+		}
+	}
+	else
+	{
+		err("__visit_ident_access():  Unknown SymType!");
+	}
+
+	//push_ir_code(codegen().mk_ldx(addr, index));
+	push_sym(sym);
+	//push_ir_code(index);
+	//push_ir_code(addr);
+	push_ir_expr(index);
+	push_ir_expr(mem);
+}
+
 antlrcpp::Any Frontend::visitIdentLhs
 	(GrammarParser::IdentLhsContext *ctx)
 {
@@ -1158,23 +1221,38 @@ antlrcpp::Any Frontend::visitIdentLhs
 	return nullptr;
 }
 
-//antlrcpp::Any Frontend::visitIdentRhs
-//	(GrammarParser::IdentRhsContext *ctx)
-//{
-//	__visit_ident_access(ctx->identName(), ctx->subscriptExpr());
-//
-//	auto addr = pop_ir_code();
-//	auto index = pop_ir_code();
-//
-//
-//	auto sym = pop_sym();
-//
-//
-//	push_ir_code(codegen().mk_ldx(sym->get_unsgn_or_sgn(), 
-//		sym->get_ldst_size(), addr, index));
-//
-//	return nullptr;
-//}
+antlrcpp::Any Frontend::visitIdentRhs
+	(GrammarParser::IdentRhsContext *ctx)
+{
+	__visit_ident_access(ctx->identName(), ctx->subscriptExpr());
+
+	//auto addr = pop_ir_code();
+	//auto index = pop_ir_code();
+	auto mem = pop_ir_expr();
+	auto index = pop_ir_expr();
+
+
+	auto sym = pop_sym();
+
+
+	//push_ir_code(codegen().mk_ldx(sym->get_unsgn_or_sgn(), 
+	//	sym->get_ldst_size(), addr, index));
+
+
+	// Subscript zero or non-array access
+	if ((index->op == IrExOp::Constant) && (index->simm == 0))
+	{
+		push_ir_expr(codegen().mk_expr_ld(get_top_mm(), mem));
+	}
+	else
+	{
+		push_ir_expr(codegen().mk_expr_ld(get_top_mm(),
+			codegen().mk_expr_binop(IrMachineMode::Pointer,
+			IrBinop::Add, mem, index)));
+	}
+
+	return nullptr;
+}
 antlrcpp::Any Frontend::visitIdentDecl
 	(GrammarParser::IdentDeclContext *ctx)
 {
@@ -1228,44 +1306,47 @@ antlrcpp::Any Frontend::visitNumExpr
 	return nullptr;
 }
 
-//antlrcpp::Any Frontend::visitLenExpr
-//	(GrammarParser::LenExprContext *ctx)
-//{
-////	//auto to_push = mk_ast_node(AstOp::expr_len);
-////	auto to_push = mk_ast_expr(AstExprOp::Len);
-////
-////	ctx->identRhs()->accept(this);
-////	to_push->append_child(pop_ast_node());
-////
-////	push_ast_node(to_push);
+antlrcpp::Any Frontend::visitLenExpr
+	(GrammarParser::LenExprContext *ctx)
+{
+//	//auto to_push = mk_ast_node(AstOp::expr_len);
+//	auto to_push = mk_ast_expr(AstExprOp::Len);
 //
-//	//err("visitLenExpr() is not fully implemented!");
+//	ctx->identRhs()->accept(this);
+//	to_push->append_child(pop_ast_node());
 //
-//	ctx->identName()->accept(this);
-//
-//	auto ident = pop_str();
-//
-//	auto sym = find_sym_or_err(ident, 
-//		sconcat("Cannot find symbol called \"", *ident, 
-//		"\" for len() expression!"));
-//
-//	//if (sym->type() == SymType::ScalarVarName)
-//	//{
-//	//	//push_ir_code(codegen().mk_const(1));
-//	//}
-//	//else if (sym->type() == SymType::ArrayVarName)
-//	//{
-//	//	//push_ir_code(codegen().mk_const(sym->size()));
-//	//}
-//	//else
-//	//{
-//	//	err("visitLenExpr():  Eek!\n");
-//	//}
-//	push_ir_code(codegen().mk_len(sym));
-//
-//
-//	return nullptr;
-//}
+//	push_ast_node(to_push);
+
+	//err("visitLenExpr() is not fully implemented!");
+
+	ctx->identName()->accept(this);
+
+	auto ident = pop_str();
+
+	auto sym = find_sym_or_err(ident, 
+		sconcat("Cannot find symbol called \"", *ident, 
+		"\" for len() expression!"));
+
+	//if (sym->type() == SymType::ScalarVarName)
+	//{
+	//	//push_ir_code(codegen().mk_const(1));
+	//}
+	//else if (sym->type() == SymType::ArrayVarName)
+	//{
+	//	//push_ir_code(codegen().mk_const(sym->size()));
+	//}
+	//else
+	//{
+	//	err("visitLenExpr():  Eek!\n");
+	//}
+
+	//push_ir_code(codegen().mk_len(sym));
+	push_ir_expr(codegen().mk_expr_len(get_top_mm(),
+		codegen().mk_expr_ref_sym(sym)));
+
+
+	return nullptr;
+}
 antlrcpp::Any Frontend::visitSizeofExpr
 	(GrammarParser::SizeofExprContext *ctx)
 {

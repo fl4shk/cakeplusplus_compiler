@@ -399,26 +399,25 @@ IrExpr* CodeGenerator::mk_expr_unop(IrMachineMode s_mm, IrUnop s_unop,
 	ret->append_arg(a);
 	return ret;
 }
-IrExpr* CodeGenerator::mk_expr_ref_sym(IrMachineMode s_mm, Symbol* s_sym)
+IrExpr* CodeGenerator::mk_expr_ref_sym(Symbol* s_sym)
 {
-	auto ret = mk_ir_expr(IrExOp::RefSym, s_mm);
+	auto ret = mk_ir_expr(IrExOp::RefSym, IrMachineMode::Pointer);
 
 	ret->sym = s_sym;
 
 	return ret;
 }
-IrExpr* CodeGenerator::mk_expr_ref_func(IrMachineMode s_mm, 
-	Function* s_func)
+IrExpr* CodeGenerator::mk_expr_ref_func(Function* s_func)
 {
-	auto ret = mk_ir_expr(IrExOp::RefFunc, s_mm);
+	auto ret = mk_ir_expr(IrExOp::RefFunc, IrMachineMode::Pointer);
 
 	ret->func = s_func;
 
 	return ret;
 }
-IrExpr* CodeGenerator::mk_expr_ref_lab(IrMachineMode s_mm, s64 s_lab_num)
+IrExpr* CodeGenerator::mk_expr_ref_lab(s64 s_lab_num)
 {
-	auto ret = mk_ir_expr(IrExOp::RefLab, s_mm);
+	auto ret = mk_ir_expr(IrExOp::RefLab, IrMachineMode::Pointer);
 
 	ret->lab_num = s_lab_num;
 
@@ -449,9 +448,9 @@ IrExpr* CodeGenerator::mk_expr_unfinished_call_with_ret
 
 	return ret;
 }
-IrExpr* CodeGenerator::mk_expr_mem(IrMachineMode s_mm, IrExpr* where)
+IrExpr* CodeGenerator::mk_expr_mem(IrExpr* where)
 {
-	auto ret = mk_ir_expr(IrExOp::Mem, s_mm);
+	auto ret = mk_ir_expr(IrExOp::Mem, IrMachineMode::Pointer);
 
 	ret->append_arg(where);
 
@@ -465,9 +464,9 @@ IrExpr* CodeGenerator::mk_expr_ld(IrMachineMode s_mm, IrExpr* where)
 
 	return ret;
 }
-IrExpr* CodeGenerator::mk_expr_get_next_pc(IrMachineMode s_mm)
+IrExpr* CodeGenerator::mk_expr_get_next_pc()
 {
-	return mk_ir_expr(IrExOp::GetNextPc, s_mm);
+	return mk_ir_expr(IrExOp::GetNextPc, IrMachineMode::Pointer);
 }
 IrExpr* CodeGenerator::mk_expr_if_then_else(IrMachineMode s_mm, 
 	IrExpr* cond, IrExpr* what_if, IrExpr* what_else)
@@ -520,11 +519,19 @@ IrCode* CodeGenerator::mk_code_jump(IrExpr* where)
 
 	return ret;
 }
-IrCode* CodeGenerator::mk_code_unfinished_call(IrExpr* where)
+//IrCode* CodeGenerator::mk_code_unfinished_call(IrExpr* where)
+//{
+//	auto ret = mk_linked_ir_code(IrInOp::Call);
+//
+//	ret->append_arg(where);
+//
+//	return ret;
+//}
+IrCode* CodeGenerator::mk_code_call(IrExpr* call_expr)
 {
 	auto ret = mk_linked_ir_code(IrInOp::Call);
 
-	ret->append_arg(where);
+	ret->append_arg(call_expr);
 
 	return ret;
 }

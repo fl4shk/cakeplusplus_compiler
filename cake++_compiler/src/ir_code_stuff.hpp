@@ -66,6 +66,8 @@ enum class IrInOp
 
 
 	Jump,
+
+	// Call form of code, ignoring return value
 	Call,
 
 	Syscall,
@@ -139,6 +141,8 @@ enum class IrMachineMode
 	S16,
 	U8,
 	S8,
+
+	Pointer,
 };
 
 std::ostream& operator << (std::ostream& os, 

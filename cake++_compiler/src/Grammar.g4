@@ -27,8 +27,9 @@ stmt:
 	statements
 	| putnStatement ';'
 	| varDecl ';'
-	| expr ';'
-	//| exprMulDivModEtc ';'
+	| funcCall ';'
+	//| expr ';'
+	////| exprMulDivModEtc ';'
 	| assignment ';'
 	| ifStatement
 	| ifChainStatement
