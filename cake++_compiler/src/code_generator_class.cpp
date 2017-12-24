@@ -120,6 +120,14 @@ IrExpr* CodeGenerator::mk_expr_if_then_else(IrMachineMode s_mm,
 
 	return ret;
 }
+//IrExpr* CodeGenerator::mk_expr_cast(IrMachineMode s_mm, IrExpr* expr)
+//{
+//	auto ret = mk_ir_expr(IrExOp::Cast, s_mm);
+//
+//	ret->append_arg(expr);
+//
+//	return ret;
+//}
 
 IrCode* CodeGenerator::mk_code_st(IrMachineMode s_st_mm, IrExpr* where, 
 	IrExpr* what)
@@ -496,6 +504,10 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node,
 			//osprintout(os, "if_then_else", temp, p->mm);
 			node["__op"] = "if_then_else";
 			break;
+
+		//case IrExOp::Cast
+		//	node["__op"] = "cast";
+		//	break;
 
 		default:
 			printerr("CodeGenerator::output_ir_expr_as_json():  Eek!\n");

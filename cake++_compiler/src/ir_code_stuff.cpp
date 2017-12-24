@@ -1,4 +1,5 @@
 #include "ir_code_stuff.hpp"
+#include "symbol_table_classes.hpp"
 
 std::ostream& operator << (std::ostream& os, 
 	IrSyscallShorthandOp syscall_shorthand_op)
@@ -43,11 +44,43 @@ std::ostream& operator << (std::ostream& os, IrMachineMode mm)
 			return osprintout(os, "s8");
 		case IrMachineMode::Pointer:
 			return osprintout(os, "pointer");
+		case IrMachineMode::Length:
+			return osprintout(os, "length");
 	}
 
 	printerr("osprintout of IrMachineMode:  Eek!\n");
 	exit(1);
 	return os;
+}
+IrMachineMode convert_builtin_typename_to_mm
+	(BuiltinTypename some_builtin_typename)
+{
+	switch (some_builtin_typename)
+	{
+		case BuiltinTypename::U64:
+			return IrMachineMode::U64;
+		case BuiltinTypename::S64:
+			return IrMachineMode::S64;
+
+		case BuiltinTypename::U32:
+			return IrMachineMode::U32;
+		case BuiltinTypename::S32:
+			return IrMachineMode::S32;
+
+		case BuiltinTypename::U16:
+			return IrMachineMode::U16;
+		case BuiltinTypename::S16:
+			return IrMachineMode::S16;
+
+		case BuiltinTypename::U8:
+			return IrMachineMode::U8;
+		case BuiltinTypename::S8:
+			return IrMachineMode::S8;
+
+		default:
+			err("convert_builtin_typename_to_mm():  Eek!\n");
+			break;
+	}
 }
 
 IrExpr::IrExpr(IrExpr* s_parent)

@@ -11,7 +11,7 @@
 #include "ir_code_stuff.hpp"
 #include "allocation_stuff.hpp"
 
-enum class SymType : int
+enum class SymType : u32
 {
 	ScalarVarName,
 	ArrayVarName,
@@ -19,17 +19,25 @@ enum class SymType : int
 	//ClassName,
 };
 
-enum class BuiltinTypename : int
+enum class BuiltinTypename : u32
 {
 	Blank,
 
-	// u8, u16, u32, etc.
-	U8, U16, U32, U64,
-	S8, S16, S32, S64,
+	U64,
+	S64,
+
+	U32,
+	S32,
+
+	U16,
+	S16,
+
+	U8,
+	S8,
 };
 
 std::ostream& operator << (std::ostream& os, 
-	BuiltinTypename some_builtin_type);
+	BuiltinTypename some_builtin_typename);
 
 class Symbol
 {
@@ -143,6 +151,8 @@ private:		// variables
 
 	//std::set<VmCode*> __unfinished_func_refs_set;
 
+	BuiltinTypename __ret_type = BuiltinTypename::S64;
+
 
 
 public:		// functions
@@ -199,6 +209,7 @@ public:		// functions
 	gen_getter_by_ref(last_label_num);
 	gen_getter_by_ref(num_to_label_map);
 	gen_getter_by_ref(last_arg_offset);
+	gen_getter_and_setter_by_val(ret_type);
 
 private:		// functions
 	inline VmCode* mk_linked_vm_code(VmRawInstrOp s_raw_op)

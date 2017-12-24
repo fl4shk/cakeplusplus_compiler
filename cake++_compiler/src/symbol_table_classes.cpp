@@ -17,28 +17,33 @@
 //}
 
 std::ostream& operator << (std::ostream& os, 
-	BuiltinTypename some_builtin_type)
+	BuiltinTypename some_builtin_typename)
 {
-	switch (some_builtin_type)
+	switch (some_builtin_typename)
 	{
 		case BuiltinTypename::Blank:
 			return osprintout(os, "Blank");
-		case BuiltinTypename::U8:
-			return osprintout(os, "u8");
-		case BuiltinTypename::U16:
-			return osprintout(os, "u16");
-		case BuiltinTypename::U32:
-			return osprintout(os, "u32");
+
 		case BuiltinTypename::U64:
 			return osprintout(os, "u64");
-		case BuiltinTypename::S8:
-			return osprintout(os, "s8");
-		case BuiltinTypename::S16:
-			return osprintout(os, "s16");
-		case BuiltinTypename::S32:
-			return osprintout(os, "s32");
 		case BuiltinTypename::S64:
 			return osprintout(os, "s64");
+
+		case BuiltinTypename::U32:
+			return osprintout(os, "u32");
+		case BuiltinTypename::S32:
+			return osprintout(os, "s32");
+
+		case BuiltinTypename::U16:
+			return osprintout(os, "u16");
+		case BuiltinTypename::S16:
+			return osprintout(os, "s16");
+
+		case BuiltinTypename::U8:
+			return osprintout(os, "u8");
+		case BuiltinTypename::S8:
+			return osprintout(os, "s8");
+
 		default:
 			printerr("BuiltinTypename osprintout stuff:  Eek!\n");
 			exit(1);

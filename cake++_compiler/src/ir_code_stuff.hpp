@@ -2,6 +2,7 @@
 #define ir_code_stuff_hpp
 
 #include "misc_includes.hpp"
+//#include "symbol_table_classes.hpp"
 
 typedef std::string* Ident;
 
@@ -49,6 +50,9 @@ enum class IrExOp
 
 	// Control flow
 	IfThenElse,
+
+	//// Type Casting
+	//Cast,
 };
 
 // Instruction operator
@@ -135,19 +139,27 @@ enum class IrMachineMode
 {
 	U64,
 	S64,
+
 	U32,
 	S32,
+
 	U16,
 	S16,
+
 	U8,
 	S8,
 
 	Pointer,
+	Length,
 };
 
 std::ostream& operator << (std::ostream& os, 
 	IrSyscallShorthandOp syscall_shorthand_op);
 std::ostream& operator << (std::ostream& os, IrMachineMode mm);
+
+enum class BuiltinTypename : u32;
+IrMachineMode convert_builtin_typename_to_mm
+	(BuiltinTypename some_builtin_typename);
 
 class IrExpr;
 
@@ -262,6 +274,5 @@ public:		// functions
 	gen_getter_by_ref(args);
 
 };
-
 
 #endif		// ir_code_stuff_hpp

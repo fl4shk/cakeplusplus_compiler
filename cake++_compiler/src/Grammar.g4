@@ -40,7 +40,9 @@ stmt:
 	| returnNothingStatement ';'
 	;
 
-putnStatement: 'putn(' expr ')' ;
+
+// Temporary pseudo-function
+putnStatement: 'putn' '(' expr ')' ;
 
 
 varDecl: builtinTypename (identDecl ',')* identDecl ;
@@ -103,6 +105,7 @@ exprMulDivModEtc:
 	| identRhs
 	| lenExpr
 	| sizeofExpr
+	| castExpr
 	| '(' expr ')'
 	;
 
@@ -135,6 +138,7 @@ identName: TokIdent ;
 numExpr: TokDecNum ;
 lenExpr: 'len' '(' identName ')' ;
 sizeofExpr: 'sizeof' '(' identName ')' ;
+castExpr: TokBuiltinTypename '(' expr ')' ;
 subscriptExpr: '[' expr ']' ;
 subscriptConst: '[' numExpr ']' ;
 
@@ -156,8 +160,8 @@ TokOpAddSub: ('+' | '-') ;
 TokOpMulDivMod: ('*' | '/' | '%') ;
 //TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
 TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>');
-TokBuiltinTypename:
-	's64'
+TokBuiltinTypename: 
+	('u64' | 's64' | 'u32' | 's32' | 'u16' | 's16' | 'u8' | 's8')
 	;
 TokDecNum: [0-9] ([0-9]*) ;
 TokIdent: [A-Za-z_] (([A-Za-z_] | [0-9])*) ;

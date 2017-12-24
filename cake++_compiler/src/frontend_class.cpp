@@ -126,15 +126,14 @@ antlrcpp::Any Frontend::visitFuncDecl
 
 	printerr("visitFuncDecl() Fixme:  temporarily performing ",
 		"push_mm(IrMachineMode::S64)!\n");
-	push_mm(IrMachineMode::S64);
 	ctx->statements()->accept(this);
-	pop_mm();
 
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitFuncCall
 	(GrammarParser::FuncCallContext *ctx)
 {
+
 	ctx->identName()->accept(this);
 	auto ident = pop_str();
 
@@ -149,21 +148,11 @@ antlrcpp::Any Frontend::visitFuncCall
 			"\"!"));
 	}
 
-	//auto to_push = mk_unlinked_ir_code(IrOp::Call);
-
-	//// here we are making an 
-	//auto to_push = codegen().mk_unfinished_call();
-
-	//const auto top_mm = pop_mm();
-
-	IrExpr* to_push;
-
-	{
-	// Temporary!  This should be switched to working for either an
-	// expression or a statement! 
-	to_push = codegen().mk_expr_unfinished_call_with_ret(get_top_mm(), 
+	//auto to_push = codegen().mk_expr_unfinished_call_with_ret(get_top_mm(),
+	//	codegen().mk_expr_ref_func(func));
+	auto to_push = codegen().mk_expr_unfinished_call_with_ret
+		(convert_builtin_typename_to_mm(func->ret_type()), 
 		codegen().mk_expr_ref_func(func));
-	}
 
 	{
 	auto&& funcArgExpr = ctx->funcArgExpr();
@@ -177,19 +166,14 @@ antlrcpp::Any Frontend::visitFuncCall
 			funcArgExpr.size(), " arguments!"));
 	}
 
-	//for (auto func_arg_expr : funcArgExpr)
 	for (size_t i=0; i<funcArgExpr.size(); ++i)
 	{
 		push_func(func);
 		push_num(i);
 		push_sym(args.at(i));
 
-		auto func_arg_expr = funcArgExpr.at(i);
+		funcArgExpr.at(i)->accept(this);
 
-		func_arg_expr->accept(this);
-
-		//to_push->args.push_back(pop_ir_code());
-		////to_push->args.push_front(pop_ir_code());
 		to_push->append_arg(pop_ir_expr());
 	}
 
@@ -260,7 +244,9 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 
 		auto mem = codegen().mk_expr_mem
 			(codegen().mk_expr_ref_sym(sym));
-		push_ir_expr(codegen().mk_expr_ld(get_top_mm(), mem));
+		//push_ir_expr(codegen().mk_expr_ld(get_top_mm(), mem));
+		push_ir_expr(codegen().mk_expr_ld
+			(convert_builtin_typename_to_mm(sym->var_type()), mem));
 	}
 	else if (sym->type() == SymType::ArrayVarName)
 	{
@@ -515,12 +501,10 @@ antlrcpp::Any Frontend::visitAssignment
 	//ctx->expr()->accept(this);
 	//auto expr = pop_ir_code();
 
-	//auto sym = pop_sym();
+	auto sym = pop_sym();
 
 	//push_ir_code(codegen().mk_stx(sym->get_unsgn_or_sgn(),
 	//	sym->get_ldst_size(), addr, index, expr));
-
-	pop_sym();
 
 	auto mem = pop_ir_expr();
 	auto index = pop_ir_expr();
@@ -530,11 +514,17 @@ antlrcpp::Any Frontend::visitAssignment
 
 	if ((index->op == IrExOp::Constant) && (index->simm == 0))
 	{
-		codegen().mk_code_st(get_top_mm(), mem, expr);
+		//codegen().mk_code_st(get_top_mm(), mem, expr);
+		codegen().mk_code_st
+			(convert_builtin_typename_to_mm(sym->var_type()), mem, expr);
 	}
 	else
 	{
-		codegen().mk_code_st(get_top_mm(), 
+		//codegen().mk_code_st(get_top_mm(), 
+		//	codegen().mk_expr_binop(IrMachineMode::Pointer,
+		//	IrBinop::Add, mem, index), expr);
+		codegen().mk_code_st
+			(convert_builtin_typename_to_mm(sym->var_type()),
 			codegen().mk_expr_binop(IrMachineMode::Pointer,
 			IrBinop::Add, mem, index), expr);
 	}
@@ -806,7 +796,9 @@ antlrcpp::Any Frontend::visitExpr
 
 		//auto some_binop = codegen().mk_binop(s_binop, a, b);
 
-		push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+		push_ir_expr(codegen().mk_expr_binop(get_mm_for_binop(a, b),
+			s_binop, a, b));
 	}
 
 	return nullptr;
@@ -834,66 +826,42 @@ antlrcpp::Any Frontend::visitExprLogical
 		auto&& op = ctx->TokOpCompare()->toString();
 
 
-		IrExpr* to_push;
+		IrBinop s_binop;
 
 		if (op == "==")
 		{
-			ctx->exprCompare()->accept(this);
-			auto b = pop_ir_expr();
-
-			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpEq,
-				a, b);
+			s_binop = IrBinop::CmpEq;
 		}
 		else if (op == "!=")
 		{
-			ctx->exprCompare()->accept(this);
-			auto b = pop_ir_expr();
-
-			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpNe,
-				a, b);
+			s_binop = IrBinop::CmpNe;
 		}
 		else if (op == "<")
 		{
-			ctx->exprCompare()->accept(this);
-			auto b = pop_ir_expr();
-
-			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpLt,
-				a, b);
+			s_binop = IrBinop::CmpLt;
 		}
 		else if (op == ">")
 		{
-			ctx->exprCompare()->accept(this);
-			auto b = pop_ir_expr();
-
-			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpGt,
-				a, b);
+			s_binop = IrBinop::CmpGt;
 		}
 		else if (op == "<=")
 		{
-			ctx->exprCompare()->accept(this);
-			auto b = pop_ir_expr();
-
-			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpLe,
-				a, b);
+			s_binop = IrBinop::CmpLe;
 		}
 		else if (op == ">=")
 		{
-			ctx->exprCompare()->accept(this);
-			auto b = pop_ir_expr();
-
-			to_push = codegen().mk_expr_binop(get_top_mm(), IrBinop::CmpGe,
-				a, b);
+			s_binop = IrBinop::CmpGe;
 		}
 		else
 		{
 			err("visitExprLogical():  binop type Eek!\n");
 		}
 
-		//to_push->append_child(pop_ast_node());
-		//push_ast_node(to_push);
+		ctx->exprCompare()->accept(this);
+		auto b = pop_ir_expr();
 
-		//push_ir_code(to_push);
-		push_ir_expr(to_push);
+		push_ir_expr(codegen().mk_expr_binop(get_mm_for_binop(a, b),
+			s_binop, a, b));
 	}
 
 	return nullptr;
@@ -923,12 +891,10 @@ antlrcpp::Any Frontend::visitExprCompare
 
 		if (op == "+")
 		{
-			//to_push->bin_op = AstBinOp::Add;
 			s_binop = IrBinop::Add;
 		}
 		else if (op == "-")
 		{
-			//to_push->bin_op = AstBinOp::Sub;
 			s_binop = IrBinop::Sub;
 		}
 		else
@@ -939,7 +905,9 @@ antlrcpp::Any Frontend::visitExprCompare
 		ctx->exprAddSub()->accept(this);
 		auto b = pop_ir_expr();
 
-		push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+		push_ir_expr(codegen().mk_expr_binop(get_mm_for_binop(a, b),
+			s_binop, a, b));
 	}
 
 	return nullptr;
@@ -982,44 +950,34 @@ antlrcpp::Any Frontend::visitExprAddSub
 
 		if (op == "*")
 		{
-			//to_push->bin_op = AstBinOp::Mul;
 			s_binop = IrBinop::Mul;
 		}
 		else if (op == "/")
 		{
-			// Temporary!
-			//to_push->bin_op = AstBinOp::SDiv;
 			s_binop = IrBinop::Div;
 		}
 		else if (op == "%")
 		{
-			// Temporary!
-			//to_push->bin_op = AstBinOp::SMod;
 			s_binop = IrBinop::Mod;
 		}
 		else if (op == "&")
 		{
-			//to_push->bin_op = AstBinOp::BitAnd;
 			s_binop = IrBinop::BitAnd;
 		}
 		else if (op == "|")
 		{
-			//to_push->bin_op = AstBinOp::BitOr;
 			s_binop = IrBinop::BitOr;
 		}
 		else if (op == "^")
 		{
-			//to_push->bin_op = AstBinOp::BitXor;
 			s_binop = IrBinop::BitXor;
 		}
 		else if (op == "<<")
 		{
-			//to_push->bin_op = AstBinOp::BitLsl;
 			s_binop = IrBinop::BitShiftLeft;
 		}
 		else if (op == ">>")
 		{
-			//to_push->bin_op = AstBinOp::BitLsr;
 			s_binop = IrBinop::BitShiftRight;
 		}
 		//else if (op == ">>>")
@@ -1034,11 +992,10 @@ antlrcpp::Any Frontend::visitExprAddSub
 
 		ctx->exprMulDivModEtc()->accept(this);
 		auto b = pop_ir_expr();
-		//to_push->append_child(pop_ast_node());
-		//push_ast_node(to_push);
 
-		//push_ir_code(codegen().mk_binop(s_binop, a, b));
-		push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+		push_ir_expr(codegen().mk_expr_binop(get_mm_for_binop(a, b),
+			s_binop, a, b));
 	}
 
 	return nullptr;
@@ -1055,7 +1012,9 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 		ctx->numExpr()->accept(this);
 
 		//push_ir_code(codegen().mk_const(pop_num()));
-		push_ir_expr(codegen().mk_expr_constant(get_top_mm(), pop_num()));
+		//push_ir_expr(codegen().mk_expr_constant(get_top_mm(), pop_num()));
+		push_ir_expr(codegen().mk_expr_constant(IrMachineMode::S64,
+			pop_num()));
 	}
 	else if (ctx->funcCall())
 	{
@@ -1072,6 +1031,10 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 	else if (ctx->sizeofExpr())
 	{
 		ctx->sizeofExpr()->accept(this);
+	}
+	else if (ctx->castExpr())
+	{
+		ctx->castExpr()->accept(this);
 	}
 	else if (ctx->expr())
 	{
@@ -1117,8 +1080,12 @@ antlrcpp::Any Frontend::visitExprBitInvert
 //
 //	push_ast_node(to_push);
 	ctx->expr()->accept(this);
-	push_ir_expr(codegen().mk_expr_unop(get_top_mm(), IrUnop::BitNot,
-		pop_ir_expr()));
+
+	//push_ir_expr(codegen().mk_expr_unop(get_top_mm(), IrUnop::BitNot,
+	//	pop_ir_expr()));
+
+	auto expr = pop_ir_expr();
+	push_ir_expr(codegen().mk_expr_unop(expr->mm, IrUnop::BitNot, expr));
 
 	return nullptr;
 }
@@ -1135,8 +1102,12 @@ antlrcpp::Any Frontend::visitExprNegate
 //	push_ast_node(to_push);
 	
 	ctx->expr()->accept(this);
-	push_ir_expr(codegen().mk_expr_unop(get_top_mm(), IrUnop::Negate,
-		pop_ir_expr()));
+
+	//push_ir_expr(codegen().mk_expr_unop(get_top_mm(), IrUnop::Negate,
+	//	pop_ir_expr()));
+
+	auto expr = pop_ir_expr();
+	push_ir_expr(codegen().mk_expr_unop(expr->mm, IrUnop::Negate, expr));
 
 	return nullptr;
 }
@@ -1153,8 +1124,12 @@ antlrcpp::Any Frontend::visitExprLogNot
 //	push_ast_node(to_push);
 	
 	ctx->expr()->accept(this);
-	push_ir_expr(codegen().mk_expr_unop(get_top_mm(), IrUnop::LogNot,
-		pop_ir_expr()));
+
+	//push_ir_expr(codegen().mk_expr_unop(get_top_mm(), IrUnop::LogNot,
+	//	pop_ir_expr()));
+
+	auto expr = pop_ir_expr();
+	push_ir_expr(codegen().mk_expr_unop(expr->mm, IrUnop::LogNot, expr));
 
 	return nullptr;
 }
@@ -1234,8 +1209,7 @@ antlrcpp::Any Frontend::visitIdentRhs
 	auto index = pop_ir_expr();
 
 
-	//auto sym = pop_sym();
-	pop_sym();
+	auto sym = pop_sym();
 
 
 	//push_ir_code(codegen().mk_ldx(sym->get_unsgn_or_sgn(), 
@@ -1245,11 +1219,17 @@ antlrcpp::Any Frontend::visitIdentRhs
 	// Subscript zero or non-array access
 	if ((index->op == IrExOp::Constant) && (index->simm == 0))
 	{
-		push_ir_expr(codegen().mk_expr_ld(get_top_mm(), mem));
+		//push_ir_expr(codegen().mk_expr_ld(get_top_mm(), mem));
+		push_ir_expr(codegen().mk_expr_ld
+			(convert_builtin_typename_to_mm(sym->var_type()), mem));
 	}
 	else
 	{
-		push_ir_expr(codegen().mk_expr_ld(get_top_mm(),
+		//push_ir_expr(codegen().mk_expr_ld(get_top_mm(),
+		//	codegen().mk_expr_binop(IrMachineMode::Pointer,
+		//	IrBinop::Add, mem, index)));
+		push_ir_expr(codegen().mk_expr_ld
+			(convert_builtin_typename_to_mm(sym->var_type()),
 			codegen().mk_expr_binop(IrMachineMode::Pointer,
 			IrBinop::Add, mem, index)));
 	}
@@ -1312,14 +1292,6 @@ antlrcpp::Any Frontend::visitNumExpr
 antlrcpp::Any Frontend::visitLenExpr
 	(GrammarParser::LenExprContext *ctx)
 {
-//	//auto to_push = mk_ast_node(AstOp::expr_len);
-//	auto to_push = mk_ast_expr(AstExprOp::Len);
-//
-//	ctx->identRhs()->accept(this);
-//	to_push->append_child(pop_ast_node());
-//
-//	push_ast_node(to_push);
-
 	//err("visitLenExpr() is not fully implemented!");
 
 	ctx->identName()->accept(this);
@@ -1330,21 +1302,9 @@ antlrcpp::Any Frontend::visitLenExpr
 		sconcat("Cannot find symbol called \"", *ident, 
 		"\" for len() expression!"));
 
-	//if (sym->type() == SymType::ScalarVarName)
-	//{
-	//	//push_ir_code(codegen().mk_const(1));
-	//}
-	//else if (sym->type() == SymType::ArrayVarName)
-	//{
-	//	//push_ir_code(codegen().mk_const(sym->size()));
-	//}
-	//else
-	//{
-	//	err("visitLenExpr():  Eek!\n");
-	//}
-
-	//push_ir_code(codegen().mk_len(sym));
-	push_ir_expr(codegen().mk_expr_len(get_top_mm(),
+	//push_ir_expr(codegen().mk_expr_len(get_top_mm(),
+	//	codegen().mk_expr_ref_sym(sym)));
+	push_ir_expr(codegen().mk_expr_len(IrMachineMode::Length,
 		codegen().mk_expr_ref_sym(sym)));
 
 
@@ -1353,15 +1313,37 @@ antlrcpp::Any Frontend::visitLenExpr
 antlrcpp::Any Frontend::visitSizeofExpr
 	(GrammarParser::SizeofExprContext *ctx)
 {
-//	//auto to_push = mk_ast_node(AstOp::expr_sizeof);
-//	auto to_push = mk_ast_expr(AstExprOp::Sizeof);
-//
-//	ctx->identRhs()->accept(this);
-//	to_push->append_child(pop_ast_node());
-//
-//	push_ast_node(to_push);
-	err("visitSizeofExpr() is not fully implemented!");
-	return nullptr;
+	//err("visitSizeofExpr() is not fully implemented!");
+	//return nullptr;
+
+	ctx->identName()->accept(this);
+
+	auto ident = pop_str();
+
+	auto sym = find_sym_or_err(ident, 
+		sconcat("Cannot find symbol called \"", *ident, 
+		"\" for sizeof() expression!"));
+
+
+	//push_ir_code(codegen().mk_len(sym));
+	//push_ir_expr(codegen().mk_expr_sizeof(get_top_mm(),
+	//	codegen().mk_expr_ref_sym(sym)));
+	push_ir_expr(codegen().mk_expr_sizeof(IrMachineMode::Length,
+		codegen().mk_expr_ref_sym(sym)));
+}
+
+antlrcpp::Any Frontend::visitCastExpr
+	(GrammarParser::CastExprContext *ctx)
+{
+	ctx->TokBuiltinTypename()->accept(this);
+
+	ctx->expr()->accept(this);
+	auto expr = pop_ir_expr();
+
+	expr->mm = convert_builtin_typename_to_mm(pop_builtin_typename());
+
+
+	push_ir_expr(expr);
 }
 antlrcpp::Any Frontend::visitSubscriptExpr
 	(GrammarParser::SubscriptExprContext *ctx)
@@ -1375,4 +1357,7 @@ antlrcpp::Any Frontend::visitSubscriptConst
 {
 	ctx->numExpr()->accept(this);
 	return nullptr;
+}
+IrMachineMode Frontend::get_mm_for_binop(IrExpr* a, IrExpr* b) const
+{
 }

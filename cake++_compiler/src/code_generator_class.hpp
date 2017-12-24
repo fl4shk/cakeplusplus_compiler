@@ -23,6 +23,7 @@ public:		// functions
 	IrExpr* mk_expr_constant(IrMachineMode s_mm, s64 s_simm);
 	IrExpr* mk_expr_binop(IrMachineMode s_mm, IrBinop s_binop, 
 		IrExpr* a, IrExpr* b);
+	//IrExpr* mk_expr_binop(IrBinop s_binop, IrExpr* a, IrExpr* b);
 	IrExpr* mk_expr_unop(IrMachineMode s_mm, IrUnop s_unop, IrExpr* a);
 	IrExpr* mk_expr_ref_sym(Symbol* s_sym);
 	IrExpr* mk_expr_ref_func(Function* s_func);
@@ -49,6 +50,7 @@ public:		// functions
 			mk_expr_mem(mk_expr_ref_lab(what_if_lab_num)),
 			mk_expr_mem(mk_expr_ref_lab(what_else_lab_num)));
 	}
+	//IrExpr* mk_expr_cast(IrMachineMode s_mm, IrExpr* expr);
 
 	IrCode* mk_code_st(IrMachineMode s_st_mm, IrExpr* where, 
 		IrExpr* what);
