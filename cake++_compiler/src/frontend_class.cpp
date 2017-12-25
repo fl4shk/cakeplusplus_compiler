@@ -53,6 +53,9 @@ antlrcpp::Any Frontend::visitProgram
 
 	for (auto* func_decl : funcDecl)
 	{
+		func_decl->builtinTypename()->accept(this);
+		const auto ret_type = pop_builtin_typename();
+
 		func_decl->identName()->accept(this);
 		auto ident = pop_str();
 
@@ -64,7 +67,7 @@ antlrcpp::Any Frontend::visitProgram
 				*ident, "\"!"));
 		}
 
-		__func_tbl.insert_or_assign(mk_global_func(ident));
+		__func_tbl.insert_or_assign(mk_global_func(ret_type, ident));
 
 		__curr_func = __func_tbl.at(ident);
 		//__curr_sym_node = __curr_func->scope_node()->children.front();

@@ -1,24 +1,35 @@
-main()
+u32 main()
 {
-	u64 i;
 	s64 temp[3];
 
-	func(temp);
+	clear_arr(temp);
 
 
+	{
+	u64 i;
 	i = 0;
 
-	while (i < 3)
-	//while (i < len(temp))
+	//while (i < 3)
+	while (i < len(temp))
 	{
 		putn(temp[i]);
 		//putn(func(temp));
 		i = i + 1;
 	}
+	}
 }
 
-func(s64 ret[])
+u32 clear_arr(s64 ret[])
 {
+	u64 i;
+
+	i = 0;
+
+	while (i < len(ret))
+	{
+		ret[i] = 0;
+		i = i + 1;
+	}
 }
 
 //add(s64 ret[], s64 a, s64 b)

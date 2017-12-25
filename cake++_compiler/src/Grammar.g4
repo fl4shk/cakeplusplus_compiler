@@ -4,7 +4,9 @@ grammar Grammar;
 program: funcDecl+ ;
 
 funcDecl:
-	identName '(' ((funcArgDecl ',')* funcArgDecl)? ')' statements
+	builtinTypename 
+	identName '(' ((funcArgDecl ',')* funcArgDecl)? ')'
+	statements
 	;
 
 funcCall:

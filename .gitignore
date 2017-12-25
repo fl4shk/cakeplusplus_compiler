@@ -85,3 +85,7 @@ cake++_compiler/src/gen_src/*
 cake++_vm/src/gen_src/*
 cake++_vm_assembler/src/gen_src/*
 *.json.ignore
+cake++_compiler/tests/*.json
+cake++_compiler/tests/*.json.ignore
+cake++_compiler/*.json
+cake++_compiler/*.json.ignore

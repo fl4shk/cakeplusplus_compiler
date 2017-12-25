@@ -199,7 +199,8 @@ protected:		// functions
 	//	return __func_pool.back().get();
 	//}
 
-	inline Function* mk_global_func(Ident s_name)
+	inline Function* mk_global_func(BuiltinTypename s_ret_type, 
+		Ident s_name)
 	{
 		//std::unique_ptr<Function> to_append(new Function(s_name,
 		//	sym_tbl().mk_global_func_syms(s_name)));
@@ -207,6 +208,7 @@ protected:		// functions
 		auto func_node = sym_tbl().mk_global_func_node(s_name);
 		std::unique_ptr<Function> to_append(new Function(s_name,
 			func_node));
+		to_append->set_ret_type(s_ret_type);
 
 		{
 		Symbol func_sym(to_append.get());
