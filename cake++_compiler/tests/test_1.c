@@ -3,16 +3,16 @@ main()
 	u64 i;
 	s64 temp[3];
 
-	//func(temp);
+	func(temp);
 
 
 	i = 0;
 
-	//while (i < 3)
-	while (i < len(temp))
+	while (i < 3)
+	//while (i < len(temp))
 	{
-		//putn(temp[i]);
-		putn(func(temp));
+		putn(temp[i]);
+		//putn(func(temp));
 		i = i + 1;
 	}
 }

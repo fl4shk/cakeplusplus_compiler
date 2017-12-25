@@ -3,8 +3,9 @@
 
 #include "misc_includes.hpp"
 
-#include "scoped_ident_table_class.hpp"
-#include "symbol_table_base_class.hpp"
+//#include "scoped_ident_table_class.hpp"
+//#include "symbol_table_base_class.hpp"
+#include "scoped_table_base_class.hpp"
 
 #include "vm_code_class.hpp"
 //#include "ir_code_classes.hpp"
@@ -41,7 +42,52 @@ enum class BuiltinTypename : u32
 std::ostream& operator << (std::ostream& os, 
 	BuiltinTypename some_builtin_typename);
 
-//class Function;
+class Var;
+class Function;
+
+
+class Symbol
+{
+private:		// variables
+	SymType __type;
+
+	union
+	{
+		Var* __var;
+		Function* __func;
+	};
+
+public:		// functions
+	inline Symbol()
+	{
+	}
+	inline Symbol(SymType s_type, Var* s_var)
+		: __type(s_type), __var(s_var)
+	{
+	}
+	inline Symbol(Function* s_func)
+		: __type(SymType::FuncName), __func(s_func)
+	{
+	}
+
+	inline Symbol(const Symbol& to_copy) = default;
+	Symbol& operator = (const Symbol& to_copy) = default;
+	
+	gen_getter_and_setter_by_val(type);
+	gen_getter_and_setter_by_val(var);
+	gen_getter_and_setter_by_val(func);
+
+	// name() and set_name() passthroughs
+	Ident name() const;
+	void set_name(Ident s_name);
+};
+
+class SymbolTable : public ScopedTableBase<Symbol>
+{
+public:		// functions
+	SymbolTable();
+	virtual ~SymbolTable();
+};
 
 class Var
 {
@@ -112,50 +158,6 @@ public:		// functions
 	gen_getter_and_setter_by_val(size);
 };
 
-class Symbol
-{
-private:		// variables
-	SymType __type;
-
-	union
-	{
-		Var* __var;
-		Function* __func;
-	};
-
-public:		// functions
-	inline Symbol()
-	{
-	}
-	inline Symbol(SymType s_type, Var* s_var)
-		: __type(s_type), __var(s_var)
-	{
-	}
-	inline Symbol(Function* s_func)
-		: __type(SymType::FuncName), __func(s_func)
-	{
-	}
-
-	inline Symbol(const Symbol& to_copy) = default;
-	Symbol& operator = (const Symbol& to_copy) = default;
-	
-	gen_getter_and_setter_by_val(type);
-	gen_getter_and_setter_by_val(var);
-	gen_getter_and_setter_by_val(func);
-
-	// name() and set_name() passthroughs
-	Ident name() const;
-	void set_name(Ident s_name);
-};
-
-
-class SymbolTable : public SymbolTableBase<Symbol>
-{
-public:		// functions
-	SymbolTable();
-	virtual ~SymbolTable();
-};
-
 class FunctionTable;
 
 class Function
@@ -166,18 +168,26 @@ private:		// variables
 	Ident __name;
 
 
-	// Function arguments go into the first scope of the symbol table
+	//// Function arguments go into the first scope of the symbol table
+	//// 
+	//// Local variables go into each Function's symbol table
+	//SymbolTable __sym_tbl;
+
+
+	// This Function is pointed to by __scope_node.
 	// 
-	// Local variables go into each Function's symbol table
-	SymbolTable __sym_tbl;
+	// The symbols representing the arguments of this Function are stored
+	// in __scope_node->children.front()
+	ScopedTableNode<Symbol>* __scope_node;
 
 	VmCode __vm_code;
 	IrCode __ir_code;
-	//IrCode __ir_code;
+
 
 	// Label numbering stuff
 	s64 __last_label_num = -1;
 	std::map<s64, IrCode*> __num_to_label_map;
+
 
 	// Argument ordering stuff (used by Frontend::visitFuncArgDecl())
 	size_t __last_arg_offset = -1;
@@ -190,15 +200,16 @@ private:		// variables
 
 
 public:		// functions
-	inline Function()
+	inline Function(ScopedTableNode<Symbol>* s_scope_node)
+		: __scope_node(s_scope_node)
 	{
 		__vm_code.next = &__vm_code;
 		__vm_code.prev = &__vm_code;
 		__ir_code.next = &__ir_code;
 		__ir_code.prev = &__ir_code;
 	}
-	inline Function(Ident s_name)
-		: __name(s_name)
+	inline Function(Ident s_name, ScopedTableNode<Symbol>* s_scope_node)
+		: __name(s_name), __scope_node(s_scope_node)
 	{
 		__vm_code.next = &__vm_code;
 		__vm_code.prev = &__vm_code;
@@ -214,6 +225,7 @@ public:		// functions
 
 	std::vector<Symbol*> get_args() const;
 	//std::vector<Symbol*> get_args(SymbolTable& some_sym_tbl) const;
+
 	//Symbol* get_one_arg(size_t some_arg_offset) const;
 
 	//inline VmCode* append_vm_code()
@@ -237,7 +249,9 @@ public:		// functions
 	std::ostream& osprint_vm_code(std::ostream& os);
 
 	gen_getter_and_setter_by_val(name);
-	gen_getter_by_ref(sym_tbl);
+	//gen_getter_by_ref(sym_tbl);
+	//gen_getter_by_ref(syms);
+	gen_getter_by_ref(scope_node);
 	gen_getter_by_ref(vm_code);
 	//gen_getter_by_ref(ir_code);
 	gen_getter_by_ref(ir_code);

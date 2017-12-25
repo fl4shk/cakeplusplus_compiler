@@ -2,20 +2,6 @@
 #include "allocation_stuff.hpp"
 
 
-//// The symbol table
-//SymbolTable sym_tbl;
-
-
-//void mkscope()
-//{
-//	sym_tbl.mkscope();
-//}
-//
-//void rmscope()
-//{
-//	sym_tbl.rmscope();
-//}
-
 std::ostream& operator << (std::ostream& os, 
 	BuiltinTypename some_builtin_typename)
 {
@@ -163,6 +149,7 @@ SymbolTable::~SymbolTable()
 }
 
 std::vector<Symbol*> Function::get_args() const
+//std::vector<Symbol*> Function::get_args(SymbolTable& some_sym_tbl) const
 {
 	std::vector<Symbol*> ret;
 
@@ -171,7 +158,10 @@ std::vector<Symbol*> Function::get_args() const
 	size_t num_args = 0;
 
 	{
-	const auto& table = __sym_tbl.tree().children.front()->table.table();
+	//const auto& table = __sym_tbl.tree().children.front()->table.table();
+	//const auto& table = __syms->table;
+	const auto& table = __scope_node->children.front()->table.table();
+	
 	for (const auto& iter : table)
 	{
 		auto sym = iter.second;
@@ -190,6 +180,7 @@ std::vector<Symbol*> Function::get_args() const
 			num_args = sym->var()->arg_offset();
 		}
 	}
+
 	}
 
 	// Increment because no argument symbol keeps track of how many

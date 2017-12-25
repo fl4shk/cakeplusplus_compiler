@@ -59,8 +59,9 @@ protected:		// variables
 
 	// Current function
 	Function* __curr_func;
+	ScopedTableNode<Symbol>* __curr_sym_node;
 
-	//SymbolTable __sym_tbl;
+	SymbolTable __sym_tbl;
 
 
 	//std::stack<AstNode*> __ast_node_stack;
@@ -189,18 +190,30 @@ protected:		// functions
 		exit(1);
 	}
 
-	inline Function* mkfunc()
+	//inline Function* mk_global_func()
+	//{
+	//	std::unique_ptr<Function> to_append(new Function(sym_tbl));
+
+	//	__func_pool.push_back(std::move(to_append));
+
+	//	return __func_pool.back().get();
+	//}
+
+	inline Function* mk_global_func(Ident s_name)
 	{
-		std::unique_ptr<Function> to_append(new Function());
+		//std::unique_ptr<Function> to_append(new Function(s_name,
+		//	sym_tbl().mk_global_func_syms(s_name)));
+		
+		auto func_node = sym_tbl().mk_global_func_node(s_name);
+		std::unique_ptr<Function> to_append(new Function(s_name,
+			func_node));
 
-		__func_pool.push_back(std::move(to_append));
+		{
+		Symbol func_sym(to_append.get());
+		sym_tbl().insert_or_assign(func_node, std::move(func_sym));
+		}
 
-		return __func_pool.back().get();
-	}
-
-	inline Function* mkfunc(Ident s_name)
-	{
-		std::unique_ptr<Function> to_append(new Function(s_name));
+		sym_tbl().mkscope(func_node);
 
 		__func_pool.push_back(std::move(to_append));
 
@@ -211,14 +224,14 @@ protected:		// functions
 	{
 		return *__curr_func;
 	}
-	inline auto& sym_tbl()
-	{
-		return curr_func().sym_tbl();
-	}
 	//inline auto& sym_tbl()
 	//{
-	//	return __sym_tbl;
+	//	return curr_func().sym_tbl();
 	//}
+	inline SymbolTable& sym_tbl()
+	{
+		return __sym_tbl;
+	}
 
 	//inline IrCode* mk_unlinked_ir_code()
 	//{
@@ -234,7 +247,7 @@ protected:		// functions
 	inline Symbol* find_sym_or_err(Ident ident, 
 		const std::string& error_msg)
 	{
-		auto sym = sym_tbl().find(ident);
+		auto sym = sym_tbl().find(__curr_sym_node, ident);
 
 		if (sym != nullptr)
 		{

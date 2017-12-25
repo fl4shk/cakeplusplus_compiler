@@ -64,9 +64,10 @@ antlrcpp::Any Frontend::visitProgram
 				*ident, "\"!"));
 		}
 
-		__func_tbl.insert_or_assign(mkfunc(ident));
+		__func_tbl.insert_or_assign(mk_global_func(ident));
 
 		__curr_func = __func_tbl.at(ident);
+		__curr_sym_node = __curr_func->scope_node()->children.front();
 
 		auto&& funcArgDecl = func_decl->funcArgDecl();
 
@@ -87,6 +88,7 @@ antlrcpp::Any Frontend::visitProgram
 	{
 		auto ident = temp_ident_map.at(iter);
 		__curr_func = __func_tbl.at(ident);
+		__curr_sym_node = __curr_func->scope_node()->children.front();
 		iter->accept(this);
 
 		////codegen().osprint_func(cout, curr_func());
@@ -256,14 +258,16 @@ antlrcpp::Any Frontend::visitStatements
 {
 	auto&& stmt = ctx->stmt();
 
-	sym_tbl().mkscope();
+	//sym_tbl().mkscope(curr_func().scope_node());
+	sym_tbl().mkscope(__curr_sym_node);
 
 	for (auto iter : stmt)
 	{
 		iter->accept(this);
 	}
 
-	sym_tbl().rmscope();
+	//sym_tbl().rmscope(curr_func().scope_node());
+	sym_tbl().rmscope(__curr_sym_node);
 
 	return nullptr;
 }
@@ -336,17 +340,7 @@ antlrcpp::Any Frontend::visitStmt
 antlrcpp::Any Frontend::visitPutnStatement
 	(GrammarParser::PutnStatementContext *ctx)
 {
-	//ctx->expr()->accept(this);
-	////IrExpr* expr = pop_ir_code();
-	//pop_ir_code();
-
-	//codegen().mk_syscall(IrSyscallShorthandOp::DispNum);
-
-	//codegen().mk_const('\n');
-	//codegen().mk_syscall(IrSyscallShorthandOp::DispChar);
-
 	ctx->expr()->accept(this);
-	//auto expr = pop_ir_expr();
 
 	auto some_disp_num = codegen().mk_code_unfinished_syscall
 		(IrSyscallShorthandOp::DispNum);
@@ -404,12 +398,18 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 	arg_sym.var()->set_name(pop_str());
 
 	{
-	auto existing_sym = sym_tbl().find_in_first_blklev(arg_sym.name());
+	//auto existing_sym = sym_tbl().find_in_first_blklev(arg_sym.name());
+	//auto existing_sym = sym_tbl().find_func_arg(curr_func().name(),
+	//	arg_sym.name());
+	//auto existing_sym = sym_tbl().find_func_arg(__curr_sym_node,
+	//	arg_sym.name());
+	auto existing_sym = sym_tbl().find_func_arg(curr_func().scope_node(),
+		arg_sym.name());
 
 	if (existing_sym != nullptr)
 	{
 		err(sconcat("Function called \"", *curr_func().name(), 
-			"\" cannot have two arguments with same identifiers!",
+			"\" cannot have two arguments with same identifiers!\n",
 			"Note:  offending argument has identifier \"",
 			*arg_sym.name(), "\"."));
 	}
@@ -422,7 +422,8 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 	++curr_func().last_arg_offset();
 	arg_sym.var()->set_arg_offset(curr_func().last_arg_offset());
 
-	sym_tbl().insert_or_assign(std::move(arg_sym));
+	//sym_tbl().insert_or_assign(std::move(arg_sym));
+	sym_tbl().insert_or_assign(__curr_sym_node, std::move(arg_sym));
 
 	return nullptr;
 }
@@ -1235,7 +1236,8 @@ antlrcpp::Any Frontend::visitIdentDecl
 	ctx->identName()->accept(this);
 	sym.var()->set_name(pop_str());
 
-	if (sym_tbl().find_in_this_blklev(sym.var()->name()) != nullptr)
+	if (sym_tbl().find_in_this_blklev(__curr_sym_node, sym.var()->name()) 
+		!= nullptr)
 	{
 		err(sconcat("Symbol with identifier \"", *sym.var()->name(), 
 			"\" already exists in this scope!\n"));
@@ -1255,7 +1257,7 @@ antlrcpp::Any Frontend::visitIdentDecl
 
 	sym.var()->set_is_arg(false);
 
-	sym_tbl().insert_or_assign(std::move(sym));
+	sym_tbl().insert_or_assign(__curr_sym_node, std::move(sym));
 
 
 	return nullptr;
