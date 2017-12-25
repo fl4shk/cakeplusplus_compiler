@@ -140,7 +140,7 @@ identName: TokIdent ;
 numExpr: TokDecNum ;
 lenExpr: 'len' '(' identName ')' ;
 sizeofExpr: 'sizeof' '(' identName ')' ;
-castExpr: TokBuiltinTypename '(' expr ')' ;
+castExpr: builtinTypename '(' expr ')' ;
 subscriptExpr: '[' expr ']' ;
 subscriptConst: '[' numExpr ']' ;
 

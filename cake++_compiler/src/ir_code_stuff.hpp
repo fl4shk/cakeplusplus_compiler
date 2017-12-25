@@ -179,7 +179,7 @@ inline bool mm_is_signed (IrMachineMode some_mm)
 inline bool mm_is_regular(IrMachineMode some_mm)
 {
 	return (mm_is_unsigned(some_mm) || mm_is_signed(some_mm));
-};
+}
 inline IrMachineMode get_unsigned_mm(IrMachineMode some_mm)
 {
 	u32 temp = (u32)some_mm;
@@ -188,7 +188,7 @@ inline IrMachineMode get_unsigned_mm(IrMachineMode some_mm)
 	temp &= ~0x1;
 
 	return (IrMachineMode)temp;
-};
+}
 inline IrMachineMode get_signed_mm(IrMachineMode some_mm)
 {
 	u32 temp = (u32)some_mm;
@@ -197,7 +197,7 @@ inline IrMachineMode get_signed_mm(IrMachineMode some_mm)
 	temp |= 0x1;
 
 	return (IrMachineMode)temp;
-};
+}
 
 class IrExpr;
 
@@ -261,6 +261,7 @@ public:		// functions
 	}
 };
 
+IrMachineMode get_mm_for_binop(IrExpr* a, IrExpr* b);
 
 
 class IrCode

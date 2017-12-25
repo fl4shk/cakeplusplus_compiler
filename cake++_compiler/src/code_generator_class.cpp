@@ -21,6 +21,175 @@ IrExpr* CodeGenerator::mk_expr_constant(IrMachineMode s_mm, s64 s_simm)
 IrExpr* CodeGenerator::mk_expr_binop(IrMachineMode s_mm, 
 	IrBinop s_binop, IrExpr* a, IrExpr* b)
 {
+	{
+	bool a_init = false, b_init = false;
+
+	u64 a_uimm, b_uimm;
+	s64 a_simm, b_simm;
+	if (a->op == IrExOp::Constant)
+	{
+		a_init = true;
+		a_uimm = a->uimm;
+		a_simm = a->simm;
+	}
+	else if ((a->op == IrExOp::Cast)
+		&& (a->args.front()->op == IrExOp::Constant))
+	{
+		a_init = true;
+		switch (a->mm)
+		{
+			case IrMachineMode::U64:
+				a_uimm = (u64)a->args.front()->uimm;
+				a_simm = (u64)a->args.front()->simm;
+				break;
+			case IrMachineMode::S64:
+				a_uimm = (s64)a->args.front()->uimm;
+				a_simm = (s64)a->args.front()->simm;
+				break;
+
+			case IrMachineMode::U32:
+				a_uimm = (u32)a->args.front()->uimm;
+				a_simm = (u32)a->args.front()->simm;
+				break;
+			case IrMachineMode::S32:
+				a_uimm = (s32)a->args.front()->uimm;
+				a_simm = (s32)a->args.front()->simm;
+				break;
+
+			case IrMachineMode::U16:
+				a_uimm = (u16)a->args.front()->uimm;
+				a_simm = (u16)a->args.front()->simm;
+				break;
+			case IrMachineMode::S16:
+				a_uimm = (s16)a->args.front()->uimm;
+				a_simm = (s16)a->args.front()->simm;
+				break;
+
+			case IrMachineMode::U8:
+				a_uimm = (u8)a->args.front()->uimm;
+				a_simm = (u8)a->args.front()->simm;
+				break;
+			case IrMachineMode::S8:
+				a_uimm = (s8)a->args.front()->uimm;
+				a_simm = (s8)a->args.front()->simm;
+				break;
+
+			default:
+				printerr("CodeGenerator::mk_expr_binop():  cast a Eek!\n");
+				exit(1);
+		}
+	}
+
+	if (b->op == IrExOp::Constant)
+	{
+		b_init = true;
+		b_uimm = b->uimm;
+		b_simm = b->simm;
+	}
+	else if ((b->op == IrExOp::Cast)
+		&& (b->args.front()->op == IrExOp::Constant))
+	{
+		b_init = true;
+		switch (b->mm)
+		{
+			case IrMachineMode::U64:
+				b_uimm = (u64)b->args.front()->uimm;
+				b_simm = (u64)b->args.front()->simm;
+				break;
+			case IrMachineMode::S64:
+				b_uimm = (s64)b->args.front()->uimm;
+				b_simm = (s64)b->args.front()->simm;
+				break;
+
+			case IrMachineMode::U32:
+				b_uimm = (u32)b->args.front()->uimm;
+				b_simm = (u32)b->args.front()->simm;
+				break;
+			case IrMachineMode::S32:
+				b_uimm = (s32)b->args.front()->uimm;
+				b_simm = (s32)b->args.front()->simm;
+				break;
+
+			case IrMachineMode::U16:
+				b_uimm = (u16)b->args.front()->uimm;
+				b_simm = (u16)b->args.front()->simm;
+				break;
+			case IrMachineMode::S16:
+				b_uimm = (s16)b->args.front()->uimm;
+				b_simm = (s16)b->args.front()->simm;
+				break;
+
+			case IrMachineMode::U8:
+				b_uimm = (u8)b->args.front()->uimm;
+				b_simm = (u8)b->args.front()->simm;
+				break;
+			case IrMachineMode::S8:
+				b_uimm = (s8)b->args.front()->uimm;
+				b_simm = (s8)b->args.front()->simm;
+				break;
+
+			default:
+				printerr("CodeGenerator::mk_expr_binop():  cast b Eek!\n");
+				exit(1);
+		}
+	}
+
+
+	if (a_init && b_init)
+	{
+		auto ret = mk_ir_expr(IrExOp::Constant, s_mm);
+		switch (s_mm)
+		{
+			case IrMachineMode::U64:
+				ret->uimm = __eval_binop<u64>(s_binop, (u64)a_uimm,
+					(u64)b_uimm);
+				return ret;
+			case IrMachineMode::S64:
+				ret->simm = __eval_binop<s64>(s_binop, (s64)a_simm,
+					(s64)b_simm);
+				return ret;
+
+			case IrMachineMode::U32:
+				ret->uimm = __eval_binop<u32>(s_binop, (u32)a_uimm,
+					(u32)b_uimm);
+				return ret;
+			case IrMachineMode::S32:
+				ret->simm = __eval_binop<s32>(s_binop, (s32)a_simm,
+					(s32)b_simm);
+				return ret;
+
+			case IrMachineMode::U16:
+				ret->uimm = __eval_binop<u16>(s_binop, (u16)a_uimm,
+					(u16)b_uimm);
+				return ret;
+			case IrMachineMode::S16:
+				ret->simm = __eval_binop<s16>(s_binop, (s16)a_simm,
+					(s16)b_simm);
+				return ret;
+
+			case IrMachineMode::U8:
+				ret->uimm = __eval_binop<u8>(s_binop, (u8)a_uimm,
+					(u8)b_uimm);
+				return ret;
+			case IrMachineMode::S8:
+				ret->simm = __eval_binop<s8>(s_binop, (s8)a_simm,
+					(s8)b_simm);
+				return ret;
+
+			case IrMachineMode::Pointer:
+				break;
+
+			case IrMachineMode::Length:
+				break;
+
+			default:
+				printerr("CodeGenerator::mk_expr_binop():  s_mm Eek!\n");
+				exit(1);
+				break;
+		}
+	}
+	}
+
 	auto ret = mk_ir_expr(IrExOp::Binop, s_mm);
 
 	ret->binop = s_binop;
@@ -33,6 +202,113 @@ IrExpr* CodeGenerator::mk_expr_binop(IrMachineMode s_mm,
 IrExpr* CodeGenerator::mk_expr_unop(IrMachineMode s_mm, IrUnop s_unop, 
 	IrExpr* a)
 {
+	{
+	bool a_init = false;
+
+	u64 a_uimm;
+	s64 a_simm;
+	if (a->op == IrExOp::Constant)
+	{
+		a_init = true;
+		a_uimm = a->uimm;
+		a_simm = a->simm;
+	}
+	else if ((a->op == IrExOp::Cast)
+		&& (a->args.front()->op == IrExOp::Constant))
+	{
+		a_init = true;
+		switch (a->mm)
+		{
+			case IrMachineMode::U64:
+				a_uimm = (u64)a->args.front()->uimm;
+				a_simm = (u64)a->args.front()->simm;
+				break;
+			case IrMachineMode::S64:
+				a_uimm = (s64)a->args.front()->uimm;
+				a_simm = (s64)a->args.front()->simm;
+				break;
+
+			case IrMachineMode::U32:
+				a_uimm = (u32)a->args.front()->uimm;
+				a_simm = (u32)a->args.front()->simm;
+				break;
+			case IrMachineMode::S32:
+				a_uimm = (s32)a->args.front()->uimm;
+				a_simm = (s32)a->args.front()->simm;
+				break;
+
+			case IrMachineMode::U16:
+				a_uimm = (u16)a->args.front()->uimm;
+				a_simm = (u16)a->args.front()->simm;
+				break;
+			case IrMachineMode::S16:
+				a_uimm = (s16)a->args.front()->uimm;
+				a_simm = (s16)a->args.front()->simm;
+				break;
+
+			case IrMachineMode::U8:
+				a_uimm = (u8)a->args.front()->uimm;
+				a_simm = (u8)a->args.front()->simm;
+				break;
+			case IrMachineMode::S8:
+				a_uimm = (s8)a->args.front()->uimm;
+				a_simm = (s8)a->args.front()->simm;
+				break;
+
+			default:
+				printerr("CodeGenerator::mk_expr_unop():  cast a Eek!\n");
+				exit(1);
+		}
+	}
+
+	if (a_init)
+	{
+		auto ret = mk_ir_expr(IrExOp::Constant, s_mm);
+		switch (s_mm)
+		{
+			case IrMachineMode::U64:
+				ret->uimm = __eval_unop<u64>(s_unop, (u64)a_uimm);
+				return ret;
+			case IrMachineMode::S64:
+				ret->simm = __eval_unop<s64>(s_unop, (s64)a_simm);
+				return ret;
+
+			case IrMachineMode::U32:
+				ret->uimm = __eval_unop<u32>(s_unop, (u32)a_uimm);
+				return ret;
+			case IrMachineMode::S32:
+				ret->simm = __eval_unop<s32>(s_unop, (s32)a_simm);
+				return ret;
+
+			case IrMachineMode::U16:
+				ret->uimm = __eval_unop<u16>(s_unop, (u16)a_uimm);
+				return ret;
+			case IrMachineMode::S16:
+				ret->simm = __eval_unop<s16>(s_unop, (s16)a_simm);
+				return ret;
+
+			case IrMachineMode::U8:
+				ret->uimm = __eval_unop<u8>(s_unop, (u8)a_uimm);
+				return ret;
+			case IrMachineMode::S8:
+				ret->simm = __eval_unop<s8>(s_unop, (s8)a_simm);
+				return ret;
+
+			case IrMachineMode::Pointer:
+				break;
+
+			case IrMachineMode::Length:
+				break;
+
+			default:
+				printerr("CodeGenerator::mk_expr_binop():  s_mm Eek!\n");
+				exit(1);
+				break;
+		}
+	}
+
+	}
+
 	auto ret = mk_ir_expr(IrExOp::Unop, s_mm);
 
 	ret->unop = s_unop;
@@ -132,7 +408,7 @@ IrExpr* CodeGenerator::mk_expr_cast(IrMachineMode s_mm, IrExpr* expr)
 IrCode* CodeGenerator::mk_code_st(IrMachineMode s_st_mm, IrExpr* where, 
 	IrExpr* what)
 {
-	auto ret = mk_linked_ir_code(IrInOp::St);
+	auto ret = mk_linked_ir_code_for_curr_func(IrInOp::St);
 
 	ret->set_st_mm(s_st_mm);
 	ret->append_arg(where);
@@ -142,7 +418,7 @@ IrCode* CodeGenerator::mk_code_st(IrMachineMode s_st_mm, IrExpr* where,
 }
 IrCode* CodeGenerator::mk_code_return_expr(IrExpr* expr)
 {
-	auto ret = mk_linked_ir_code(IrInOp::ReturnExpr);
+	auto ret = mk_linked_ir_code_for_curr_func(IrInOp::ReturnExpr);
 
 	ret->append_arg(expr);
 
@@ -150,11 +426,11 @@ IrCode* CodeGenerator::mk_code_return_expr(IrExpr* expr)
 }
 IrCode* CodeGenerator::mk_code_return_nothing()
 {
-	return mk_linked_ir_code(IrInOp::ReturnNothing);
+	return mk_linked_ir_code_for_curr_func(IrInOp::ReturnNothing);
 }
 IrCode* CodeGenerator::mk_code_quit(IrExpr* val)
 {
-	auto ret = mk_linked_ir_code(IrInOp::Quit);
+	auto ret = mk_linked_ir_code_for_curr_func(IrInOp::Quit);
 
 	ret->append_arg(val);
 
@@ -162,7 +438,7 @@ IrCode* CodeGenerator::mk_code_quit(IrExpr* val)
 }
 IrCode* CodeGenerator::mk_code_jump(IrExpr* where)
 {
-	auto ret = mk_linked_ir_code(IrInOp::Jump);
+	auto ret = mk_linked_ir_code_for_curr_func(IrInOp::Jump);
 
 	ret->append_arg(where);
 
@@ -170,7 +446,7 @@ IrCode* CodeGenerator::mk_code_jump(IrExpr* where)
 }
 //IrCode* CodeGenerator::mk_code_unfinished_call(IrExpr* where)
 //{
-//	auto ret = mk_linked_ir_code(IrInOp::Call);
+//	auto ret = mk_linked_ir_code_for_curr_func(IrInOp::Call);
 //
 //	ret->append_arg(where);
 //
@@ -178,7 +454,7 @@ IrCode* CodeGenerator::mk_code_jump(IrExpr* where)
 //}
 IrCode* CodeGenerator::mk_code_call(IrExpr* call_expr)
 {
-	auto ret = mk_linked_ir_code(IrInOp::Call);
+	auto ret = mk_linked_ir_code_for_curr_func(IrInOp::Call);
 
 	ret->append_arg(call_expr);
 
@@ -187,7 +463,7 @@ IrCode* CodeGenerator::mk_code_call(IrExpr* call_expr)
 IrCode* CodeGenerator::mk_code_unfinished_syscall
 	(IrSyscallShorthandOp s_syscall_shorthand_op)
 {
-	auto ret = mk_linked_ir_code(IrInOp::Syscall);
+	auto ret = mk_linked_ir_code_for_curr_func(IrInOp::Syscall);
 	ret->set_syscall_shorthand_op(s_syscall_shorthand_op);
 	return ret;
 }
@@ -195,12 +471,13 @@ IrCode* CodeGenerator::mk_code_unlinked_label()
 {
 	auto ret = mk_unlinked_ir_code(IrInOp::Label);
 
-	auto& curr_func = __frontend->curr_func();
+	//auto& curr_func = __frontend->curr_func();
 
-	++curr_func.last_label_num();
-	curr_func.num_to_label_map()[curr_func.last_label_num()] = ret;
+	++get_curr_func().last_label_num();
+	get_curr_func().num_to_label_map()[get_curr_func().last_label_num()] 
+		= ret;
 	
-	ret->set_lab_num(curr_func.last_label_num());
+	ret->set_lab_num(get_curr_func().last_label_num());
 
 	//return __frontend->relink_ir_code(ret);
 	return ret;
@@ -294,9 +571,13 @@ void CodeGenerator::output_func_ir_code_as_json(Json::Value& output_root,
 	}
 }
 
-IrCode* CodeGenerator::mk_linked_ir_code(IrInOp s_iop)
+Function& CodeGenerator::get_curr_func()
 {
-	return ::mk_linked_ir_code(__frontend->curr_func(), s_iop);
+	return __frontend->curr_func();
+}
+IrCode* CodeGenerator::mk_linked_ir_code_for_curr_func(IrInOp s_iop)
+{
+	return ::mk_linked_ir_code(get_curr_func(), s_iop);
 }
 
 void CodeGenerator::output_ir_expr_as_json(Json::Value& node, 

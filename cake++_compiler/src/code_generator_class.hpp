@@ -65,15 +65,129 @@ public:		// functions
 	IrCode* mk_code_unlinked_label();
 	IrCode* mk_code_linked_label();
 
-	
+	//void optimize_basic_blocks(Function& curr_func);
 
 	//std::ostream& osprint_func_ir_code(std::ostream& os,
 	//	Function& curr_func);
 	void output_func_ir_code_as_json(Json::Value& output_root,
 		Function& curr_func);
 
+
 protected:		// functions
-	IrCode* mk_linked_ir_code(IrInOp s_iop);
+	template<typename Type>
+	Type __eval_binop(IrBinop s_binop, Type a, Type b)
+	{
+		Type ret;
+		switch (s_binop)
+		{
+			case IrBinop::Add:
+				ret = a + b;
+				break;
+			case IrBinop::Sub:
+				ret = a - b;
+				break;
+			case IrBinop::Mul:
+				ret = a * b;
+				break;
+			case IrBinop::Div:
+				ret = a / b;
+				break;
+			case IrBinop::Mod:
+				ret = a % b;
+				break;
+
+			// Logical And, Logical Or
+			case IrBinop::LogAnd:
+				ret = a && b;
+				break;
+			case IrBinop::LogOr:
+				ret = a || b;
+				break;
+
+			// Bitwise Functions
+			case IrBinop::BitAnd:
+				ret = a & b;
+				break;
+			case IrBinop::BitOr:
+				ret = a | b;
+				break;
+			case IrBinop::BitXor:
+				ret = a ^ b;
+				break;
+
+			// Shifts
+			case IrBinop::BitShiftLeft:
+				ret = a << b;
+				break;
+			case IrBinop::BitShiftRight:
+				ret = a >> b;
+				break;
+
+			//// Rotates (not sure these will ever be generated)
+			//BitRotateLeft,
+			//BitRotateRight,
+
+			// Compares
+			case IrBinop::CmpEq:
+				ret = a == b;
+				break;
+			case IrBinop::CmpNe:
+				ret = a != b;
+				break;
+			case IrBinop::CmpLt:
+				ret = a < b;
+				break;
+			case IrBinop::CmpGt:
+				ret = a > b;
+				break;
+			case IrBinop::CmpLe:
+				ret = a <= b;
+				break;
+			case IrBinop::CmpGe:
+				ret = a >= b;
+				break;
+			default:
+				printerr("CodeGenerator::__eval_binop():  Eek!\n");
+				exit(1);
+				break;
+		}
+
+		return ret;
+	}
+
+	template<typename Type>
+	Type __eval_unop(IrUnop s_unop, Type a)
+	{
+		Type ret;
+
+		switch (s_unop)
+		{
+			// ~
+			case IrUnop::BitNot:
+				ret = ~a;
+				break;
+
+			// -
+			case IrUnop::Negate:
+				ret = -a;
+				break;
+
+			// !
+			case IrUnop::LogNot:
+				ret = !a;
+				break;
+
+			default:
+				printerr("CodeGenerator::__eval_unop():  Eek!\n");
+				exit(1);
+				break;
+		}
+
+		return ret;
+	}
+
+	Function& get_curr_func();
+	IrCode* mk_linked_ir_code_for_curr_func(IrInOp s_iop);
 
 	//std::ostream& osprint_ir_expr(std::ostream& os, IrExpr* p);
 	void output_ir_expr_as_json(Json::Value& node, IrExpr* p);

@@ -230,9 +230,9 @@ s64 Function::offset_of_vm_code(VmCode* v) const
 
 void Function::gen_vm_code()
 {
-	
 	// Allocate local variables
 
+	//mk_linked_vm_code
 
 
 	//auto&& tree = gen_ir_tree();

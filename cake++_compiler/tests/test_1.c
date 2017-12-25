@@ -1,8 +1,13 @@
 u32 main()
 {
-	u64 temp[3];
+	s64 temp[3];
 
 	clear_arr(temp);
+
+	{
+	u64 a;
+	a = ~((u64(5)) + (u64(9)));
+	}
 
 
 	{

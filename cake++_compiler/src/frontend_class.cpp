@@ -107,11 +107,11 @@ antlrcpp::Any Frontend::visitProgram
 	write_json(cout, &func_ir_code_json_output_root);
 	}
 
-	// Saving this for later
 	//for (auto* iter : funcDecl)
 	//{
 	//	auto ident = temp_ident_map.at(iter);
 	//	__curr_func = __func_tbl.at(ident);
+	//	curr_func().gen_vm_code();
 
 	//	//curr_func().adjust_vm_code();
 
@@ -1332,7 +1332,7 @@ antlrcpp::Any Frontend::visitSizeofExpr
 antlrcpp::Any Frontend::visitCastExpr
 	(GrammarParser::CastExprContext *ctx)
 {
-	ctx->TokBuiltinTypename()->accept(this);
+	ctx->builtinTypename()->accept(this);
 
 	ctx->expr()->accept(this);
 
@@ -1359,112 +1359,4 @@ antlrcpp::Any Frontend::visitSubscriptConst
 {
 	ctx->numExpr()->accept(this);
 	return nullptr;
-}
-IrMachineMode Frontend::get_mm_for_binop(IrExpr* a, IrExpr* b)
-{
-	if (a->mm == b->mm)
-	{
-		return a->mm;
-	}
-
-	//if (((u32)a->mm) < ((u32)b->mm))
-	//{
-	//	return 
-	//}
-
-
-
-
-
-	const auto a_mm_unsigned = get_unsigned_mm(a->mm);
-	const auto b_mm_unsigned = get_unsigned_mm(b->mm);
-	const auto a_mm_signed = get_signed_mm(a->mm);
-	const auto b_mm_signed = get_signed_mm(b->mm);
-
-	const u32 a_mm_unsigned_u32 = static_cast<u32>(a_mm_unsigned);
-	const u32 b_mm_unsigned_u32 = static_cast<u32>(b_mm_unsigned);
-	const u32 a_mm_signed_u32 = static_cast<u32>(a_mm_signed);
-	const u32 b_mm_signed_u32 = static_cast<u32>(b_mm_signed);
-
-	if ((a->mm == IrMachineMode::Pointer)
-		|| (a->mm == IrMachineMode::Length))
-	{
-		if ((b->mm == IrMachineMode::Pointer)
-			|| (b->mm == IrMachineMode::Length))
-		{
-			return a->mm;
-		}
-		else
-		{
-			return b->mm;
-		}
-	}
-	else if ((b->mm == IrMachineMode::Pointer)
-		|| (b->mm == IrMachineMode::Length))
-	{
-		if ((a->mm == IrMachineMode::Pointer)
-			|| (a->mm == IrMachineMode::Length))
-		{
-			return b->mm;
-		}
-		else
-		{
-			return a->mm;
-		}
-	}
-
-	else if ((!mm_is_regular(a->mm)) || (!mm_is_regular(b->mm)))
-	{
-		err("get_mm_for_binop():  Eek!");
-	}
-
-	if (mm_is_unsigned(a->mm) && mm_is_unsigned(b->mm))
-	{
-		if (a_mm_unsigned_u32 <= b_mm_unsigned_u32)
-		{
-			return a->mm;
-		}
-		else
-		{
-			return b->mm;
-		}
-	}
-	else if (mm_is_unsigned(a->mm) && mm_is_signed(b->mm))
-	{
-		// Promote to signed
-		if (a_mm_unsigned_u32 <= b_mm_unsigned_u32)
-		{
-			return a_mm_signed;
-		}
-		else
-		{
-			return b_mm_signed;
-		}
-	}
-	else if (mm_is_signed(a->mm) && mm_is_unsigned(b->mm))
-	{
-		// Promote to signed
-		if (a_mm_unsigned_u32 <= b_mm_unsigned_u32)
-		{
-			return a_mm_signed;
-		}
-		else
-		{
-			return b_mm_signed;
-		}
-	}
-	else // if (mm_is_signed(a->mm) && mm_is_signed(b->mm))
-	{
-		if (a_mm_signed_u32 <= b_mm_signed_u32)
-		{
-			return a->mm;
-		}
-		else
-		{
-			return b->mm;
-		}
-	}
-
-
-	err("get_mm_for_binop():  Eek (2)!");
 }
