@@ -218,7 +218,7 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 		}
 		else if (sym->type() == SymType::ArrayVarName)
 		{
-			if (arg_sym->type() != sym->type())
+			if (arg_sym->var()->type() != sym->var()->type())
 			{
 				err(sconcat("Function called \"", *func->name(),
 					"\" expects an array of type ",

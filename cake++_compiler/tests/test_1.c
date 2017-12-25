@@ -1,6 +1,6 @@
 u32 main()
 {
-	s64 temp[3];
+	u64 temp[3];
 
 	clear_arr(temp);
 
