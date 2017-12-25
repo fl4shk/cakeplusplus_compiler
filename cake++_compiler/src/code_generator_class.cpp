@@ -48,14 +48,14 @@ IrExpr* CodeGenerator::mk_expr_ref_sym(Symbol* s_sym)
 
 	return ret;
 }
-IrExpr* CodeGenerator::mk_expr_ref_func(Function* s_func)
-{
-	auto ret = mk_ir_expr(IrExOp::RefFunc, IrMachineMode::Pointer);
-
-	ret->func = s_func;
-
-	return ret;
-}
+//IrExpr* CodeGenerator::mk_expr_ref_func(Function* s_func)
+//{
+//	auto ret = mk_ir_expr(IrExOp::RefFunc, IrMachineMode::Pointer);
+//
+//	ret->func = s_func;
+//
+//	return ret;
+//}
 IrExpr* CodeGenerator::mk_expr_ref_lab(s64 s_lab_num)
 {
 	auto ret = mk_ir_expr(IrExOp::RefLab, IrMachineMode::Pointer);
@@ -444,13 +444,13 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node,
 			node["_name"] = *p->sym->var()->name();
 			break;
 
-		// Function reference
-		case IrExOp::RefFunc:
-			///osprintout(os, "ref_func", temp,
-			///	strappcom2(p->mm, *p->func->name()));
-			node["__op"] = "ref_func";
-			node["_name"] = *p->func->name();
-			break;
+		//// Function reference
+		//case IrExOp::RefFunc:
+		//	///osprintout(os, "ref_func", temp,
+		//	///	strappcom2(p->mm, *p->func->name()));
+		//	node["__op"] = "ref_func";
+		//	node["_name"] = *p->func->name();
+		//	break;
 
 		// Label reference
 		case IrExOp::RefLab:

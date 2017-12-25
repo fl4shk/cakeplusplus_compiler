@@ -241,6 +241,17 @@ public:		// functions
 	//	return ret;
 	//}
 
+
+	// The symbol of this function
+	inline Symbol* sym() const
+	{
+		return __scope_node->table.at(name());
+	}
+	inline auto get_start_sym_node() const
+	{
+		return __scope_node->children.front();
+	}
+
 	//s64 irntoi(IrCode* t) const;
 	s64 offset_of_vm_code(VmCode* v) const;
 

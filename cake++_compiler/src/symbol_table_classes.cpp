@@ -174,18 +174,20 @@ std::vector<Symbol*> Function::get_args() const
 
 		arg_pos_to_sym_map[sym->var()->arg_offset()] = sym;
 
-		// Find the highest argument offset
-		if (num_args < sym->var()->arg_offset())
-		{
-			num_args = sym->var()->arg_offset();
-		}
+		//// Find the highest argument offset
+		//if (num_args < sym->var()->arg_offset())
+		//{
+		//	num_args = sym->var()->arg_offset();
+		//}
+		++num_args;
 	}
 
 	}
+
+	//++num_args;
 
 	// Increment because no argument symbol keeps track of how many
 	// arguments this function accepts
-	++num_args;
 
 	for (size_t i=0; i<num_args; ++i)
 	{

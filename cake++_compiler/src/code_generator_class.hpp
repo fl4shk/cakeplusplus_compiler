@@ -26,7 +26,7 @@ public:		// functions
 	//IrExpr* mk_expr_binop(IrBinop s_binop, IrExpr* a, IrExpr* b);
 	IrExpr* mk_expr_unop(IrMachineMode s_mm, IrUnop s_unop, IrExpr* a);
 	IrExpr* mk_expr_ref_sym(Symbol* s_sym);
-	IrExpr* mk_expr_ref_func(Function* s_func);
+	//IrExpr* mk_expr_ref_func(Function* s_func);
 	IrExpr* mk_expr_ref_lab(s64 s_lab_num);
 	IrExpr* mk_expr_len(IrMachineMode s_mm, IrExpr* what);
 	IrExpr* mk_expr_sizeof(IrMachineMode s_mm, IrExpr* what);

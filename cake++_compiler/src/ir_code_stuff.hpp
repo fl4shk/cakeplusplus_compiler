@@ -21,8 +21,8 @@ enum class IrExOp
 	// Symbol reference
 	RefSym,
 
-	// Function reference
-	RefFunc,
+	//// Function reference
+	//RefFunc,
 
 	// Label reference
 	RefLab,
