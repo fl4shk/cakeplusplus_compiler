@@ -17,7 +17,7 @@ main()
 	}
 }
 
-func(s64 ret)
+func(s64 ret[])
 {
 }
 
