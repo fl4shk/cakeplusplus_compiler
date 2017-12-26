@@ -28,6 +28,31 @@ public:		// functions
 	{
 		children.push_back(to_append);
 	}
+
+	std::vector<std::map<Ident, Type*>*> get_all_children_tables() const
+		__attribute__((noinline))
+	{
+		std::vector<std::map<Ident, Type*>*> ret;
+
+		__inner_func_get_all_children_tables(ret);
+
+		return ret;
+	}
+
+protected:		// functions
+	void __inner_func_get_all_children_tables
+		(std::vector<std::map<Ident, Type*>*>& ret) const
+		__attribute__((noinline))
+	{
+		// Find all the tables
+		for (auto iter : children)
+		{
+			ret.push_back(&(iter->table.table()));
+			iter->__inner_func_get_all_children_tables(ret);
+		}
+	}
+	
+
 };
 
 // This is kind of like a stack

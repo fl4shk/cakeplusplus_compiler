@@ -119,6 +119,9 @@ private:		// variables
 	// Which argument
 	size_t __arg_offset = 0;
 
+	// Which local variable
+	size_t __local_var_offset = 0;
+
 	// If this is an argument to the function (used to determine which VM
 	// instructions to use (arg, argx, var, varx, etc.))
 	bool __is_arg = false;
@@ -131,7 +134,7 @@ private:		// variables
 	// start of the array or class.
 	// 
 	// However, argument arrays and classes are passed by reference.
-	s64 __offset = 0;
+	s64 __mem_offset = 0;
 
 
 	// Dimensions
@@ -183,8 +186,9 @@ public:		// functions
 	gen_getter_and_setter_by_val(name);
 	gen_getter_and_setter_by_val(type);
 	gen_getter_and_setter_by_val(arg_offset);
+	gen_getter_and_setter_by_val(local_var_offset);
 	gen_getter_and_setter_by_val(is_arg);
-	gen_getter_and_setter_by_val(offset);
+	gen_getter_and_setter_by_val(mem_offset);
 	gen_getter_and_setter_by_val(dim);
 	gen_getter_and_setter_by_val(non_size_used_space);
 	gen_getter_and_setter_by_val(func);
@@ -225,6 +229,9 @@ private:		// variables
 	// Argument ordering stuff (used by Frontend::visitFuncArgDecl())
 	size_t __last_arg_offset = -1;
 
+	// Local variable ordering stuff
+	size_t __last_local_var_offset = -1;
+
 	BuiltinTypename __ret_type = BuiltinTypename::S64;
 
 
@@ -254,9 +261,6 @@ public:		// functions
 	//inline Function& operator = (Function&& to_move) = default;
 
 	std::vector<Symbol*> get_args() const;
-	//std::vector<Symbol*> get_args(SymbolTable& some_sym_tbl) const;
-
-	//Symbol* get_one_arg(size_t some_arg_offset) const;
 
 
 
@@ -269,26 +273,21 @@ public:		// functions
 	{
 		return __scope_node->children.front();
 	}
+	//
+	std::vector<Symbol*> get_local_vars() const;
 
 	//s64 irntoi(IrCode* t) const;
 
 	//s64 offset_of_vm_code(VmCode* v) const;
 
-	//void gen_vm_code(FunctionTable& some_func_tbl);
-	////void adjust_vm_code();
-	//std::ostream& osprint_vm_code(std::ostream& os);
-
 
 	gen_getter_and_setter_by_val(name);
-	//gen_getter_by_ref(sym_tbl);
-	//gen_getter_by_ref(syms);
 	gen_getter_by_ref(scope_node);
-	//gen_getter_by_ref(vm_code);
-	//gen_getter_by_ref(ir_code);
 	gen_getter_by_ref(ir_code);
 	gen_getter_by_ref(last_label_num);
 	gen_getter_by_ref(num_to_label_map);
 	gen_getter_by_ref(last_arg_offset);
+	gen_getter_by_ref(last_local_var_offset);
 	gen_getter_and_setter_by_val(ret_type);
 
 private:		// functions

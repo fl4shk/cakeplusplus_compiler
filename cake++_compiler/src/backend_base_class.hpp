@@ -25,7 +25,7 @@ public:		// functions
 
 protected:		// functions
 	virtual void __gen_startup_code() = 0;
-	virtual void __gen_one_code() = 0;
+	virtual void __gen_one_func_code() = 0;
 
 };
 

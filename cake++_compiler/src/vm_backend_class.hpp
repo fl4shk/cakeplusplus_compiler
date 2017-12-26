@@ -35,7 +35,8 @@ private:		// functions
 		return mk_linked_vm_code(*__curr_vm_code, s_raw_op);
 	}
 	void __gen_startup_code();
-	void __gen_one_code();
+	void __gen_one_func_code();
+	void __gen_from_ir_expr(IrExpr* expr);
 	std::ostream& __osprint_one_code(std::ostream& os, 
 		VmCode& some_vm_code);
 

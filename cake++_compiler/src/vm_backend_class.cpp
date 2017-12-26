@@ -44,7 +44,7 @@ std::ostream& VmBackend::osprint_code(std::ostream& os)
 
 void VmBackend::__gen_startup_code()
 {
-	//auto func_main = __func_tbl->at("main");
+	// This function is where global variables should be allocated.
 	__curr_vm_code = &__startup_vm_code;
 
 
@@ -52,12 +52,38 @@ void VmBackend::__gen_startup_code()
 	mk_const_u8(0);
 
 	mk_const_func(cstm_strdup("main"));
-	mk_jump();
+	mk_call();
+
+	// Use "main"'s return value as the exit code
+	mk_quit();
 }
-void VmBackend::__gen_one_code()
+void VmBackend::__gen_one_func_code()
 {
-	auto&& args = __curr_func->get_args();
 	__curr_vm_code = __func_to_code_map.at(__curr_func);
+
+
+	auto&& args = __curr_func->get_args();
+	auto&& local_vars = __curr_func->get_local_vars();
+
+	//std::map<>;
+
+	// Every argument is 64-bit.
+	// 
+	// The only arguments passed by value are
+	// those that are scalars of builtin types, and said arguments get
+	// casted to 64-bit integers.
+	// 
+	// All other arguments are passed by reference, and thus a 64-bit
+	// pointer is used.
+	const s64 arg_space = args.size() * sizeof(u64);
+
+	const s64 ret_val_argx_offset = (-(arg_space - 8));
+
+	printout("VmBackend::__gen_one_func_code():  ",
+		"arg_space, ret_val_argx_offset:  ",
+		strappcom2(arg_space, ret_val_argx_offset), "\n");
+
+
 
 	//s64 arg_space;
 
@@ -66,8 +92,7 @@ void VmBackend::__gen_one_code()
 	//s64 var_space;
 
 
-	//// Allocate local variables
-	//mk_linked_vm_code(VmRawInstrOp);
+	// Allocate local variables
 
 
 
@@ -78,6 +103,7 @@ void VmBackend::__gen_one_code()
 	// Deallocate local variables
 
 	// return
+	mk_ret();
 }
 
 std::ostream& VmBackend::__osprint_one_code(std::ostream& os, 

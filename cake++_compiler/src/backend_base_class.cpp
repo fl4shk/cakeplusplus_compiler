@@ -12,12 +12,13 @@ BackendBase::~BackendBase()
 
 void BackendBase::gen_code()
 {
+	// This is simple enough
 	__gen_startup_code();
 
 
 	for (auto iter : __func_vec)
 	{
 		__curr_func = iter;
-		__gen_one_code();
+		__gen_one_func_code();
 	}
 }

@@ -78,6 +78,7 @@ public:		// functions
 	}
 
 	gen_getter_by_con_ref(table);
+	gen_getter_by_ref(table);
 };
 
 

@@ -1309,6 +1309,9 @@ antlrcpp::Any Frontend::visitIdentDecl
 
 	sym.var()->set_is_arg(false);
 
+	// Which local variable is this? 
+	++curr_func().last_local_var_offset();
+	sym.var()->set_local_var_offset(curr_func().last_local_var_offset());
 	sym_tbl().insert_or_assign(__curr_sym_node, std::move(sym));
 
 

@@ -34,6 +34,10 @@ u32 clear_arr(s64 ret[])
 	}
 }
 
+u32 aaaa(s64 z, u32 b)
+{
+}
+
 //add(s64 ret[], s64 a, s64 b)
 //{
 //	ret[0] = a + b;

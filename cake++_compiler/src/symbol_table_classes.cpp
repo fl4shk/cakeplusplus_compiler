@@ -233,6 +233,58 @@ std::vector<Symbol*> Function::get_args() const
 
 
 
+std::vector<Symbol*> Function::get_local_vars() const
+{
+	std::vector<Symbol*> ret;
+
+	std::map<size_t, Symbol*> local_var_pos_to_sym_map;
+
+	size_t num_local_vars = 0;
+
+
+	// Grab all the local variable tables.
+	auto&& local_var_tables = get_args_scope_node()
+		->get_all_children_tables();
+
+
+	//size_t num_args = 0;
+
+	//{
+	////const auto& table = __sym_tbl.tree().children.front()->table.table();
+	////const auto& table = __syms->table;
+	////const auto& table = __scope_node->children.front()->table.table();
+	//const auto& table = get_args_scope_node()->table.table();
+	//
+	//for (const auto& iter : table)
+	//{
+	//	auto sym = iter.second;
+
+	//	if (arg_pos_to_sym_map.count(sym->var()->arg_offset()) != 0)
+	//	{
+	//		printerr("Function::get_args():  Eek!\n");
+	//		exit(1);
+	//	}
+
+	//	arg_pos_to_sym_map[sym->var()->arg_offset()] = sym;
+
+	//	//// Find the highest argument offset
+	//	//if (num_args < sym->var()->arg_offset())
+	//	//{
+	//	//	num_args = sym->var()->arg_offset();
+	//	//}
+	//	++num_args;
+	//}
+
+	//}
+
+	for (size_t i=0; i<num_local_vars; ++i)
+	{
+		ret.push_back(local_var_pos_to_sym_map.at(i));
+	}
+
+	return ret;
+}
+
 
 FunctionTable::FunctionTable()
 {
