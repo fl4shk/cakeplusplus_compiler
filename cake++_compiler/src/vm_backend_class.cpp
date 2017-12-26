@@ -39,12 +39,17 @@ std::ostream& VmBackend::osprint_code(std::ostream& os)
 	return os;
 }
 
+
+
 void VmBackend::__gen_startup_code()
 {
+	//auto func_main = __func_tbl->at("main");
+	__curr_vm_code = &__startup_vm_code;
 }
 void VmBackend::__gen_one_code()
 {
 	auto&& args = __curr_func->get_args();
+	__curr_vm_code = __func_to_code_map.at(__curr_func);
 
 	//s64 arg_space;
 
@@ -66,6 +71,7 @@ void VmBackend::__gen_one_code()
 
 	// return
 }
+
 std::ostream& VmBackend::__osprint_one_code(std::ostream& os, 
 	VmCode& some_vm_code)
 {
