@@ -16,7 +16,6 @@ u32 main()
 	while (i < len(temp))
 	{
 		putn(temp[i]);
-		//putn(func(temp));
 		i = i + 1;
 	}
 }
@@ -24,7 +23,6 @@ u32 main()
 u32 clear_arr(s64 ret[])
 {
 	u64 i;
-
 	i = 0;
 
 	while (i < len(ret))
@@ -50,8 +48,6 @@ u32 func(s64 ret[])
 	i = 0;
 
 	{
-	s64 i;
-
 	s64 one;
 	one = 1;
 
@@ -67,4 +63,17 @@ u32 func(s64 ret[])
 		}
 	}
 	}
+
+	s64 temp;
+
+	i = 0;
+
+	while (i < len(ret))
+	{
+		temp = ret[i];
+		putn(temp);
+		i = i + 1;
+	}
+
+	return u32(temp);
 }
