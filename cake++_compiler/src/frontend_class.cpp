@@ -456,6 +456,8 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 	}
 	}
 
+
+
 	// This is an argument
 	arg_sym.var()->set_is_arg(true);
 
@@ -1293,9 +1295,6 @@ antlrcpp::Any Frontend::visitIdentDecl
 	{
 		sym.set_type(SymType::ScalarVarName);
 		sym.var()->set_dim(1);
-		//sym.var()->set_non_size_used_space();
-		//sym.var()->set_non_size_used_space(get_builtin_typename_size
-		//	(sym.var()->type()));
 	}
 	else // if (ctx->subscriptConst())
 	{
@@ -1307,6 +1306,7 @@ antlrcpp::Any Frontend::visitIdentDecl
 	sym.var()->set_non_size_used_space(calc_var_non_size_used_space
 		(get_builtin_typename_size(sym.var()->type()), sym.var()->dim()));
 
+	// This is not an argument.
 	sym.var()->set_is_arg(false);
 
 	// Which local variable is this? 

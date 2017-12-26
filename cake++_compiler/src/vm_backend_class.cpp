@@ -68,6 +68,12 @@ void VmBackend::__gen_one_func_code()
 	auto&& args = __curr_func->get_args();
 	auto&& local_vars = __curr_func->get_local_vars();
 
+	for (s64 i=0; i<(s64)args.size(); ++i)
+	{
+		// Simple formula based upon how things are passed:  everything is
+		// a 64-bit integer of some sort.
+		args.at(i)->var()->set_mem_offset(-(i * sizeof(u64)));
+	}
 
 	// Every argument is 64-bit.
 	// 
@@ -81,9 +87,43 @@ void VmBackend::__gen_one_func_code()
 
 	const s64 ret_val_argx_offset = (-(arg_space - 8));
 
+	s64 var_space = 0;
+	//for (s64 i=0; i<(s64)local_vars.size(); ++i)
+	for (auto iter : local_vars)
+	{
+		iter->var()->set_mem_offset(var_space);
+
+		printout("VmBackend::__gen_one_func_code():  ",
+			"Local variable called \"", *iter->name(), "\" has ",
+			"mem_offset ", iter->var()->mem_offset(), ".\n");
+
+		if (iter->type() == SymType::ScalarVarName)
+		{
+			// No extra space allocated
+		}
+		else if (iter->type() == SymType::ArrayVarName)
+		{
+			// Allocate space to store number of array elements.
+			// This is stored as a uint64_t.
+			var_space += sizeof(u64);
+		}
+		else
+		{
+			printerr("VmBackend::__gen_one_func_code():  ",
+				"local var type Eek!\n");
+			exit(1);
+		}
+
+		// Allocate space for the data.
+		var_space += iter->var()->non_size_used_space();
+	}
+
+
+
 	printout("VmBackend::__gen_one_func_code():  ",
-		"arg_space, ret_val_argx_offset:  ",
-		strappcom2(arg_space, ret_val_argx_offset), "\n");
+		"arg_space, ret_val_argx_offset, var_space:  ",
+		strappcom2(arg_space, ret_val_argx_offset, var_space), "\n");
+	
 
 
 	// Allocate local variables
