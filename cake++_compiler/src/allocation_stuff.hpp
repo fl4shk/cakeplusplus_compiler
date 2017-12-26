@@ -21,7 +21,7 @@ class AllocStuff
 
 	friend Var* mk_var();
 	friend Var* mk_var(Ident s_name, BuiltinTypename s_type, 
-		size_t s_size);
+		size_t s_size, Function* s_func);
 
 	//friend VmCode* append_vm_code(Function& func);
 	//friend AstNode* mk_ast_node();
@@ -53,7 +53,8 @@ int* cstm_intdup(int to_dup);
 std::string* cstm_strdup(const std::string& to_dup);
 
 Var* mk_var();
-Var* mk_var(Ident s_name, BuiltinTypename s_type, size_t s_size);
+Var* mk_var(Ident s_name, BuiltinTypename s_type, size_t s_size, 
+	Function* s_func);
 
 //VmCode* append_vm_code(VmCode& some_head);
 VmCode* mk_linked_vm_code(VmCode& some_head);

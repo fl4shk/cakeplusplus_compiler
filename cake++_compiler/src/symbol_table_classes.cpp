@@ -228,12 +228,12 @@ s64 Function::offset_of_vm_code(VmCode* v) const
 	return -1;
 }
 
-void Function::gen_vm_code()
+void Function::gen_vm_code(FunctionTable& some_func_tbl)
 {
+	s64 arg_space;
+
 	// Allocate local variables
-
-	//mk_linked_vm_code
-
+	s64 local_var_space = 0;
 
 	//auto&& tree = gen_ir_tree();
 
@@ -524,4 +524,17 @@ FunctionTable::FunctionTable()
 
 FunctionTable::~FunctionTable()
 {
+}
+
+std::string FunctionTable::get_label_name(s64 some_lab_num) const
+{
+	std::string ret = sconcat(some_lab_num);
+
+	// Don't have any labels with the same identifier as any functions
+	do
+	{
+		ret = sconcat("_", ret);
+	} while (contains(cstm_strdup(ret)));
+
+	return ret;
 }

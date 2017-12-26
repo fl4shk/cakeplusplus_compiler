@@ -101,7 +101,8 @@ private:		// variables
 	// Which argument
 	size_t __arg_offset = 0;
 
-	// If this is an argument to the function
+	// If this is an argument to the function (used to determine which VM
+	// instructions to use (arg, argx, var, varx, etc.))
 	bool __is_arg = false;
 
 
@@ -119,12 +120,20 @@ private:		// variables
 	size_t __size = 1;
 
 
+	// This variable is a global variable if __func == nullptr
+	Function* __func = nullptr;
+
+	// Dead code elimination stuff
+	bool __dead = false;
+
+
 public:		// functions
 	inline Var()
 	{
 	}
-	inline Var(Ident s_name, BuiltinTypename s_type, size_t s_size)
-		: __name(s_name), __type(s_type), __size(s_size)
+	inline Var(Ident s_name, BuiltinTypename s_type, size_t s_size,
+		Function* s_func)
+		: __name(s_name), __type(s_type), __size(s_size), __func(s_func)
 	{
 	}
 	inline Var(const Var& to_copy) = default;
@@ -149,13 +158,14 @@ public:		// functions
 	//}
 	//IrLdStSize get_ldst_size() const;
 
-	gen_getter_and_setter_by_con_ref(name);
-	gen_setter_by_rval_ref(name);
+	gen_getter_and_setter_by_val(name);
 	gen_getter_and_setter_by_val(type);
 	gen_getter_and_setter_by_val(arg_offset);
 	gen_getter_and_setter_by_val(is_arg);
 	gen_getter_and_setter_by_val(offset);
 	gen_getter_and_setter_by_val(size);
+	gen_getter_and_setter_by_val(func);
+	gen_getter_and_setter_by_val(dead);
 };
 
 class FunctionTable;
@@ -247,7 +257,7 @@ public:		// functions
 	{
 		return __scope_node->table.at(name());
 	}
-	inline auto get_start_sym_node() const
+	inline auto get_args_scope_node() const
 	{
 		return __scope_node->children.front();
 	}
@@ -255,9 +265,10 @@ public:		// functions
 	//s64 irntoi(IrCode* t) const;
 	s64 offset_of_vm_code(VmCode* v) const;
 
-	void gen_vm_code();
+	void gen_vm_code(FunctionTable& some_func_tbl);
 	//void adjust_vm_code();
 	std::ostream& osprint_vm_code(std::ostream& os);
+
 
 	gen_getter_and_setter_by_val(name);
 	//gen_getter_by_ref(sym_tbl);
@@ -293,6 +304,12 @@ class FunctionTable : public IdentToPointerTable<Function>
 public:		// functions
 	FunctionTable();
 	virtual ~FunctionTable();
+
+	inline std::string get_label_name(IrCode* some_label) const
+	{
+		return get_label_name(some_label->lab_num());
+	}
+	std::string get_label_name(s64 some_lab_num) const;
 };
 
 

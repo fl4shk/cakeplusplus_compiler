@@ -51,12 +51,13 @@ Var* mk_var()
 	pool.push_back(std::move(p));
 	return pool.back().get();
 }
-Var* mk_var(Ident s_name, BuiltinTypename s_type, size_t s_size)
+Var* mk_var(Ident s_name, BuiltinTypename s_type, size_t s_size, 
+	Function* s_func)
 {
 	auto& pool = AllocStuff::__var_pool;
 
 	std::unique_ptr<Var> p;
-	p.reset(new Var(s_name, s_type, s_size));
+	p.reset(new Var(s_name, s_type, s_size, s_func));
 
 	pool.push_back(std::move(p));
 	return pool.back().get();

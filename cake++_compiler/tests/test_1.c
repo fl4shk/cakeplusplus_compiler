@@ -4,23 +4,20 @@ u32 main()
 
 	clear_arr(temp);
 
-	{
-	u64 a;
-	a = ~((u64(5)) + (u64(9)));
-	}
+	//{
+	//u64 a;
+	//a = ~((5) + (9));
+	//}
 
 
-	{
 	u64 i;
 	i = 0;
 
-	//while (i < 3)
 	while (i < len(temp))
 	{
 		putn(temp[i]);
 		//putn(func(temp));
 		i = i + 1;
-	}
 	}
 }
 

@@ -192,11 +192,6 @@ protected:		// functions
 	//std::ostream& osprint_ir_expr(std::ostream& os, IrExpr* p);
 	void output_ir_expr_as_json(Json::Value& node, IrExpr* p);
 
-	inline std::string get_label_name(IrCode* some_label) const
-	{
-		return get_label_name(some_label->lab_num());
-	}
-	std::string get_label_name(s64 some_lab_num) const;
 
 
 };

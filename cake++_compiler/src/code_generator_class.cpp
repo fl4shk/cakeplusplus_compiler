@@ -22,6 +22,7 @@ IrExpr* CodeGenerator::mk_expr_binop(IrMachineMode s_mm,
 	IrBinop s_binop, IrExpr* a, IrExpr* b)
 {
 	{
+	// Constant folding
 	bool a_init = false, b_init = false;
 
 	u64 a_uimm, b_uimm;
@@ -35,6 +36,7 @@ IrExpr* CodeGenerator::mk_expr_binop(IrMachineMode s_mm,
 	else if ((a->op == IrExOp::Cast)
 		&& (a->args.front()->op == IrExOp::Constant))
 	{
+		// Casting makes things a little tricky, but it's not so bad
 		a_init = true;
 		switch (a->mm)
 		{
@@ -177,9 +179,11 @@ IrExpr* CodeGenerator::mk_expr_binop(IrMachineMode s_mm,
 				return ret;
 
 			case IrMachineMode::Pointer:
+				// No constant folding for pointers
 				break;
 
 			case IrMachineMode::Length:
+				// No constant folding for lengths
 				break;
 
 			default:
@@ -203,6 +207,7 @@ IrExpr* CodeGenerator::mk_expr_unop(IrMachineMode s_mm, IrUnop s_unop,
 	IrExpr* a)
 {
 	{
+	// Constant folding
 	bool a_init = false;
 
 	u64 a_uimm;
@@ -301,7 +306,7 @@ IrExpr* CodeGenerator::mk_expr_unop(IrMachineMode s_mm, IrUnop s_unop,
 				break;
 
 			default:
-				printerr("CodeGenerator::mk_expr_binop():  s_mm Eek!\n");
+				printerr("CodeGenerator::mk_expr_unop():  s_mm Eek!\n");
 				exit(1);
 				break;
 		}
@@ -552,7 +557,7 @@ void CodeGenerator::output_func_ir_code_as_json(Json::Value& output_root,
 			case IrInOp::Label:
 				//osprintout(os, get_label_name(p), ":  ");
 				node["__iop"] = "label";
-				node["_name"] = get_label_name(p);
+				node["_name"] = __frontend->__func_tbl.get_label_name(p);
 				break;
 		}
 
@@ -738,7 +743,8 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node,
 			//osprintout(os, "ref_lab", temp,
 			//	strappcom2(p->mm, get_label_name(p->lab_num)));
 			node["__op"] = "ref_lab";
-			node["_name"] = get_label_name(p->lab_num);
+			node["_name"] = __frontend->__func_tbl.get_label_name
+				(p->lab_num);
 			break;
 
 		// Length of symbol
@@ -810,18 +816,4 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node,
 
 
 	//osprintout(os, ")\n");
-}
-
-
-std::string CodeGenerator::get_label_name(s64 some_lab_num) const
-{
-	std::string ret = sconcat(some_lab_num);
-
-	// Don't have any labels with the same identifier as any functions
-	do
-	{
-		ret = sconcat("_", ret);
-	} while (__frontend->__func_tbl.contains(cstm_strdup(ret)));
-
-	return ret;
 }

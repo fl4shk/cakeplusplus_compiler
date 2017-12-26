@@ -71,7 +71,7 @@ antlrcpp::Any Frontend::visitProgram
 
 		__curr_func = __func_tbl.at(ident);
 		//__curr_sym_node = __curr_func->scope_node()->children.front();
-		__curr_sym_node = curr_func().get_start_sym_node();
+		__curr_sym_node = curr_func().get_args_scope_node();
 
 		auto&& funcArgDecl = func_decl->funcArgDecl();
 
@@ -85,38 +85,38 @@ antlrcpp::Any Frontend::visitProgram
 	// Now visit the statements
 
 	{
-	Json::Value func_ir_code_json_output_root;
+	//Json::Value func_ir_code_json_output_root;
 
-	Json::ArrayIndex index_i = 0;
+	//Json::ArrayIndex index_i = 0;
 	for (auto* iter : funcDecl)
 	{
 		auto ident = temp_ident_map.at(iter);
 		__curr_func = __func_tbl.at(ident);
 		//__curr_sym_node = __curr_func->scope_node()->children.front();
-		__curr_sym_node = curr_func().get_start_sym_node();
+		__curr_sym_node = curr_func().get_args_scope_node();
 		iter->accept(this);
 
-		auto& temp_json_output_root 
-			= func_ir_code_json_output_root[index_i];
-		codegen().output_func_ir_code_as_json
-			(temp_json_output_root, curr_func());
+		//auto& temp_json_output_root 
+		//	= func_ir_code_json_output_root[index_i];
+		//codegen().output_func_ir_code_as_json
+		//	(temp_json_output_root, curr_func());
 
-		++index_i;
+		//++index_i;
 	}
 
-	write_json(cout, &func_ir_code_json_output_root);
+	//write_json(cout, &func_ir_code_json_output_root);
 	}
 
-	//for (auto* iter : funcDecl)
-	//{
-	//	auto ident = temp_ident_map.at(iter);
-	//	__curr_func = __func_tbl.at(ident);
-	//	curr_func().gen_vm_code();
+	for (auto* iter : funcDecl)
+	{
+		auto ident = temp_ident_map.at(iter);
+		__curr_func = __func_tbl.at(ident);
+		curr_func().gen_vm_code(__func_tbl);
 
-	//	//curr_func().adjust_vm_code();
+		//curr_func().adjust_vm_code();
 
-	//	curr_func().osprint_vm_code(cout);
-	//}
+		curr_func().osprint_vm_code(cout);
+	}
 
 	return nullptr;
 }
@@ -382,6 +382,7 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 	arg_sym.set_var(mk_var());
 	ctx->builtinTypename()->accept(this);
 	arg_sym.var()->set_type(pop_builtin_typename());
+	arg_sym.var()->set_func(__curr_func);
 
 	if (ctx->identName())
 	{
@@ -727,7 +728,11 @@ antlrcpp::Any Frontend::visitReturnExprStatement
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
-	err("visitReturnExprStatement() is not fully implemented!");
+	//err("visitReturnExprStatement() is not fully implemented!");
+
+	ctx->expr()->accept(this);
+	codegen().mk_code_return_expr(pop_ir_expr());
+
 	return nullptr;
 }
 antlrcpp::Any Frontend::visitReturnNothingStatement
@@ -1235,6 +1240,7 @@ antlrcpp::Any Frontend::visitIdentDecl
 	Symbol sym;
 	sym.set_var(mk_var());
 	sym.var()->set_type(pop_builtin_typename());
+	sym.var()->set_func(__curr_func);
 
 	ctx->identName()->accept(this);
 	sym.var()->set_name(pop_str());
