@@ -7,18 +7,11 @@ VmBackend::VmBackend(std::vector<Function*>&& s_func_vec,
 	__startup_vm_code.next = &__startup_vm_code;
 	__startup_vm_code.prev = &__startup_vm_code;
 
-	//for (size_t i=0; i<__func_vec.size(); ++i)
 	for (auto iter : __func_vec)
 	{
-		//__vm_code_pool.push_back(new VmCode());
-		//__vm_code_pool.back()->next = __vm_code_pool.back();
-		//__vm_code_pool.back()->prev = __vm_code_pool.back();
-		//__func_to_code_map.at(iter) = __vm_code_pool.back();
-
 		auto vm_code = mk_unlinked_vm_code();
 		vm_code->next = vm_code;
 		vm_code->prev = vm_code;
-		//__func_to_code_map.at(iter) = vm_code;
 		__func_to_code_map[iter] = vm_code;
 	}
 }
@@ -34,10 +27,6 @@ VmBackend::~VmBackend()
 std::ostream& VmBackend::osprint_code(std::ostream& os)
 {
 	__osprint_one_code(os, __startup_vm_code);
-
-	//for (auto iter : __func_to_code_map)
-	//{
-	//}
 
 	for (auto iter : __func_vec)
 	{

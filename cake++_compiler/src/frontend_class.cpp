@@ -107,9 +107,9 @@ antlrcpp::Any Frontend::visitProgram
 	//write_json(cout, &func_ir_code_json_output_root);
 	}
 
-	{
 	std::vector<Function*> func_vec;
 
+	{
 	bool found_main = false;
 	for (auto* iter : funcDecl)
 	{
@@ -142,9 +142,9 @@ antlrcpp::Any Frontend::visitProgram
 		printerr("Error:  No function with identifier \"main\" found!\n");
 		exit(1);
 	}
+	}
 
 	__vm_backend.reset(new VmBackend(std::move(func_vec), &__func_tbl));
-	}
 	__vm_backend->gen_code();
 	//__vm_backend->osprint_code(cout);
 
@@ -1285,14 +1285,20 @@ antlrcpp::Any Frontend::visitIdentDecl
 	if (!ctx->subscriptConst())
 	{
 		sym.set_type(SymType::ScalarVarName);
-		sym.var()->set_size(1);
+		sym.var()->set_dim(1);
+		//sym.var()->set_non_size_used_space();
+		//sym.var()->set_non_size_used_space(get_builtin_typename_size
+		//	(sym.var()->type()));
 	}
 	else // if (ctx->subscriptConst())
 	{
 		sym.set_type(SymType::ArrayVarName);
 		ctx->subscriptConst()->accept(this);
-		sym.var()->set_size(pop_num());
+		sym.var()->set_dim(pop_num());
 	}
+
+	sym.var()->set_non_size_used_space(calc_var_non_size_used_space
+		(get_builtin_typename_size(sym.var()->type()), sym.var()->dim()));
 
 	sym.var()->set_is_arg(false);
 

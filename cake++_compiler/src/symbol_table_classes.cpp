@@ -1,6 +1,27 @@
 #include "symbol_table_classes.hpp"
 #include "allocation_stuff.hpp"
 
+s64 get_builtin_typename_size(BuiltinTypename some_builtin_typename)
+{
+	//switch (type())
+	switch (some_builtin_typename)
+	{
+		case BuiltinTypename::U64:
+		case BuiltinTypename::S64:
+			return sizeof(u64);
+		case BuiltinTypename::U32:
+		case BuiltinTypename::S32:
+			return sizeof(u32);
+		case BuiltinTypename::U16:
+		case BuiltinTypename::S16:
+			return sizeof(u16);
+		case BuiltinTypename::U8:
+		case BuiltinTypename::S8:
+			return sizeof(u8);
+		default:
+			return -1;
+	}
+}
 
 std::ostream& operator << (std::ostream& os, 
 	BuiltinTypename some_builtin_typename)
@@ -52,26 +73,6 @@ bool Var::is_sgn_builtin() const
 		|| (__type == BuiltinTypename::S16)
 		|| (__type == BuiltinTypename::S32)
 		|| (__type == BuiltinTypename::S64));
-}
-s64 Var::builtin_type_size() const
-{
-	switch (type())
-	{
-		case BuiltinTypename::U64:
-		case BuiltinTypename::S64:
-			return sizeof(u64);
-		case BuiltinTypename::U32:
-		case BuiltinTypename::S32:
-			return sizeof(u32);
-		case BuiltinTypename::U16:
-		case BuiltinTypename::S16:
-			return sizeof(u16);
-		case BuiltinTypename::U8:
-		case BuiltinTypename::S8:
-			return sizeof(u8);
-		default:
-			return -1;
-	}
 }
 //IrLdStSize Symbol::get_ldst_size() const
 //{

@@ -90,11 +90,15 @@ public:		// functions
 	}
 	virtual ~Frontend();
 
+
 	/**
 	* Visit parse trees produced by GrammarParser.
 	*/
 	antlrcpp::Any visitProgram
 		(GrammarParser::ProgramContext *ctx);
+
+
+protected:		// visitor functions
 
 	antlrcpp::Any visitFuncDecl
 		(GrammarParser::FuncDeclContext *ctx);
@@ -182,8 +186,19 @@ public:		// functions
 	antlrcpp::Any visitSubscriptConst
 		(GrammarParser::SubscriptConstContext *ctx);
 
-protected:		// functions
+protected:		// non-visitor functions
 	gen_getter_by_ref(codegen);
+
+	inline size_t calc_var_non_size_used_space(s64 type_size, size_t dim) 
+	{
+		if (type_size <= 0)
+		{
+			err("Frontend::calc_var_non_size_used_space():  Eek!");
+		}
+
+		const size_t ret = (static_cast<size_t>(type_size) * dim);
+		return ret;
+	}
 
 
 	inline void err(const std::string& msg)
