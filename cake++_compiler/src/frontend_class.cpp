@@ -109,14 +109,38 @@ antlrcpp::Any Frontend::visitProgram
 
 	{
 	std::vector<Function*> func_vec;
+
+	bool found_main = false;
 	for (auto* iter : funcDecl)
 	{
 		auto ident = temp_ident_map.at(iter);
+
+		if (*ident == "main")
+		{
+			found_main = true;
+
+			auto temp = __func_tbl.at(ident);
+
+			auto&& temp_args = temp->get_args();
+
+			if (temp_args.size() != 0)
+			{
+				printerr("Error:  The \"main\" function is not allowed ",
+					"to take any arguments!\n");
+				exit(1);
+			}
+		}
 		//__curr_func = __func_tbl.at(ident);
 		//curr_func().gen_vm_code(__func_tbl);
 
 		////curr_func().osprint_vm_code(cout);
 		func_vec.push_back(__func_tbl.at(ident));
+	}
+
+	if (!found_main)
+	{
+		printerr("Error:  No function with identifier \"main\" found!\n");
+		exit(1);
 	}
 
 	__vm_backend.reset(new VmBackend(std::move(func_vec), &__func_tbl));

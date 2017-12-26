@@ -15,7 +15,6 @@ public:		// functions
 	VmBackend(std::vector<Function*>&& s_func_vec, 
 		FunctionTable* s_func_tbl);
 	virtual ~VmBackend();
-	//void gen_code();
 	std::ostream& osprint_code(std::ostream& os);
 	
 private:		// functions

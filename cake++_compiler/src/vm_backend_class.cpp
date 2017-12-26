@@ -18,7 +18,8 @@ VmBackend::VmBackend(std::vector<Function*>&& s_func_vec,
 		auto vm_code = mk_unlinked_vm_code();
 		vm_code->next = vm_code;
 		vm_code->prev = vm_code;
-		__func_to_code_map.at(iter) = vm_code;
+		//__func_to_code_map.at(iter) = vm_code;
+		__func_to_code_map[iter] = vm_code;
 	}
 }
 
