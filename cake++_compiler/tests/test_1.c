@@ -64,7 +64,7 @@ u32 func(s64 ret[])
 	}
 	}
 
-	s64 temp;
+	u32 temp;
 
 	i = 0;
 

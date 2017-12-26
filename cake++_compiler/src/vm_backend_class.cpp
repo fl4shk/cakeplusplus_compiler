@@ -59,8 +59,10 @@ void VmBackend::__gen_startup_code()
 }
 void VmBackend::__gen_one_func_code()
 {
-	printout("VmBackend::__gen_one_func_code():  Generating VM code for ",
-		"function with identifier \"", *__curr_func->name(), "\".\n");
+	//printout("VmBackend::__gen_one_func_code():  Generating VM code for ",
+	//	"function with identifier \"", *__curr_func->name(), "\".\n");
+	printout("VmBackend::__gen_one_func_code():  \"", 
+		*__curr_func->name(), "\"\n");
 
 	__curr_vm_code = __func_to_code_map.at(__curr_func);
 
@@ -93,13 +95,14 @@ void VmBackend::__gen_one_func_code()
 	{
 		iter->var()->set_mem_offset(var_space);
 
-		printout("VmBackend::__gen_one_func_code():  ",
-			"Local variable called \"", *iter->name(), "\" has ",
-			"mem_offset ", iter->var()->mem_offset(), ".\n");
+		//printout("VmBackend::__gen_one_func_code():  ",
+		//	"Local variable called \"", *iter->name(), "\" has ",
+		//	"mem_offset ", iter->var()->mem_offset(), ".\n");
 
 		if (iter->type() == SymType::ScalarVarName)
 		{
-			// No extra space allocated
+			// No extra space allocated besides that which comes directly
+			// from the size of the variable itself.
 		}
 		else if (iter->type() == SymType::ArrayVarName)
 		{
@@ -120,21 +123,81 @@ void VmBackend::__gen_one_func_code()
 
 
 
-	printout("VmBackend::__gen_one_func_code():  ",
-		"arg_space, ret_val_argx_offset, var_space:  ",
-		strappcom2(arg_space, ret_val_argx_offset, var_space), "\n");
+	//printout("VmBackend::__gen_one_func_code():  ",
+	//	"arg_space, ret_val_argx_offset, var_space:  ",
+	//	strappcom2(arg_space, ret_val_argx_offset, var_space), "\n");
 	
 
 
-	// Allocate local variables
+
+	if (var_space != 0)
+	{
+		// Allocate local variables
+		mk_const(var_space);
+		mk_add_to_sp();
+	}
+
+
+
+	// Iterate directly through the IrCode of this function
+	for (auto p=__curr_func->ir_code().next;
+		p!=&__curr_func->ir_code();
+		p=p->next)
+	{
+		switch (p->iop())
+		{
+			// Store
+			case IrInOp::St:
+				handle_ir_code_st(p);
+				break;
+
+			// Return from subroutine
+			case IrInOp::ReturnExpr:
+				handle_ir_code_return_expr(p);
+				break;
+			case IrInOp::ReturnNothing:
+				handle_ir_code_return_nothing(p);
+				break;
+
+			// Stop the program
+			case IrInOp::Quit:
+				handle_ir_code_quit(p);
+				break;
+
+
+			case IrInOp::Jump:
+				handle_ir_code_jump(p);
+				break;
+
+			// Call form of code, ignoring return value
+			case IrInOp::Call:
+				handle_ir_code_call(p);
+				break;
+
+			case IrInOp::Syscall:
+				handle_ir_code_syscall(p);
+				break;
+			case IrInOp::Label:
+				handle_ir_code_label(p);
+				break;
+
+			default:
+				printerr("VmBackend::__gen_one_func_code():  "
+					"IrInOp Eek!\n");
+				exit(1);
+				break;
+		}
+	}
 
 
 
 
-
-
-
-	// Deallocate local variables
+	if (var_space != 0)
+	{
+		// Deallocate local variables
+		mk_const(-var_space);
+		mk_add_to_sp();
+	}
 
 	// return
 	mk_ret();
@@ -503,4 +566,141 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 
 	//return osprintout(os, "\n");
 	return os;
+}
+
+
+VmCode* VmBackend::handle_ir_pure_expr(IrExpr* p)
+{
+	switch (p->op)
+	{
+		case IrExOp::Constant:
+			return __handle_ir_pure_expr_constant(p);
+
+		// Binary operator
+		case IrExOp::Binop:
+			return __handle_ir_pure_expr_binop(p);
+
+		// Unary operator
+		case IrExOp::Unop:
+			return __handle_ir_pure_expr_unop(p);
+
+		// Symbol reference
+		case IrExOp::RefSym:
+			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
+				"IrExOp::RefSym is not pure!\n");
+			exit(1);
+			return nullptr;
+
+		//// Function reference
+		//RefFunc,
+
+		// Label reference
+		case IrExOp::RefLab:
+			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
+				"IrExOp::RefLab is not pure!\n");
+			exit(1);
+			return nullptr;
+
+		// Length of symbol
+		case IrExOp::Len:
+			return __handle_ir_pure_expr_len(p);
+
+		// Size of symbol
+		case IrExOp::Sizeof:
+			return __handle_ir_pure_expr_sizeof(p);
+
+
+		// Call with a return value
+		case IrExOp::CallWithRet:
+			return __handle_ir_pure_expr_call_with_ret(p);
+
+
+		// Memory address (example of use:  grabs address from symbol,
+		// function, or label)
+		case IrExOp::Address:
+			return __handle_ir_pure_expr_address(p);
+
+		// Load
+		case IrExOp::Ld:
+			return __handle_ir_pure_expr_ld(p);
+
+		// Sometimes used for the "Else" portion of IfThenElse
+		case IrExOp::GetNextPc:
+			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
+				"IrExOp::GetNextPc is not pure!\n");
+			exit(1);
+			return nullptr;
+
+
+		// Control flow
+		case IrExOp::IfThenElse:
+			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
+				"IrExOp::IfThenElse is not pure!\n");
+			exit(1);
+			return nullptr;
+
+		// Type Casting
+		case IrExOp::Cast:
+			return __handle_ir_pure_expr_cast(p);
+	}
+
+	printerr("VmBackend::handle_ir_pure_expr():  Eek!\n");
+	exit(1);
+	return nullptr;
+}
+
+VmCode* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
+{
+}
+
+VmCode* VmBackend::handle_ir_code_st(IrCode* p)
+{
+	switch (p->st_mm())
+	{
+	}
+}
+VmCode* VmBackend::handle_ir_code_return_expr(IrCode* p)
+{
+}
+VmCode* VmBackend::handle_ir_code_return_nothing(IrCode* p)
+{
+}
+VmCode* VmBackend::handle_ir_code_quit(IrCode* p)
+{
+}
+VmCode* VmBackend::handle_ir_code_jump(IrCode* p)
+{
+}
+VmCode* VmBackend::handle_ir_code_call(IrCode* p)
+{
+}
+VmCode* VmBackend::handle_ir_code_syscall(IrCode* p)
+{
+}
+VmCode* VmBackend::handle_ir_code_label(IrCode* p)
+{
 }
