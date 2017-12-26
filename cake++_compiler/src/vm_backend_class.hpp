@@ -41,33 +41,64 @@ private:		// functions
 
 private:		// code generation functions
 	VmCode* mk_const(u64 s_imm_s64);
-	VmCode* mk_const(Function* func_to_get_name_of);
-	VmCode* mk_const(Ident s_lab_ident);
+	VmCode* mk_const_func(Function* func_to_get_name_of);
+	inline VmCode* mk_const_func(Ident s_func_ident)
+	{
+		return mk_const_func(__func_tbl->at(s_func_ident));
+	}
+	VmCode* mk_const_lab(Ident s_lab_ident);
 
 	VmCode* mk_const_u32(u32 s_imm_u32);
-	VmCode* mk_const_u32(Function* func_to_get_name_of);
-	VmCode* mk_const_u32(Ident s_lab_ident);
+	VmCode* mk_const_u32_func(Function* func_to_get_name_of);
+	inline VmCode* mk_const_u32_func(Ident s_func_ident)
+	{
+		return mk_const_u32_func(__func_tbl->at(s_func_ident));
+	}
+	VmCode* mk_const_u32_lab(Ident s_lab_ident);
 
 	VmCode* mk_const_s32(s32 s_imm_s32);
-	VmCode* mk_const_s32(Function* func_to_get_name_of);
-	VmCode* mk_const_s32(Ident s_lab_ident);
+	VmCode* mk_const_s32_func(Function* func_to_get_name_of);
+	inline VmCode* mk_const_s32_func(Ident s_func_ident)
+	{
+		return mk_const_s32_func(__func_tbl->at(s_func_ident));
+	}
+	VmCode* mk_const_s32_lab(Ident s_lab_ident);
 
 	VmCode* mk_const_u16(u16 s_imm_u16);
-	VmCode* mk_const_u16(Function* func_to_get_name_of);
-	VmCode* mk_const_u16(Ident s_lab_ident);
+	VmCode* mk_const_u16_func(Function* func_to_get_name_of);
+	inline VmCode* mk_const_u16_func(Ident s_func_ident)
+	{
+		return mk_const_u16_func(__func_tbl->at(s_func_ident));
+	}
+	VmCode* mk_const_u16_lab(Ident s_lab_ident);
 
 	VmCode* mk_const_s16(s16 s_imm_s16);
-	VmCode* mk_const_s16(Function* func_to_get_name_of);
-	VmCode* mk_const_s16(Ident s_lab_ident);
+	VmCode* mk_const_s16_func(Function* func_to_get_name_of);
+	inline VmCode* mk_const_s16_func(Ident s_func_ident)
+	{
+		return mk_const_s16_func(__func_tbl->at(s_func_ident));
+	}
+	VmCode* mk_const_s16_lab(Ident s_lab_ident);
 
 	VmCode* mk_const_u8(u8 s_imm_u8);
-	VmCode* mk_const_u8(Function* func_to_get_name_of);
-	VmCode* mk_const_u8(Ident s_lab_ident);
+	VmCode* mk_const_u8_func(Function* func_to_get_name_of);
+	inline VmCode* mk_const_u8_func(Ident s_func_ident)
+	{
+		return mk_const_u8_func(__func_tbl->at(s_func_ident));
+	}
+	VmCode* mk_const_u8_lab(Ident s_lab_ident);
 
 	VmCode* mk_const_s8(s8 s_imm_s8);
-	VmCode* mk_const_s8(Function* func_to_get_name_of);
-	VmCode* mk_const_s8(Ident s_lab_ident);
+	VmCode* mk_const_s8_func(Function* func_to_get_name_of);
+	inline VmCode* mk_const_s8_func(Ident s_func_ident)
+	{
+		return mk_const_s8_func(__func_tbl->at(s_func_ident));
+	}
+	VmCode* mk_const_s8_lab(Ident s_lab_ident);
 
+	// These have different names from usual so as to help guard against
+	// typos that would have lead to "arg" being used when "argx" was
+	// intended.  Similar reasoning applies to "var" and "varx".
 	VmCode* mk_arg_addr();
 	VmCode* mk_indexed_arg_addr();
 	VmCode* mk_var_addr();

@@ -9,6 +9,7 @@ VmBackend::VmBackend(std::vector<Function*>&& s_func_vec,
 
 	for (auto iter : __func_vec)
 	{
+		//printout("VmBackend::VmBackend():  ", *iter->name(), "\n");
 		auto vm_code = mk_unlinked_vm_code();
 		vm_code->next = vm_code;
 		vm_code->prev = vm_code;
@@ -30,7 +31,7 @@ std::ostream& VmBackend::osprint_code(std::ostream& os)
 
 	for (auto iter : __func_vec)
 	{
-		osprintout(os, *__curr_func->name(), ":\n");
+		osprintout(os, *iter->name(), ":\n");
 		osprintout(os, "{\n");
 		__osprint_one_code(os, *__func_to_code_map.at(iter));
 		osprintout(os, "}\n");
@@ -45,6 +46,13 @@ void VmBackend::__gen_startup_code()
 {
 	//auto func_main = __func_tbl->at("main");
 	__curr_vm_code = &__startup_vm_code;
+
+
+	// Allocate space for return value of "main"
+	mk_const_u8(0);
+
+	mk_const_func(cstm_strdup("main"));
+	mk_jump();
 }
 void VmBackend::__gen_one_code()
 {

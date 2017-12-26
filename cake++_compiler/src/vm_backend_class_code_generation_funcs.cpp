@@ -6,13 +6,13 @@ VmCode* VmBackend::mk_const(u64 s_imm_s64)
 	ret->imm_s64 = s_imm_s64;
 	return ret;
 }
-VmCode* VmBackend::mk_const(Function* func_to_get_name_of)
+VmCode* VmBackend::mk_const_func(Function* func_to_get_name_of)
 {
 	auto ret = append_code(VmRawInstrOp::constant_64);
 	ret->func_ident = func_to_get_name_of->name();
 	return ret;
 }
-VmCode* VmBackend::mk_const(Ident s_lab_ident)
+VmCode* VmBackend::mk_const_lab(Ident s_lab_ident)
 {
 	auto ret = append_code(VmRawInstrOp::constant_64);
 	ret->lab_ident = s_lab_ident;
@@ -25,13 +25,13 @@ VmCode* VmBackend::mk_const_u32(u32 s_imm_u32)
 	ret->imm_u32 = s_imm_u32;
 	return ret;
 }
-VmCode* VmBackend::mk_const_u32(Function* func_to_get_name_of)
+VmCode* VmBackend::mk_const_u32_func(Function* func_to_get_name_of)
 {
 	auto ret = append_code(VmRawInstrOp::constant_u32);
 	ret->func_ident = func_to_get_name_of->name();
 	return ret;
 }
-VmCode* VmBackend::mk_const_u32(Ident s_lab_ident)
+VmCode* VmBackend::mk_const_u32_lab(Ident s_lab_ident)
 {
 	auto ret = append_code(VmRawInstrOp::constant_u32);
 	ret->lab_ident = s_lab_ident;
@@ -44,13 +44,13 @@ VmCode* VmBackend::mk_const_s32(s32 s_imm_s32)
 	ret->imm_s32 = s_imm_s32;
 	return ret;
 }
-VmCode* VmBackend::mk_const_s32(Function* func_to_get_name_of)
+VmCode* VmBackend::mk_const_s32_func(Function* func_to_get_name_of)
 {
 	auto ret = append_code(VmRawInstrOp::constant_s32);
 	ret->func_ident = func_to_get_name_of->name();
 	return ret;
 }
-VmCode* VmBackend::mk_const_s32(Ident s_lab_ident)
+VmCode* VmBackend::mk_const_s32_lab(Ident s_lab_ident)
 {
 	auto ret = append_code(VmRawInstrOp::constant_s32);
 	ret->lab_ident = s_lab_ident;
@@ -63,13 +63,13 @@ VmCode* VmBackend::mk_const_u16(u16 s_imm_u16)
 	ret->imm_u16 = s_imm_u16;
 	return ret;
 }
-VmCode* VmBackend::mk_const_u16(Function* func_to_get_name_of)
+VmCode* VmBackend::mk_const_u16_func(Function* func_to_get_name_of)
 {
 	auto ret = append_code(VmRawInstrOp::constant_u16);
 	ret->func_ident = func_to_get_name_of->name();
 	return ret;
 }
-VmCode* VmBackend::mk_const_u16(Ident s_lab_ident)
+VmCode* VmBackend::mk_const_u16_lab(Ident s_lab_ident)
 {
 	auto ret = append_code(VmRawInstrOp::constant_u16);
 	ret->lab_ident = s_lab_ident;
@@ -82,13 +82,13 @@ VmCode* VmBackend::mk_const_s16(s16 s_imm_s16)
 	ret->imm_s16 = s_imm_s16;
 	return ret;
 }
-VmCode* VmBackend::mk_const_s16(Function* func_to_get_name_of)
+VmCode* VmBackend::mk_const_s16_func(Function* func_to_get_name_of)
 {
 	auto ret = append_code(VmRawInstrOp::constant_s16);
 	ret->func_ident = func_to_get_name_of->name();
 	return ret;
 }
-VmCode* VmBackend::mk_const_s16(Ident s_lab_ident)
+VmCode* VmBackend::mk_const_s16_lab(Ident s_lab_ident)
 {
 	auto ret = append_code(VmRawInstrOp::constant_s16);
 	ret->lab_ident = s_lab_ident;
@@ -101,13 +101,13 @@ VmCode* VmBackend::mk_const_u8(u8 s_imm_u8)
 	ret->imm_u8 = s_imm_u8;
 	return ret;
 }
-VmCode* VmBackend::mk_const_u8(Function* func_to_get_name_of)
+VmCode* VmBackend::mk_const_u8_func(Function* func_to_get_name_of)
 {
 	auto ret = append_code(VmRawInstrOp::constant_u8);
 	ret->func_ident = func_to_get_name_of->name();
 	return ret;
 }
-VmCode* VmBackend::mk_const_u8(Ident s_lab_ident)
+VmCode* VmBackend::mk_const_u8_lab(Ident s_lab_ident)
 {
 	auto ret = append_code(VmRawInstrOp::constant_u8);
 	ret->lab_ident = s_lab_ident;
@@ -120,13 +120,13 @@ VmCode* VmBackend::mk_const_s8(s8 s_imm_s8)
 	ret->imm_s8 = s_imm_s8;
 	return ret;
 }
-VmCode* VmBackend::mk_const_s8(Function* func_to_get_name_of)
+VmCode* VmBackend::mk_const_s8_func(Function* func_to_get_name_of)
 {
 	auto ret = append_code(VmRawInstrOp::constant_s8);
 	ret->func_ident = func_to_get_name_of->name();
 	return ret;
 }
-VmCode* VmBackend::mk_const_s8(Ident s_lab_ident)
+VmCode* VmBackend::mk_const_s8_lab(Ident s_lab_ident)
 {
 	auto ret = append_code(VmRawInstrOp::constant_s8);
 	ret->lab_ident = s_lab_ident;

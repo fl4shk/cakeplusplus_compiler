@@ -114,12 +114,14 @@ antlrcpp::Any Frontend::visitProgram
 	for (auto* iter : funcDecl)
 	{
 		auto ident = temp_ident_map.at(iter);
+		//printout("iteration:  ", *ident, "\n");
 
 		if (*ident == "main")
 		{
 			found_main = true;
 
 			auto temp = __func_tbl.at(ident);
+			//printout("temp:  ", *temp->name(), "\n");
 
 			auto&& temp_args = temp->get_args();
 
@@ -137,6 +139,11 @@ antlrcpp::Any Frontend::visitProgram
 		func_vec.push_back(__func_tbl.at(ident));
 	}
 
+	//for (auto iter : func_vec)
+	//{
+	//	printout("func_vec:  ", *iter->name(), "\n");
+	//}
+
 	if (!found_main)
 	{
 		printerr("Error:  No function with identifier \"main\" found!\n");
@@ -146,7 +153,7 @@ antlrcpp::Any Frontend::visitProgram
 
 	__vm_backend.reset(new VmBackend(std::move(func_vec), &__func_tbl));
 	__vm_backend->gen_code();
-	//__vm_backend->osprint_code(cout);
+	__vm_backend->osprint_code(cout);
 
 	return nullptr;
 }
