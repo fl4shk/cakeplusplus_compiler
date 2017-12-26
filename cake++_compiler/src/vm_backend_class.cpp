@@ -59,13 +59,15 @@ void VmBackend::__gen_startup_code()
 }
 void VmBackend::__gen_one_func_code()
 {
+	printout("VmBackend::__gen_one_func_code():  Generating VM code for ",
+		"function with identifier \"", *__curr_func->name(), "\".\n");
+
 	__curr_vm_code = __func_to_code_map.at(__curr_func);
 
 
 	auto&& args = __curr_func->get_args();
 	auto&& local_vars = __curr_func->get_local_vars();
 
-	//std::map<>;
 
 	// Every argument is 64-bit.
 	// 
@@ -84,14 +86,6 @@ void VmBackend::__gen_one_func_code()
 		strappcom2(arg_space, ret_val_argx_offset), "\n");
 
 
-
-	//s64 arg_space;
-
-
-	//s64 ret_val_argx_offset;
-	//s64 var_space;
-
-
 	// Allocate local variables
 
 
@@ -104,6 +98,8 @@ void VmBackend::__gen_one_func_code()
 
 	// return
 	mk_ret();
+
+	printout("\n");
 }
 
 std::ostream& VmBackend::__osprint_one_code(std::ostream& os, 

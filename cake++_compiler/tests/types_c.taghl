@@ -1,2 +1,2 @@
-syn keyword CTagsFunction clear_arr f main
+syn keyword CTagsFunction add f clear_arr func main
 

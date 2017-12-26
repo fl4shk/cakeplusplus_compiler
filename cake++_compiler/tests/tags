@@ -5,7 +5,9 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/249c3c0/
+add	test_1.c	/^u32 add(s64 ret[], s64 a, s64 b)$/;"	kind:f	typeref:typename:u32	signature:(s64 ret[],s64 a,s64 b)
 clear_arr	test_1.c	/^u32 clear_arr(s64 ret[])$/;"	kind:f	typeref:typename:u32	signature:(s64 ret[])
 f	test_2.c	/^f()$/;"	kind:f	signature:()
 f	test_3.c	/^f()$/;"	kind:f	signature:()
+func	test_1.c	/^u32 func(s64 ret[])$/;"	kind:f	typeref:typename:u32	signature:(s64 ret[])
 main	test_1.c	/^u32 main()$/;"	kind:f	typeref:typename:u32	signature:()

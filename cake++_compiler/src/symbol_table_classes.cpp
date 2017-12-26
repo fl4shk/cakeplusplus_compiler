@@ -176,11 +176,6 @@ std::vector<Symbol*> Function::get_args() const
 
 		arg_pos_to_sym_map[sym->var()->arg_offset()] = sym;
 
-		//// Find the highest argument offset
-		//if (num_args < sym->var()->arg_offset())
-		//{
-		//	num_args = sym->var()->arg_offset();
-		//}
 		++num_args;
 	}
 
@@ -246,41 +241,53 @@ std::vector<Symbol*> Function::get_local_vars() const
 	auto&& local_var_tables = get_args_scope_node()
 		->get_all_children_tables();
 
+	// For now, this does not allow re-use of already-allocated memory when
+	// what it was allocated for goes out of scope.
+	// 
+	// This is really only an issue because the "var" and "varx"
+	// instructions use the same base address unless another function call
+	// is performed.
+	// 
+	// It is technically possible to, at compile time, 
+	// keep track of how far along one is in the stack, so perhaps that's
+	// what will be done.
+	for (auto outer_iter : local_var_tables)
+	{
+		for (auto iter : *outer_iter)
+		{
+			auto sym = iter.second;
+				 sym->var()->local_var_offset();
 
-	//size_t num_args = 0;
+			if (local_var_pos_to_sym_map.count
+				(sym->var()->local_var_offset()) != 0)
+			{
+				printerr("Function::get_local_vars():  Eek!\n");
+				exit(1);
+			}
 
-	//{
-	////const auto& table = __sym_tbl.tree().children.front()->table.table();
-	////const auto& table = __syms->table;
-	////const auto& table = __scope_node->children.front()->table.table();
-	//const auto& table = get_args_scope_node()->table.table();
-	//
-	//for (const auto& iter : table)
-	//{
-	//	auto sym = iter.second;
+			local_var_pos_to_sym_map[sym->var()->local_var_offset()] = sym;
+			++num_local_vars;
 
-	//	if (arg_pos_to_sym_map.count(sym->var()->arg_offset()) != 0)
-	//	{
-	//		printerr("Function::get_args():  Eek!\n");
-	//		exit(1);
-	//	}
+			//printout(*sym->name(), "\n");
+		}
+	}
+	//printout("\n\n");
 
-	//	arg_pos_to_sym_map[sym->var()->arg_offset()] = sym;
 
-	//	//// Find the highest argument offset
-	//	//if (num_args < sym->var()->arg_offset())
-	//	//{
-	//	//	num_args = sym->var()->arg_offset();
-	//	//}
-	//	++num_args;
-	//}
-
-	//}
-
+	//printout(*name(), ":  \n");
+	//printout("{\n");
 	for (size_t i=0; i<num_local_vars; ++i)
 	{
-		ret.push_back(local_var_pos_to_sym_map.at(i));
+		auto temp = local_var_pos_to_sym_map.at(i);
+
+		//printout("\t", *temp->name(), "\n");
+
+
+		ret.push_back(temp);
 	}
+	//printout("}\n");
+
+	//printout("\n\n");
 
 	return ret;
 }
