@@ -190,7 +190,7 @@ private:		// variables
 	// in __scope_node->children.front()
 	ScopedTableNode<Symbol>* __scope_node;
 
-	VmCode __vm_code;
+	//VmCode __vm_code;
 	IrCode __ir_code;
 
 
@@ -202,9 +202,6 @@ private:		// variables
 	// Argument ordering stuff (used by Frontend::visitFuncArgDecl())
 	size_t __last_arg_offset = -1;
 
-
-	//std::set<VmCode*> __unfinished_func_refs_set;
-
 	BuiltinTypename __ret_type = BuiltinTypename::S64;
 
 
@@ -213,16 +210,16 @@ public:		// functions
 	inline Function(ScopedTableNode<Symbol>* s_scope_node)
 		: __scope_node(s_scope_node)
 	{
-		__vm_code.next = &__vm_code;
-		__vm_code.prev = &__vm_code;
+		//__vm_code.next = &__vm_code;
+		//__vm_code.prev = &__vm_code;
 		__ir_code.next = &__ir_code;
 		__ir_code.prev = &__ir_code;
 	}
 	inline Function(Ident s_name, ScopedTableNode<Symbol>* s_scope_node)
 		: __name(s_name), __scope_node(s_scope_node)
 	{
-		__vm_code.next = &__vm_code;
-		__vm_code.prev = &__vm_code;
+		//__vm_code.next = &__vm_code;
+		//__vm_code.prev = &__vm_code;
 		__ir_code.next = &__ir_code;
 		__ir_code.prev = &__ir_code;
 	}
@@ -238,18 +235,6 @@ public:		// functions
 
 	//Symbol* get_one_arg(size_t some_arg_offset) const;
 
-	//inline VmCode* append_vm_code()
-	//{
-	//	return ::append_vm_code(__vm_code);
-	//}
-	//VmCode* append_vm_code(VmRawInstrOp s_raw_op);
-
-	//inline IrCode* append_ir_code()
-	//{
-	//	auto ret = ::append_ir_code(__ir_code);
-	//	ret->func = this;
-	//	return ret;
-	//}
 
 
 	// The symbol of this function
@@ -263,18 +248,19 @@ public:		// functions
 	}
 
 	//s64 irntoi(IrCode* t) const;
-	s64 offset_of_vm_code(VmCode* v) const;
 
-	void gen_vm_code(FunctionTable& some_func_tbl);
-	//void adjust_vm_code();
-	std::ostream& osprint_vm_code(std::ostream& os);
+	//s64 offset_of_vm_code(VmCode* v) const;
+
+	//void gen_vm_code(FunctionTable& some_func_tbl);
+	////void adjust_vm_code();
+	//std::ostream& osprint_vm_code(std::ostream& os);
 
 
 	gen_getter_and_setter_by_val(name);
 	//gen_getter_by_ref(sym_tbl);
 	//gen_getter_by_ref(syms);
 	gen_getter_by_ref(scope_node);
-	gen_getter_by_ref(vm_code);
+	//gen_getter_by_ref(vm_code);
 	//gen_getter_by_ref(ir_code);
 	gen_getter_by_ref(ir_code);
 	gen_getter_by_ref(last_label_num);
@@ -283,10 +269,11 @@ public:		// functions
 	gen_getter_and_setter_by_val(ret_type);
 
 private:		// functions
-	inline VmCode* mk_linked_vm_code(VmRawInstrOp s_raw_op)
-	{
-		return ::mk_linked_vm_code(__vm_code, s_raw_op);
-	}
+	//inline VmCode* mk_linked_vm_code(VmRawInstrOp s_raw_op)
+	//{
+	//	return ::mk_linked_vm_code(__vm_code, s_raw_op);
+	//}
+
 	//inline VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op)
 	//{
 	//	return ::mk_unlinked_vm_code(s_raw_op);

@@ -2,8 +2,8 @@ For simplicity, this is a stack machine.
 It uses byte addressing.
 The basic integer type is implemented as int64_t.
 
-However, compares, divisions, and remainders can be made to act as if
-both arguments are uint64_t.
+However, compares, divisions, and remainders can be made to act as if both
+arguments are uint64_t.
 
 Other types of integers are supported for loads and stores.
 
@@ -31,63 +31,114 @@ Stack frame:
   fp + 16 + var_space:    temporaries
 
 
-Instructions:
-  // Put constant value onto the stack
-  const(immediate):
+Pseudo-code describing instructions:
+  // This instruction puts a constant value onto the stack
+  // 
+  // Instruction name:  "const", 
+  // takes argument called "immediate".
+  // 
+  // Arguments inside the parentheses are encoded directly into the
+  // instruction.
+  // 
+  // Implementation psuedo code goes into the {...}
+  const(immediate):   
     {
+      // Inside these {...} you can see implementation notes.
       push(immediate);
     }
-  const_u32(immediate)
+
+  // Immediate encoded here as a uint32_t
+  const_u32(immediate):
     {
       push(zero_extend_32(immediate));
     }
-  const_s32(immediate)
+
+  // Immediate encoded here as an int32_t
+  const_s32(immediate):
     {
       push(sign_extend_32(immediate));
     }
-  const_u16(immediate)
+
+  // Immediate encoded here as a uint16_t
+  const_u16(immediate):
     {
       push(zero_extend_16(immediate));
     }
-  const_s16(immediate)
+
+  // Immediate encoded here as an int16_t
+  const_s16(immediate):
     {
       push(sign_extend_16(immediate));
     }
-  const_u8(immediate)
+
+  // Immediate encoded here as a uint8_t
+  const_u8(immediate):
     {
       push(zero_extend_8(immediate));
     }
-  const_s8(immediate)
+
+  // Immediate encoded here as an int8_t
+  const_s8(immediate):
     {
       push(sign_extend_8(immediate));
     }
 
+
+  // This instruction pushes the address of the first argument to the
+  // function onto the stack, which can be used for a load, or even a store
+  // if one so desires.  Using an argument's address for a store could be
+  // useful to save space that otherwise would have been allocated for
+  // local variables.
+  // 
+  // Note that if there are no arguments to this function, the "arg"
+  // instruction will actually push the address of the function's return
+  // value onto the stack, which could be performed as a simple
+  // optimization.
   arg:
     {
+      // (fp - 8) is the address of the first argument (if there are any).
       push(fp - 8);
     }
+
+  // The "x" in "argx" is short for "indexed".  This instruction can also
+  // be used for accessing the the address of the function's return value.
   argx:
     {
       push(fp - 8 + pop());
     }
+
+  // Push (the address of the first local variable) onto the stack.
   var:
     {
-      push(fp + 8);
+      push(fp + 16);
     }
+
+  // Push (the address of the first local variable) + (some number popped
+  // off the top of the stack) onto the stack.  This is useful for
+  // indexing operations; it speeds up address calculation compared to
+  // using just the "var" instruction.
   varx:
     {
-      push(fp + 8 + pop());
+      push(fp + 16 + pop());
     }
+
+  // Push the program counter onto the stack (possibly useful for
+  // performing PC-relative loads, or perhaps performing complicated jump
+  // calculations)
   get_pc:
     {
       push(pc);
     }
+
+  // Just a basic unconditional jump.  For flexibility, this instruction
+  // pops the destination address off the top of the stck.
   jump:
     {
       pc = pop();
     }
 
-  // Branch if equal to zero
+  // Branch if equal to zero (with 64-bit offset encoded directly into
+  // the instruction)
   beq(offset):
     {
       val = pop();
@@ -98,7 +149,8 @@ Instructions:
       }
     }
 
-  // Branch if not equal to zero
+  // Branch if not equal to zero (with 64-bit offset encoded directly into
+  // the instruction)
   bne(offset):
     {
       val = pop();
@@ -132,6 +184,7 @@ Instructions:
 
     }
 
+  // Function call (pops address off the top of the stack)
   call:
     {
       address = pop();
@@ -182,12 +235,22 @@ Instructions:
       *((type*)(&mem[base + index])) = data;
     }
 
+  // Just a basic "add this number to the stack pointer".  Useful for
+  // allocating local variables, and also for deallocating local variables.
+  // Note that for allocating small amounts of space with an allocation
+  // amount that is a multiple of 8 bytes, it may be preferrable to use
+  // const(), const_u32(), const_u8(), etc. since these adjust the stack
+  // pointer as well.
+  // 
+  // const_u8(0) (or const_s8(0)) is the recommended way to allocate space
+  // for the return value of a function before calling said function.
   add_to_sp:
     {
       a = pop();
       sp = sp + a;
     }
 
+  // Binary operators
   add:
     {
       a = pop();
@@ -209,6 +272,8 @@ Instructions:
 
       push(a * b);
     }
+
+  // Unsigned division
   udiv:
     {
       const u64 a = pop();
@@ -216,6 +281,8 @@ Instructions:
 
       push(a / b);
     }
+
+  // Signed division
   sdiv:
     {
       a = pop();
@@ -223,6 +290,8 @@ Instructions:
 
       push(a / b);
     }
+
+  // Unsigned modulo (remainder)
   umod:
     {
       const u64 a = pop();
@@ -230,6 +299,8 @@ Instructions:
 
       push(a % b);
     }
+
+  // Signed modulo (remainder)
   smod:
     {
       a = pop();
@@ -239,6 +310,7 @@ Instructions:
     }
 
 
+  // Bitwise AND
   bit_and:
     {
       a = pop();
@@ -246,6 +318,8 @@ Instructions:
 
       push(a & b);
     }
+
+  // Bitwise OR
   bit_or:
     {
       a = pop();
@@ -253,6 +327,8 @@ Instructions:
 
       push(a | b);
     }
+
+  // Bitwise XOR
   bit_xor:
     {
       a = pop();
@@ -260,6 +336,8 @@ Instructions:
 
       push(a ^ b);
     }
+
+  // Logical shift left
   bit_lsl:
     {
       a = pop();
@@ -267,6 +345,8 @@ Instructions:
 
       push(a << b);
     }
+
+  // Logical shift right
   bit_lsr:
     {
       const u64 a = pop();
@@ -274,6 +354,8 @@ Instructions:
 
       push(a >> b);
     }
+
+  // Arithmetic shift right
   bit_asr:
     {
       a = pop();
@@ -283,6 +365,7 @@ Instructions:
     }
 
 
+  // ==
   cmp_eq:
     {
       a = pop();
@@ -290,6 +373,8 @@ Instructions:
 
       push(a == b);
     }
+
+  // !=
   cmp_ne:
     {
       a = pop();
@@ -297,6 +382,8 @@ Instructions:
 
       push(a != b);
     }
+
+  // unsigned <
   cmp_ult:
     {
       const u64 a = pop();
@@ -304,6 +391,8 @@ Instructions:
 
       push(a < b);
     }
+  
+  // signed <
   cmp_slt:
     {
       a = pop();
@@ -311,6 +400,8 @@ Instructions:
 
       push(a < b);
     }
+
+  // unsigned >
   cmp_ugt:
     {
       const u64 a = pop();
@@ -318,6 +409,8 @@ Instructions:
 
       push(a > b);
     }
+
+  // signed >
   cmp_sgt:
     {
       a = pop();
@@ -325,6 +418,8 @@ Instructions:
 
       push(a > b);
     }
+
+  // unsigned <=
   cmp_ule:
     {
       const u64 a = pop();
@@ -332,6 +427,8 @@ Instructions:
 
       push(a <= b);
     }
+
+  // signed <=
   cmp_sle:
     {
       a = pop();
@@ -339,6 +436,8 @@ Instructions:
 
       push(a <= b);
     }
+
+  // unsigned >=
   cmp_uge:
     {
       const u64 a = pop();
@@ -346,6 +445,8 @@ Instructions:
 
       push(a >= b);
     }
+
+  // signed >=
   cmp_sge:
     {
       a = pop();
@@ -358,39 +459,38 @@ Instructions:
   // System call
   syscall:
     {
-      a = pop();
       exec_syscall(pop());
     }
-  // Specific system calls:
+    // Specific system calls:
     {
-    // Display 64-bit integer
-    disp_num:
-      {
-        cout << pop();
-      }
-    disp_num_unsigned:
-      {
-        cout << (uint64_t)pop();
-      }
+      // Display 64-bit integer
+      disp_num:
+        {
+          cout << pop();
+        }
+      disp_num_unsigned:
+        {
+          cout << (uint64_t)pop();
+        }
 
-    // Display character
-    disp_char:
-      {
-        cout << (char)pop();
-      }
+      // Display character
+      disp_char:
+        {
+          cout << (char)pop();
+        }
 
-    // Display string
-    disp_str:
-      {
-        cout << ((const char*)(&mem[pop()]));
-      }
+      // Display string
+      disp_str:
+        {
+          cout << ((const char*)(&mem[pop()]));
+        }
 
-    // Get 64-bit integer from standard input
-    get_num:
-      {
-        cin >> a;
-        push(a);
-      }
+      // Get 64-bit integer from standard input
+      get_num:
+        {
+          cin >> a;
+          push(a);
+        }
     }
 
   quit:

@@ -115,14 +115,15 @@ public:		// variables
 
 	size_t size = sizeof(u16);
 
-	union
-	{
-		// Label identifier:  used by branches, jumps, and fake_op_label
-		Ident lab_ident;
 
-		// called Function identifier
-		Ident func_ident;
-	};
+	// Note that either lab_ident or func_ident may be used by the various
+	// constant nodes
+	// Label identifier:  used by branches, jumps, and fake_op_label
+	Ident lab_ident = nullptr;
+
+	// called Function identifier
+	Ident func_ident = nullptr;
+
 
 	union
 	{

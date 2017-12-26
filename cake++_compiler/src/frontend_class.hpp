@@ -15,6 +15,8 @@
 
 #include "allocation_stuff.hpp"
 
+#include "vm_backend_class.hpp"
+
 class FrntErrorListener : public antlr4::ANTLRErrorListener
 {
 public:		// functions
@@ -62,6 +64,8 @@ protected:		// variables
 	ScopedTableNode<Symbol>* __curr_sym_node;
 
 	SymbolTable __sym_tbl;
+
+	std::unique_ptr<VmBackend> __vm_backend;
 
 
 	//std::stack<AstNode*> __ast_node_stack;

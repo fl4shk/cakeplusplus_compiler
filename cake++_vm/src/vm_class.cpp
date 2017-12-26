@@ -116,10 +116,10 @@ void Vm::exec_one_instr(VmInstrOp op)
 			push(fp() - 8 + pop());
 			break;
 		case VmInstrOp::var:
-			push(fp() + 8);
+			push(fp() + 16);
 			break;
 		case VmInstrOp::varx:
-			push(fp() + 8 + pop());
+			push(fp() + 16 + pop());
 			break;
 		case VmInstrOp::get_pc:
 			push(pc());

@@ -107,16 +107,22 @@ antlrcpp::Any Frontend::visitProgram
 	//write_json(cout, &func_ir_code_json_output_root);
 	}
 
+	{
+	std::vector<Function*> func_vec;
 	for (auto* iter : funcDecl)
 	{
 		auto ident = temp_ident_map.at(iter);
-		__curr_func = __func_tbl.at(ident);
-		curr_func().gen_vm_code(__func_tbl);
+		//__curr_func = __func_tbl.at(ident);
+		//curr_func().gen_vm_code(__func_tbl);
 
-		//curr_func().adjust_vm_code();
-
-		curr_func().osprint_vm_code(cout);
+		////curr_func().osprint_vm_code(cout);
+		func_vec.push_back(__func_tbl.at(ident));
 	}
+
+	__vm_backend.reset(new VmBackend(std::move(func_vec), &__func_tbl));
+	}
+	__vm_backend->gen_code();
+	//__vm_backend->osprint_code(cout);
 
 	return nullptr;
 }

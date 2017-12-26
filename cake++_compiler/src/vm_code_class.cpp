@@ -3,7 +3,8 @@
 
 VmCode::VmCode()
 {
-	func_ident = nullptr;
+	//func_ident = nullptr;
+	//lab_ident = nullptr;
 }
 VmCode::~VmCode()
 {
