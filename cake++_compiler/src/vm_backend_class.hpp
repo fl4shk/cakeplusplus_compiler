@@ -48,25 +48,25 @@ private:		// functions
 		BackendCodeBase* some_code);
 
 private:		// IR handler functions
-	VmCode* handle_ir_pure_expr(IrExpr* p);
-	VmCode* __handle_ir_pure_expr_constant(IrExpr* p);
-	VmCode* __handle_ir_pure_expr_binop(IrExpr* p);
-	VmCode* __handle_ir_pure_expr_unop(IrExpr* p);
-	VmCode* __handle_ir_pure_expr_len(IrExpr* p);
-	VmCode* __handle_ir_pure_expr_sizeof(IrExpr* p);
-	VmCode* __handle_ir_pure_expr_call_with_ret(IrExpr* p);
-	VmCode* __handle_ir_pure_expr_address(IrExpr* p);
-	VmCode* __handle_ir_pure_expr_ld(IrExpr* p);
-	VmCode* __handle_ir_pure_expr_cast(IrExpr* p);
+	BackendCodeBase* handle_ir_pure_expr(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_constant(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_binop(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_unop(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_len(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_sizeof(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_call_with_ret(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_address(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_ld(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_cast(IrExpr* p);
 
-	VmCode* handle_ir_code_st(IrCode* p);
-	VmCode* handle_ir_code_return_expr(IrCode* p);
-	VmCode* handle_ir_code_return_nothing(IrCode* p);
-	VmCode* handle_ir_code_quit(IrCode* p);
-	VmCode* handle_ir_code_jump(IrCode* p);
-	VmCode* handle_ir_code_call(IrCode* p);
-	VmCode* handle_ir_code_syscall(IrCode* p);
-	VmCode* handle_ir_code_label(IrCode* p);
+	BackendCodeBase* handle_ir_code_st(IrCode* p);
+	BackendCodeBase* handle_ir_code_return_expr(IrCode* p);
+	BackendCodeBase* handle_ir_code_return_nothing(IrCode* p);
+	BackendCodeBase* handle_ir_code_quit(IrCode* p);
+	BackendCodeBase* handle_ir_code_jump(IrCode* p);
+	BackendCodeBase* handle_ir_code_call(IrCode* p);
+	BackendCodeBase* handle_ir_code_syscall(IrCode* p);
+	BackendCodeBase* handle_ir_code_label(IrCode* p);
 
 
 

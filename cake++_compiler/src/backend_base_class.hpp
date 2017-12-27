@@ -37,6 +37,28 @@ protected:		// functions
 	virtual std::ostream& __osprint_one_code(std::ostream& os,
 		BackendCodeBase* some_code) = 0;
 
+protected:		// IR handler functions
+	virtual BackendCodeBase* handle_ir_pure_expr(IrExpr* p) = 0;
+	virtual BackendCodeBase* __handle_ir_pure_expr_constant(IrExpr* p) = 0;
+	virtual BackendCodeBase* __handle_ir_pure_expr_binop(IrExpr* p) = 0;
+	virtual BackendCodeBase* __handle_ir_pure_expr_unop(IrExpr* p) = 0;
+	virtual BackendCodeBase* __handle_ir_pure_expr_len(IrExpr* p) = 0;
+	virtual BackendCodeBase* __handle_ir_pure_expr_sizeof(IrExpr* p) = 0;
+	virtual BackendCodeBase* 
+		__handle_ir_pure_expr_call_with_ret(IrExpr* p) = 0;
+	virtual BackendCodeBase* __handle_ir_pure_expr_address(IrExpr* p) = 0;
+	virtual BackendCodeBase* __handle_ir_pure_expr_ld(IrExpr* p) = 0;
+	virtual BackendCodeBase* __handle_ir_pure_expr_cast(IrExpr* p) = 0;
+
+	virtual BackendCodeBase* handle_ir_code_st(IrCode* p) = 0;
+	virtual BackendCodeBase* handle_ir_code_return_expr(IrCode* p) = 0;
+	virtual BackendCodeBase* handle_ir_code_return_nothing(IrCode* p) = 0;
+	virtual BackendCodeBase* handle_ir_code_quit(IrCode* p) = 0;
+	virtual BackendCodeBase* handle_ir_code_jump(IrCode* p) = 0;
+	virtual BackendCodeBase* handle_ir_code_call(IrCode* p) = 0;
+	virtual BackendCodeBase* handle_ir_code_syscall(IrCode* p) = 0;
+	virtual BackendCodeBase* handle_ir_code_label(IrCode* p) = 0;
+
 };
 
 #endif		// backend_base_class_hpp

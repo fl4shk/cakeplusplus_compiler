@@ -640,7 +640,7 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 //	return nullptr;
 //}
 
-VmCode* VmBackend::handle_ir_pure_expr(IrExpr* p)
+BackendCodeBase* VmBackend::handle_ir_pure_expr(IrExpr* p)
 {
 	if (!p->is_pure)
 	{
@@ -650,60 +650,60 @@ VmCode* VmBackend::handle_ir_pure_expr(IrExpr* p)
 	}
 }
 
-VmCode* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
 {
 }
-VmCode* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 {
 }
-VmCode* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 {
 }
-VmCode* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
 {
 }
-VmCode* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
 {
 }
-VmCode* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
 {
 }
-VmCode* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 {
 }
-VmCode* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
 {
 }
-VmCode* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
 {
 }
 
 
 
-VmCode* VmBackend::handle_ir_code_st(IrCode* p)
+BackendCodeBase* VmBackend::handle_ir_code_st(IrCode* p)
 {
 	//switch (p->st_mm())
 	//{
 	//}
 }
-VmCode* VmBackend::handle_ir_code_return_expr(IrCode* p)
+BackendCodeBase* VmBackend::handle_ir_code_return_expr(IrCode* p)
 {
 }
-VmCode* VmBackend::handle_ir_code_return_nothing(IrCode* p)
+BackendCodeBase* VmBackend::handle_ir_code_return_nothing(IrCode* p)
 {
 }
-VmCode* VmBackend::handle_ir_code_quit(IrCode* p)
+BackendCodeBase* VmBackend::handle_ir_code_quit(IrCode* p)
 {
 }
-VmCode* VmBackend::handle_ir_code_jump(IrCode* p)
+BackendCodeBase* VmBackend::handle_ir_code_jump(IrCode* p)
 {
 }
-VmCode* VmBackend::handle_ir_code_call(IrCode* p)
+BackendCodeBase* VmBackend::handle_ir_code_call(IrCode* p)
 {
 }
-VmCode* VmBackend::handle_ir_code_syscall(IrCode* p)
+BackendCodeBase* VmBackend::handle_ir_code_syscall(IrCode* p)
 {
 }
-VmCode* VmBackend::handle_ir_code_label(IrCode* p)
+BackendCodeBase* VmBackend::handle_ir_code_label(IrCode* p)
 {
 }
