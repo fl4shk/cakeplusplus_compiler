@@ -4,7 +4,8 @@
 #include "misc_includes.hpp"
 
 //#include "symbol_table_classes.hpp"
-#include "vm_code_class.hpp"
+//#include "vm_code_class.hpp"
+#include "backend_code_base_class.hpp"
 //#include "ir_code_classes.hpp"
 #include "ir_code_stuff.hpp"
 
@@ -26,7 +27,10 @@ class AllocStuff
 	//friend VmCode* append_vm_code(Function& func);
 	//friend AstNode* mk_ast_node();
 	//friend VmCode* append_vm_code(VmCode& some_head);
-	friend VmCode* mk_unlinked_vm_code();
+
+	//friend VmCode* mk_unlinked_vm_code();
+	template<typename Type>
+	friend inline BackendCodeBase* mk_unlinked_backend_base_code();
 
 
 	friend IrExpr* mk_ir_pure_expr(IrPureExOp s_op, IrMachineMode s_mm);
@@ -45,7 +49,9 @@ private:			// static variables
 	static std::map<std::string, std::unique_ptr<std::string>> __str_pool;
 
 	static std::vector<std::unique_ptr<Var>> __var_pool;
-	static std::vector<std::unique_ptr<VmCode>> __vm_code_pool;
+	//static std::vector<std::unique_ptr<VmCode>> __vm_code_pool;
+	static std::vector<std::unique_ptr<BackendCodeBase>>
+		__backend_code_base_pool;
 	static std::vector<std::unique_ptr<IrExpr>> __ir_expr_pool;
 	static std::vector<std::unique_ptr<IrCode>> __ir_code_pool;
 	//static std::vector<std::unique_ptr<AstNode>> __ast_node_pool;
@@ -59,14 +65,51 @@ Var* mk_var();
 Var* mk_var(Ident s_name, BuiltinTypename s_type, size_t s_size, 
 	Function* s_func);
 
-//VmCode* append_vm_code(VmCode& some_head);
-VmCode* mk_linked_vm_code(VmCode& some_head);
-VmCode* mk_linked_vm_code(VmCode& some_head, VmRawInstrOp s_raw_op);
-VmCode* mk_unlinked_vm_code();
-VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op);
-inline VmCode* relink_vm_code(VmCode* p, VmCode* to_link_after)
+////VmCode* append_vm_code(VmCode& some_head);
+//VmCode* mk_linked_vm_code(VmCode& some_head);
+//VmCode* mk_linked_vm_code(VmCode& some_head, VmRawInstrOp s_raw_op);
+//VmCode* mk_unlinked_vm_code();
+//VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op);
+//inline VmCode* relink_vm_code(VmCode* p, VmCode* to_link_after)
+//{
+//	VmCode* old_next = to_link_after->next;
+//
+//	to_link_after->next = p;
+//	p->prev = to_link_after;
+//	p->next = old_next;
+//	old_next->prev = p;
+//
+//	return p;
+//}
+
+template<typename Type>
+inline BackendCodeBase* mk_unlinked_backend_base_code();
+template<typename Type>
+inline BackendCodeBase* mk_linked_backend_base_code(Type& some_head)
 {
-	VmCode* old_next = to_link_after->next;
+	auto p = mk_unlinked_backend_base_code<Type>();
+
+	relink_backend_base_code(static_cast<BackendCodeBase*>(p),
+		some_head.prev);
+
+	return p;
+}
+template<typename Type>
+inline BackendCodeBase* mk_unlinked_backend_base_code()
+{
+	auto& pool = AllocStuff::__backend_code_base_pool;
+
+	std::unique_ptr<BackendCodeBase> p;
+	p.reset(new Type());
+
+	pool.push_back(std::move(p));
+
+	return pool.back().get();
+}
+inline auto relink_backend_base_code(BackendCodeBase* p, 
+	BackendCodeBase* to_link_after)
+{
+	BackendCodeBase* old_next = to_link_after->next;
 
 	to_link_after->next = p;
 	p->prev = to_link_after;

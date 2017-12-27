@@ -7,6 +7,8 @@
 #include "symbol_table_classes.hpp"
 
 
+class VmCode;
+
 // Base class for a backend
 class BackendBase
 {
@@ -22,6 +24,12 @@ public:		// functions
 	virtual ~BackendBase();
 	void gen_code();
 	virtual std::ostream& osprint_code(std::ostream& os) = 0;
+
+	virtual void visit_vm_code(VmCode* to_visit)
+	{
+		printerr("BackendBase::visit_vm_code():  Eek!\n");
+		exit(1);
+	}
 
 protected:		// functions
 	virtual void __gen_startup_code() = 0;

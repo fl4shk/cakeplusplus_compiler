@@ -1,10 +1,11 @@
 #ifndef vm_code_class_hpp
 #define vm_code_class_hpp
 
-#include "misc_includes.hpp"
+//#include "misc_includes.hpp"
 //#include "allocation_stuff.hpp"
 
-typedef std::string* Ident;
+#include "backend_code_base_class.hpp"
+
 
 enum class VmRawInstrOp : u16
 {
@@ -108,21 +109,12 @@ enum class VmRawInstrOp : u16
 	fake_op_label,
 };
 
-class VmCode
+class VmCode : public BackendCodeBase
 {
 public:		// variables
 	VmRawInstrOp raw_op;
 
-	size_t size = sizeof(u16);
-
-
-	// Note that either lab_ident or func_ident may be used by the various
-	// constant nodes
-	// Label identifier:  used by branches, jumps, and fake_op_label
-	Ident lab_ident = nullptr;
-
-	// called Function identifier
-	Ident func_ident = nullptr;
+	//size_t size = sizeof(u16);
 
 
 	union
@@ -139,12 +131,12 @@ public:		// variables
 
 	//std::vector<VmCode*> args;
 
-	// Circular linked list links
-	VmCode * next, * prev;
 
 public:		// functions
 	VmCode();
 	virtual ~VmCode();
+
+	size_t size() const;
 
 
 	

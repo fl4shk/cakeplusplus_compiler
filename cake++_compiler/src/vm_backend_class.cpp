@@ -10,7 +10,9 @@ VmBackend::VmBackend(std::vector<Function*>&& s_func_vec,
 	for (auto iter : __func_vec)
 	{
 		//printout("VmBackend::VmBackend():  ", *iter->name(), "\n");
-		auto vm_code = mk_unlinked_vm_code();
+		//auto vm_code = mk_unlinked_vm_code();
+		auto vm_code = static_cast<VmCode*>
+			(mk_unlinked_backend_base_code<VmCode>());
 		vm_code->next = vm_code;
 		vm_code->prev = vm_code;
 		__func_to_code_map[iter] = vm_code;
@@ -208,9 +210,12 @@ void VmBackend::__gen_one_func_code()
 std::ostream& VmBackend::__osprint_one_code(std::ostream& os, 
 	VmCode& some_vm_code)
 {
-	for (auto p=some_vm_code.next; p!=&some_vm_code; p=p->next)
+	for (auto iter=some_vm_code.next; iter!=&some_vm_code; iter=iter->next)
 	{
+		auto p = static_cast<VmCode*>(iter);
+
 		osprintout(os, "\t");
+
 		switch (p->raw_op)
 		{
 			case VmRawInstrOp::constant_64:
@@ -691,9 +696,9 @@ VmCode* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
 
 VmCode* VmBackend::handle_ir_code_st(IrCode* p)
 {
-	switch (p->st_mm())
-	{
-	}
+	//switch (p->st_mm())
+	//{
+	//}
 }
 VmCode* VmBackend::handle_ir_code_return_expr(IrCode* p)
 {
