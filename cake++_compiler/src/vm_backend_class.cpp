@@ -4,8 +4,8 @@ VmBackend::VmBackend(std::vector<Function*>&& s_func_vec,
 	FunctionTable* s_func_tbl) 
 	: BackendBase(std::move(s_func_vec), s_func_tbl)
 {
-	__startup_vm_code.next = &__startup_vm_code;
-	__startup_vm_code.prev = &__startup_vm_code;
+	__startup_code.next = &__startup_code;
+	__startup_code.prev = &__startup_code;
 
 	for (auto iter : __func_vec)
 	{
@@ -15,7 +15,7 @@ VmBackend::VmBackend(std::vector<Function*>&& s_func_vec,
 			(mk_unlinked_backend_base_code<VmCode>());
 		vm_code->next = vm_code;
 		vm_code->prev = vm_code;
-		__func_to_code_map[iter] = vm_code;
+		__func_to_code_start_map[iter] = vm_code;
 	}
 }
 
@@ -27,27 +27,13 @@ VmBackend::~VmBackend()
 	//}
 }
 
-std::ostream& VmBackend::osprint_code(std::ostream& os)
-{
-	__osprint_one_code(os, __startup_vm_code);
-
-	for (auto iter : __func_vec)
-	{
-		osprintout(os, *iter->name(), ":\n");
-		osprintout(os, "{\n");
-		__osprint_one_code(os, *__func_to_code_map.at(iter));
-		osprintout(os, "}\n");
-	}
-
-	return os;
-}
 
 
 
 void VmBackend::__gen_startup_code()
 {
 	// This function is where global variables should be allocated.
-	__curr_vm_code = &__startup_vm_code;
+	__curr_func_code = &__startup_code;
 
 
 	// Allocate space for return value of "main"
@@ -66,7 +52,7 @@ void VmBackend::__gen_one_func_code()
 	printout("VmBackend::__gen_one_func_code():  \"", 
 		*__curr_func->name(), "\"\n");
 
-	__curr_vm_code = __func_to_code_map.at(__curr_func);
+	__curr_func_code = __func_to_code_start_map.at(__curr_func);
 
 
 	auto&& args = __curr_func->get_args();
@@ -134,7 +120,7 @@ void VmBackend::__gen_one_func_code()
 
 	if (var_space != 0)
 	{
-		// Allocate local variables
+		// Allocate local variables (if any)
 		mk_const(var_space);
 		mk_add_to_sp();
 	}
@@ -196,7 +182,7 @@ void VmBackend::__gen_one_func_code()
 
 	if (var_space != 0)
 	{
-		// Deallocate local variables
+		// Deallocate local variables (if any)
 		mk_const(-var_space);
 		mk_add_to_sp();
 	}
@@ -208,9 +194,9 @@ void VmBackend::__gen_one_func_code()
 }
 
 std::ostream& VmBackend::__osprint_one_code(std::ostream& os, 
-	VmCode& some_vm_code)
+	BackendCodeBase* some_code)
 {
-	for (auto iter=some_vm_code.next; iter!=&some_vm_code; iter=iter->next)
+	for (auto iter=some_code->next; iter!=some_code; iter=iter->next)
 	{
 		auto p = static_cast<VmCode*>(iter);
 

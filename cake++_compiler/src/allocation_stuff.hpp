@@ -82,15 +82,18 @@ Var* mk_var(Ident s_name, BuiltinTypename s_type, size_t s_size,
 //	return p;
 //}
 
+inline BackendCodeBase* relink_backend_base_code(BackendCodeBase* p, 
+	BackendCodeBase* to_link_after);
 template<typename Type>
 inline BackendCodeBase* mk_unlinked_backend_base_code();
 template<typename Type>
-inline BackendCodeBase* mk_linked_backend_base_code(Type& some_head)
+inline BackendCodeBase* mk_linked_backend_base_code
+	(BackendCodeBase* some_head)
 {
 	auto p = mk_unlinked_backend_base_code<Type>();
 
 	relink_backend_base_code(static_cast<BackendCodeBase*>(p),
-		some_head.prev);
+		some_head->prev);
 
 	return p;
 }
@@ -106,7 +109,7 @@ inline BackendCodeBase* mk_unlinked_backend_base_code()
 
 	return pool.back().get();
 }
-inline auto relink_backend_base_code(BackendCodeBase* p, 
+inline BackendCodeBase* relink_backend_base_code(BackendCodeBase* p, 
 	BackendCodeBase* to_link_after)
 {
 	BackendCodeBase* old_next = to_link_after->next;

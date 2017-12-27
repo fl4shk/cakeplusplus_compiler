@@ -13,6 +13,11 @@ class VmCode;
 class BackendBase
 {
 protected:		// variables
+	BackendCodeBase __startup_code;
+	std::map<Function*, BackendCodeBase*> __func_to_code_start_map;
+	BackendCodeBase* __curr_func_code = nullptr;
+
+
 	// This is used so that functions get inserted in order
 	std::vector<Function*> __func_vec;
 	FunctionTable* __func_tbl;
@@ -23,17 +28,14 @@ public:		// functions
 		FunctionTable* s_func_tbl);
 	virtual ~BackendBase();
 	void gen_code();
-	virtual std::ostream& osprint_code(std::ostream& os) = 0;
+	std::ostream& osprint_code(std::ostream& os);
 
-	virtual void visit_vm_code(VmCode* to_visit)
-	{
-		printerr("BackendBase::visit_vm_code():  Eek!\n");
-		exit(1);
-	}
 
 protected:		// functions
 	virtual void __gen_startup_code() = 0;
 	virtual void __gen_one_func_code() = 0;
+	virtual std::ostream& __osprint_one_code(std::ostream& os,
+		BackendCodeBase* some_code) = 0;
 
 };
 
