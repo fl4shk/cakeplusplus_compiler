@@ -38,7 +38,7 @@ protected:		// functions
 		BackendCodeBase* some_code) = 0;
 
 protected:		// IR handler functions
-	virtual BackendCodeBase* handle_ir_pure_expr(IrExpr* p) = 0;
+	BackendCodeBase* handle_ir_pure_expr(IrExpr* p);
 	virtual BackendCodeBase* __handle_ir_pure_expr_constant(IrExpr* p) = 0;
 	virtual BackendCodeBase* __handle_ir_pure_expr_binop(IrExpr* p) = 0;
 	virtual BackendCodeBase* __handle_ir_pure_expr_unop(IrExpr* p) = 0;

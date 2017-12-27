@@ -48,7 +48,7 @@ private:		// functions
 		BackendCodeBase* some_code);
 
 private:		// IR handler functions
-	BackendCodeBase* handle_ir_pure_expr(IrExpr* p);
+	//BackendCodeBase* handle_ir_pure_expr(IrExpr* p);
 	BackendCodeBase* __handle_ir_pure_expr_constant(IrExpr* p);
 	BackendCodeBase* __handle_ir_pure_expr_binop(IrExpr* p);
 	BackendCodeBase* __handle_ir_pure_expr_unop(IrExpr* p);
