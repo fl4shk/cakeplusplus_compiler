@@ -648,34 +648,46 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 //	exit(1);
 //	return nullptr;
 //}
-//
-//VmCode* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
-//{
-//}
-//VmCode* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
-//{
-//}
-//VmCode* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
-//{
-//}
-//VmCode* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
-//{
-//}
-//VmCode* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
-//{
-//}
-//VmCode* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
-//{
-//}
-//VmCode* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
-//{
-//}
-//VmCode* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
-//{
-//}
-//VmCode* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
-//{
-//}
+
+VmCode* VmBackend::handle_ir_pure_expr(IrExpr* p)
+{
+	if (!p->is_pure)
+	{
+		printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
+			"p is not pure!  Eek!\n");
+		exit(1);
+	}
+}
+
+VmCode* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
+{
+}
+VmCode* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
+{
+}
+
+
 
 VmCode* VmBackend::handle_ir_code_st(IrCode* p)
 {

@@ -6,6 +6,12 @@
 
 typedef std::string* Ident;
 
+// Pure expression operators are those that directly correspond to 
+// Frontend::visitExpr() and friends.
+// 
+// Sometimes these take expression arguments that are "special", 
+// **especially** for the cases of IrPureExOp::Len, IrPureExOp::Sizeof,
+// IrPureExOp::CallWithRet, IrPureExOp::Address, and IrPureExOp::Ld.
 enum class IrPureExOp
 {
 	Constant,
@@ -39,6 +45,8 @@ enum class IrPureExOp
 	Cast,
 };
 
+// "Spec" is short for "Special".  These are used as arguments to so-called
+// "pure" IrExpr's.
 enum class IrSpecExOp
 {
 	// Symbol reference
