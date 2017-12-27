@@ -20,37 +20,39 @@ public:		// functions
 	virtual ~CodeGenerator();
 
 
-	IrExpr* mk_expr_constant(IrMachineMode s_mm, s64 s_simm);
-	IrExpr* mk_expr_binop(IrMachineMode s_mm, IrBinop s_binop, 
+	IrExpr* mk_pure_expr_constant(IrMachineMode s_mm, s64 s_simm);
+	IrExpr* mk_pure_expr_binop(IrMachineMode s_mm, IrBinop s_binop, 
 		IrExpr* a, IrExpr* b);
 	//IrExpr* mk_expr_binop(IrBinop s_binop, IrExpr* a, IrExpr* b);
-	IrExpr* mk_expr_unop(IrMachineMode s_mm, IrUnop s_unop, IrExpr* a);
-	IrExpr* mk_expr_ref_sym(Symbol* s_sym);
-	//IrExpr* mk_expr_ref_func(Function* s_func);
-	IrExpr* mk_expr_ref_lab(s64 s_lab_num);
-	IrExpr* mk_expr_len(IrMachineMode s_mm, IrExpr* what);
-	IrExpr* mk_expr_sizeof(IrMachineMode s_mm, IrExpr* what);
-	IrExpr* mk_expr_unfinished_call_with_ret(IrMachineMode s_mm,
+	IrExpr* mk_pure_expr_unop(IrMachineMode s_mm, IrUnop s_unop, 
+		IrExpr* a);
+	IrExpr* mk_spec_expr_ref_sym(Symbol* s_sym);
+	//IrExpr* mk_spec_expr_ref_func(Function* s_func);
+	IrExpr* mk_spec_expr_ref_lab(s64 s_lab_num);
+	IrExpr* mk_pure_expr_len(IrMachineMode s_mm, IrExpr* what);
+	IrExpr* mk_pure_expr_sizeof(IrMachineMode s_mm, IrExpr* what);
+	IrExpr* mk_pure_expr_unfinished_call_with_ret(IrMachineMode s_mm,
 		IrExpr* where);
-	IrExpr* mk_expr_address(IrExpr* where);
-	IrExpr* mk_expr_ld(IrMachineMode s_mm, IrExpr* where);
-	IrExpr* mk_expr_get_next_pc();
-	IrExpr* mk_expr_if_then_else(IrMachineMode s_mm, IrExpr* cond, 
+	IrExpr* mk_pure_expr_address(IrExpr* where);
+	IrExpr* mk_pure_expr_ld(IrMachineMode s_mm, IrExpr* where);
+	IrExpr* mk_spec_expr_get_next_pc();
+	IrExpr* mk_spec_expr_if_then_else(IrMachineMode s_mm, IrExpr* cond, 
 		IrExpr* what_if, IrExpr* what_else);
-	inline IrExpr* mk_expr_if_then_else(IrExpr* cond,
+	inline IrExpr* mk_spec_expr_if_then_else(IrExpr* cond,
 		IrExpr* what_if, s64 what_else_lab_num)
 	{
-		return mk_expr_if_then_else(IrMachineMode::Pointer, cond, what_if, 
-			mk_expr_address(mk_expr_ref_lab(what_else_lab_num)));
+		return mk_spec_expr_if_then_else(IrMachineMode::Pointer, cond, 
+			what_if, 
+			mk_pure_expr_address(mk_spec_expr_ref_lab(what_else_lab_num)));
 	}
-	inline IrExpr* mk_expr_if_then_else(IrExpr* cond,
+	inline IrExpr* mk_spec_expr_if_then_else(IrExpr* cond,
 		s64 what_if_lab_num, s64 what_else_lab_num)
 	{
-		return mk_expr_if_then_else(IrMachineMode::Pointer, cond, 
-			mk_expr_address(mk_expr_ref_lab(what_if_lab_num)),
-			mk_expr_address(mk_expr_ref_lab(what_else_lab_num)));
+		return mk_spec_expr_if_then_else(IrMachineMode::Pointer, cond, 
+			mk_pure_expr_address(mk_spec_expr_ref_lab(what_if_lab_num)),
+			mk_pure_expr_address(mk_spec_expr_ref_lab(what_else_lab_num)));
 	}
-	IrExpr* mk_expr_cast(IrMachineMode s_mm, IrExpr* expr);
+	IrExpr* mk_pure_expr_cast(IrMachineMode s_mm, IrExpr* expr);
 
 	IrCode* mk_code_st(IrMachineMode s_st_mm, IrExpr* where, 
 		IrExpr* what);

@@ -186,9 +186,9 @@ antlrcpp::Any Frontend::visitFuncCall
 	//auto to_push = codegen().mk_expr_unfinished_call_with_ret
 	//	(convert_builtin_typename_to_mm(func->ret_type()), 
 	//	codegen().mk_expr_ref_func(func));
-	auto to_push = codegen().mk_expr_unfinished_call_with_ret
+	auto to_push = codegen().mk_pure_expr_unfinished_call_with_ret
 		(convert_builtin_typename_to_mm(func->ret_type()), 
-		codegen().mk_expr_ref_sym(func->sym()));
+		codegen().mk_spec_expr_ref_sym(func->sym()));
 
 	{
 	auto&& funcArgExpr = ctx->funcArgExpr();
@@ -273,17 +273,17 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 	{
 		// Scalars are passed by value
 
-		auto mem = codegen().mk_expr_address
-			(codegen().mk_expr_ref_sym(sym));
-		push_ir_expr(codegen().mk_expr_ld
+		auto mem = codegen().mk_pure_expr_address
+			(codegen().mk_spec_expr_ref_sym(sym));
+		push_ir_expr(codegen().mk_pure_expr_ld
 			(convert_builtin_typename_to_mm(sym->var()->type()), mem));
 	}
 	else if (sym->type() == SymType::ArrayVarName)
 	{
 		// Since arrays are passed by reference, we only need to grab the
 		// address for this argument
-		push_ir_expr(codegen().mk_expr_address
-			(codegen().mk_expr_ref_sym(sym)));
+		push_ir_expr(codegen().mk_pure_expr_address
+			(codegen().mk_spec_expr_ref_sym(sym)));
 	}
 	else
 	{
@@ -388,7 +388,7 @@ antlrcpp::Any Frontend::visitPutnStatement
 
 	auto some_disp_char = codegen().mk_code_unfinished_syscall
 		(IrSyscallShorthandOp::DispChar);
-	some_disp_char->append_arg(codegen().mk_expr_constant
+	some_disp_char->append_arg(codegen().mk_pure_expr_constant
 		(IrMachineMode::U8, '\n'));
 
 	return nullptr;
@@ -553,11 +553,11 @@ antlrcpp::Any Frontend::visitAssignment
 	else
 	{
 		//codegen().mk_code_st(get_top_mm(), 
-		//	codegen().mk_expr_binop(IrMachineMode::Pointer,
+		//	codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
 		//	IrBinop::Add, mem, index), expr);
 		codegen().mk_code_st
 			(convert_builtin_typename_to_mm(sym->var()->type()),
-			codegen().mk_expr_binop(IrMachineMode::Pointer,
+			codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
 			IrBinop::Add, mem, index), expr);
 	}
 
@@ -586,12 +586,12 @@ antlrcpp::Any Frontend::visitIfStatement
 
 	auto label_after_statements = codegen().mk_code_unlinked_label();
 
-	//auto ite = codegen().mk_expr_if_then_else(IrMachineMode::Pointer,
-	//	cond, codegen().mk_expr_get_next_pc(), 
-	//	codegen().mk_expr_address(codegen().mk_expr_ref_lab
+	//auto ite = codegen().mk_spec_expr_if_then_else(IrMachineMode::Pointer,
+	//	cond, codegen().mk_spec_expr_get_next_pc(), 
+	//	codegen().mk_pure_expr_address(codegen().mk_spec_expr_ref_lab
 	//	(label_after_statements->lab_num())));
-	auto ite = codegen().mk_expr_if_then_else(cond,
-		codegen().mk_expr_get_next_pc(), 
+	auto ite = codegen().mk_spec_expr_if_then_else(cond,
+		codegen().mk_spec_expr_get_next_pc(), 
 		label_after_statements->lab_num());
 
 	codegen().mk_code_jump(ite);
@@ -640,8 +640,8 @@ antlrcpp::Any Frontend::visitIfChainStatement
 
 	// Branch to the else stuff if false, or continue if true
 	{
-	auto ite = codegen().mk_expr_if_then_else(cond,
-		codegen().mk_expr_get_next_pc(), 
+	auto ite = codegen().mk_spec_expr_if_then_else(cond,
+		codegen().mk_spec_expr_get_next_pc(), 
 		label_before_else_statements->lab_num());
 	
 	codegen().mk_code_jump(ite);
@@ -652,7 +652,7 @@ antlrcpp::Any Frontend::visitIfChainStatement
 	auto label_after_else_statements = codegen().mk_code_unlinked_label();
 
 	// Unconditionally branch to the part that's after the elseStatements
-	codegen().mk_code_jump(codegen().mk_expr_ref_lab
+	codegen().mk_code_jump(codegen().mk_spec_expr_ref_lab
 		(label_after_else_statements->lab_num()));
 
 	relink_ir_code(label_before_else_statements);
@@ -712,15 +712,15 @@ antlrcpp::Any Frontend::visitWhileStatement
 
 	auto label_after_while = codegen().mk_code_unlinked_label();
 
-	codegen().mk_code_jump(codegen().mk_expr_if_then_else(cond,
-		codegen().mk_expr_get_next_pc(),
+	codegen().mk_code_jump(codegen().mk_spec_expr_if_then_else(cond,
+		codegen().mk_spec_expr_get_next_pc(),
 		label_after_while->lab_num()));
 	
 	ctx->statements()->accept(this);
 
 	// For a while loop, always branch back up to the label_before_expr if
 	// we didn't conditionally end the loop.
-	codegen().mk_code_jump(codegen().mk_expr_ref_lab
+	codegen().mk_code_jump(codegen().mk_spec_expr_ref_lab
 		(label_before_expr->lab_num()));
 	
 	relink_ir_code(label_after_while);
@@ -749,11 +749,11 @@ antlrcpp::Any Frontend::visitDoWhileStatement
 	auto cond = pop_ir_expr();
 
 	// Continue the loop if the condition is non-zero
-	codegen().mk_code_jump(codegen().mk_expr_if_then_else
+	codegen().mk_code_jump(codegen().mk_spec_expr_if_then_else
 		(IrMachineMode::Pointer, cond,
-		codegen().mk_expr_address(codegen().mk_expr_ref_lab
+		codegen().mk_pure_expr_address(codegen().mk_spec_expr_ref_lab
 		(label_before_statements->lab_num())), 
-		codegen().mk_expr_get_next_pc()));
+		codegen().mk_spec_expr_get_next_pc()));
 
 
 	return nullptr;
@@ -833,7 +833,7 @@ antlrcpp::Any Frontend::visitExpr
 		//auto some_binop = codegen().mk_binop(s_binop, a, b);
 
 		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
-		push_ir_expr(codegen().mk_expr_binop(get_mm_for_binop(a, b),
+		push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
 			s_binop, a, b));
 	}
 
@@ -896,7 +896,7 @@ antlrcpp::Any Frontend::visitExprLogical
 		ctx->exprCompare()->accept(this);
 		auto b = pop_ir_expr();
 
-		push_ir_expr(codegen().mk_expr_binop(get_mm_for_binop(a, b),
+		push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
 			s_binop, a, b));
 	}
 
@@ -942,7 +942,7 @@ antlrcpp::Any Frontend::visitExprCompare
 		auto b = pop_ir_expr();
 
 		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
-		push_ir_expr(codegen().mk_expr_binop(get_mm_for_binop(a, b),
+		push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
 			s_binop, a, b));
 	}
 
@@ -1030,7 +1030,7 @@ antlrcpp::Any Frontend::visitExprAddSub
 		auto b = pop_ir_expr();
 
 		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
-		push_ir_expr(codegen().mk_expr_binop(get_mm_for_binop(a, b),
+		push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
 			s_binop, a, b));
 	}
 
@@ -1049,7 +1049,7 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 
 		//push_ir_code(codegen().mk_const(pop_num()));
 		//push_ir_expr(codegen().mk_expr_constant(get_top_mm(), pop_num()));
-		push_ir_expr(codegen().mk_expr_constant(IrMachineMode::S64,
+		push_ir_expr(codegen().mk_pure_expr_constant(IrMachineMode::S64,
 			pop_num()));
 	}
 	else if (ctx->funcCall())
@@ -1121,7 +1121,8 @@ antlrcpp::Any Frontend::visitExprBitInvert
 	//	pop_ir_expr()));
 
 	auto expr = pop_ir_expr();
-	push_ir_expr(codegen().mk_expr_unop(expr->mm, IrUnop::BitNot, expr));
+	push_ir_expr(codegen().mk_pure_expr_unop(expr->mm, IrUnop::BitNot, 
+		expr));
 
 	return nullptr;
 }
@@ -1143,7 +1144,8 @@ antlrcpp::Any Frontend::visitExprNegate
 	//	pop_ir_expr()));
 
 	auto expr = pop_ir_expr();
-	push_ir_expr(codegen().mk_expr_unop(expr->mm, IrUnop::Negate, expr));
+	push_ir_expr(codegen().mk_pure_expr_unop(expr->mm, IrUnop::Negate, 
+		expr));
 
 	return nullptr;
 }
@@ -1165,7 +1167,8 @@ antlrcpp::Any Frontend::visitExprLogNot
 	//	pop_ir_expr()));
 
 	auto expr = pop_ir_expr();
-	push_ir_expr(codegen().mk_expr_unop(expr->mm, IrUnop::LogNot, expr));
+	push_ir_expr(codegen().mk_pure_expr_unop(expr->mm, IrUnop::LogNot, 
+		expr));
 
 	return nullptr;
 }
@@ -1182,7 +1185,8 @@ void Frontend::__visit_ident_access
 		"\" was found!"));
 
 	//auto addr = codegen().mk_address(sym);
-	auto mem = codegen().mk_expr_address(codegen().mk_expr_ref_sym(sym));
+	auto mem = codegen().mk_pure_expr_address
+		(codegen().mk_spec_expr_ref_sym(sym));
 	IrExpr* index;
 
 	
@@ -1191,7 +1195,7 @@ void Frontend::__visit_ident_access
 		if (!ctx_subscript_expr)
 		{
 			//index = codegen().mk_const(0);
-			index = codegen().mk_expr_constant
+			index = codegen().mk_pure_expr_constant
 				(IrMachineMode::Pointer, 0);
 		}
 		else // if (ctx_subscript_expr)
@@ -1258,7 +1262,7 @@ antlrcpp::Any Frontend::visitIdentRhs
 		&& (index->simm == 0))
 	{
 		//push_ir_expr(codegen().mk_expr_ld(get_top_mm(), mem));
-		push_ir_expr(codegen().mk_expr_ld
+		push_ir_expr(codegen().mk_pure_expr_ld
 			(convert_builtin_typename_to_mm(sym->var()->type()), mem));
 	}
 	else
@@ -1266,9 +1270,9 @@ antlrcpp::Any Frontend::visitIdentRhs
 		//push_ir_expr(codegen().mk_expr_ld(get_top_mm(),
 		//	codegen().mk_expr_binop(IrMachineMode::Pointer,
 		//	IrBinop::Add, mem, index)));
-		push_ir_expr(codegen().mk_expr_ld
+		push_ir_expr(codegen().mk_pure_expr_ld
 			(convert_builtin_typename_to_mm(sym->var()->type()),
-			codegen().mk_expr_binop(IrMachineMode::Pointer,
+			codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
 			IrBinop::Add, mem, index)));
 	}
 
@@ -1353,8 +1357,8 @@ antlrcpp::Any Frontend::visitLenExpr
 
 	//push_ir_expr(codegen().mk_expr_len(get_top_mm(),
 	//	codegen().mk_expr_ref_sym(sym)));
-	push_ir_expr(codegen().mk_expr_len(IrMachineMode::Length,
-		codegen().mk_expr_ref_sym(sym)));
+	push_ir_expr(codegen().mk_pure_expr_len(IrMachineMode::Length,
+		codegen().mk_spec_expr_ref_sym(sym)));
 
 
 	return nullptr;
@@ -1377,8 +1381,8 @@ antlrcpp::Any Frontend::visitSizeofExpr
 	//push_ir_code(codegen().mk_len(sym));
 	//push_ir_expr(codegen().mk_expr_sizeof(get_top_mm(),
 	//	codegen().mk_expr_ref_sym(sym)));
-	push_ir_expr(codegen().mk_expr_sizeof(IrMachineMode::Length,
-		codegen().mk_expr_ref_sym(sym)));
+	push_ir_expr(codegen().mk_pure_expr_sizeof(IrMachineMode::Length,
+		codegen().mk_spec_expr_ref_sym(sym)));
 
 	return nullptr;
 }
@@ -1394,7 +1398,7 @@ antlrcpp::Any Frontend::visitCastExpr
 	//expr->mm = convert_builtin_typename_to_mm(pop_builtin_typename());
 	//push_ir_expr(expr);
 
-	push_ir_expr(codegen().mk_expr_cast
+	push_ir_expr(codegen().mk_pure_expr_cast
 		(convert_builtin_typename_to_mm(pop_builtin_typename()),
 		pop_ir_expr()));
 
