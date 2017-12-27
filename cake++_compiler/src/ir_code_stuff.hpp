@@ -6,9 +6,7 @@
 
 typedef std::string* Ident;
 
-
-// Expression operator
-enum class IrExOp
+enum class IrPureExOp
 {
 	Constant,
 
@@ -17,15 +15,6 @@ enum class IrExOp
 
 	// Unary operator
 	Unop,
-
-	// Symbol reference
-	RefSym,
-
-	//// Function reference
-	//RefFunc,
-
-	// Label reference
-	RefLab,
 
 	// Length of symbol
 	Len,
@@ -45,15 +34,28 @@ enum class IrExOp
 	// Load
 	Ld,
 
+
+	// Type Casting
+	Cast,
+};
+
+enum class IrSpecExOp
+{
+	// Symbol reference
+	RefSym,
+
+	//// Function reference
+	//RefFunc,
+
+	// Label reference
+	RefLab,
+
 	// Sometimes used for the "Else" portion of IfThenElse
 	GetNextPc,
 
 
 	// Control flow
 	IfThenElse,
-
-	// Type Casting
-	Cast,
 };
 
 // Instruction operator
@@ -211,7 +213,12 @@ extern IrExpr* mk_ir_expr(IrExpr&& to_move);
 class IrExpr
 {
 public:		// variables
-	IrExOp op;
+	union
+	{
+		IrPureExOp pure_op;
+		IrSpecExOp spec_op;
+	};
+	bool is_pure;
 
 	// Making this a union saves space (perhaps unnecessarily so).
 	union

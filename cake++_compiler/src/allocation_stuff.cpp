@@ -331,18 +331,40 @@ VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op)
 	return p;
 }
 
-IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm)
+IrExpr* mk_ir_pure_expr(IrPureExOp s_pure_op, IrMachineMode s_mm)
 {
-	return mk_ir_expr(s_op, s_mm, nullptr);
+	return mk_ir_pure_expr(s_pure_op, s_mm, nullptr);
 }
 
-IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm, IrExpr* some_parent)
+IrExpr* mk_ir_pure_expr(IrPureExOp s_pure_op, IrMachineMode s_mm, 
+	IrExpr* some_parent)
 {
 	auto& pool = AllocStuff::__ir_expr_pool;
 
 	std::unique_ptr<IrExpr> p;
 	p.reset(new IrExpr(some_parent));
-	p->op = s_op;
+	p->pure_op = s_pure_op;
+	p->is_pure = true;
+	p->mm = s_mm;
+
+	pool.push_back(std::move(p));
+	return pool.back().get();
+}
+
+IrExpr* mk_ir_spec_expr(IrSpecExOp s_spec_op, IrMachineMode s_mm)
+{
+	return mk_ir_spec_expr(s_spec_op, s_mm, nullptr);
+}
+
+IrExpr* mk_ir_spec_expr(IrSpecExOp s_spec_op, IrMachineMode s_mm, 
+	IrExpr* some_parent)
+{
+	auto& pool = AllocStuff::__ir_expr_pool;
+
+	std::unique_ptr<IrExpr> p;
+	p.reset(new IrExpr(some_parent));
+	p->spec_op = s_spec_op;
+	p->is_pure = false;
 	p->mm = s_mm;
 
 	pool.push_back(std::move(p));

@@ -569,113 +569,113 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 }
 
 
-VmCode* VmBackend::handle_ir_pure_expr(IrExpr* p)
-{
-	switch (p->op)
-	{
-		case IrExOp::Constant:
-			return __handle_ir_pure_expr_constant(p);
-
-		// Binary operator
-		case IrExOp::Binop:
-			return __handle_ir_pure_expr_binop(p);
-
-		// Unary operator
-		case IrExOp::Unop:
-			return __handle_ir_pure_expr_unop(p);
-
-		// Symbol reference
-		case IrExOp::RefSym:
-			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
-				"IrExOp::RefSym is not pure!\n");
-			exit(1);
-			return nullptr;
-
-		//// Function reference
-		//RefFunc,
-
-		// Label reference
-		case IrExOp::RefLab:
-			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
-				"IrExOp::RefLab is not pure!\n");
-			exit(1);
-			return nullptr;
-
-		// Length of symbol
-		case IrExOp::Len:
-			return __handle_ir_pure_expr_len(p);
-
-		// Size of symbol
-		case IrExOp::Sizeof:
-			return __handle_ir_pure_expr_sizeof(p);
-
-
-		// Call with a return value
-		case IrExOp::CallWithRet:
-			return __handle_ir_pure_expr_call_with_ret(p);
-
-
-		// Memory address (example of use:  grabs address from symbol,
-		// function, or label)
-		case IrExOp::Address:
-			return __handle_ir_pure_expr_address(p);
-
-		// Load
-		case IrExOp::Ld:
-			return __handle_ir_pure_expr_ld(p);
-
-		// Sometimes used for the "Else" portion of IfThenElse
-		case IrExOp::GetNextPc:
-			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
-				"IrExOp::GetNextPc is not pure!\n");
-			exit(1);
-			return nullptr;
-
-
-		// Control flow
-		case IrExOp::IfThenElse:
-			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
-				"IrExOp::IfThenElse is not pure!\n");
-			exit(1);
-			return nullptr;
-
-		// Type Casting
-		case IrExOp::Cast:
-			return __handle_ir_pure_expr_cast(p);
-	}
-
-	printerr("VmBackend::handle_ir_pure_expr():  Eek!\n");
-	exit(1);
-	return nullptr;
-}
-
-VmCode* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
-{
-}
-VmCode* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
-{
-}
-VmCode* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
-{
-}
-VmCode* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
-{
-}
-VmCode* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
-{
-}
-VmCode* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
-{
-}
-VmCode* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
-{
-}
-VmCode* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
-{
-}
-VmCode* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
-{
-}
+//VmCode* VmBackend::handle_ir_pure_expr(IrExpr* p)
+//{
+//	switch (p->op)
+//	{
+//		case IrExOp::Constant:
+//			return __handle_ir_pure_expr_constant(p);
+//
+//		// Binary operator
+//		case IrExOp::Binop:
+//			return __handle_ir_pure_expr_binop(p);
+//
+//		// Unary operator
+//		case IrExOp::Unop:
+//			return __handle_ir_pure_expr_unop(p);
+//
+//		// Symbol reference
+//		case IrExOp::RefSym:
+//			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
+//				"IrExOp::RefSym is not pure!\n");
+//			exit(1);
+//			return nullptr;
+//
+//		//// Function reference
+//		//RefFunc,
+//
+//		// Label reference
+//		case IrExOp::RefLab:
+//			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
+//				"IrExOp::RefLab is not pure!\n");
+//			exit(1);
+//			return nullptr;
+//
+//		// Length of symbol
+//		case IrExOp::Len:
+//			return __handle_ir_pure_expr_len(p);
+//
+//		// Size of symbol
+//		case IrExOp::Sizeof:
+//			return __handle_ir_pure_expr_sizeof(p);
+//
+//
+//		// Call with a return value
+//		case IrExOp::CallWithRet:
+//			return __handle_ir_pure_expr_call_with_ret(p);
+//
+//
+//		// Memory address (example of use:  grabs address from symbol,
+//		// function, or label)
+//		case IrExOp::Address:
+//			return __handle_ir_pure_expr_address(p);
+//
+//		// Load
+//		case IrExOp::Ld:
+//			return __handle_ir_pure_expr_ld(p);
+//
+//		// Sometimes used for the "Else" portion of IfThenElse
+//		case IrExOp::GetNextPc:
+//			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
+//				"IrExOp::GetNextPc is not pure!\n");
+//			exit(1);
+//			return nullptr;
+//
+//
+//		// Control flow
+//		case IrExOp::IfThenElse:
+//			printerr("Bug:  VmBackend::handle_ir_pure_expr():  ",
+//				"IrExOp::IfThenElse is not pure!\n");
+//			exit(1);
+//			return nullptr;
+//
+//		// Type Casting
+//		case IrExOp::Cast:
+//			return __handle_ir_pure_expr_cast(p);
+//	}
+//
+//	printerr("VmBackend::handle_ir_pure_expr():  Eek!\n");
+//	exit(1);
+//	return nullptr;
+//}
+//
+//VmCode* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
+//{
+//}
+//VmCode* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
+//{
+//}
+//VmCode* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
+//{
+//}
+//VmCode* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
+//{
+//}
+//VmCode* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
+//{
+//}
+//VmCode* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
+//{
+//}
+//VmCode* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
+//{
+//}
+//VmCode* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
+//{
+//}
+//VmCode* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
+//{
+//}
 
 VmCode* VmBackend::handle_ir_code_st(IrCode* p)
 {

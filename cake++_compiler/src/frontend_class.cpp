@@ -542,7 +542,8 @@ antlrcpp::Any Frontend::visitAssignment
 	ctx->expr()->accept(this);
 	auto expr = pop_ir_expr();
 
-	if ((index->op == IrExOp::Constant) && (index->simm == 0))
+	if (index->is_pure && (index->pure_op == IrPureExOp::Constant) 
+		&& (index->simm == 0))
 	{
 		//codegen().mk_code_st(get_top_mm(), mem, expr);
 		codegen().mk_code_st
@@ -1253,7 +1254,8 @@ antlrcpp::Any Frontend::visitIdentRhs
 
 
 	// Subscript zero or non-array access
-	if ((index->op == IrExOp::Constant) && (index->simm == 0))
+	if (index->is_pure && (index->pure_op == IrPureExOp::Constant) 
+		&& (index->simm == 0))
 	{
 		//push_ir_expr(codegen().mk_expr_ld(get_top_mm(), mem));
 		push_ir_expr(codegen().mk_expr_ld

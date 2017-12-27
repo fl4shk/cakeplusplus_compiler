@@ -29,8 +29,11 @@ class AllocStuff
 	friend VmCode* mk_unlinked_vm_code();
 
 
-	friend IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm);
-	friend IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm, 
+	friend IrExpr* mk_ir_pure_expr(IrPureExOp s_op, IrMachineMode s_mm);
+	friend IrExpr* mk_ir_pure_expr(IrPureExOp s_op, IrMachineMode s_mm, 
+		IrExpr* some_parent);
+	friend IrExpr* mk_ir_spec_expr(IrSpecExOp s_op, IrMachineMode s_mm);
+	friend IrExpr* mk_ir_spec_expr(IrSpecExOp s_op, IrMachineMode s_mm, 
 		IrExpr* some_parent);
 	friend IrExpr* mk_ir_expr(IrExpr&& to_move);
 
@@ -73,8 +76,12 @@ inline VmCode* relink_vm_code(VmCode* p, VmCode* to_link_after)
 	return p;
 }
 
-IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm);
-IrExpr* mk_ir_expr(IrExOp s_op, IrMachineMode s_mm, IrExpr* some_parent);
+IrExpr* mk_ir_pure_expr(IrPureExOp s_op, IrMachineMode s_mm);
+IrExpr* mk_ir_pure_expr(IrPureExOp s_op, IrMachineMode s_mm, 
+	IrExpr* some_parent);
+IrExpr* mk_ir_spec_expr(IrSpecExOp s_op, IrMachineMode s_mm);
+IrExpr* mk_ir_spec_expr(IrSpecExOp s_op, IrMachineMode s_mm, 
+	IrExpr* some_parent);
 IrExpr* mk_ir_expr(IrExpr&& to_move);
 
 //IrCode* append_ir_code(IrCode& some_head);
