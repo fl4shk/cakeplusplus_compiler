@@ -1,77 +1,107 @@
 main:
+{
 	; Allocate space for exit code
 	const_u8(0)
 
-	;; Arguments
-	;const_u8(8)
-	;const_u8(9)
-
-	;; Function label
-	;.calli(add)
-	;const_s8(-16)
-	;add_to_sp
 
 
-	;;const(9)
-	;disp_num
+	; Allocate space for return value
+	const_u8(0)
 
-	;.calli(disp_newline)
-
-	;const_u8(-'1')
-	;disp_num
-	;.calli(disp_newline)
-
-	const_u8(8)
+	; Subtract 8 from 9
 	const_u8(9)
-	sub
+	const_u8(8)
+
+	.calli(sub)
+
+	const_s8(-16)
+	add_to_sp
+
 	disp_num
 	.calli(disp_newline)
 
 
 	quit
+}
 
 
-disp_newline:
-	const_u8(10)
-	disp_char
-	ret
-
-
+; s64 add(s64 a, s64 b)
 add:
-	arg
-	ld_basic
-	disp_num
-
-	.calli(disp_newline)
-
-	const_s8(-8)
-	argx
-	ld_basic
-	disp_num
-
-	.calli(disp_newline)
-
-	; Perform the actual add now
-	const_s8(-8)
-	argx
-	ld_basic
-
-	arg
-	ld_basic
-
-	add
-
-	; return value
+{
+	; Address of return value
 	const_s8(-16)
 	argx
+
+
+	; Load a
+	arg
+	ld_basic
+
+
+	; Load b
+	const_s8(-8)
+	argx
+	ld_basic
+
+
+	; Perform the addition
+	add
+
+	; Store return value
 	st_basic
 
 
 	ret
+}
 
 
-arr:
-	.space 20
+; s64 sub(s64 a, s64 b)
+sub:
+{
+	; Address of return value
+	const_s8(-16)
+	argx
+
+
+	; Load a
+	arg
+	ld_basic
+
+
+	; Load b
+	const_s8(-8)
+	argx
+	ld_basic
+
+
+	; Perform the subtraction
+	sub
+
+	; Store to space allocated for return value
+	st_basic
+
+
+	ret
+}
+
+
+
+disp_newline:
+{
+	const_u8(10)
+	disp_char
+	ret
+}
+
+
+
+test_arr_dim:
+	.space 8
+
+test_arr_data:
+	.space (8 * 20)
+
+
 
 egg:
 	.db 10
