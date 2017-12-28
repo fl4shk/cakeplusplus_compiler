@@ -1,6 +1,6 @@
 #include "vm_backend_class.hpp"
 
-VmCode* VmBackend::mk_const(u64 s_imm_s64)
+VmCode* VmBackend::mk_const(s64 s_imm_s64)
 {
 	auto ret = append_code(VmRawInstrOp::constant_64);
 	ret->imm_s64 = s_imm_s64;
@@ -420,4 +420,11 @@ VmCode* VmBackend::mk_syscall()
 VmCode* VmBackend::mk_quit()
 {
 	return append_code(VmRawInstrOp::quit);
+}
+
+VmCode* VmBackend::mk_fake_op_label(Ident s_lab_ident)
+{
+	auto ret = append_code(VmRawInstrOp::fake_op_label);
+	ret->lab_ident = s_lab_ident;
+	return ret;
 }

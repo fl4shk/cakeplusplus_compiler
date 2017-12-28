@@ -61,7 +61,7 @@ protected:		// variables
 
 	// Current function
 	Function* __curr_func;
-	ScopedTableNode<Symbol>* __curr_sym_node;
+	ScopedTableNode<Symbol>* __curr_scope_node;
 
 	SymbolTable __sym_tbl;
 
@@ -267,7 +267,7 @@ protected:		// non-visitor functions
 	inline Symbol* find_sym_or_err(Ident ident, 
 		const std::string& error_msg)
 	{
-		auto sym = sym_tbl().find(__curr_sym_node, ident);
+		auto sym = sym_tbl().find(__curr_scope_node, ident);
 
 		if (sym != nullptr)
 		{

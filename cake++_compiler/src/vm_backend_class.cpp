@@ -73,15 +73,15 @@ void VmBackend::__gen_one_func_code()
 	// 
 	// All other arguments are passed by reference, and thus a 64-bit
 	// pointer is used.
-	const s64 arg_space = args.size() * sizeof(u64);
+	__arg_space = args.size() * sizeof(u64);
 
-	const s64 ret_val_argx_offset = (-(arg_space - 8));
+	__ret_val_argx_offset = (-(__arg_space - 8));
 
-	s64 var_space = 0;
+	__var_space = 0;
 	//for (s64 i=0; i<(s64)local_vars.size(); ++i)
 	for (auto iter : local_vars)
 	{
-		iter->var()->set_mem_offset(var_space);
+		iter->var()->set_mem_offset(__var_space);
 
 		//printout("VmBackend::__gen_one_func_code():  ",
 		//	"Local variable called \"", *iter->name(), "\" has ",
@@ -96,7 +96,7 @@ void VmBackend::__gen_one_func_code()
 		{
 			// Allocate space to store number of array elements.
 			// This is stored as a uint64_t.
-			var_space += sizeof(u64);
+			__var_space += sizeof(u64);
 		}
 		else
 		{
@@ -106,86 +106,40 @@ void VmBackend::__gen_one_func_code()
 		}
 
 		// Allocate space for the data.
-		var_space += iter->var()->non_size_used_space();
+		__var_space += iter->var()->non_size_used_space();
 	}
 
 
 
 	//printout("VmBackend::__gen_one_func_code():  ",
-	//	"arg_space, ret_val_argx_offset, var_space:  ",
-	//	strappcom2(arg_space, ret_val_argx_offset, var_space), "\n");
+	//	"__arg_space, __ret_val_argx_offset, __var_space:  ",
+	//	strappcom2(__arg_space, __ret_val_argx_offset, __var_space), "\n");
 	
 
 
 
-	if (var_space != 0)
+	if (__var_space != 0)
 	{
 		// Allocate local variables (if any)
-		mk_const(var_space);
+		mk_const(__var_space);
 		mk_add_to_sp();
 	}
 
 
 
-	// Iterate directly through the IrCode of this function
-	for (auto p=__curr_func->ir_code().next;
-		p!=&__curr_func->ir_code();
-		p=p->next)
-	{
-		switch (p->iop())
-		{
-			// Store
-			case IrInOp::St:
-				handle_ir_code_st(p);
-				break;
-
-			// Return from subroutine
-			case IrInOp::ReturnExpr:
-				handle_ir_code_return_expr(p);
-				break;
-			case IrInOp::ReturnNothing:
-				handle_ir_code_return_nothing(p);
-				break;
-
-			// Stop the program
-			case IrInOp::Quit:
-				handle_ir_code_quit(p);
-				break;
-
-
-			case IrInOp::Jump:
-				handle_ir_code_jump(p);
-				break;
-
-			// Call form of code, ignoring return value
-			case IrInOp::Call:
-				handle_ir_code_call(p);
-				break;
-
-			case IrInOp::Syscall:
-				handle_ir_code_syscall(p);
-				break;
-			case IrInOp::Label:
-				handle_ir_code_label(p);
-				break;
-
-			default:
-				printerr("VmBackend::__gen_one_func_code():  "
-					"IrInOp Eek!\n");
-				exit(1);
-				break;
-		}
-	}
+	handle_curr_func_ir_code_and_cleanup_lab_ident();
 
 
 
 
-	if (var_space != 0)
+	mk_fake_op_label(__cleanup_lab_ident);
+	if (__var_space != 0)
 	{
 		// Deallocate local variables (if any)
-		mk_const(-var_space);
+		mk_const(-__var_space);
 		mk_add_to_sp();
 	}
+
 
 	// return
 	mk_ret();
@@ -201,6 +155,11 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 		auto p = static_cast<VmCode*>(iter);
 
 		osprintout(os, "\t");
+
+		if (p->raw_op != VmRawInstrOp::fake_op_label)
+		{
+			osprintout(os, "\t");
+		}
 
 		switch (p->raw_op)
 		{
@@ -562,30 +521,119 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 {
+	auto arg = p->args.front();
+
+	//switch (arg->mm)
+	//{
+	//}
+
+	return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
 {
+	auto arg = p->args.front();
+
+	if (arg->mm != IrMachineMode::Length)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_len():  ",
+			"IrMachineMode Eek!\n");
+		exit(1);
+	}
+	if (arg->is_pure)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_len():  ",
+			"arg->is_pure Eek!\n");
+		exit(1);
+	}
+	if (arg->spec_op != IrSpecExOp::RefSym)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_len():  ",
+			"arg->spec_op Eek!\n");
+		exit(1);
+	}
+
+	switch (arg->sym->type())
+	{
+		case SymType::ScalarVarName:
+		case SymType::ArrayVarName:
+			return mk_const(arg->sym->var()->dim());
+
+		case SymType::FuncName:
+		default:
+			printerr("VmBackend::__handle_ir_pure_expr_len():  ",
+				"arg->sym->type() Eek!\n");
+			exit(1);
+			return nullptr;
+	}
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
 {
+	auto arg = p->args.front();
+
+	if (arg->mm != IrMachineMode::Length)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_sizeof():  ",
+			"IrMachineMode Eek!\n");
+		exit(1);
+	}
+	if (arg->is_pure)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_sizeof():  ",
+			"arg->is_pure Eek!\n");
+		exit(1);
+	}
+	if (arg->spec_op != IrSpecExOp::RefSym)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_sizeof():  ",
+			"arg->spec_op Eek!\n");
+		exit(1);
+	}
+
+
+	switch (arg->sym->type())
+	{
+		case SymType::ScalarVarName:
+			return mk_const(arg->sym->var()->non_size_used_space());
+
+		case SymType::ArrayVarName:
+			return mk_const(sizeof(u64) 
+				+ arg->sym->var()->non_size_used_space());
+
+		case SymType::FuncName:
+		default:
+			printerr("VmBackend::__handle_ir_pure_expr_sizeof():  ",
+				"arg->sym->type() Eek!\n");
+			exit(1);
+			return nullptr;
+	}
+
+
+	//return static_cast<BackendCodeBase*>(ret);
+	//return ret;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
 {
+	return nullptr;
 }
 
 
@@ -595,25 +643,43 @@ BackendCodeBase* VmBackend::handle_ir_code_st(IrCode* p)
 	//switch (p->st_mm())
 	//{
 	//}
+
+	//const auto sym_type = p->sym->type();
+
+	//auto var = p->sym->var();
+
+
+	//return nullptr;
+
+
+
 }
+
 BackendCodeBase* VmBackend::handle_ir_code_return_expr(IrCode* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::handle_ir_code_return_nothing(IrCode* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::handle_ir_code_quit(IrCode* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::handle_ir_code_jump(IrCode* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::handle_ir_code_call(IrCode* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::handle_ir_code_syscall(IrCode* p)
 {
+	return nullptr;
 }
 BackendCodeBase* VmBackend::handle_ir_code_label(IrCode* p)
 {
+	return nullptr;
 }

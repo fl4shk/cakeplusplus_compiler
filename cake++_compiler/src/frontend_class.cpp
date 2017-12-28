@@ -70,8 +70,8 @@ antlrcpp::Any Frontend::visitProgram
 		__func_tbl.insert_or_assign(mk_global_func(ret_type, ident));
 
 		__curr_func = __func_tbl.at(ident);
-		//__curr_sym_node = __curr_func->scope_node()->children.front();
-		__curr_sym_node = curr_func().get_args_scope_node();
+		//__curr_scope_node = __curr_func->scope_node()->children.front();
+		__curr_scope_node = curr_func().get_args_scope_node();
 
 		auto&& funcArgDecl = func_decl->funcArgDecl();
 
@@ -91,9 +91,10 @@ antlrcpp::Any Frontend::visitProgram
 	for (auto* iter : funcDecl)
 	{
 		auto ident = temp_ident_map.at(iter);
+
 		__curr_func = __func_tbl.at(ident);
-		//__curr_sym_node = __curr_func->scope_node()->children.front();
-		__curr_sym_node = curr_func().get_args_scope_node();
+		__curr_scope_node = curr_func().get_args_scope_node();
+
 		iter->accept(this);
 
 		//auto& temp_json_output_root 
@@ -105,6 +106,7 @@ antlrcpp::Any Frontend::visitProgram
 	}
 
 	//write_json(cout, &func_ir_code_json_output_root);
+	//exit(0);
 	}
 
 	std::vector<Function*> func_vec;
@@ -299,7 +301,7 @@ antlrcpp::Any Frontend::visitStatements
 	auto&& stmt = ctx->stmt();
 
 	//sym_tbl().mkscope(curr_func().scope_node());
-	sym_tbl().mkscope(__curr_sym_node);
+	sym_tbl().mkscope(__curr_scope_node);
 
 	for (auto iter : stmt)
 	{
@@ -307,7 +309,7 @@ antlrcpp::Any Frontend::visitStatements
 	}
 
 	//sym_tbl().rmscope(curr_func().scope_node());
-	sym_tbl().rmscope(__curr_sym_node);
+	sym_tbl().rmscope(__curr_scope_node);
 
 	return nullptr;
 }
@@ -442,7 +444,7 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 	//auto existing_sym = sym_tbl().find_in_first_blklev(arg_sym.name());
 	//auto existing_sym = sym_tbl().find_func_arg(curr_func().name(),
 	//	arg_sym.name());
-	//auto existing_sym = sym_tbl().find_func_arg(__curr_sym_node,
+	//auto existing_sym = sym_tbl().find_func_arg(__curr_scope_node,
 	//	arg_sym.name());
 	auto existing_sym = sym_tbl().find_func_arg(curr_func().scope_node(),
 		arg_sym.name());
@@ -466,7 +468,7 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 	arg_sym.var()->set_arg_offset(curr_func().last_arg_offset());
 
 	//sym_tbl().insert_or_assign(std::move(arg_sym));
-	sym_tbl().insert_or_assign(__curr_sym_node, std::move(arg_sym));
+	sym_tbl().insert_or_assign(__curr_scope_node, std::move(arg_sym));
 
 	return nullptr;
 }
@@ -1290,7 +1292,7 @@ antlrcpp::Any Frontend::visitIdentDecl
 	ctx->identName()->accept(this);
 	sym.var()->set_name(pop_str());
 
-	if (sym_tbl().find_in_this_blklev(__curr_sym_node, sym.var()->name()) 
+	if (sym_tbl().find_in_this_blklev(__curr_scope_node, sym.var()->name()) 
 		!= nullptr)
 	{
 		err(sconcat("Symbol with identifier \"", *sym.var()->name(), 
@@ -1318,7 +1320,7 @@ antlrcpp::Any Frontend::visitIdentDecl
 	// Which local variable is this? 
 	++curr_func().last_local_var_offset();
 	sym.var()->set_local_var_offset(curr_func().last_local_var_offset());
-	sym_tbl().insert_or_assign(__curr_sym_node, std::move(sym));
+	sym_tbl().insert_or_assign(__curr_scope_node, std::move(sym));
 
 
 	return nullptr;

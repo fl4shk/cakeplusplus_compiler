@@ -23,6 +23,10 @@ protected:		// variables
 	FunctionTable* __func_tbl;
 	Function* __curr_func;
 
+	IrInOp __curr_iop;
+
+	Ident __cleanup_lab_ident = nullptr;
+
 public:		// functions
 	BackendBase(std::vector<Function*>&& s_func_vec, 
 		FunctionTable* s_func_tbl);
@@ -36,8 +40,11 @@ protected:		// functions
 	virtual void __gen_one_func_code() = 0;
 	virtual std::ostream& __osprint_one_code(std::ostream& os,
 		BackendCodeBase* some_code) = 0;
+	
+	gen_getter_and_setter_by_val(curr_iop);
 
 protected:		// IR handler functions
+	void handle_curr_func_ir_code_and_cleanup_lab_ident();
 	BackendCodeBase* handle_ir_pure_expr(IrExpr* p);
 	virtual BackendCodeBase* __handle_ir_pure_expr_constant(IrExpr* p) = 0;
 	virtual BackendCodeBase* __handle_ir_pure_expr_binop(IrExpr* p) = 0;

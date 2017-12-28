@@ -12,6 +12,9 @@ private:		// variables
 	//VmCode* __curr_vm_code = nullptr;
 
 	//VmCode* __node = nullptr;
+	s64 __arg_space;
+	s64 __ret_val_argx_offset;
+	s64 __var_space;
 
 public:		// functions
 	VmBackend(std::vector<Function*>&& s_func_vec, 
@@ -71,7 +74,7 @@ private:		// IR handler functions
 
 
 private:		// code generation functions
-	VmCode* mk_const(u64 s_imm_s64);
+	VmCode* mk_const(s64 s_imm_s64);
 	VmCode* mk_const_func(Function* func_to_get_name_of);
 	inline VmCode* mk_const_func(Ident s_func_ident)
 	{
@@ -212,6 +215,8 @@ private:		// code generation functions
 	VmCode* mk_syscall();
 
 	VmCode* mk_quit();
+
+	VmCode* mk_fake_op_label(Ident s_lab_ident);
 };
 
 #endif		// vm_backend_class_hpp
