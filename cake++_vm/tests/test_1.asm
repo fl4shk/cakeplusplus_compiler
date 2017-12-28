@@ -2,6 +2,7 @@ main:
 {
 	; Allocate space for exit code
 	const_u8(0)
+	;const_u8(88)
 
 
 
@@ -13,6 +14,7 @@ main:
 	const_u8(8)
 
 	.calli(sub)
+	;.calli(add)
 
 	const_s8(-16)
 	add_to_sp
