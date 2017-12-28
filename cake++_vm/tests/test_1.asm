@@ -28,11 +28,6 @@ main:
 ; s64 add(s64 a, s64 b)
 add:
 {
-	; Address of return value
-	const_s8(-16)
-	argx
-
-
 	; Load a
 	arg
 	ld_basic
@@ -47,6 +42,10 @@ add:
 	; Perform the addition
 	add
 
+	; Address of return value
+	const_s8(-16)
+	argx
+
 	; Store return value
 	st_basic
 
@@ -58,11 +57,6 @@ add:
 ; s64 sub(s64 a, s64 b)
 sub:
 {
-	; Address of return value
-	const_s8(-16)
-	argx
-
-
 	; Load a
 	arg
 	ld_basic
@@ -77,7 +71,11 @@ sub:
 	; Perform the subtraction
 	sub
 
-	; Store to space allocated for return value
+	; Address of return value
+	const_s8(-16)
+	argx
+
+	; Store return value
 	st_basic
 
 
