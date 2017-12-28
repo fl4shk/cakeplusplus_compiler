@@ -217,21 +217,21 @@ Pseudo-code describing instructions:
     }
   ldx_<type>:
     {
-      index = pop();
       base = pop();
+      index = pop();
       push((s64)*((type*)(&mem[base + index])));
     }
   st_<type>:
     {
-      data = pop();
       base = pop();
+      data = pop();
       *((type*)(&mem[base])) = data;
     }
   stx_<type>:
     {
-      data = pop();
-      index = pop();
       base = pop();
+      index = pop();
+      data = pop();
       *((type*)(&mem[base + index])) = data;
     }
 
