@@ -1,5 +1,5 @@
 main:
-	; Allocate space for return value
+	; Allocate space for exit code
 	const_u8(0)
 
 	;; Arguments
@@ -21,33 +21,21 @@ main:
 	;disp_num
 	;.calli(disp_newline)
 
-{
-	loop:
-		const(loop)
-		disp_num
-		.calli(disp_newline)
-	{
-		loop:
-			const(loop)
-			disp_num
-			.calli(disp_newline)
-		{
-			loop:
-				const(loop)
-				disp_num
-				.calli(disp_newline)
-		}
-	}
-}
+	const_u8(8)
+	const_u8(9)
+	sub
+	disp_num
+	.calli(disp_newline)
+
 
 	quit
-
 
 
 disp_newline:
 	const_u8(10)
 	disp_char
 	ret
+
 
 add:
 	arg

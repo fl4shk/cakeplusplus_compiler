@@ -217,21 +217,21 @@ Pseudo-code describing instructions:
     }
   ldx_<type>:
     {
-      base = pop();
       index = pop();
+      base = pop();
       push((s64)*((type*)(&mem[base + index])));
     }
   st_<type>:
     {
-      base = pop();
       data = pop();
+      base = pop();
       *((type*)(&mem[base])) = data;
     }
   stx_<type>:
     {
-      base = pop();
-      index = pop();
       data = pop();
+      index = pop();
+      base = pop();
       *((type*)(&mem[base + index])) = data;
     }
 
@@ -253,22 +253,22 @@ Pseudo-code describing instructions:
   // Binary operators
   add:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a + b);
     }
   sub:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a - b);
     }
   mul:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a * b);
     }
@@ -276,8 +276,8 @@ Pseudo-code describing instructions:
   // Unsigned division
   udiv:
     {
-      const u64 a = pop();
       const u64 b = pop();
+      const u64 a = pop();
 
       push(a / b);
     }
@@ -285,8 +285,8 @@ Pseudo-code describing instructions:
   // Signed division
   sdiv:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a / b);
     }
@@ -294,8 +294,8 @@ Pseudo-code describing instructions:
   // Unsigned modulo (remainder)
   umod:
     {
-      const u64 a = pop();
       const u64 b = pop();
+      const u64 a = pop();
 
       push(a % b);
     }
@@ -303,8 +303,8 @@ Pseudo-code describing instructions:
   // Signed modulo (remainder)
   smod:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a % b);
     }
@@ -313,8 +313,8 @@ Pseudo-code describing instructions:
   // Bitwise AND
   bit_and:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a & b);
     }
@@ -322,8 +322,8 @@ Pseudo-code describing instructions:
   // Bitwise OR
   bit_or:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a | b);
     }
@@ -331,8 +331,8 @@ Pseudo-code describing instructions:
   // Bitwise XOR
   bit_xor:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a ^ b);
     }
@@ -340,8 +340,8 @@ Pseudo-code describing instructions:
   // Logical shift left
   bit_lsl:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a << b);
     }
@@ -349,8 +349,8 @@ Pseudo-code describing instructions:
   // Logical shift right
   bit_lsr:
     {
-      const u64 a = pop();
       const u64 b = pop();
+      const u64 a = pop();
 
       push(a >> b);
     }
@@ -358,8 +358,8 @@ Pseudo-code describing instructions:
   // Arithmetic shift right
   bit_asr:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a >> b);
     }
@@ -368,8 +368,8 @@ Pseudo-code describing instructions:
   // ==
   cmp_eq:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a == b);
     }
@@ -377,8 +377,8 @@ Pseudo-code describing instructions:
   // !=
   cmp_ne:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a != b);
     }
@@ -386,8 +386,8 @@ Pseudo-code describing instructions:
   // unsigned <
   cmp_ult:
     {
-      const u64 a = pop();
       const u64 b = pop();
+      const u64 a = pop();
 
       push(a < b);
     }
@@ -395,8 +395,8 @@ Pseudo-code describing instructions:
   // signed <
   cmp_slt:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a < b);
     }
@@ -404,8 +404,8 @@ Pseudo-code describing instructions:
   // unsigned >
   cmp_ugt:
     {
-      const u64 a = pop();
       const u64 b = pop();
+      const u64 a = pop();
 
       push(a > b);
     }
@@ -413,8 +413,8 @@ Pseudo-code describing instructions:
   // signed >
   cmp_sgt:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a > b);
     }
@@ -422,8 +422,8 @@ Pseudo-code describing instructions:
   // unsigned <=
   cmp_ule:
     {
-      const u64 a = pop();
       const u64 b = pop();
+      const u64 a = pop();
 
       push(a <= b);
     }
@@ -431,8 +431,8 @@ Pseudo-code describing instructions:
   // signed <=
   cmp_sle:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a <= b);
     }
@@ -440,8 +440,8 @@ Pseudo-code describing instructions:
   // unsigned >=
   cmp_uge:
     {
-      const u64 a = pop();
       const u64 b = pop();
+      const u64 a = pop();
 
       push(a >= b);
     }
@@ -449,8 +449,8 @@ Pseudo-code describing instructions:
   // signed >=
   cmp_sge:
     {
-      a = pop();
       b = pop();
+      a = pop();
 
       push(a >= b);
     }
@@ -488,6 +488,7 @@ Pseudo-code describing instructions:
       // Get 64-bit integer from standard input
       get_num:
         {
+          s64 a;
           cin >> a;
           push(a);
         }

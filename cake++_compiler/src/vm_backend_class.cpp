@@ -518,10 +518,84 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 	return os;
 }
 
+BackendCodeBase* VmBackend::__gen_runtime_cast_to_64(IrMachineMode from_mm, 
+	BackendCodeBase* p)
+{
+	switch (from_mm)
+	{
+		case IrMachineMode::U64:
+			return p;
+		case IrMachineMode::S64:
+			return p;
+
+		case IrMachineMode::U32:
+			mk_const_u32(0xffff'ffff);
+			return mk_bit_and();
+		case IrMachineMode::S32:
+			mk_const_u8(32);
+			mk_bit_lsl();
+			mk_const_u8(32);
+			return mk_bit_asr();
+
+		case IrMachineMode::U16:
+			mk_const_u16(0xffff);
+			return mk_bit_and();
+		case IrMachineMode::S16:
+			mk_const_u8(16);
+			mk_bit_lsl();
+			mk_const_u8(16);
+			return mk_bit_asr();
+
+		case IrMachineMode::U8:
+			mk_const_u8(0xff);
+			return mk_bit_and();
+		case IrMachineMode::S8:
+			mk_const_u8(8);
+			mk_bit_lsl();
+			mk_const_u8(8);
+			return mk_bit_asr();
+
+		case IrMachineMode::Pointer:
+		case IrMachineMode::Length:
+		default:
+			printerr("VmBackend::__gen_runtime_cast_to_64():  Eek!\n");
+			exit(1);
+			return nullptr;
+	}
+}
 
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
 {
-	return nullptr;
+	switch (p->mm)
+	{
+		case IrMachineMode::U64:
+			return mk_const(p->uimm);
+		case IrMachineMode::S64:
+			return mk_const(p->simm);
+
+		case IrMachineMode::U32:
+			return mk_const_u32((u32)p->uimm);
+		case IrMachineMode::S32:
+			return mk_const_s32((s32)p->simm);
+
+		case IrMachineMode::U16:
+			return mk_const_u16((u16)p->uimm);
+		case IrMachineMode::S16:
+			return mk_const_s16((s16)p->simm);
+
+		case IrMachineMode::U8:
+			return mk_const_u8((u8)p->uimm);
+		case IrMachineMode::S8:
+			return mk_const_s8((s8)p->simm);
+
+		case IrMachineMode::Pointer:
+		case IrMachineMode::Length:
+		default:
+			printerr("VmBackend::__handle_ir_pure_expr_constant():  ",
+				"Eek!\n");
+			exit(1);
+			return nullptr;
+	}
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 {
@@ -539,6 +613,12 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
 {
+	if (p->args.size() != 1)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_len():  "
+			"wrong number of arguments Eek!\n");
+		exit(1);
+	}
 	auto arg = p->args.front();
 
 	if (arg->mm != IrMachineMode::Length)
@@ -649,10 +729,8 @@ BackendCodeBase* VmBackend::handle_ir_code_st(IrCode* p)
 	//auto var = p->sym->var();
 
 
-	//return nullptr;
 
-
-
+	return nullptr;
 }
 
 BackendCodeBase* VmBackend::handle_ir_code_return_expr(IrCode* p)

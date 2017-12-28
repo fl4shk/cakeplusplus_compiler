@@ -347,93 +347,93 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 		case VmInstrOp::add:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a + b);
 			}
 			break;
 		case VmInstrOp::sub:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a - b);
 			}
 			break;
 		case VmInstrOp::mul:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a * b);
 			}
 			break;
 		case VmInstrOp::udiv:
 			{
-				const u64 a = pop();
 				const u64 b = pop();
+				const u64 a = pop();
 				push(a / b);
 			}
 			break;
 		case VmInstrOp::sdiv:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a / b);
 			}
 			break;
 		case VmInstrOp::umod:
 			{
-				const u64 a = pop();
 				const u64 b = pop();
+				const u64 a = pop();
 				push(a % b);
 			}
 			break;
 		case VmInstrOp::smod:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a % b);
 			}
 			break;
 
 		case VmInstrOp::bit_and:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a & b);
 			}
 			break;
 		case VmInstrOp::bit_or:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a | b);
 			}
 			break;
 		case VmInstrOp::bit_xor:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a ^ b);
 			}
 			break;
 		case VmInstrOp::bit_lsl:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a << b);
 			}
 			break;
 		case VmInstrOp::bit_lsr:
 			{
-				const u64 a = pop();
 				const u64 b = pop();
+				const u64 a = pop();
 				push(a >> b);
 			}
 			break;
 		case VmInstrOp::bit_asr:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a >> b);
 			}
 			break;
@@ -441,71 +441,71 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 		case VmInstrOp::cmp_eq:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a == b);
 			}
 			break;
 		case VmInstrOp::cmp_ne:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a != b);
 			}
 			break;
 		case VmInstrOp::cmp_ult:
 			{
-				const u64 a = pop();
 				const u64 b = pop();
+				const u64 a = pop();
 				push(a < b);
 			}
 			break;
 		case VmInstrOp::cmp_slt:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a < b);
 			}
 			break;
 		case VmInstrOp::cmp_ugt:
 			{
-				const u64 a = pop();
 				const u64 b = pop();
+				const u64 a = pop();
 				push(a > b);
 			}
 			break;
 		case VmInstrOp::cmp_sgt:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a > b);
 			}
 			break;
 		case VmInstrOp::cmp_ule:
 			{
-				const u64 a = pop();
 				const u64 b = pop();
+				const u64 a = pop();
 				push(a <= b);
 			}
 			break;
 		case VmInstrOp::cmp_sle:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a <= b);
 			}
 			break;
 		case VmInstrOp::cmp_uge:
 			{
-				const u64 a = pop();
 				const u64 b = pop();
+				const u64 a = pop();
 				push(a >= b);
 			}
 			break;
 		case VmInstrOp::cmp_sge:
 			{
-				const auto a = pop();
 				const auto b = pop();
+				const auto a = pop();
 				push(a >= b);
 			}
 			break;

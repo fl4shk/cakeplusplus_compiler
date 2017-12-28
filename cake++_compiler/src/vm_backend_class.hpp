@@ -50,6 +50,11 @@ private:		// functions
 	std::ostream& __osprint_one_code(std::ostream& os, 
 		BackendCodeBase* some_code);
 
+
+	// Cast that happens at runtime.
+	BackendCodeBase* __gen_runtime_cast_to_64(IrMachineMode from_mm, 
+		BackendCodeBase* p);
+
 private:		// IR handler functions
 	//BackendCodeBase* handle_ir_pure_expr(IrExpr* p);
 	BackendCodeBase* __handle_ir_pure_expr_constant(IrExpr* p);

@@ -159,23 +159,23 @@ private:		// functions
 	template<typename Type>
 	void __exec_ldx()
 	{
-		const auto base = pop();
 		const auto index = pop();
+		const auto base = pop();
 		push((s64)((Type)__get_mem_any<Type>(base + index)));
 	}
 	template<typename Type>
 	void __exec_st()
 	{
-		const auto base = pop();
 		const Type data = (Type)pop();
+		const auto base = pop();
 		__set_mem_any<Type>(base, data);
 	}
 	template<typename Type>
 	void __exec_stx()
 	{
-		const auto base = pop();
-		const auto index = pop();
 		const Type data = (Type)pop();
+		const auto index = pop();
+		const auto base = pop();
 		__set_mem_any<Type>(base + index, data);
 	}
 	void __exec_syscall(VmSyscallOp op);

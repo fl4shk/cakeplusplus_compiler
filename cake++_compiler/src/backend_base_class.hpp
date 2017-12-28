@@ -24,6 +24,7 @@ protected:		// variables
 	Function* __curr_func;
 
 	IrInOp __curr_iop;
+	//size_t __curr_ir_code_arg;
 
 	Ident __cleanup_lab_ident = nullptr;
 
@@ -36,6 +37,9 @@ public:		// functions
 
 
 protected:		// functions
+	// Cast that happens at runtime.
+	virtual BackendCodeBase* __gen_runtime_cast_to_64
+		(IrMachineMode from_mm, BackendCodeBase* p) = 0;
 	virtual void __gen_startup_code() = 0;
 	virtual void __gen_one_func_code() = 0;
 	virtual std::ostream& __osprint_one_code(std::ostream& os,
