@@ -53,7 +53,7 @@ private:		// functions
 
 	// Cast that happens at runtime.
 	BackendCodeBase* __gen_runtime_cast(IrMachineMode some_mm, 
-		BackendCodeBase* p);
+		BackendCodeBase* p, IrExpr* orig_expr);
 
 private:		// IR handler functions
 	//BackendCodeBase* handle_ir_pure_expr(IrExpr* p);
@@ -78,7 +78,40 @@ private:		// IR handler functions
 
 
 
+
 private:		// code generation functions
+	inline auto __mk_address_of_variable(Var* var)
+	{
+		if (var->mem_offset() != 0)
+		{
+			mk_const(var->mem_offset());
+
+			if (var->is_arg())
+			{
+				return mk_indexed_arg_addr();
+			}
+			else // if (!var->is_arg())
+			{
+				return mk_indexed_var_addr();
+			}
+		}
+		else // if (var->mem_offset() == 0)
+		{
+			if (var->is_arg())
+			{
+				return mk_arg_addr();
+			}
+			else // if (!var->is_arg())
+			{
+				return mk_var_addr();
+			}
+		}
+	}
+	inline auto __mk_address_of_local_array_data(Var* var)
+	{
+		mk_const(sizeof(u64) + var->mem_offset());
+		return mk_indexed_var_addr();
+	}
 	VmCode* mk_const(s64 s_imm_s64);
 	VmCode* mk_const_func(Function* func_to_get_name_of);
 	inline VmCode* mk_const_func(Ident s_func_ident)

@@ -557,8 +557,13 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 }
 
 BackendCodeBase* VmBackend::__gen_runtime_cast
-	(IrMachineMode some_mm, BackendCodeBase* p)
+	(IrMachineMode some_mm, BackendCodeBase* p, IrExpr* orig_expr)
 {
+	if (orig_expr->is_pure && (orig_expr->pure_op == IrPureExOp::Ld))
+	{
+		return p;
+	}
+
 	switch (some_mm)
 	{
 		case IrMachineMode::U64:
@@ -706,8 +711,8 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 		case IrBinop::CmpGt:
 		case IrBinop::CmpLe:
 		case IrBinop::CmpGe:
-			code_a = __gen_runtime_cast(a->mm, code_a);
-			code_b = __gen_runtime_cast(b->mm, code_b);
+			code_a = __gen_runtime_cast(a->mm, code_a, a);
+			code_b = __gen_runtime_cast(b->mm, code_b, b);
 			break;
 
 		default:
@@ -881,7 +886,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 		}
 	}
 
-	code_ret = __gen_runtime_cast(p->mm, code_ret);
+	code_ret = __gen_runtime_cast(p->mm, code_ret, p);
 
 	return code_ret;
 }
@@ -910,7 +915,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 			break;
 
 		case IrUnop::LogNot:
-			code_ret = __gen_runtime_cast(p->mm, code_a);
+			code_ret = __gen_runtime_cast(p->mm, code_a, a);
 			code_ret = mk_const_u8(0);
 			code_ret = mk_cmp_ne();
 			break;
@@ -922,8 +927,6 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 			code_ret = nullptr;
 			break;
 	}
-
-	//code_ret = __gen_runtime_cast(p->mm, code_ret);
 
 
 	return code_ret;
@@ -994,20 +997,55 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
 		exit(1);
 	}
 
+	auto sym = arg->sym;
 
-	switch (arg->sym->type())
+
+	switch (sym->type())
 	{
 		case SymType::ScalarVarName:
-			return mk_const(arg->sym->var()->non_size_used_space());
+			return mk_const(sym->var()->non_size_used_space());
 
 		case SymType::ArrayVarName:
-			return mk_const(sizeof(u64) 
-				+ arg->sym->var()->non_size_used_space());
+			{
+				auto var = sym->var();
+
+				if (var->is_arg())
+				{
+					// At runtime, a u64 stores the size of the array
+					mk_const_u8(sizeof(u64));
+
+
+					// Calculate var->non_size_used_space() at runtime
+					// because we don't know at compile time what arrays
+					// will be passed to the function.
+					// 
+					// Fortunately, this is likely to be a really uncommon
+					// operation.
+						__mk_address_of_variable(var);
+
+						// Load the number of elements from memory...
+						mk_ld_basic();
+
+						// ...and multiply it by the size of the type
+						mk_const_u8(get_builtin_typename_size
+							(var->type()));
+					mk_mul();
+
+					// Perform the final add.
+					return mk_add();
+				}
+				else // if (!var->is_arg())
+				{
+					// Add the space allocated for the size of the array
+					return mk_const(sizeof(u64) 
+						+ var->non_size_used_space());
+				}
+			}
 
 		case SymType::FuncName:
 		default:
 			printerr("VmBackend::__handle_ir_pure_expr_sizeof():  ",
-				"arg->sym->type() Eek!\n");
+				"sym->type() Eek!\n");
 			exit(1);
 			return nullptr;
 	}
@@ -1183,8 +1221,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
 {
 	auto where = p->args.front();
 
-
-	//return nullptr;
+	return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
 {

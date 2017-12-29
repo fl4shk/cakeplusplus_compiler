@@ -368,24 +368,33 @@ IrExpr* CodeGenerator::mk_pure_expr_address(IrExpr* where)
 
 	return ret;
 }
-IrExpr* CodeGenerator::mk_pure_expr_casted_ld(IrMachineMode s_mm, 
+IrExpr* CodeGenerator::mk_pure_expr_ld(IrMachineMode s_mm, 
 	IrExpr* where)
 {
-	auto expr = mk_ir_pure_expr(IrPureExOp::Ld, s_mm);
+	auto ret = mk_ir_pure_expr(IrPureExOp::Ld, s_mm);
 
-	expr->append_arg(where);
+	ret->append_arg(where);
 
-	const bool is_signed = mm_is_signed(s_mm);
-
-	if (!is_signed)
-	{
-		return mk_pure_expr_cast(IrMachineMode::U64, expr);
-	}
-	else // if (is_signed)
-	{
-		return mk_pure_expr_cast(IrMachineMode::S64, expr);
-	}
+	return ret;
 }
+//IrExpr* CodeGenerator::mk_pure_expr_casted_ld(IrMachineMode s_mm, 
+//	IrExpr* where)
+//{
+//	auto expr = mk_ir_pure_expr(IrPureExOp::Ld, s_mm);
+//
+//	expr->append_arg(where);
+//
+//	const bool is_signed = mm_is_signed(s_mm);
+//
+//	if (!is_signed)
+//	{
+//		return mk_pure_expr_cast(IrMachineMode::U64, expr);
+//	}
+//	else // if (is_signed)
+//	{
+//		return mk_pure_expr_cast(IrMachineMode::S64, expr);
+//	}
+//}
 IrExpr* CodeGenerator::mk_pure_expr_cast(IrMachineMode s_mm, IrExpr* expr)
 {
 	auto ret = mk_ir_pure_expr(IrPureExOp::Cast, s_mm);

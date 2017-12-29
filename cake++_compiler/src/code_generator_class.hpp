@@ -31,7 +31,8 @@ public:		// functions
 	IrExpr* mk_pure_expr_unfinished_call_with_ret(IrMachineMode s_mm,
 		IrExpr* where);
 	IrExpr* mk_pure_expr_address(IrExpr* where);
-	IrExpr* mk_pure_expr_casted_ld(IrMachineMode s_mm, IrExpr* where);
+	IrExpr* mk_pure_expr_ld(IrMachineMode s_mm, IrExpr* where);
+	//IrExpr* mk_pure_expr_casted_ld(IrMachineMode s_mm, IrExpr* where);
 	IrExpr* mk_pure_expr_cast(IrMachineMode s_mm, IrExpr* expr);
 
 	IrExpr* mk_spec_expr_ref_sym(Symbol* s_sym);
