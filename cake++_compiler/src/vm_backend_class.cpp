@@ -1158,6 +1158,8 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 
 	auto handle_ref_lab = [&]() -> void
 	{
+		code_ret = mk_const_lab(cstm_strdup(__func_tbl->get_label_name(
+			(a->lab_num))));
 	};
 
 	switch (a->spec_op)
@@ -1178,7 +1180,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 			break;
 	}
 
-	return nullptr;
+	return code_ret;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
 {
