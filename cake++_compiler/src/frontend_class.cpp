@@ -286,7 +286,7 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 
 		auto mem = codegen().mk_pure_expr_address
 			(codegen().mk_spec_expr_ref_sym(sym));
-		push_ir_expr(codegen().mk_pure_expr_ld
+		push_ir_expr(codegen().mk_pure_expr_casted_ld
 			(convert_builtin_typename_to_mm(sym->var()->type()), mem));
 	}
 	else if (sym->type() == SymType::ArrayVarName)
@@ -1273,7 +1273,7 @@ antlrcpp::Any Frontend::visitIdentRhs
 		&& (index->simm == 0))
 	{
 		//push_ir_expr(codegen().mk_expr_ld(get_top_mm(), mem));
-		push_ir_expr(codegen().mk_pure_expr_ld
+		push_ir_expr(codegen().mk_pure_expr_casted_ld
 			(convert_builtin_typename_to_mm(sym->var()->type()), mem));
 	}
 	else
@@ -1281,7 +1281,7 @@ antlrcpp::Any Frontend::visitIdentRhs
 		//push_ir_expr(codegen().mk_expr_ld(get_top_mm(),
 		//	codegen().mk_expr_binop(IrMachineMode::Pointer,
 		//	IrBinop::Add, mem, index)));
-		push_ir_expr(codegen().mk_pure_expr_ld
+		push_ir_expr(codegen().mk_pure_expr_casted_ld
 			(convert_builtin_typename_to_mm(sym->var()->type()),
 			codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
 			IrBinop::Add, mem, index)));

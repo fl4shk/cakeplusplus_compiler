@@ -52,10 +52,8 @@ private:		// functions
 
 
 	// Cast that happens at runtime.
-	BackendCodeBase* __gen_runtime_cast_to_64(IrMachineMode from_mm, 
+	BackendCodeBase* __gen_runtime_cast(IrMachineMode some_mm, 
 		BackendCodeBase* p);
-	//BackendCodeBase* __gen_runtime_cast_from_64(IrMachineMode to_mm,
-	//	BackendCodeBase* p);
 
 private:		// IR handler functions
 	//BackendCodeBase* handle_ir_pure_expr(IrExpr* p);

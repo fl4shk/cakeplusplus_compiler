@@ -334,30 +334,6 @@ IrExpr* CodeGenerator::mk_pure_expr_unop(IrMachineMode s_mm, IrUnop s_unop,
 	ret->append_arg(a);
 	return ret;
 }
-IrExpr* CodeGenerator::mk_spec_expr_ref_sym(Symbol* s_sym)
-{
-	auto ret = mk_ir_spec_expr(IrSpecExOp::RefSym, IrMachineMode::Pointer);
-
-	ret->sym = s_sym;
-
-	return ret;
-}
-//IrExpr* CodeGenerator::mk_spec_expr_ref_func(Function* s_func)
-//{
-//	auto ret = mk_ir_spec_expr(IrSpecExOp::RefFunc, IrMachineMode::Pointer);
-//
-//	ret->func = s_func;
-//
-//	return ret;
-//}
-IrExpr* CodeGenerator::mk_spec_expr_ref_lab(s64 s_lab_num)
-{
-	auto ret = mk_ir_spec_expr(IrSpecExOp::RefLab, IrMachineMode::Pointer);
-
-	ret->lab_num = s_lab_num;
-
-	return ret;
-}
 IrExpr* CodeGenerator::mk_pure_expr_len(IrMachineMode s_mm, IrExpr* what)
 {
 	auto ret = mk_ir_pure_expr(IrPureExOp::Len, s_mm);
@@ -392,14 +368,58 @@ IrExpr* CodeGenerator::mk_pure_expr_address(IrExpr* where)
 
 	return ret;
 }
-IrExpr* CodeGenerator::mk_pure_expr_ld(IrMachineMode s_mm, IrExpr* where)
+IrExpr* CodeGenerator::mk_pure_expr_casted_ld(IrMachineMode s_mm, 
+	IrExpr* where)
 {
-	auto ret = mk_ir_pure_expr(IrPureExOp::Ld, s_mm);
+	auto expr = mk_ir_pure_expr(IrPureExOp::Ld, s_mm);
 
-	ret->append_arg(where);
+	expr->append_arg(where);
+
+	const bool is_signed = mm_is_signed(s_mm);
+
+	if (!is_signed)
+	{
+		return mk_pure_expr_cast(IrMachineMode::U64, expr);
+	}
+	else // if (is_signed)
+	{
+		return mk_pure_expr_cast(IrMachineMode::S64, expr);
+	}
+}
+IrExpr* CodeGenerator::mk_pure_expr_cast(IrMachineMode s_mm, IrExpr* expr)
+{
+	auto ret = mk_ir_pure_expr(IrPureExOp::Cast, s_mm);
+
+	ret->append_arg(expr);
 
 	return ret;
 }
+
+IrExpr* CodeGenerator::mk_spec_expr_ref_sym(Symbol* s_sym)
+{
+	auto ret = mk_ir_spec_expr(IrSpecExOp::RefSym, IrMachineMode::Pointer);
+
+	ret->sym = s_sym;
+
+	return ret;
+}
+//IrExpr* CodeGenerator::mk_spec_expr_ref_func(Function* s_func)
+//{
+//	auto ret = mk_ir_spec_expr(IrSpecExOp::RefFunc, IrMachineMode::Pointer);
+//
+//	ret->func = s_func;
+//
+//	return ret;
+//}
+IrExpr* CodeGenerator::mk_spec_expr_ref_lab(s64 s_lab_num)
+{
+	auto ret = mk_ir_spec_expr(IrSpecExOp::RefLab, IrMachineMode::Pointer);
+
+	ret->lab_num = s_lab_num;
+
+	return ret;
+}
+
 IrExpr* CodeGenerator::mk_spec_expr_get_next_pc()
 {
 	return mk_ir_spec_expr(IrSpecExOp::GetNextPc, IrMachineMode::Pointer);
@@ -412,14 +432,6 @@ IrExpr* CodeGenerator::mk_spec_expr_if_then_else(IrMachineMode s_mm,
 	ret->append_arg(cond);
 	ret->append_arg(what_if);
 	ret->append_arg(what_else);
-
-	return ret;
-}
-IrExpr* CodeGenerator::mk_pure_expr_cast(IrMachineMode s_mm, IrExpr* expr)
-{
-	auto ret = mk_ir_pure_expr(IrPureExOp::Cast, s_mm);
-
-	ret->append_arg(expr);
 
 	return ret;
 }

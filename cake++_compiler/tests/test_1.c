@@ -20,12 +20,13 @@ u32 main()
 		temp[i] = i * 8;
 		putn(temp[i]);
 
-		{
-		u64 one;
-		one = 1;
+		//{
+		//u64 one;
+		//one = 1;
 
-		i = add_u64(i, one);
-		}
+		//i = add_u64(i, one);
+		//}
+		i = i + 1;
 	}
 
 	}

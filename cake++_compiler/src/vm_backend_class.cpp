@@ -556,10 +556,10 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 	return os;
 }
 
-BackendCodeBase* VmBackend::__gen_runtime_cast_to_64
-	(IrMachineMode from_mm, BackendCodeBase* p)
+BackendCodeBase* VmBackend::__gen_runtime_cast
+	(IrMachineMode some_mm, BackendCodeBase* p)
 {
-	switch (from_mm)
+	switch (some_mm)
 	{
 		case IrMachineMode::U64:
 		case IrMachineMode::S64:
@@ -627,7 +627,7 @@ BackendCodeBase* VmBackend::__gen_runtime_cast_to_64
 			return p;
 
 		default:
-			printerr("VmBackend::__gen_runtime_cast_to_64():  Eek!\n");
+			printerr("VmBackend::__gen_runtime_cast():  Eek!\n");
 			exit(1);
 			return nullptr;
 	}
@@ -706,8 +706,8 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 		case IrBinop::CmpGt:
 		case IrBinop::CmpLe:
 		case IrBinop::CmpGe:
-			code_a = __gen_runtime_cast_to_64(a->mm, code_a);
-			code_b = __gen_runtime_cast_to_64(b->mm, code_b);
+			code_a = __gen_runtime_cast(a->mm, code_a);
+			code_b = __gen_runtime_cast(b->mm, code_b);
 			break;
 
 		default:
@@ -717,10 +717,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 			break;
 	}
 
-	const bool is_signed = ((p->mm == IrMachineMode::S64) 
-		|| (p->mm == IrMachineMode::S32)
-		|| (p->mm == IrMachineMode::S16)
-		|| (p->mm == IrMachineMode::S8));
+	const bool is_signed = mm_is_signed(p->mm);
 
 
 	BackendCodeBase* code_ret;
@@ -884,7 +881,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 		}
 	}
 
-	code_ret = __gen_runtime_cast_to_64(p->mm, code_ret);
+	code_ret = __gen_runtime_cast(p->mm, code_ret);
 
 	return code_ret;
 }
@@ -892,7 +889,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 {
 	auto a = p->args.at(0);
 
-	//auto code_a = __gen_runtime_cast_to_64(a->mm, handle_ir_pure_expr(a));
+	//auto code_a = __gen_runtime_cast(a->mm, handle_ir_pure_expr(a));
 	auto code_a = handle_ir_pure_expr(a);
 
 
@@ -913,7 +910,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 			break;
 
 		case IrUnop::LogNot:
-			code_ret = __gen_runtime_cast_to_64(p->mm, code_a);
+			code_ret = __gen_runtime_cast(p->mm, code_a);
 			code_ret = mk_const_u8(0);
 			code_ret = mk_cmp_ne();
 			break;
@@ -926,7 +923,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 			break;
 	}
 
-	//code_ret = __gen_runtime_cast_to_64(p->mm, code_ret);
+	//code_ret = __gen_runtime_cast(p->mm, code_ret);
 
 
 	return code_ret;
@@ -1184,7 +1181,10 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
 {
-	return nullptr;
+	auto where = p->args.front();
+
+
+	//return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)
 {
