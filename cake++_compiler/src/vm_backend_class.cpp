@@ -556,11 +556,13 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 	return os;
 }
 
-BackendCodeBase* VmBackend::__gen_runtime_cast
-	(IrMachineMode some_mm, BackendCodeBase* p, IrExpr* orig_expr)
+BackendCodeBase* VmBackend::__gen_runtime_cast(IrMachineMode some_mm, 
+	BackendCodeBase* p, IrExpr* orig_expr)
 {
 	if (orig_expr->is_pure && (orig_expr->pure_op == IrPureExOp::Ld))
 	{
+		// The reason for this is that loads already zero-extend or
+		// sign-extend as needed.
 		return p;
 	}
 
@@ -960,16 +962,34 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
 		exit(1);
 	}
 
-	switch (arg->sym->type())
+	auto sym = arg->sym;
+
+	switch (sym->type())
 	{
 		case SymType::ScalarVarName:
+			//return mk_const(sym->var()->dim());
+			return mk_const_u8(1);
+
 		case SymType::ArrayVarName:
-			return mk_const(arg->sym->var()->dim());
+			//return mk_const(sym->var()->dim());
+			{
+				auto var = sym->var();
+
+				if (var->is_arg())
+				{
+					__mk_address_of_variable(var);
+					return mk_ld_basic();
+				}
+				else
+				{
+					return mk_const(sym->var()->dim());
+				}
+			}
 
 		case SymType::FuncName:
 		default:
 			printerr("VmBackend::__handle_ir_pure_expr_len():  ",
-				"arg->sym->type() Eek!\n");
+				"sym->type() Eek!\n");
 			exit(1);
 			return nullptr;
 	}
