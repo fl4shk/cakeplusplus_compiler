@@ -12,13 +12,17 @@ VmBackend::__gen_one_func_code():  "add_s64"
 		quit
 main:
 {
-		const(48)
+		const(62)
 		add_to_sp
-		const(3)
+		const(6)
 		var
 		st_basic
+		const(3)
+		const(14)
+		varx
+		st_basic
 	_2:
-		const(-48)
+		const(-62)
 		add_to_sp
 		ret
 }

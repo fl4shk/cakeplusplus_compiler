@@ -1084,15 +1084,29 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 				{
 					auto var = sym->var();
 
-					code_ret = mk_const(var->mem_offset());
+					if (var->mem_offset() != 0)
+					{
+						code_ret = mk_const(var->mem_offset());
 
-					if (var->is_arg())
-					{
-						code_ret = mk_indexed_arg_addr();
+						if (var->is_arg())
+						{
+							code_ret = mk_indexed_arg_addr();
+						}
+						else // if (!var->is_arg())
+						{
+							code_ret = mk_indexed_var_addr();
+						}
 					}
-					else // if (!var->is_arg())
+					else // if (var->mem_offset() == 0)
 					{
-						code_ret = mk_indexed_var_addr();
+						if (var->is_arg())
+						{
+							code_ret = mk_arg_addr();
+						}
+						else // if (!var->is_arg())
+						{
+							code_ret = mk_var_addr();
+						}
 					}
 				}
 				break;
@@ -1104,14 +1118,23 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 
 					if (var->is_arg())
 					{
-						code_ret = mk_const(var->mem_offset());
+						if (var->mem_offset() != 0)
+						{
+							// Since arrays are passed by reference, we
+							// only need to use the argument directly
+							code_ret = mk_const(var->mem_offset());
 
-						code_ret = mk_indexed_var_addr();
+							code_ret = mk_indexed_var_addr();
+						}
+						else // if (var->mem_offset() == 0)
+						{
+							code_ret = mk_arg_addr();
+						}
 					}
 					else // if (!var->is_arg())
 					{
-						// Add sizeof(u64) because of the space allocated
-						// for the dimensions of the array
+						// Add sizeof(u64) because of the space
+						// allocated for the dimensions of the array
 						code_ret = mk_const(sizeof(u64) 
 							+ var->mem_offset());
 

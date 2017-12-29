@@ -1,6 +1,6 @@
 u32 main()
 {
-	//u8 six[6];
+	u8 six[6];
 	s64 temp[3];
 
 	clear_arr(temp);
