@@ -75,6 +75,14 @@ antlrcpp::Any Frontend::visitProgram
 
 		auto&& funcArgDecl = func_decl->funcArgDecl();
 
+		if (funcArgDecl.size() > max_num_func_args)
+		{
+			err(sconcat("Function called \"", *ident, "\" takes ",
+				"far, far too many arguments!  ",
+				"Note:  Max permitted amount is ", max_num_func_args, 
+				"."));
+		}
+
 		// Fill up the symbol table with the arguments to the function
 		for (auto* func_arg_decl : funcArgDecl)
 		{
@@ -214,6 +222,7 @@ antlrcpp::Any Frontend::visitFuncCall
 
 		funcArgExpr.at(i)->accept(this);
 
+		// Append function arguments
 		to_push->append_arg(pop_ir_expr());
 	}
 

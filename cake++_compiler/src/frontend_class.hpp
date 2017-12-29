@@ -43,6 +43,13 @@ public:		// functions
 
 class Frontend : public GrammarVisitor
 {
+public:		// constants
+	// Ridiculously high number of function arguments permitted.
+	// 
+	// This number is arbitrary.
+	static constexpr size_t max_num_func_args = static_cast<size_t>
+		(static_cast<size_t>(1) << static_cast<size_t>(30));
+
 public:		// typedefs
 	//typedef std::vector<AstNode*> AstVec;
 

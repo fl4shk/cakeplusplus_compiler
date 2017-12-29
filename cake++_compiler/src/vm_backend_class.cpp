@@ -518,13 +518,12 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 	return os;
 }
 
-BackendCodeBase* VmBackend::__gen_runtime_cast_to_64(IrMachineMode from_mm, 
-	BackendCodeBase* p)
+BackendCodeBase* VmBackend::__gen_runtime_cast_to_64
+	(IrMachineMode from_mm, BackendCodeBase* p)
 {
 	switch (from_mm)
 	{
 		case IrMachineMode::U64:
-			return p;
 		case IrMachineMode::S64:
 			return p;
 
@@ -587,6 +586,8 @@ BackendCodeBase* VmBackend::__gen_runtime_cast_to_64(IrMachineMode from_mm,
 
 		case IrMachineMode::Pointer:
 		case IrMachineMode::Length:
+			return p;
+
 		default:
 			printerr("VmBackend::__gen_runtime_cast_to_64():  Eek!\n");
 			exit(1);
@@ -629,17 +630,276 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 {
-	return nullptr;
+	auto a = p->args.at(0);
+	auto b = p->args.at(1);
+
+	__gen_runtime_cast_to_64(a->mm, handle_ir_pure_expr(a));
+	__gen_runtime_cast_to_64(b->mm, handle_ir_pure_expr(b));
+
+	const bool is_signed = ((p->mm == IrMachineMode::S64) 
+		|| (p->mm == IrMachineMode::S32)
+		|| (p->mm == IrMachineMode::S16)
+		|| (p->mm == IrMachineMode::S8));
+
+	//switch (p->mm)
+	//{
+	//	case IrMachineMode::U64:
+	//	case IrMachineMode::S64:
+	//		break;
+
+	//	case IrMachineMode::U32:
+	//	case IrMachineMode::S32:
+	//	case IrMachineMode::U16:
+	//	case IrMachineMode::S16:
+	//	case IrMachineMode::U8:
+	//	case IrMachineMode::S8:
+	//		printerr("VmBackend::__handle_ir_pure_expr_binop():  ",
+	//			"p->mm (regular integer types) Eek!\n");
+	//		exit(1);
+	//		break;
+
+	//	case IrMachineMode::Pointer:
+	//	case IrMachineMode::Length:
+	//		break;
+	//
+	//	default:
+	//		printerr("VmBackend::__handle_ir_pure_expr_binop():  ",
+	//			"p->mm (unknown) Eek!\n");
+	//		exit(1);
+	//		break;
+	//}
+
+
+	BackendCodeBase* code_ret;
+
+	if (!is_signed)
+	{
+		switch (p->binop)
+		{
+			case IrBinop::Add:
+				code_ret = mk_add();
+				break;
+			case IrBinop::Sub:
+				code_ret = mk_sub();
+				break;
+			case IrBinop::Mul:
+				code_ret = mk_mul();
+				break;
+			case IrBinop::Div:
+				code_ret = mk_udiv();
+				break;
+			case IrBinop::Mod:
+				code_ret = mk_umod();
+				break;
+
+			// Logical And, Logical Or
+			case IrBinop::LogAnd:
+				code_ret = mk_bit_and();
+				code_ret = mk_const_u8(0);
+				code_ret = mk_cmp_ne();
+				break;
+			case IrBinop::LogOr:
+				code_ret = mk_bit_or();
+				code_ret = mk_const_u8(0);
+				code_ret = mk_cmp_ne();
+				break;
+
+			// Bitwise Functions
+			case IrBinop::BitAnd:
+				code_ret = mk_bit_and();
+				break;
+			case IrBinop::BitOr:
+				code_ret = mk_bit_or();
+				break;
+			case IrBinop::BitXor:
+				code_ret = mk_bit_xor();
+				break;
+
+			// Shifts
+			case IrBinop::BitShiftLeft:
+				code_ret = mk_bit_lsl();
+				break;
+			case IrBinop::BitShiftRight:
+				code_ret = mk_bit_lsr();
+				break;
+
+
+			// Compares
+			case IrBinop::CmpEq:
+				code_ret = mk_cmp_eq();
+				break;
+			case IrBinop::CmpNe:
+				code_ret = mk_cmp_ne();
+				break;
+			case IrBinop::CmpLt:
+				code_ret = mk_cmp_ult();
+				break;
+			case IrBinop::CmpGt:
+				code_ret = mk_cmp_ugt();
+				break;
+			case IrBinop::CmpLe:
+				code_ret = mk_cmp_ule();
+				break;
+			case IrBinop::CmpGe:
+				code_ret = mk_cmp_uge();
+				break;
+
+			default:
+				printerr("VmBackend::__handle_ir_pure_expr_binop():  ",
+					"Binop Eek!\n");
+				exit(1);
+				break;
+		}
+	}
+	else // if (is_signed)
+	{
+		switch (p->binop)
+		{
+			case IrBinop::Add:
+				code_ret = mk_add();
+				break;
+			case IrBinop::Sub:
+				code_ret = mk_sub();
+				break;
+			case IrBinop::Mul:
+				code_ret = mk_mul();
+				break;
+			case IrBinop::Div:
+				code_ret = mk_sdiv();
+				break;
+			case IrBinop::Mod:
+				code_ret = mk_smod();
+				break;
+
+			// Logical And, Logical Or
+			case IrBinop::LogAnd:
+				code_ret = mk_bit_and();
+				code_ret = mk_const_u8(0);
+				code_ret = mk_cmp_ne();
+				break;
+			case IrBinop::LogOr:
+				code_ret = mk_bit_or();
+				code_ret = mk_const_u8(0);
+				code_ret = mk_cmp_ne();
+				break;
+
+			// Bitwise Functions
+			case IrBinop::BitAnd:
+				code_ret = mk_bit_and();
+				break;
+			case IrBinop::BitOr:
+				code_ret = mk_bit_or();
+				break;
+			case IrBinop::BitXor:
+				code_ret = mk_bit_xor();
+				break;
+
+			// Shifts
+			case IrBinop::BitShiftLeft:
+				code_ret = mk_bit_lsl();
+				break;
+			case IrBinop::BitShiftRight:
+				code_ret = mk_bit_asr();
+				break;
+
+
+			// Compares
+			case IrBinop::CmpEq:
+				code_ret = mk_cmp_eq();
+				break;
+			case IrBinop::CmpNe:
+				code_ret = mk_cmp_ne();
+				break;
+			case IrBinop::CmpLt:
+				code_ret = mk_cmp_slt();
+				break;
+			case IrBinop::CmpGt:
+				code_ret = mk_cmp_sgt();
+				break;
+			case IrBinop::CmpLe:
+				code_ret = mk_cmp_sle();
+				break;
+			case IrBinop::CmpGe:
+				code_ret = mk_cmp_sge();
+				break;
+
+			default:
+				printerr("VmBackend::__handle_ir_pure_expr_binop():  ",
+					"Binop Eek!\n");
+				exit(1);
+				break;
+		}
+	}
+
+
+	return code_ret;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 {
-	auto arg = p->args.front();
+	auto a = p->args.at(0);
 
-	//switch (arg->mm)
+	__gen_runtime_cast_to_64(a->mm, handle_ir_pure_expr(a));
+
+	//switch (p->mm)
 	//{
+	//	case IrMachineMode::U64:
+	//	case IrMachineMode::S64:
+	//		break;
+
+	//	case IrMachineMode::U32:
+	//	case IrMachineMode::S32:
+	//	case IrMachineMode::U16:
+	//	case IrMachineMode::S16:
+	//	case IrMachineMode::U8:
+	//	case IrMachineMode::S8:
+	//		printerr("VmBackend::__handle_ir_pure_expr_unop():  ",
+	//			"p->mm (regular integer types) Eek!\n");
+	//		exit(1);
+	//		break;
+
+	//	case IrMachineMode::Pointer:
+	//	case IrMachineMode::Length:
+	//		break;
+	//
+	//	default:
+	//		printerr("VmBackend::__handle_ir_pure_expr_unop():  ",
+	//			"p->mm (unknown) Eek!\n");
+	//		exit(1);
+	//		break;
 	//}
 
-	return nullptr;
+
+	BackendCodeBase* code_ret;
+
+	switch (p->unop)
+	{
+		case IrUnop::BitNot:
+			code_ret = mk_const_s8(-1);
+			code_ret = mk_bit_xor();
+			break;
+
+		case IrUnop::Negate:
+			code_ret = mk_const_s8(-1);
+			code_ret = mk_bit_xor();
+			code_ret = mk_const_u8(1);
+			code_ret = mk_add();
+			break;
+
+		case IrUnop::LogNot:
+			code_ret = mk_const_u8(0);
+			code_ret = mk_cmp_ne();
+			break;
+
+		default:
+			printerr("VmBackend::__handle_ir_pure_expr_unop():  ",
+				"Unop Eek!\n");
+			exit(1);
+			code_ret = nullptr;
+			break;
+	}
+
+
+	return code_ret;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
 {
@@ -724,13 +984,31 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
 			exit(1);
 			return nullptr;
 	}
-
-
-	//return static_cast<BackendCodeBase*>(ret);
-	//return ret;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
 {
+	auto ref_func = p->args.front();
+
+	if (ref_func->is_pure || (ref_func->spec_op != IrSpecExOp::RefSym))
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_call_with_ret():  ",
+			"ref_func:  non-pure or bad spec_op Eek!\n");
+		exit(1);
+	}
+	if (ref_func->sym->type() != SymType::FuncName)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_call_with_ret():  ",
+			"ref_func->sym->type != SymType::FuncName Eek!\n");
+		exit(1);
+	}
+
+	auto func = ref_func->sym->func();
+
+	for (s64 i=p->args.size()-1; i>0; --i)
+	{
+	}
+
+
 	return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)

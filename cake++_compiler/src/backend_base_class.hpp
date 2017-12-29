@@ -40,6 +40,8 @@ protected:		// functions
 	// Cast that happens at runtime.
 	virtual BackendCodeBase* __gen_runtime_cast_to_64
 		(IrMachineMode from_mm, BackendCodeBase* p) = 0;
+	//virtual BackendCodeBase* __gen_runtime_cast_from_64
+	//	(IrMachineMode to_mm, BackendCodeBase* p) = 0;
 	virtual void __gen_startup_code() = 0;
 	virtual void __gen_one_func_code() = 0;
 	virtual std::ostream& __osprint_one_code(std::ostream& os,
