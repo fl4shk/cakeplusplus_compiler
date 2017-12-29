@@ -529,31 +529,61 @@ BackendCodeBase* VmBackend::__gen_runtime_cast_to_64(IrMachineMode from_mm,
 			return p;
 
 		case IrMachineMode::U32:
-			mk_const_u32(0xffff'ffff);
-			return mk_bit_and();
+			{
+				auto a = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u32(0xffff'ffff)), p);
+				return relink_backend_base_code(delink_backend_code_base
+					(mk_bit_and()), a);
+			}
 		case IrMachineMode::S32:
-			mk_const_u8(32);
-			mk_bit_lsl();
-			mk_const_u8(32);
-			return mk_bit_asr();
+			{
+				auto a = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u8(32)), p);
+				auto b = relink_backend_base_code(delink_backend_code_base
+					(mk_bit_lsl()), a);
+				auto c = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u8(32)), b);
+				return relink_backend_base_code(delink_backend_code_base
+					(mk_bit_asr()), c);
+			}
 
 		case IrMachineMode::U16:
-			mk_const_u16(0xffff);
-			return mk_bit_and();
+			{
+				auto a = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u16(0xffff)), p);
+				return relink_backend_base_code(delink_backend_code_base
+					(mk_bit_and()), a);
+			}
 		case IrMachineMode::S16:
-			mk_const_u8(16);
-			mk_bit_lsl();
-			mk_const_u8(16);
-			return mk_bit_asr();
+			{
+				auto a = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u8(16)), p);
+				auto b = relink_backend_base_code(delink_backend_code_base
+					(mk_bit_lsl()), a);
+				auto c = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u8(16)), b);
+				return relink_backend_base_code(delink_backend_code_base
+					(mk_bit_asr()), c);
+			}
 
 		case IrMachineMode::U8:
-			mk_const_u8(0xff);
-			return mk_bit_and();
+			{
+				auto a = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u8(0xff)), p);
+				return relink_backend_base_code(delink_backend_code_base
+					(mk_bit_and()), a);
+			}
 		case IrMachineMode::S8:
-			mk_const_u8(8);
-			mk_bit_lsl();
-			mk_const_u8(8);
-			return mk_bit_asr();
+			{
+				auto a = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u8(8)), p);
+				auto b = relink_backend_base_code(delink_backend_code_base
+					(mk_bit_lsl()), a);
+				auto c = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u8(8)), b);
+				return relink_backend_base_code(delink_backend_code_base
+					(mk_bit_asr()), c);
+			}
 
 		case IrMachineMode::Pointer:
 		case IrMachineMode::Length:

@@ -121,6 +121,19 @@ inline BackendCodeBase* relink_backend_base_code(BackendCodeBase* p,
 
 	return p;
 }
+inline auto delink_backend_code_base(BackendCodeBase* p)
+{
+	auto old_next = p->next;
+	auto old_prev = p->prev;
+
+	p->next = nullptr;
+	p->prev = nullptr;
+
+	old_next->prev = old_prev;
+	old_prev->next = old_next;
+
+	return p;
+}
 
 IrExpr* mk_ir_pure_expr(IrPureExOp s_op, IrMachineMode s_mm);
 IrExpr* mk_ir_pure_expr(IrPureExOp s_op, IrMachineMode s_mm, 
