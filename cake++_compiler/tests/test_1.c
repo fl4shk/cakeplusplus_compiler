@@ -1,5 +1,6 @@
 u32 main()
 {
+	//u8 six[6];
 	s64 temp[3];
 
 	clear_arr(temp);
@@ -17,6 +18,7 @@ u32 main()
 	while (i < len(temp))
 	{
 		temp[i] = i * 8;
+		putn(temp[i]);
 
 		{
 		u64 one;
@@ -50,44 +52,3 @@ s64 add_s64(s64 a, s64 b)
 {
 	return (a + b);
 }
-
-
-//u32 func(s64 ret[])
-//{
-//	s64 z;
-//
-//	z = 9000;
-//
-//	s64 i;
-//	i = 0;
-//
-//	{
-//	s64 one;
-//	one = 1;
-//
-//	while (i < len(ret))
-//	{
-//		ret[i] = z;
-//		//i = i + 1;
-//		
-//		{
-//		s64 temp[1];
-//		add(temp, i, one);
-//		i = temp[0];
-//		}
-//	}
-//	}
-//
-//	u32 temp;
-//
-//	i = 0;
-//
-//	while (i < len(ret))
-//	{
-//		temp = ret[i];
-//		putn(temp);
-//		i = i + 1;
-//	}
-//
-//	return u32(temp);
-//}

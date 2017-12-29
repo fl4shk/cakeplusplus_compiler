@@ -123,6 +123,44 @@ void VmBackend::__gen_one_func_code()
 		// Allocate local variables (if any)
 		mk_const(__var_space);
 		mk_add_to_sp();
+
+		// Fill in dimensions of each local variable array
+		for (auto iter : local_vars)
+		{
+			//if ((iter->type() != SymType::ArrayVarName)
+			//	&& (iter->type() == SymType::ArrayClassInstName))
+			if (iter->type() != SymType::ArrayVarName)
+			{
+				if (iter->type() != SymType::ScalarVarName)
+				{
+					printerr("VmBackend::__gen_one_func_code()  Eek!\n");
+					exit(1);
+				}
+				continue;
+			}
+			auto var = iter->var();
+
+			// data
+			mk_const(var->dim());
+
+			// base
+			if (var->mem_offset() != 0)
+			{
+				// index
+				mk_const(var->mem_offset());
+
+				// base
+				mk_indexed_var_addr();
+			}
+			else // if (var->mem_offset() == 0)
+			{
+				// base
+				mk_var_addr();
+			}
+
+			// Perform the store
+			mk_st_basic();
+		}
 	}
 
 
@@ -633,41 +671,56 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 	auto a = p->args.at(0);
 	auto b = p->args.at(1);
 
-	__gen_runtime_cast_to_64(a->mm, handle_ir_pure_expr(a));
-	__gen_runtime_cast_to_64(b->mm, handle_ir_pure_expr(b));
+	auto code_a = handle_ir_pure_expr(a);
+	auto code_b = handle_ir_pure_expr(b);
+
+	switch (p->binop)
+	{
+		case IrBinop::Add:
+		case IrBinop::Sub:
+		case IrBinop::Mul:
+		case IrBinop::Div:
+		case IrBinop::Mod:
+
+		// Logical And, Logical Or
+		case IrBinop::LogAnd:
+			break;
+		case IrBinop::LogOr:
+			break;
+
+		// Bitwise Functions
+		case IrBinop::BitAnd:
+		case IrBinop::BitOr:
+		case IrBinop::BitXor:
+
+		// Shifts
+		case IrBinop::BitShiftLeft:
+		case IrBinop::BitShiftRight:
+			break;
+
+
+		// Compares
+		case IrBinop::CmpEq:
+		case IrBinop::CmpNe:
+		case IrBinop::CmpLt:
+		case IrBinop::CmpGt:
+		case IrBinop::CmpLe:
+		case IrBinop::CmpGe:
+			code_a = __gen_runtime_cast_to_64(a->mm, code_a);
+			code_b = __gen_runtime_cast_to_64(b->mm, code_b);
+			break;
+
+		default:
+			printerr("VmBackend::__handle_ir_pure_expr_binop():  ",
+				"(runtime cast stuff) Binop Eek!\n");
+			exit(1);
+			break;
+	}
 
 	const bool is_signed = ((p->mm == IrMachineMode::S64) 
 		|| (p->mm == IrMachineMode::S32)
 		|| (p->mm == IrMachineMode::S16)
 		|| (p->mm == IrMachineMode::S8));
-
-	//switch (p->mm)
-	//{
-	//	case IrMachineMode::U64:
-	//	case IrMachineMode::S64:
-	//		break;
-
-	//	case IrMachineMode::U32:
-	//	case IrMachineMode::S32:
-	//	case IrMachineMode::U16:
-	//	case IrMachineMode::S16:
-	//	case IrMachineMode::U8:
-	//	case IrMachineMode::S8:
-	//		printerr("VmBackend::__handle_ir_pure_expr_binop():  ",
-	//			"p->mm (regular integer types) Eek!\n");
-	//		exit(1);
-	//		break;
-
-	//	case IrMachineMode::Pointer:
-	//	case IrMachineMode::Length:
-	//		break;
-	//
-	//	default:
-	//		printerr("VmBackend::__handle_ir_pure_expr_binop():  ",
-	//			"p->mm (unknown) Eek!\n");
-	//		exit(1);
-	//		break;
-	//}
 
 
 	BackendCodeBase* code_ret;
@@ -831,6 +884,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 		}
 	}
 
+	code_ret = __gen_runtime_cast_to_64(p->mm, code_ret);
 
 	return code_ret;
 }
@@ -838,35 +892,8 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 {
 	auto a = p->args.at(0);
 
-	__gen_runtime_cast_to_64(a->mm, handle_ir_pure_expr(a));
-
-	//switch (p->mm)
-	//{
-	//	case IrMachineMode::U64:
-	//	case IrMachineMode::S64:
-	//		break;
-
-	//	case IrMachineMode::U32:
-	//	case IrMachineMode::S32:
-	//	case IrMachineMode::U16:
-	//	case IrMachineMode::S16:
-	//	case IrMachineMode::U8:
-	//	case IrMachineMode::S8:
-	//		printerr("VmBackend::__handle_ir_pure_expr_unop():  ",
-	//			"p->mm (regular integer types) Eek!\n");
-	//		exit(1);
-	//		break;
-
-	//	case IrMachineMode::Pointer:
-	//	case IrMachineMode::Length:
-	//		break;
-	//
-	//	default:
-	//		printerr("VmBackend::__handle_ir_pure_expr_unop():  ",
-	//			"p->mm (unknown) Eek!\n");
-	//		exit(1);
-	//		break;
-	//}
+	//auto code_a = __gen_runtime_cast_to_64(a->mm, handle_ir_pure_expr(a));
+	auto code_a = handle_ir_pure_expr(a);
 
 
 	BackendCodeBase* code_ret;
@@ -886,6 +913,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 			break;
 
 		case IrUnop::LogNot:
+			code_ret = __gen_runtime_cast_to_64(p->mm, code_a);
 			code_ret = mk_const_u8(0);
 			code_ret = mk_cmp_ne();
 			break;
@@ -897,6 +925,8 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_unop(IrExpr* p)
 			code_ret = nullptr;
 			break;
 	}
+
+	//code_ret = __gen_runtime_cast_to_64(p->mm, code_ret);
 
 
 	return code_ret;
@@ -1002,17 +1032,129 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
 		exit(1);
 	}
 
-	auto func = ref_func->sym->func();
 
+
+	// Allocate space for return value (always allocated as 64-bit)
+	mk_const_u8(0);
+
+
+	// p->args.at(0) was the function symbol reference, so it's not an
+	// argument to the function
+	// 
+	// Iterate backwards because of how arguments are set up.
 	for (s64 i=p->args.size()-1; i>0; --i)
 	{
+		handle_ir_pure_expr(p->args.at(i));
 	}
 
+	mk_const_func(ref_func->sym->name());
+	mk_call();
 
-	return nullptr;
+	const s64 amount_to_subtract_from_sp
+		= static_cast<s64>(p->args.size() - static_cast<s64>(1)) 
+		* static_cast<s64>(sizeof(u64));
+
+	// Possible future optimization:  check how big
+	// amount_to_subtract_from_sp is and use "mk_const...()" that has
+	// smaller immediate value.
+	mk_const(-amount_to_subtract_from_sp);
+	return mk_add_to_sp();
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 {
+	auto a = p->args.at(0);
+
+	if (a->is_pure)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_address():  ",
+			"a->is_pure Eek!\n");
+		exit(1);
+	}
+
+
+	BackendCodeBase* code_ret;
+
+	auto handle_ref_sym = [&]() -> void
+	{
+		auto sym = a->sym;
+
+		switch (sym->type())
+		{
+			case SymType::ScalarVarName:
+				{
+					auto var = sym->var();
+
+					code_ret = mk_const(var->mem_offset());
+
+					if (var->is_arg())
+					{
+						code_ret = mk_indexed_arg_addr();
+					}
+					else // if (!var->is_arg())
+					{
+						code_ret = mk_indexed_var_addr();
+					}
+				}
+				break;
+
+			case SymType::ArrayVarName:
+				{
+					auto var = sym->var();
+
+
+					if (var->is_arg())
+					{
+						code_ret = mk_const(var->mem_offset());
+
+						code_ret = mk_indexed_var_addr();
+					}
+					else // if (!var->is_arg())
+					{
+						// Add sizeof(u64) because of the space allocated
+						// for the dimensions of the array
+						code_ret = mk_const(sizeof(u64) 
+							+ var->mem_offset());
+
+						code_ret = mk_indexed_var_addr();
+					}
+				}
+				break;
+
+			case SymType::FuncName:
+				code_ret = mk_const_func(sym->name());
+				break;
+
+			default:
+				printerr("VmBackend::__handle_ir_pure_expr_address()",
+					"::handle_ref_sym():  Eek!\n");
+				exit(1);
+				code_ret = nullptr;
+				break;
+		}
+	};
+
+	auto handle_ref_lab = [&]() -> void
+	{
+	};
+
+	switch (a->spec_op)
+	{
+		// Symbol reference
+		case IrSpecExOp::RefSym:
+			handle_ref_sym();
+
+
+		// Label reference
+		case IrSpecExOp::RefLab:
+			handle_ref_lab();
+
+		default:
+			printerr("VmBackend::__handle_ir_pure_expr_address():  ",
+				"a->spec_op Eek!\n");
+			exit(1);
+			break;
+	}
+
 	return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)

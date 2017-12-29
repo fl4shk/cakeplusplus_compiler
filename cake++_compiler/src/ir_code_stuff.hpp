@@ -235,7 +235,7 @@ public:		// variables
 		s64 simm;
 		IrBinop binop;
 		IrUnop unop;
-		Function* func;
+		//Function* func;
 		Symbol* sym;
 		s64 lab_num;
 	};
