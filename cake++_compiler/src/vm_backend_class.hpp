@@ -5,6 +5,11 @@
 
 class VmBackend : public BackendBase
 {
+public:		// constants
+	static constexpr size_t array_var_dim_storage_size = sizeof(u64);
+	static constexpr s64 array_var_dim_storage_size_s64 
+		= static_cast<s64>(array_var_dim_storage_size);
+
 private:		// variables
 	//VmCode __startup_vm_code;
 	//std::map<Function*, VmCode*> __func_to_code_map;
@@ -109,7 +114,7 @@ private:		// code generation functions
 	}
 	inline auto __mk_address_of_local_array_data(Var* var)
 	{
-		mk_const(sizeof(u64) + var->mem_offset());
+		mk_const(array_var_dim_storage_size_s64 + var->mem_offset());
 		return mk_indexed_var_addr();
 	}
 	VmCode* mk_const(s64 s_imm_s64);

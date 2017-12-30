@@ -40,10 +40,6 @@ enum class IrPureExOp
 	// Load
 	Ld,
 
-	// Cast of Load
-	CastOfLd,
-
-
 	// Type Casting
 	Cast,
 };

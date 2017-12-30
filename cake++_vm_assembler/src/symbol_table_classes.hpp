@@ -3,7 +3,7 @@
 
 #include "misc_includes.hpp"
 
-#include "scoped_ident_table_class.hpp"
+#include "scoped_table_base_class.hpp"
 
 
 class Symbol
@@ -37,7 +37,7 @@ public:		// functions
 };
 
 
-class SymbolTable : public ScopedIdentTable<Symbol>
+class SymbolTable : public ScopedTableBase<Symbol>
 {
 public:		// functions
 	SymbolTable();

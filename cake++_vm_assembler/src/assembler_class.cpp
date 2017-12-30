@@ -51,7 +51,12 @@ int Assembler::run()
 	{
 		__pc = 0;
 
+		__curr_scope_node = sym_tbl().tree().children.front();
+		push_scope_child_num(0);
+
 		visitProgram(__program_ctx);
+
+		pop_scope_child_num();
 	};
 
 	return 0;
@@ -176,7 +181,30 @@ antlrcpp::Any Assembler::visitLine
 antlrcpp::Any Assembler::visitScopedLines
 	(GrammarParser::ScopedLinesContext *ctx)
 {
-	sym_tbl().mkscope();
+	if (!__pass)
+	{
+		sym_tbl().mkscope(__curr_scope_node);
+	}
+	else // if (__pass)
+	{
+		//if (__curr_scope_node == sym_tbl().tree().children.front())
+		//{
+		//}
+		//else
+		//{
+		//}
+
+
+		//if (__scope_child_num_stack.size() == 1)
+		//{
+		//}
+
+		//printout("visitScopedLines() start:  ",
+		//	__scope_child_num_stack.size(), "\n");
+		__curr_scope_node = __curr_scope_node->children.at
+			(get_top_scope_child_num());
+		push_scope_child_num(0);
+	}
 	auto&& lines = ctx->line();
 
 	for (auto line : lines)
@@ -184,7 +212,21 @@ antlrcpp::Any Assembler::visitScopedLines
 		line->accept(this);
 	}
 
-	sym_tbl().rmscope();
+	if (!__pass)
+	{
+		sym_tbl().rmscope(__curr_scope_node);
+	}
+	else // if (__pass)
+	{
+		//__curr_scope_node = 
+
+		pop_scope_child_num();
+
+		auto temp = pop_scope_child_num();
+		++temp;
+		push_scope_child_num(temp);
+		__curr_scope_node = __curr_scope_node->parent;
+	}
 
 	return nullptr;
 }
@@ -198,7 +240,7 @@ antlrcpp::Any Assembler::visitLabel
 	auto name = pop_str();
 
 	{
-	auto sym = sym_tbl().find_in_this_level(name);
+	auto sym = sym_tbl().find_in_this_blklev(__curr_scope_node, name);
 	if ((sym != nullptr) && !__pass && sym->found_as_label())
 	{
 		printerr("Error:  Cannot have two identical identifers!  ",
@@ -206,10 +248,12 @@ antlrcpp::Any Assembler::visitLabel
 		exit(1);
 	}
 	}
-	auto sym = sym_tbl().find_or_insert(name);
+	auto sym = sym_tbl().find_or_insert(__curr_scope_node, name);
 
 	sym->set_found_as_label(true);
 	sym->set_addr(pc());
+
+	//printout("visitLabel():  ", pc(), "\n");
 
 	return nullptr;
 }
@@ -1177,7 +1221,7 @@ antlrcpp::Any Assembler::visitExprMulDivModEtc
 	else if (ctx->identName())
 	{
 		ctx->identName()->accept(this);
-		auto sym = sym_tbl().find_or_insert(pop_str());
+		auto sym = sym_tbl().find_or_insert(__curr_scope_node, pop_str());
 		push_num(sym->addr());
 	}
 	else if (ctx->currPc())

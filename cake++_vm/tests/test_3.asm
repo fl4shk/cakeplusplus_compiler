@@ -1,0 +1,31 @@
+		const_u8(0)
+		const(main)
+		call
+		quit
+main:
+{
+	_0:
+		const(46)
+		add_to_sp
+		const(6)
+		var
+		st_basic
+		const(3)
+		const(14)
+		varx
+		st_basic
+		const(9000)
+		arg
+		st_u32
+		const_u8(0)
+		;beq(_0)
+
+		const(_1)
+		disp_num
+		const(10)
+		disp_char
+	_1:
+		const(-46)
+		add_to_sp
+		ret
+}

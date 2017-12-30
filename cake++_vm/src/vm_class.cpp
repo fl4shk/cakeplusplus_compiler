@@ -84,65 +84,116 @@ int Vm::run()
 
 void Vm::exec_one_instr(VmInstrOp op)
 {
+	//debug_printout("At PC ", pc(), "\n");
+	debug_printout("At PC ", pc() - sizeof(op), ":  ");
 	switch (op)
 	{
-
 		case VmInstrOp::constant:
-			push(get_imm_64());
+			{
+				const auto temp = get_imm_64();
+
+				debug_printout("const(", temp, ")");
+				push(temp);
+			}
 			break;
 		case VmInstrOp::constant_u32:
-			push(get_imm_u32());
+			{
+				//push(get_imm_u32());
+				const auto temp = get_imm_u32();
+
+				debug_printout("const_u32(", (s64)temp, ")");
+				push(temp);
+			}
 			break;
 		case VmInstrOp::constant_s32:
-			push(get_imm_s32());
+			{
+				//push(get_imm_s32());
+				const auto temp = get_imm_s32();
+				
+				debug_printout("const_s32(", (s64)temp, ")");
+				push(temp);
+			}
 			break;
 		case VmInstrOp::constant_u16:
-			push(get_imm_u16());
+			{
+				//push(get_imm_u16());
+				const auto temp = get_imm_u16();
+
+				debug_printout("const_u16(", (s64)temp, ")");
+				push(temp);
+			}
 			break;
 		case VmInstrOp::constant_s16:
-			push(get_imm_s16());
+			{
+				//push(get_imm_s16());
+				const auto temp = get_imm_s16();
+
+				debug_printout("const_s16(", (s64)temp, ")");
+				push(temp);
+			}
 			break;
 		case VmInstrOp::constant_u8:
-			push(get_imm_u8());
+			{
+				//push(get_imm_u8());
+				const auto temp = get_imm_u8();
+
+				debug_printout("const_u8(", (s64)temp, ")");
+				push(temp);
+			}
 			break;
 		case VmInstrOp::constant_s8:
-			push(get_imm_s8());
+			{
+				//push(get_imm_s8());
+				const auto temp = get_imm_s8();
+
+				debug_printout("const_s8(", (s64)temp, ")");
+				push(temp);
+			}
 			break;
 
 		case VmInstrOp::arg:
 			push(fp() - 8);
+			debug_printout("arg");
 			break;
 		case VmInstrOp::argx:
 			push(fp() - 8 + pop());
+			debug_printout("argx");
 			break;
 		case VmInstrOp::var:
 			push(fp() + 16);
+			debug_printout("var");
 			break;
 		case VmInstrOp::varx:
 			push(fp() + 16 + pop());
+			debug_printout("varx");
 			break;
 		case VmInstrOp::get_pc:
 			push(pc());
+			debug_printout("get_pc");
 			break;
 		case VmInstrOp::jump:
 			pc() = pop();
+			debug_printout("jump");
 			break;
 
 		case VmInstrOp::beq:
 			{
 				const auto offset = get_imm_64();
 				const auto val = pop();
+				debug_printout("beq(", offset, ")");
 
 				if (val == 0)
 				{
 					pc() += offset;
 				}
+
 			}
 			break;
 		case VmInstrOp::bne:
 			{
 				const auto offset = get_imm_64();
 				const auto val = pop();
+				debug_printout("bne(", offset, ")");
 
 				if (val != 0)
 				{
@@ -154,6 +205,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			{
 				const auto offset = get_imm_s16();
 				const auto val = pop();
+				debug_printout("beq_near(", offset, ")");
 
 				if (val == 0)
 				{
@@ -165,6 +217,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			{
 				const auto offset = get_imm_s16();
 				const auto val = pop();
+				debug_printout("bne_near(", offset, ")");
 
 				if (val != 0)
 				{
@@ -175,19 +228,21 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 		case VmInstrOp::call:
 			{
+				debug_printout("call");
 				const auto old_fp = fp();
 				const auto addr = pop();
 				fp() = sp();
 				push(pc());
 				push(old_fp);
 				pc() = addr;
-				//printout("call:  ", get_mem_64(sp() - 16), " ",
+				//debug_printout("call:  ", get_mem_64(sp() - 16), " ",
 				//	get_mem_64(sp() - 8), "\n");
 				//exit(0);
 			}
 			break;
 		case VmInstrOp::ret:
 			{
+				debug_printout("ret");
 				const auto ret_addr = get_mem_64(fp());
 				const auto old_fp = get_mem_64(fp() + 8);
 				sp() = fp();
@@ -342,11 +397,13 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 
 		case VmInstrOp::add_to_sp:
+			debug_printout("add_to_sp");
 			sp() += pop();
 			break;
 
 		case VmInstrOp::add:
 			{
+				debug_printout("add");
 				const auto b = pop();
 				const auto a = pop();
 				push(a + b);
@@ -354,6 +411,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::sub:
 			{
+				debug_printout("sub");
 				const auto b = pop();
 				const auto a = pop();
 				push(a - b);
@@ -361,6 +419,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::mul:
 			{
+				debug_printout("mul");
 				const auto b = pop();
 				const auto a = pop();
 				push(a * b);
@@ -368,6 +427,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::udiv:
 			{
+				debug_printout("udiv");
 				const u64 b = pop();
 				const u64 a = pop();
 				push(a / b);
@@ -375,6 +435,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::sdiv:
 			{
+				debug_printout("sdiv");
 				const auto b = pop();
 				const auto a = pop();
 				push(a / b);
@@ -382,6 +443,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::umod:
 			{
+				debug_printout("umod");
 				const u64 b = pop();
 				const u64 a = pop();
 				push(a % b);
@@ -389,6 +451,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::smod:
 			{
+				debug_printout("smod");
 				const auto b = pop();
 				const auto a = pop();
 				push(a % b);
@@ -397,6 +460,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 		case VmInstrOp::bit_and:
 			{
+				debug_printout("bit_and");
 				const auto b = pop();
 				const auto a = pop();
 				push(a & b);
@@ -404,6 +468,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::bit_or:
 			{
+				debug_printout("bit_or");
 				const auto b = pop();
 				const auto a = pop();
 				push(a | b);
@@ -411,6 +476,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::bit_xor:
 			{
+				debug_printout("bit_xor");
 				const auto b = pop();
 				const auto a = pop();
 				push(a ^ b);
@@ -418,6 +484,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::bit_lsl:
 			{
+				debug_printout("bit_lsl");
 				const auto b = pop();
 				const auto a = pop();
 				push(a << b);
@@ -425,6 +492,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::bit_lsr:
 			{
+				debug_printout("bit_lsr");
 				const u64 b = pop();
 				const u64 a = pop();
 				push(a >> b);
@@ -432,6 +500,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::bit_asr:
 			{
+				debug_printout("bit_asr");
 				const auto b = pop();
 				const auto a = pop();
 				push(a >> b);
@@ -441,6 +510,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 		case VmInstrOp::cmp_eq:
 			{
+				debug_printout("cmp_eq");
 				const auto b = pop();
 				const auto a = pop();
 				push(a == b);
@@ -448,6 +518,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::cmp_ne:
 			{
+				debug_printout("cmp_ne");
 				const auto b = pop();
 				const auto a = pop();
 				push(a != b);
@@ -455,6 +526,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::cmp_ult:
 			{
+				debug_printout("cmp_ult");
 				const u64 b = pop();
 				const u64 a = pop();
 				push(a < b);
@@ -462,6 +534,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::cmp_slt:
 			{
+				debug_printout("cmp_slt");
 				const auto b = pop();
 				const auto a = pop();
 				push(a < b);
@@ -469,6 +542,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::cmp_ugt:
 			{
+				debug_printout("cmp_ugt");
 				const u64 b = pop();
 				const u64 a = pop();
 				push(a > b);
@@ -476,6 +550,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::cmp_sgt:
 			{
+				debug_printout("cmp_sgt");
 				const auto b = pop();
 				const auto a = pop();
 				push(a > b);
@@ -483,6 +558,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::cmp_ule:
 			{
+				debug_printout("cmp_ule");
 				const u64 b = pop();
 				const u64 a = pop();
 				push(a <= b);
@@ -490,6 +566,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::cmp_sle:
 			{
+				debug_printout("cmp_sle");
 				const auto b = pop();
 				const auto a = pop();
 				push(a <= b);
@@ -497,6 +574,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::cmp_uge:
 			{
+				debug_printout("cmp_uge");
 				const u64 b = pop();
 				const u64 a = pop();
 				push(a >= b);
@@ -504,6 +582,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 		case VmInstrOp::cmp_sge:
 			{
+				debug_printout("cmp_sge");
 				const auto b = pop();
 				const auto a = pop();
 				push(a >= b);
@@ -513,12 +592,14 @@ void Vm::exec_one_instr(VmInstrOp op)
 
 		case VmInstrOp::syscall:
 			{
+				debug_printout("syscall");
 				const VmSyscallOp op = (VmSyscallOp)pop();
 				__exec_syscall(op);
 			}
 			break;
 
 		case VmInstrOp::quit:
+			debug_printout("quit");
 			err("exec_one_instr():  Eek!\n");
 			break;
 
@@ -527,6 +608,7 @@ void Vm::exec_one_instr(VmInstrOp op)
 				"!"));
 			break;
 	}
+	debug_printout("\n");
 }
 
 void Vm::__exec_syscall(VmSyscallOp op)

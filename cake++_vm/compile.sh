@@ -1,2 +1,2 @@
 #!/bin/bash
-./assembler <tests/test_"$1".asm >tests/test_"$1".vmtxt
+./compiler <tests/test_"$1".c >tests/test_"$1".asm

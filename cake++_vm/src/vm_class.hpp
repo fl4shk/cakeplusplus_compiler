@@ -123,6 +123,8 @@ public:		// constants
 	//static constexpr size_t max_mem_size = 0x1'0000'0000;
 	static constexpr size_t max_mem_size = 0x100000000;
 	static constexpr size_t min_mem_size = 0x10000;
+	//static constexpr bool enable_debug = true;
+	static constexpr bool enable_debug = false;
 
 private:		// variables
 	std::vector<u8> __mem;
@@ -150,24 +152,38 @@ public:		// functions
 private:		// functions
 	void exec_one_instr(VmInstrOp op);
 
+	template<typename... ArgTypes>
+	void debug_printout(ArgTypes&&... args)
+	{
+		if constexpr (enable_debug)
+		{
+			printout(args...);
+		}
+	}
+
 	template<typename Type>
 	void __exec_ld()
 	{
 		const auto base = pop();
-		push((s64)((Type)__get_mem_any<Type>(base)));
+		const auto temp = ((s64)((Type)__get_mem_any<Type>(base)));
+		debug_printout("__exec_ld():  ", strappcom2(base, temp));
+		push(temp);
 	}
 	template<typename Type>
 	void __exec_ldx()
 	{
 		const auto base = pop();
 		const auto index = pop();
-		push((s64)((Type)__get_mem_any<Type>(base + index)));
+		const auto temp =((s64)((Type)__get_mem_any<Type>(base + index)));
+		debug_printout("__exec_ldx():  ", strappcom2(base, index, temp));
+		push(temp);
 	}
 	template<typename Type>
 	void __exec_st()
 	{
 		const auto base = pop();
 		const Type data = (Type)pop();
+		debug_printout("__exec_st():  ", strappcom2(base, data));
 		__set_mem_any<Type>(base, data);
 	}
 	template<typename Type>
@@ -176,6 +192,7 @@ private:		// functions
 		const auto base = pop();
 		const auto index = pop();
 		const Type data = (Type)pop();
+		debug_printout("__exec_stx():  ", strappcom2(base, index, data));
 		__set_mem_any<Type>(base + index, data);
 	}
 	void __exec_syscall(VmSyscallOp op);

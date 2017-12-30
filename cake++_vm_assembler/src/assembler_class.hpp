@@ -149,12 +149,15 @@ private:		// variables
 	u64 __pc;
 
 	std::stack<s64> __num_stack;
+	std::stack<s64> __scope_child_num_stack;
 	std::stack<std::string*> __str_stack;
 
 	GrammarParser::ProgramContext* __program_ctx;
 	int __pass;
 
 	bool __show_ws;
+
+	ScopedTableNode<Symbol>* __curr_scope_node = nullptr;
 
 public:		// functions
 	Assembler(GrammarParser& parser, bool s_show_ws=false);
@@ -304,6 +307,20 @@ private:		// functions
 	{
 		auto ret = __num_stack.top();
 		__num_stack.pop();
+		return ret;
+	}
+	inline void push_scope_child_num(s64 to_push)
+	{
+		__scope_child_num_stack.push(to_push);
+	}
+	inline auto get_top_scope_child_num()
+	{
+		return __scope_child_num_stack.top();
+	}
+	inline auto pop_scope_child_num()
+	{
+		auto ret = __scope_child_num_stack.top();
+		__scope_child_num_stack.pop();
 		return ret;
 	}
 
