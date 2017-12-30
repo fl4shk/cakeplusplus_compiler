@@ -394,8 +394,13 @@ antlrcpp::Any Assembler::visitInstrBeq
 	if (ctx->expr())
 	{
 		ctx->expr()->accept(this);
-		// subtract 2 because of the gen_16(VmInstrOp::bne)
-		gen_64(pop_num() - pc() - 2);
+
+		//// subtract 2 because of the gen_16(VmInstrOp::bne)
+		//gen_64(pop_num() - pc() - 2);
+
+		//gen_64(pc() - pop_num() - sizeof(u16) - sizeof(s64));
+		//gen_64(pc() - pop_num());
+		gen_64(pc() - pop_num() + sizeof(u64));
 	}
 	else
 	{
@@ -413,8 +418,13 @@ antlrcpp::Any Assembler::visitInstrBne
 	if (ctx->expr())
 	{
 		ctx->expr()->accept(this);
-		// subtract 2 because of the gen_16(VmInstrOp::bne)
-		gen_64(pop_num() - pc() - 2);
+
+		//// subtract 2 because of the gen_16(VmInstrOp::bne)
+		//gen_64(pop_num() - pc() - 2);
+
+		//gen_64(pc() - pop_num() - sizeof(u16) - sizeof(s64));
+		//gen_64(pc() - pop_num());
+		gen_64(pc() - pop_num() + sizeof(u64));
 	}
 	else
 	{
@@ -432,8 +442,13 @@ antlrcpp::Any Assembler::visitInstrBeqNear
 	if (ctx->expr())
 	{
 		ctx->expr()->accept(this);
-		// subtract 2 because of the gen_16(VmInstrOp::beq)
-		const s64 offset = pop_num() - pc() - 2;
+		//// subtract 2 because of the gen_16(VmInstrOp::beq)
+		//const s64 offset = pop_num() - pc() - 2;
+
+		//const s64 offset = pop_num() - pc() - sizeof(u16) - sizeof(s16);
+		//const s64 offset = pc() - pop_num() - sizeof(u16) - sizeof(s16);
+		//const s64 offset = pc() - pop_num();
+		const s64 offset = pc() - pop_num() + sizeof(s16);
 
 		if (((s64)((s16)offset)) != offset)
 		{
@@ -457,8 +472,13 @@ antlrcpp::Any Assembler::visitInstrBneNear
 	if (ctx->expr())
 	{
 		ctx->expr()->accept(this);
-		// subtract 2 because of the gen_16(VmInstrOp::bne)
-		const s64 offset = pop_num() - pc() - 2;
+		//// subtract 2 because of the gen_16(VmInstrOp::bne)
+		//const s64 offset = pop_num() - pc() - 2;
+
+		//const s64 offset = pop_num() - pc() - sizeof(u16) - sizeof(s16);
+		//const s64 offset = pc() - pop_num() - sizeof(u16) - sizeof(s16);
+		//const s64 offset = pc() - pop_num();
+		const s64 offset = pc() - pop_num() + sizeof(s16);
 
 		if (((s64)((s16)offset)) != offset)
 		{

@@ -123,8 +123,8 @@ public:		// constants
 	//static constexpr size_t max_mem_size = 0x1'0000'0000;
 	static constexpr size_t max_mem_size = 0x100000000;
 	static constexpr size_t min_mem_size = 0x10000;
-	//static constexpr bool enable_debug = true;
-	static constexpr bool enable_debug = false;
+	static constexpr bool enable_debug = true;
+	//static constexpr bool enable_debug = false;
 
 private:		// variables
 	std::vector<u8> __mem;

@@ -575,10 +575,18 @@ BackendCodeBase* VmBackend::__gen_runtime_cast(IrMachineMode some_mm,
 
 		case IrMachineMode::U32:
 			{
+				//auto a = relink_backend_base_code(delink_backend_code_base
+				//	(mk_const_u32(0xffff'ffff)), p);
+				//return relink_backend_base_code(delink_backend_code_base
+				//	(mk_bit_and()), a);
 				auto a = relink_backend_base_code(delink_backend_code_base
-					(mk_const_u32(0xffff'ffff)), p);
+					(mk_const_u8(32)), p);
+				auto b = relink_backend_base_code(delink_backend_code_base
+					(mk_bit_lsl()), a);
+				auto c = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u8(32)), b);
 				return relink_backend_base_code(delink_backend_code_base
-					(mk_bit_and()), a);
+					(mk_bit_lsr()), c);
 			}
 		case IrMachineMode::S32:
 			{
@@ -594,10 +602,18 @@ BackendCodeBase* VmBackend::__gen_runtime_cast(IrMachineMode some_mm,
 
 		case IrMachineMode::U16:
 			{
+				//auto a = relink_backend_base_code(delink_backend_code_base
+				//	(mk_const_u16(0xffff)), p);
+				//return relink_backend_base_code(delink_backend_code_base
+				//	(mk_bit_and()), a);
 				auto a = relink_backend_base_code(delink_backend_code_base
-					(mk_const_u16(0xffff)), p);
+					(mk_const_u8(16)), p);
+				auto b = relink_backend_base_code(delink_backend_code_base
+					(mk_bit_lsl()), a);
+				auto c = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u8(16)), b);
 				return relink_backend_base_code(delink_backend_code_base
-					(mk_bit_and()), a);
+					(mk_bit_lsr()), c);
 			}
 		case IrMachineMode::S16:
 			{
@@ -613,10 +629,18 @@ BackendCodeBase* VmBackend::__gen_runtime_cast(IrMachineMode some_mm,
 
 		case IrMachineMode::U8:
 			{
+				//auto a = relink_backend_base_code(delink_backend_code_base
+				//	(mk_const_u8(0xff)), p);
+				//return relink_backend_base_code(delink_backend_code_base
+				//	(mk_bit_and()), a);
 				auto a = relink_backend_base_code(delink_backend_code_base
-					(mk_const_u8(0xff)), p);
+					(mk_const_u8(8)), p);
+				auto b = relink_backend_base_code(delink_backend_code_base
+					(mk_bit_lsl()), a);
+				auto c = relink_backend_base_code(delink_backend_code_base
+					(mk_const_u8(8)), b);
 				return relink_backend_base_code(delink_backend_code_base
-					(mk_bit_and()), a);
+					(mk_bit_lsr()), c);
 			}
 		case IrMachineMode::S8:
 			{
@@ -1134,11 +1158,14 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 	{
 		auto sym = a->sym;
 
+		set_ir_code_st_var_is_arg(false);
+
 		switch (sym->type())
 		{
 			case SymType::ScalarVarName:
 				{
 					auto var = sym->var();
+					set_ir_code_st_var_is_arg(var->is_arg());
 
 					if (var->mem_offset() != 0)
 					{
@@ -1170,6 +1197,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 			case SymType::ArrayVarName:
 				{
 					auto var = sym->var();
+					set_ir_code_st_var_is_arg(var->is_arg());
 
 
 					if (var->is_arg())
@@ -1298,8 +1326,17 @@ BackendCodeBase* VmBackend::handle_ir_code_st(IrCode* p)
 	auto expr = p->args().at(1);
 
 	// where needs to be handled second due to how stores work now.
-	handle_ir_pure_expr(expr);
+
+
+	set_ir_code_is_st(true);
+
+	auto code_expr = handle_ir_pure_expr(expr);
+
+	set_expr_is_st_address(true);
 	handle_ir_pure_expr(where);
+	set_expr_is_st_address(false);
+
+	set_ir_code_is_st(false);
 
 	switch (p->st_mm())
 	{
@@ -1308,19 +1345,67 @@ BackendCodeBase* VmBackend::handle_ir_code_st(IrCode* p)
 			return mk_st_basic();
 
 		case IrMachineMode::U32:
-			return mk_st_u32();
+			if (!ir_code_st_var_is_arg())
+			{
+				return mk_st_u32();
+			}
+			else
+			{
+				__gen_runtime_cast(p->st_mm(), code_expr, expr);
+				return mk_st_basic();
+			}
 		case IrMachineMode::S32:
-			return mk_st_s32();
+			if (!ir_code_st_var_is_arg())
+			{
+				return mk_st_s32();
+			}
+			else
+			{
+				__gen_runtime_cast(p->st_mm(), code_expr, expr);
+				return mk_st_basic();
+			}
 
 		case IrMachineMode::U16:
-			return mk_st_u16();
+			if (!ir_code_st_var_is_arg())
+			{
+				return mk_st_u16();
+			}
+			else
+			{
+				__gen_runtime_cast(p->st_mm(), code_expr, expr);
+				return mk_st_basic();
+			}
 		case IrMachineMode::S16:
-			return mk_st_s16();
+			if (!ir_code_st_var_is_arg())
+			{
+				return mk_st_s16();
+			}
+			else
+			{
+				__gen_runtime_cast(p->st_mm(), code_expr, expr);
+				return mk_st_basic();
+			}
 
 		case IrMachineMode::U8:
-			return mk_st_u8();
+			if (!ir_code_st_var_is_arg())
+			{
+				return mk_st_u8();
+			}
+			else
+			{
+				__gen_runtime_cast(p->st_mm(), code_expr, expr);
+				return mk_st_basic();
+			}
 		case IrMachineMode::S8:
-			return mk_st_s8();
+			if (!ir_code_st_var_is_arg())
+			{
+				return mk_st_s8();
+			}
+			else
+			{
+				__gen_runtime_cast(p->st_mm(), code_expr, expr);
+				return mk_st_basic();
+			}
 
 		case IrMachineMode::Pointer:
 		case IrMachineMode::Length:
@@ -1335,7 +1420,7 @@ BackendCodeBase* VmBackend::handle_ir_code_return_expr(IrCode* p)
 {
 	auto expr = p->args().front();
 
-	handle_ir_pure_expr(expr);
+	auto code_expr = handle_ir_pure_expr(expr);
 
 	if (__ret_val_argx_offset != 0)
 	{
@@ -1351,34 +1436,43 @@ BackendCodeBase* VmBackend::handle_ir_code_return_expr(IrCode* p)
 	{
 		case BuiltinTypename::U64:
 		case BuiltinTypename::S64:
-			mk_st_basic();
+			//mk_st_basic();
 			break;
 
 		case BuiltinTypename::U32:
-			mk_st_u32();
+			//mk_st_u32();
+			__gen_runtime_cast(IrMachineMode::U32, code_expr, expr);
 			break;
 		case BuiltinTypename::S32:
-			mk_st_s32();
+			//mk_st_s32();
+			__gen_runtime_cast(IrMachineMode::S32, code_expr, expr);
 			break;
 
 		case BuiltinTypename::U16:
-			mk_st_u16();
+			//mk_st_u16();
+			__gen_runtime_cast(IrMachineMode::U16, code_expr, expr);
 			break;
 		case BuiltinTypename::S16:
-			mk_st_s16();
+			//mk_st_s16();
+			__gen_runtime_cast(IrMachineMode::S16, code_expr, expr);
 			break;
 
 		case BuiltinTypename::U8:
-			mk_st_u8();
+			//mk_st_u8();
+			__gen_runtime_cast(IrMachineMode::U8, code_expr, expr);
 			break;
 		case BuiltinTypename::S8:
-			mk_st_s8();
+			//mk_st_s8();
+			__gen_runtime_cast(IrMachineMode::S8, code_expr, expr);
 			break;
 
 		default:
 			printerr("VmBackend::handle_ir_code_return_expr():  Eek!\n");
 			exit(1);
 	}
+
+	mk_st_basic();
+
 
 	mk_const_u8(0);
 	return mk_beq_far(__cleanup_lab_ident);

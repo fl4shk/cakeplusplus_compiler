@@ -1,0 +1,9 @@
+At PC 0:  const_u8(0)
+At PC 3:  const(17)
+At PC 13:  call
+At PC 17:  const(9000)
+At PC 27:  arg
+At PC 29:  __exec_st():  62, 9000
+At PC 31:  const_u8(0)
+At PC 34:  beq(-2)
+At PC 42:  

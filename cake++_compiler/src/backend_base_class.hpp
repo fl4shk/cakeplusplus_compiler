@@ -28,6 +28,8 @@ protected:		// variables
 
 	Ident __cleanup_lab_ident = nullptr;
 
+	bool __ir_code_is_st, __expr_is_st_address, __ir_code_st_var_is_arg;
+
 public:		// functions
 	BackendBase(std::vector<Function*>&& s_func_vec, 
 		FunctionTable* s_func_tbl);
@@ -46,6 +48,9 @@ protected:		// functions
 		BackendCodeBase* some_code) = 0;
 	
 	gen_getter_and_setter_by_val(curr_iop);
+	gen_getter_and_setter_by_val(ir_code_is_st);
+	gen_getter_and_setter_by_val(expr_is_st_address);
+	gen_getter_and_setter_by_val(ir_code_st_var_is_arg);
 
 protected:		// IR handler functions
 	void handle_curr_func_ir_code_and_cleanup_lab_ident();
