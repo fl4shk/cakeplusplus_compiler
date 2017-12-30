@@ -4,11 +4,15 @@
 		quit
 main:
 {
-		const(9000)
-		arg
-		st_u32
-		const_u8(0)
-		beq(_0)
+		const(1)
+		bne(_0)
+		;const(9)
+		;const(0)
+		;syscall
+		;const_u8(10)
+		;const(2)
+		;syscall
 	_0:
+	_1:
 		ret
 }

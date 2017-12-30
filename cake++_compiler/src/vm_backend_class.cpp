@@ -1544,7 +1544,7 @@ BackendCodeBase* VmBackend::handle_ir_code_jump(IrCode* p)
 				exit(1);
 			}
 
-			code_ret = mk_beq_far(cstm_strdup(__func_tbl->get_label_name
+			code_ret = mk_bne_far(cstm_strdup(__func_tbl->get_label_name
 				(ref_lab->lab_num)));
 		}
 		else if (!what_if_is_addr && what_else_is_addr)
@@ -1574,7 +1574,7 @@ BackendCodeBase* VmBackend::handle_ir_code_jump(IrCode* p)
 				exit(1);
 			}
 
-			code_ret = mk_bne_far(cstm_strdup(__func_tbl->get_label_name
+			code_ret = mk_beq_far(cstm_strdup(__func_tbl->get_label_name
 				(ref_lab->lab_num)));
 		}
 		else

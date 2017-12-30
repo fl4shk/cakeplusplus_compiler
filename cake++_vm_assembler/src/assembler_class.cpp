@@ -400,7 +400,8 @@ antlrcpp::Any Assembler::visitInstrBeq
 
 		//gen_64(pc() - pop_num() - sizeof(u16) - sizeof(s64));
 		//gen_64(pc() - pop_num());
-		gen_64(pc() - pop_num() + sizeof(u64));
+		//gen_64(pc() - pop_num() + sizeof(u64));
+		gen_64(pop_num() - pc() - sizeof(s64));
 	}
 	else
 	{
@@ -424,7 +425,8 @@ antlrcpp::Any Assembler::visitInstrBne
 
 		//gen_64(pc() - pop_num() - sizeof(u16) - sizeof(s64));
 		//gen_64(pc() - pop_num());
-		gen_64(pc() - pop_num() + sizeof(u64));
+		//gen_64(pc() - pop_num() + sizeof(u64));
+		gen_64(pop_num() - pc() - sizeof(s64));
 	}
 	else
 	{
@@ -448,7 +450,10 @@ antlrcpp::Any Assembler::visitInstrBeqNear
 		//const s64 offset = pop_num() - pc() - sizeof(u16) - sizeof(s16);
 		//const s64 offset = pc() - pop_num() - sizeof(u16) - sizeof(s16);
 		//const s64 offset = pc() - pop_num();
-		const s64 offset = pc() - pop_num() + sizeof(s16);
+		//const s64 offset = pc() - pop_num() + sizeof(s16);
+		const s64 offset = pop_num() - pc() - sizeof(s16);
+
+		//printerr("beq_near(", offset, ")\n");
 
 		if (((s64)((s16)offset)) != offset)
 		{
@@ -478,7 +483,9 @@ antlrcpp::Any Assembler::visitInstrBneNear
 		//const s64 offset = pop_num() - pc() - sizeof(u16) - sizeof(s16);
 		//const s64 offset = pc() - pop_num() - sizeof(u16) - sizeof(s16);
 		//const s64 offset = pc() - pop_num();
-		const s64 offset = pc() - pop_num() + sizeof(s16);
+		//const s64 offset = pc() - pop_num() + sizeof(s16);
+		const s64 offset = -pc() + pop_num() - sizeof(s16);
+		//printerr("bne_near(", offset, ")\n");
 
 		if (((s64)((s16)offset)) != offset)
 		{

@@ -4,11 +4,59 @@
 		quit
 main:
 {
-		const(9000)
-		arg
-		st_u32
+		const(40)
+		add_to_sp
+		const(3)
+		var
+		st_basic
+		const(0)
+		const(32)
+		varx
+		st_basic
+	_0:
+		const(32)
+		varx
+		ld_basic
+		const(3)
+		cmp_ult
+		beq(_1)
+		const(32)
+		varx
+		ld_basic
+		const(8)
+		mul
+		const(8)
+		varx
+		const(32)
+		varx
+		ld_basic
+		add
+		st_basic
+		const(8)
+		varx
+		const(32)
+		varx
+		ld_basic
+		add
+		ld_basic
+		const(0)
+		syscall
+		const_u8(10)
+		const(2)
+		syscall
+		const(32)
+		varx
+		ld_basic
+		const(1)
+		add
+		const(32)
+		varx
+		st_basic
 		const_u8(0)
 		beq(_0)
-	_0:
+	_1:
+	_2:
+		const(-40)
+		add_to_sp
 		ret
 }

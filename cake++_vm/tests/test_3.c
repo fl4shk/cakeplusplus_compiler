@@ -1,25 +1,32 @@
-u32 main()
+s64 main()
 {
 	//u8 six[6];
-	//s64 temp[3];
+	s64 temp[3];
 
-	//clear_arr(temp);
+	////clear_arr(temp);
 
+	{
+	u64 i;
+	i = 0;
+
+	while (i < len(temp))
+	{
+		temp[i] = i * 8;
+		putn(temp[i]);
+
+		i = i + 1;
+	}
+
+	}
+
+	//if (temp[0] == temp[1])
 	//{
-	//u64 i;
-	//i = 0;
-
-	//while (i < len(temp))
-	//{
-	//	temp[i] = i * 8;
-	//	putn(temp[i]);
-
-	//	i = i + 1;
+	//	temp[2] = 7;
 	//}
 
-	//}
 
-	return 9000;
+
+	//return 9000;
 }
 
 //u32 clear_arr(s64 ret[])

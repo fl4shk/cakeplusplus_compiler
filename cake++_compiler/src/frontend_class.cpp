@@ -601,6 +601,7 @@ antlrcpp::Any Frontend::visitIfStatement
 	//	cond, codegen().mk_spec_expr_get_next_pc(), 
 	//	codegen().mk_pure_expr_address(codegen().mk_spec_expr_ref_lab
 	//	(label_after_statements->lab_num())));
+
 	auto ite = codegen().mk_spec_expr_if_then_else(cond,
 		codegen().mk_spec_expr_get_next_pc(), 
 		label_after_statements->lab_num());
