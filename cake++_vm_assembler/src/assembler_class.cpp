@@ -1234,8 +1234,18 @@ antlrcpp::Any Assembler::visitExprMulDivModEtc
 	else if (ctx->identName())
 	{
 		ctx->identName()->accept(this);
-		auto sym = sym_tbl().find_or_insert(__curr_scope_node, pop_str());
-		push_num(sym->addr());
+
+		if (!__pass)
+		{
+			pop_str();
+			push_num(0);
+		}
+		else
+		{
+			auto sym = sym_tbl().find_or_insert(__curr_scope_node, 
+				pop_str());
+			push_num(sym->addr());
+		}
 	}
 	else if (ctx->currPc())
 	{

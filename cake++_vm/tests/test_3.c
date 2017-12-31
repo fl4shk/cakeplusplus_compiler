@@ -32,13 +32,15 @@ s64 main()
 
 
 	//return 9000;
+	putn(len(temp));
 	return get_size(temp);
 }
 
 u64 get_size(s64 a[])
 {
 	//return sizeof(a);
-	return clear_arr(a);
+	//return clear_arr(a);
+	return sizeof(a);
 }
 
 u64 clear_arr(s64 ret[])
