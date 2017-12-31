@@ -4,22 +4,173 @@
 		"contents" : 
 		[
 			{
-				"__iop" : "return_expr",
+				"__iop" : "st",
+				"_mm" : "u64",
 				"args" : 
 				[
 					{
-						"__op" : "call_with_ret",
-						"_mm" : "u64",
+						"__op" : "real_address",
+						"_mm" : "pointer",
 						"args" : 
 						[
 							{
 								"__op" : "ref_sym",
 								"_mm" : "pointer",
-								"_name" : "get_size_s64"
+								"_name" : "i"
+							}
+						]
+					},
+					{
+						"__op" : "const",
+						"_immediate" : "0",
+						"_mm" : "s64"
+					}
+				]
+			},
+			{
+				"__iop" : "label",
+				"_name" : "_0"
+			},
+			{
+				"__iop" : "jump",
+				"args" : 
+				[
+					{
+						"__op" : "if_then_else",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "binop",
+								"_binop" : "cmp_lt",
+								"_mm" : "u64",
+								"args" : 
+								[
+									{
+										"__op" : "ld",
+										"_mm" : "u64",
+										"args" : 
+										[
+											{
+												"__op" : "real_address",
+												"_mm" : "pointer",
+												"args" : 
+												[
+													{
+														"__op" : "ref_sym",
+														"_mm" : "pointer",
+														"_name" : "i"
+													}
+												]
+											}
+										]
+									},
+									{
+										"__op" : "len",
+										"_mm" : "length",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "temp"
+											}
+										]
+									}
+								]
+							},
+							{
+								"__op" : "get_next_pc",
+								"_mm" : "pointer"
 							},
 							{
 								"__op" : "real_address",
 								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_lab",
+										"_mm" : "pointer",
+										"_name" : "_1"
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"__iop" : "st",
+				"_mm" : "s64",
+				"args" : 
+				[
+					{
+						"__op" : "binop",
+						"_binop" : "add",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "arr_data_address",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_sym",
+										"_mm" : "pointer",
+										"_name" : "temp"
+									}
+								]
+							},
+							{
+								"__op" : "ld",
+								"_mm" : "u64",
+								"args" : 
+								[
+									{
+										"__op" : "real_address",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "i"
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					{
+						"__op" : "binop",
+						"_binop" : "mul",
+						"_mm" : "u64",
+						"args" : 
+						[
+							{
+								"__op" : "ld",
+								"_mm" : "u64",
+								"args" : 
+								[
+									{
+										"__op" : "real_address",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "i"
+											}
+										]
+									}
+								]
+							},
+							{
+								"__op" : "sizeof",
+								"_mm" : "length",
 								"args" : 
 								[
 									{
@@ -30,6 +181,148 @@
 								]
 							}
 						]
+					}
+				]
+			},
+			{
+				"__iop" : "syscall",
+				"_syscall_shorthand_op" : "disp_num",
+				"args" : 
+				[
+					{
+						"__op" : "ld",
+						"_mm" : "s64",
+						"args" : 
+						[
+							{
+								"__op" : "binop",
+								"_binop" : "add",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "arr_data_address",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "temp"
+											}
+										]
+									},
+									{
+										"__op" : "ld",
+										"_mm" : "u64",
+										"args" : 
+										[
+											{
+												"__op" : "real_address",
+												"_mm" : "pointer",
+												"args" : 
+												[
+													{
+														"__op" : "ref_sym",
+														"_mm" : "pointer",
+														"_name" : "i"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"__iop" : "syscall",
+				"_syscall_shorthand_op" : "disp_char",
+				"args" : 
+				[
+					{
+						"__op" : "const",
+						"_immediate" : "10",
+						"_mm" : "u8"
+					}
+				]
+			},
+			{
+				"__iop" : "st",
+				"_mm" : "u64",
+				"args" : 
+				[
+					{
+						"__op" : "real_address",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "i"
+							}
+						]
+					},
+					{
+						"__op" : "binop",
+						"_binop" : "add",
+						"_mm" : "s64",
+						"args" : 
+						[
+							{
+								"__op" : "ld",
+								"_mm" : "u64",
+								"args" : 
+								[
+									{
+										"__op" : "real_address",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "i"
+											}
+										]
+									}
+								]
+							},
+							{
+								"__op" : "const",
+								"_immediate" : "1",
+								"_mm" : "s64"
+							}
+						]
+					}
+				]
+			},
+			{
+				"__iop" : "jump",
+				"args" : 
+				[
+					{
+						"__op" : "ref_lab",
+						"_mm" : "pointer",
+						"_name" : "_0"
+					}
+				]
+			},
+			{
+				"__iop" : "label",
+				"_name" : "_1"
+			},
+			{
+				"__iop" : "return_expr",
+				"args" : 
+				[
+					{
+						"__op" : "const",
+						"_immediate" : "0",
+						"_mm" : "s64"
 					}
 				]
 			}
@@ -52,6 +345,64 @@
 								"__op" : "ref_sym",
 								"_mm" : "pointer",
 								"_name" : "a"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"_func_name" : "add_u64",
+		"contents" : 
+		[
+			{
+				"__iop" : "return_expr",
+				"args" : 
+				[
+					{
+						"__op" : "binop",
+						"_binop" : "add",
+						"_mm" : "u64",
+						"args" : 
+						[
+							{
+								"__op" : "ld",
+								"_mm" : "u64",
+								"args" : 
+								[
+									{
+										"__op" : "real_address",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "a"
+											}
+										]
+									}
+								]
+							},
+							{
+								"__op" : "ld",
+								"_mm" : "u64",
+								"args" : 
+								[
+									{
+										"__op" : "real_address",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "b"
+											}
+										]
+									}
+								]
 							}
 						]
 					}

@@ -1,0 +1,1366 @@
+At PC 0:  const_u8(0)
+At PC 3:  const(17)
+At PC 13:  call
+At PC 17:  const(96)
+At PC 27:  add_to_sp
+At PC 29:  const(10)
+At PC 39:  var:  882
+At PC 41:  __exec_st():  882, 10
+At PC 43:  const_u8(0)
+At PC 46:  var:  882
+At PC 48:  const(667)
+At PC 58:  call
+At PC 667:  const(4)
+At PC 677:  add_to_sp
+At PC 679:  const(0)
+At PC 689:  var:  1010
+At PC 691:  __exec_st():  1010, 0
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 0
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 0
+At PC 748:  add
+At PC 750:  __exec_st():  890, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 0
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 1
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 1
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 1
+At PC 748:  add
+At PC 750:  __exec_st():  891, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 1
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 2
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 2
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 2
+At PC 748:  add
+At PC 750:  __exec_st():  892, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 2
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 3
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 3
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 3
+At PC 748:  add
+At PC 750:  __exec_st():  893, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 3
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 4
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 4
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 4
+At PC 748:  add
+At PC 750:  __exec_st():  894, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 4
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 5
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 5
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 5
+At PC 748:  add
+At PC 750:  __exec_st():  895, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 5
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 6
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 6
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 6
+At PC 748:  add
+At PC 750:  __exec_st():  896, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 6
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 7
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 7
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 7
+At PC 748:  add
+At PC 750:  __exec_st():  897, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 7
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 8
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 8
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 8
+At PC 748:  add
+At PC 750:  __exec_st():  898, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 8
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 9
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 9
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 9
+At PC 748:  add
+At PC 750:  __exec_st():  899, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 9
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 10
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 10
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 785:  const_u8(8)
+At PC 788:  arg:  986
+At PC 790:  __exec_ld():  986, 882
+At PC 792:  __exec_ld():  882, 10
+At PC 794:  const_u8(8)
+At PC 797:  mul
+At PC 799:  add
+At PC 801:  const(-8)
+At PC 811:  argx:  978
+At PC 813:  __exec_st():  978, 88
+At PC 815:  const_u8(0)
+At PC 818:  beq(0)
+At PC 828:  const(-4)
+At PC 838:  add_to_sp
+At PC 840:  ret
+At PC 60:  const(-8)
+At PC 70:  add_to_sp
+At PC 72:  const_s8(-8)
+At PC 75:  add_to_sp
+At PC 77:  const(0)
+At PC 87:  const(88)
+At PC 97:  varx:  970
+At PC 99:  __exec_st():  970, 0
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 0
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 137:  const(88)
+At PC 147:  varx:  970
+At PC 149:  __exec_ld():  970, 0
+At PC 151:  const(88)
+At PC 161:  mul
+At PC 163:  const(8)
+At PC 173:  varx:  890
+At PC 175:  const(88)
+At PC 185:  varx:  970
+At PC 187:  __exec_ld():  970, 0
+At PC 189:  add
+At PC 191:  __exec_st():  890, 0
+At PC 193:  const(8)
+At PC 203:  varx:  890
+At PC 205:  const(88)
+At PC 215:  varx:  970
+At PC 217:  __exec_ld():  970, 0
+At PC 219:  add
+At PC 221:  __exec_ld():  890, 0
+At PC 223:  const(0)
+At PC 233:  syscall
+At PC 235:  const_u8(10)
+At PC 238:  const(2)
+At PC 248:  syscall
+At PC 250:  const(88)
+At PC 260:  varx:  970
+At PC 262:  __exec_ld():  970, 0
+At PC 264:  const(1)
+At PC 274:  add
+At PC 276:  const(88)
+At PC 286:  varx:  970
+At PC 288:  __exec_st():  970, 1
+At PC 290:  const_u8(0)
+At PC 293:  beq(-202)
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 1
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 137:  const(88)
+At PC 147:  varx:  970
+At PC 149:  __exec_ld():  970, 1
+At PC 151:  const(88)
+At PC 161:  mul
+At PC 163:  const(8)
+At PC 173:  varx:  890
+At PC 175:  const(88)
+At PC 185:  varx:  970
+At PC 187:  __exec_ld():  970, 1
+At PC 189:  add
+At PC 191:  __exec_st():  891, 88
+At PC 193:  const(8)
+At PC 203:  varx:  890
+At PC 205:  const(88)
+At PC 215:  varx:  970
+At PC 217:  __exec_ld():  970, 1
+At PC 219:  add
+At PC 221:  __exec_ld():  891, 88
+At PC 223:  const(0)
+At PC 233:  syscall
+At PC 235:  const_u8(10)
+At PC 238:  const(2)
+At PC 248:  syscall
+At PC 250:  const(88)
+At PC 260:  varx:  970
+At PC 262:  __exec_ld():  970, 1
+At PC 264:  const(1)
+At PC 274:  add
+At PC 276:  const(88)
+At PC 286:  varx:  970
+At PC 288:  __exec_st():  970, 2
+At PC 290:  const_u8(0)
+At PC 293:  beq(-202)
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 2
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 137:  const(88)
+At PC 147:  varx:  970
+At PC 149:  __exec_ld():  970, 2
+At PC 151:  const(88)
+At PC 161:  mul
+At PC 163:  const(8)
+At PC 173:  varx:  890
+At PC 175:  const(88)
+At PC 185:  varx:  970
+At PC 187:  __exec_ld():  970, 2
+At PC 189:  add
+At PC 191:  __exec_st():  892, 176
+At PC 193:  const(8)
+At PC 203:  varx:  890
+At PC 205:  const(88)
+At PC 215:  varx:  970
+At PC 217:  __exec_ld():  970, 2
+At PC 219:  add
+At PC 221:  __exec_ld():  892, 176
+At PC 223:  const(0)
+At PC 233:  syscall
+At PC 235:  const_u8(10)
+At PC 238:  const(2)
+At PC 248:  syscall
+At PC 250:  const(88)
+At PC 260:  varx:  970
+At PC 262:  __exec_ld():  970, 2
+At PC 264:  const(1)
+At PC 274:  add
+At PC 276:  const(88)
+At PC 286:  varx:  970
+At PC 288:  __exec_st():  970, 3
+At PC 290:  const_u8(0)
+At PC 293:  beq(-202)
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 3
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 137:  const(88)
+At PC 147:  varx:  970
+At PC 149:  __exec_ld():  970, 3
+At PC 151:  const(88)
+At PC 161:  mul
+At PC 163:  const(8)
+At PC 173:  varx:  890
+At PC 175:  const(88)
+At PC 185:  varx:  970
+At PC 187:  __exec_ld():  970, 3
+At PC 189:  add
+At PC 191:  __exec_st():  893, 264
+At PC 193:  const(8)
+At PC 203:  varx:  890
+At PC 205:  const(88)
+At PC 215:  varx:  970
+At PC 217:  __exec_ld():  970, 3
+At PC 219:  add
+At PC 221:  __exec_ld():  893, 264
+At PC 223:  const(0)
+At PC 233:  syscall
+At PC 235:  const_u8(10)
+At PC 238:  const(2)
+At PC 248:  syscall
+At PC 250:  const(88)
+At PC 260:  varx:  970
+At PC 262:  __exec_ld():  970, 3
+At PC 264:  const(1)
+At PC 274:  add
+At PC 276:  const(88)
+At PC 286:  varx:  970
+At PC 288:  __exec_st():  970, 4
+At PC 290:  const_u8(0)
+At PC 293:  beq(-202)
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 4
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 137:  const(88)
+At PC 147:  varx:  970
+At PC 149:  __exec_ld():  970, 4
+At PC 151:  const(88)
+At PC 161:  mul
+At PC 163:  const(8)
+At PC 173:  varx:  890
+At PC 175:  const(88)
+At PC 185:  varx:  970
+At PC 187:  __exec_ld():  970, 4
+At PC 189:  add
+At PC 191:  __exec_st():  894, 352
+At PC 193:  const(8)
+At PC 203:  varx:  890
+At PC 205:  const(88)
+At PC 215:  varx:  970
+At PC 217:  __exec_ld():  970, 4
+At PC 219:  add
+At PC 221:  __exec_ld():  894, 352
+At PC 223:  const(0)
+At PC 233:  syscall
+At PC 235:  const_u8(10)
+At PC 238:  const(2)
+At PC 248:  syscall
+At PC 250:  const(88)
+At PC 260:  varx:  970
+At PC 262:  __exec_ld():  970, 4
+At PC 264:  const(1)
+At PC 274:  add
+At PC 276:  const(88)
+At PC 286:  varx:  970
+At PC 288:  __exec_st():  970, 5
+At PC 290:  const_u8(0)
+At PC 293:  beq(-202)
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 5
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 137:  const(88)
+At PC 147:  varx:  970
+At PC 149:  __exec_ld():  970, 5
+At PC 151:  const(88)
+At PC 161:  mul
+At PC 163:  const(8)
+At PC 173:  varx:  890
+At PC 175:  const(88)
+At PC 185:  varx:  970
+At PC 187:  __exec_ld():  970, 5
+At PC 189:  add
+At PC 191:  __exec_st():  895, 440
+At PC 193:  const(8)
+At PC 203:  varx:  890
+At PC 205:  const(88)
+At PC 215:  varx:  970
+At PC 217:  __exec_ld():  970, 5
+At PC 219:  add
+At PC 221:  __exec_ld():  895, 440
+At PC 223:  const(0)
+At PC 233:  syscall
+At PC 235:  const_u8(10)
+At PC 238:  const(2)
+At PC 248:  syscall
+At PC 250:  const(88)
+At PC 260:  varx:  970
+At PC 262:  __exec_ld():  970, 5
+At PC 264:  const(1)
+At PC 274:  add
+At PC 276:  const(88)
+At PC 286:  varx:  970
+At PC 288:  __exec_st():  970, 6
+At PC 290:  const_u8(0)
+At PC 293:  beq(-202)
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 6
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 137:  const(88)
+At PC 147:  varx:  970
+At PC 149:  __exec_ld():  970, 6
+At PC 151:  const(88)
+At PC 161:  mul
+At PC 163:  const(8)
+At PC 173:  varx:  890
+At PC 175:  const(88)
+At PC 185:  varx:  970
+At PC 187:  __exec_ld():  970, 6
+At PC 189:  add
+At PC 191:  __exec_st():  896, 528
+At PC 193:  const(8)
+At PC 203:  varx:  890
+At PC 205:  const(88)
+At PC 215:  varx:  970
+At PC 217:  __exec_ld():  970, 6
+At PC 219:  add
+At PC 221:  __exec_ld():  896, 528
+At PC 223:  const(0)
+At PC 233:  syscall
+At PC 235:  const_u8(10)
+At PC 238:  const(2)
+At PC 248:  syscall
+At PC 250:  const(88)
+At PC 260:  varx:  970
+At PC 262:  __exec_ld():  970, 6
+At PC 264:  const(1)
+At PC 274:  add
+At PC 276:  const(88)
+At PC 286:  varx:  970
+At PC 288:  __exec_st():  970, 7
+At PC 290:  const_u8(0)
+At PC 293:  beq(-202)
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 7
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 137:  const(88)
+At PC 147:  varx:  970
+At PC 149:  __exec_ld():  970, 7
+At PC 151:  const(88)
+At PC 161:  mul
+At PC 163:  const(8)
+At PC 173:  varx:  890
+At PC 175:  const(88)
+At PC 185:  varx:  970
+At PC 187:  __exec_ld():  970, 7
+At PC 189:  add
+At PC 191:  __exec_st():  897, 616
+At PC 193:  const(8)
+At PC 203:  varx:  890
+At PC 205:  const(88)
+At PC 215:  varx:  970
+At PC 217:  __exec_ld():  970, 7
+At PC 219:  add
+At PC 221:  __exec_ld():  897, 616
+At PC 223:  const(0)
+At PC 233:  syscall
+At PC 235:  const_u8(10)
+At PC 238:  const(2)
+At PC 248:  syscall
+At PC 250:  const(88)
+At PC 260:  varx:  970
+At PC 262:  __exec_ld():  970, 7
+At PC 264:  const(1)
+At PC 274:  add
+At PC 276:  const(88)
+At PC 286:  varx:  970
+At PC 288:  __exec_st():  970, 8
+At PC 290:  const_u8(0)
+At PC 293:  beq(-202)
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 8
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 137:  const(88)
+At PC 147:  varx:  970
+At PC 149:  __exec_ld():  970, 8
+At PC 151:  const(88)
+At PC 161:  mul
+At PC 163:  const(8)
+At PC 173:  varx:  890
+At PC 175:  const(88)
+At PC 185:  varx:  970
+At PC 187:  __exec_ld():  970, 8
+At PC 189:  add
+At PC 191:  __exec_st():  898, 704
+At PC 193:  const(8)
+At PC 203:  varx:  890
+At PC 205:  const(88)
+At PC 215:  varx:  970
+At PC 217:  __exec_ld():  970, 8
+At PC 219:  add
+At PC 221:  __exec_ld():  898, 704
+At PC 223:  const(0)
+At PC 233:  syscall
+At PC 235:  const_u8(10)
+At PC 238:  const(2)
+At PC 248:  syscall
+At PC 250:  const(88)
+At PC 260:  varx:  970
+At PC 262:  __exec_ld():  970, 8
+At PC 264:  const(1)
+At PC 274:  add
+At PC 276:  const(88)
+At PC 286:  varx:  970
+At PC 288:  __exec_st():  970, 9
+At PC 290:  const_u8(0)
+At PC 293:  beq(-202)
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 9
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 137:  const(88)
+At PC 147:  varx:  970
+At PC 149:  __exec_ld():  970, 9
+At PC 151:  const(88)
+At PC 161:  mul
+At PC 163:  const(8)
+At PC 173:  varx:  890
+At PC 175:  const(88)
+At PC 185:  varx:  970
+At PC 187:  __exec_ld():  970, 9
+At PC 189:  add
+At PC 191:  __exec_st():  899, 792
+At PC 193:  const(8)
+At PC 203:  varx:  890
+At PC 205:  const(88)
+At PC 215:  varx:  970
+At PC 217:  __exec_ld():  970, 9
+At PC 219:  add
+At PC 221:  __exec_ld():  899, 792
+At PC 223:  const(0)
+At PC 233:  syscall
+At PC 235:  const_u8(10)
+At PC 238:  const(2)
+At PC 248:  syscall
+At PC 250:  const(88)
+At PC 260:  varx:  970
+At PC 262:  __exec_ld():  970, 9
+At PC 264:  const(1)
+At PC 274:  add
+At PC 276:  const(88)
+At PC 286:  varx:  970
+At PC 288:  __exec_st():  970, 10
+At PC 290:  const_u8(0)
+At PC 293:  beq(-202)
+At PC 101:  const(88)
+At PC 111:  varx:  970
+At PC 113:  __exec_ld():  970, 10
+At PC 115:  const(10)
+At PC 125:  cmp_ult
+At PC 127:  beq(166)
+At PC 303:  const_u8(0)
+At PC 306:  var:  882
+At PC 308:  const(667)
+At PC 318:  call
+At PC 667:  const(4)
+At PC 677:  add_to_sp
+At PC 679:  const(0)
+At PC 689:  var:  1010
+At PC 691:  __exec_st():  1010, 0
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 0
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 0
+At PC 748:  add
+At PC 750:  __exec_st():  890, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 0
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 1
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 1
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 1
+At PC 748:  add
+At PC 750:  __exec_st():  891, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 1
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 2
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 2
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 2
+At PC 748:  add
+At PC 750:  __exec_st():  892, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 2
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 3
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 3
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 3
+At PC 748:  add
+At PC 750:  __exec_st():  893, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 3
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 4
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 4
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 4
+At PC 748:  add
+At PC 750:  __exec_st():  894, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 4
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 5
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 5
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 5
+At PC 748:  add
+At PC 750:  __exec_st():  895, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 5
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 6
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 6
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 6
+At PC 748:  add
+At PC 750:  __exec_st():  896, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 6
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 7
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 7
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 7
+At PC 748:  add
+At PC 750:  __exec_st():  897, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 7
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 8
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 8
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 8
+At PC 748:  add
+At PC 750:  __exec_st():  898, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 8
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 9
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 9
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 725:  const(0)
+At PC 735:  arg:  986
+At PC 737:  __exec_ld():  986, 882
+At PC 739:  const_u8(8)
+At PC 742:  add
+At PC 744:  var:  1010
+At PC 746:  __exec_ld():  1010, 9
+At PC 748:  add
+At PC 750:  __exec_st():  899, 0
+At PC 752:  var:  1010
+At PC 754:  __exec_ld():  1010, 9
+At PC 756:  const(1)
+At PC 766:  add
+At PC 768:  var:  1010
+At PC 770:  __exec_st():  1010, 10
+At PC 772:  const_u8(0)
+At PC 775:  beq(-92)
+At PC 693:  var:  1010
+At PC 695:  __exec_ld():  1010, 10
+At PC 697:  arg:  986
+At PC 699:  __exec_ld():  986, 882
+At PC 701:  __exec_ld():  882, 10
+At PC 703:  cmp_ult
+At PC 705:  const_u8(32)
+At PC 708:  bit_lsl
+At PC 710:  const_u8(32)
+At PC 713:  bit_lsr
+At PC 715:  beq(60)
+At PC 785:  const_u8(8)
+At PC 788:  arg:  986
+At PC 790:  __exec_ld():  986, 882
+At PC 792:  __exec_ld():  882, 10
+At PC 794:  const_u8(8)
+At PC 797:  mul
+At PC 799:  add
+At PC 801:  const(-8)
+At PC 811:  argx:  978
+At PC 813:  __exec_st():  978, 88
+At PC 815:  const_u8(0)
+At PC 818:  beq(0)
+At PC 828:  const(-4)
+At PC 838:  add_to_sp
+At PC 840:  ret
+At PC 320:  const(-8)
+At PC 330:  add_to_sp
+At PC 332:  const_s8(-8)
+At PC 335:  add_to_sp
+At PC 337:  const(-1)
+At PC 347:  const(0)
+At PC 357:  syscall
+At PC 359:  const_u8(10)
+At PC 362:  const(2)
+At PC 372:  syscall
+At PC 374:  const(-1)
+At PC 384:  const(0)
+At PC 394:  syscall
+At PC 396:  const_u8(10)
+At PC 399:  const(2)
+At PC 409:  syscall
+At PC 411:  const(0)
+At PC 421:  const(88)
+At PC 431:  varx:  970
+At PC 433:  __exec_st():  970, 0
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 0
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 471:  const(8)
+At PC 481:  varx:  890
+At PC 483:  const(88)
+At PC 493:  varx:  970
+At PC 495:  __exec_ld():  970, 0
+At PC 497:  add
+At PC 499:  __exec_ld():  890, 0
+At PC 501:  const(0)
+At PC 511:  syscall
+At PC 513:  const_u8(10)
+At PC 516:  const(2)
+At PC 526:  syscall
+At PC 528:  const(88)
+At PC 538:  varx:  970
+At PC 540:  __exec_ld():  970, 0
+At PC 542:  const(1)
+At PC 552:  add
+At PC 554:  const(88)
+At PC 564:  varx:  970
+At PC 566:  __exec_st():  970, 1
+At PC 568:  const_u8(0)
+At PC 571:  beq(-146)
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 1
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 471:  const(8)
+At PC 481:  varx:  890
+At PC 483:  const(88)
+At PC 493:  varx:  970
+At PC 495:  __exec_ld():  970, 1
+At PC 497:  add
+At PC 499:  __exec_ld():  891, 0
+At PC 501:  const(0)
+At PC 511:  syscall
+At PC 513:  const_u8(10)
+At PC 516:  const(2)
+At PC 526:  syscall
+At PC 528:  const(88)
+At PC 538:  varx:  970
+At PC 540:  __exec_ld():  970, 1
+At PC 542:  const(1)
+At PC 552:  add
+At PC 554:  const(88)
+At PC 564:  varx:  970
+At PC 566:  __exec_st():  970, 2
+At PC 568:  const_u8(0)
+At PC 571:  beq(-146)
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 2
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 471:  const(8)
+At PC 481:  varx:  890
+At PC 483:  const(88)
+At PC 493:  varx:  970
+At PC 495:  __exec_ld():  970, 2
+At PC 497:  add
+At PC 499:  __exec_ld():  892, 0
+At PC 501:  const(0)
+At PC 511:  syscall
+At PC 513:  const_u8(10)
+At PC 516:  const(2)
+At PC 526:  syscall
+At PC 528:  const(88)
+At PC 538:  varx:  970
+At PC 540:  __exec_ld():  970, 2
+At PC 542:  const(1)
+At PC 552:  add
+At PC 554:  const(88)
+At PC 564:  varx:  970
+At PC 566:  __exec_st():  970, 3
+At PC 568:  const_u8(0)
+At PC 571:  beq(-146)
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 3
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 471:  const(8)
+At PC 481:  varx:  890
+At PC 483:  const(88)
+At PC 493:  varx:  970
+At PC 495:  __exec_ld():  970, 3
+At PC 497:  add
+At PC 499:  __exec_ld():  893, 0
+At PC 501:  const(0)
+At PC 511:  syscall
+At PC 513:  const_u8(10)
+At PC 516:  const(2)
+At PC 526:  syscall
+At PC 528:  const(88)
+At PC 538:  varx:  970
+At PC 540:  __exec_ld():  970, 3
+At PC 542:  const(1)
+At PC 552:  add
+At PC 554:  const(88)
+At PC 564:  varx:  970
+At PC 566:  __exec_st():  970, 4
+At PC 568:  const_u8(0)
+At PC 571:  beq(-146)
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 4
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 471:  const(8)
+At PC 481:  varx:  890
+At PC 483:  const(88)
+At PC 493:  varx:  970
+At PC 495:  __exec_ld():  970, 4
+At PC 497:  add
+At PC 499:  __exec_ld():  894, 0
+At PC 501:  const(0)
+At PC 511:  syscall
+At PC 513:  const_u8(10)
+At PC 516:  const(2)
+At PC 526:  syscall
+At PC 528:  const(88)
+At PC 538:  varx:  970
+At PC 540:  __exec_ld():  970, 4
+At PC 542:  const(1)
+At PC 552:  add
+At PC 554:  const(88)
+At PC 564:  varx:  970
+At PC 566:  __exec_st():  970, 5
+At PC 568:  const_u8(0)
+At PC 571:  beq(-146)
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 5
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 471:  const(8)
+At PC 481:  varx:  890
+At PC 483:  const(88)
+At PC 493:  varx:  970
+At PC 495:  __exec_ld():  970, 5
+At PC 497:  add
+At PC 499:  __exec_ld():  895, 0
+At PC 501:  const(0)
+At PC 511:  syscall
+At PC 513:  const_u8(10)
+At PC 516:  const(2)
+At PC 526:  syscall
+At PC 528:  const(88)
+At PC 538:  varx:  970
+At PC 540:  __exec_ld():  970, 5
+At PC 542:  const(1)
+At PC 552:  add
+At PC 554:  const(88)
+At PC 564:  varx:  970
+At PC 566:  __exec_st():  970, 6
+At PC 568:  const_u8(0)
+At PC 571:  beq(-146)
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 6
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 471:  const(8)
+At PC 481:  varx:  890
+At PC 483:  const(88)
+At PC 493:  varx:  970
+At PC 495:  __exec_ld():  970, 6
+At PC 497:  add
+At PC 499:  __exec_ld():  896, 0
+At PC 501:  const(0)
+At PC 511:  syscall
+At PC 513:  const_u8(10)
+At PC 516:  const(2)
+At PC 526:  syscall
+At PC 528:  const(88)
+At PC 538:  varx:  970
+At PC 540:  __exec_ld():  970, 6
+At PC 542:  const(1)
+At PC 552:  add
+At PC 554:  const(88)
+At PC 564:  varx:  970
+At PC 566:  __exec_st():  970, 7
+At PC 568:  const_u8(0)
+At PC 571:  beq(-146)
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 7
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 471:  const(8)
+At PC 481:  varx:  890
+At PC 483:  const(88)
+At PC 493:  varx:  970
+At PC 495:  __exec_ld():  970, 7
+At PC 497:  add
+At PC 499:  __exec_ld():  897, 0
+At PC 501:  const(0)
+At PC 511:  syscall
+At PC 513:  const_u8(10)
+At PC 516:  const(2)
+At PC 526:  syscall
+At PC 528:  const(88)
+At PC 538:  varx:  970
+At PC 540:  __exec_ld():  970, 7
+At PC 542:  const(1)
+At PC 552:  add
+At PC 554:  const(88)
+At PC 564:  varx:  970
+At PC 566:  __exec_st():  970, 8
+At PC 568:  const_u8(0)
+At PC 571:  beq(-146)
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 8
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 471:  const(8)
+At PC 481:  varx:  890
+At PC 483:  const(88)
+At PC 493:  varx:  970
+At PC 495:  __exec_ld():  970, 8
+At PC 497:  add
+At PC 499:  __exec_ld():  898, 0
+At PC 501:  const(0)
+At PC 511:  syscall
+At PC 513:  const_u8(10)
+At PC 516:  const(2)
+At PC 526:  syscall
+At PC 528:  const(88)
+At PC 538:  varx:  970
+At PC 540:  __exec_ld():  970, 8
+At PC 542:  const(1)
+At PC 552:  add
+At PC 554:  const(88)
+At PC 564:  varx:  970
+At PC 566:  __exec_st():  970, 9
+At PC 568:  const_u8(0)
+At PC 571:  beq(-146)
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 9
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 471:  const(8)
+At PC 481:  varx:  890
+At PC 483:  const(88)
+At PC 493:  varx:  970
+At PC 495:  __exec_ld():  970, 9
+At PC 497:  add
+At PC 499:  __exec_ld():  899, 0
+At PC 501:  const(0)
+At PC 511:  syscall
+At PC 513:  const_u8(10)
+At PC 516:  const(2)
+At PC 526:  syscall
+At PC 528:  const(88)
+At PC 538:  varx:  970
+At PC 540:  __exec_ld():  970, 9
+At PC 542:  const(1)
+At PC 552:  add
+At PC 554:  const(88)
+At PC 564:  varx:  970
+At PC 566:  __exec_st():  970, 10
+At PC 568:  const_u8(0)
+At PC 571:  beq(-146)
+At PC 435:  const(88)
+At PC 445:  varx:  970
+At PC 447:  __exec_ld():  970, 10
+At PC 449:  const(10)
+At PC 459:  cmp_ult
+At PC 461:  beq(110)
+At PC 581:  const(0)
+At PC 591:  arg:  858
+At PC 593:  __exec_st():  858, 0
+At PC 595:  const_u8(0)
+At PC 598:  beq(0)
+At PC 608:  const(-96)
+At PC 618:  add_to_sp
+At PC 620:  ret
