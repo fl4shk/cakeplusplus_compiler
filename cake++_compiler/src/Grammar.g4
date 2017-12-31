@@ -1,7 +1,18 @@
 grammar Grammar;
 
 // Parser rules
-program: funcDecl+ ;
+//program: (classDecl | globalFuncDecl)+ ;
+program: globalFuncDecl+;
+
+//classDecl:
+//	'class' identName
+//	'{'
+//		(memberVarDecl | memberFuncDecl)+
+//	'}' ';'
+//	;
+
+globalFuncDecl: funcDecl ;
+//memberFuncDecl: funcDecl ;
 
 funcDecl:
 	builtinTypename 
@@ -28,7 +39,7 @@ statements: '{' stmt* '}' ;
 stmt:
 	statements
 	| putnStatement ';'
-	| varDecl ';'
+	| localVarDecl ';'
 	| funcCall ';'
 	//| expr ';'
 	////| exprMulDivModEtc ';'
@@ -45,9 +56,19 @@ stmt:
 
 // Temporary pseudo-function
 putnStatement: 'putn' '(' expr ')' ;
+//putcharStatement: 'putchar' '(' expr ')' ;
+//getcharStatement: 'getchar()' ;
 
+//memberVarDecl: varDecl ;
+localVarDecl: varDecl ;
 
-varDecl: builtinTypename (identDecl ',')* identDecl ;
+varDecl: 
+	builtinTypeVarDecl 
+	//| classInstDecl
+	; 
+
+builtinTypeVarDecl: builtinTypename (identDecl ',')* identDecl ;
+//classInstDecl: identName (identDecl ',')* identDecl ;
 
 funcArgDecl:
 	builtinTypename identName

@@ -388,6 +388,14 @@ IrExpr* CodeGenerator::mk_pure_expr_real_address(IrExpr* where)
 
 	return ret;
 }
+IrExpr* CodeGenerator::mk_pure_expr_deref(IrExpr* what)
+{
+	auto ret = mk_ir_pure_expr(IrPureExOp::Deref, IrMachineMode::Pointer);
+
+	ret->append_arg(what);
+
+	return ret;
+}
 IrExpr* CodeGenerator::mk_pure_expr_ld(IrMachineMode s_mm, 
 	IrExpr* where)
 {
@@ -814,6 +822,11 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node, IrExpr* p)
 			// symbol, function, or label)
 			case IrPureExOp::RealAddress:
 				node["__op"] = "real_address";
+				break;
+
+			// Dereference
+			case IrPureExOp::Deref:
+				node["__op"] = "deref";
 				break;
 
 			// Load

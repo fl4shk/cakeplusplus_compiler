@@ -1151,241 +1151,272 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
 	mk_const(-amount_to_subtract_from_sp);
 	return mk_add_to_sp();
 } 
+//BackendCodeBase* VmBackend::__handle_ir_pure_expr_arr_data_address
+//	(IrExpr* p)
+//{
+//	auto a = p->args.front();
+//
+//	if (a->is_pure)
+//	{
+//		printerr("VmBackend::__handle_ir_pure_expr_arr_data_address():  ",
+//			"a->is_pure Eek!\n");
+//		exit(1);
+//	}
+//
+//	if (a->spec_op != IrSpecExOp::RefSym)
+//	{
+//		printerr("VmBackend::__handle_ir_pure_expr_arr_data_address():  ",
+//			"a->spec_op Eek!\n");
+//		exit(1);
+//	}
+//
+//	auto sym = a->sym;
+//	if (expr_is_ld_address())
+//	{
+//		push_ld_sym(sym);
+//	}
+//
+//
+//	set_ir_code_st_var_is_arg(false);
+//
+//	switch (sym->type())
+//	{
+//		case SymType::ArrayVarName:
+//			{
+//				auto var = sym->var();
+//				set_ir_code_st_var_is_arg(var->is_arg());
+//
+//				if (var->is_arg())
+//				{
+//					//printerr("VmBackend",
+//					//	"::__handle_ir_pure_expr_arr_data_address():  ",
+//					//	"var->is_arg() Eek!\n");
+//					//exit(1);
+//
+//
+//					// Dereference
+//					if (var->mem_offset() != 0)
+//					{
+//						mk_const(var->mem_offset());
+//						mk_indexed_arg_addr();
+//					}
+//					else
+//					{
+//						mk_arg_addr();
+//					}
+//
+//					mk_ld_basic();
+//
+//					// Now compute thing
+//					mk_const_u8(array_var_dim_storage_size);
+//					return mk_add();
+//				}
+//				else
+//				{
+//					mk_const(var->mem_offset() 
+//						+ array_var_dim_storage_size);
+//					return mk_indexed_var_addr();
+//				}
+//			}
+//
+//		default:
+//			printerr("VmBackend",
+//				"::__handle_ir_pure_expr_arr_data_address():  ",
+//				"sym->type() Eek!\n");
+//			exit(1);
+//			return nullptr;
+//	}
+//}
+//BackendCodeBase* VmBackend::__handle_ir_pure_expr_real_address(IrExpr* p)
+//{
+//	auto a = p->args.at(0);
+//
+//	if (a->is_pure)
+//	{
+//		printerr("VmBackend::__handle_ir_pure_expr_real_address():  ",
+//			"a->is_pure Eek!\n");
+//		exit(1);
+//	}
+//
+//
+//	BackendCodeBase* code_ret;
+//
+//	auto handle_ref_sym = [&]() -> void
+//	{
+//		auto sym = a->sym;
+//
+//		if (expr_is_ld_address())
+//		{
+//			push_ld_sym(sym);
+//		}
+//
+//		set_ir_code_st_var_is_arg(false);
+//
+//		switch (sym->type())
+//		{
+//			case SymType::ScalarVarName:
+//				{
+//					auto var = sym->var();
+//					set_ir_code_st_var_is_arg(var->is_arg());
+//
+//					if (var->mem_offset() != 0)
+//					{
+//						code_ret = mk_const(var->mem_offset());
+//
+//						if (var->is_arg())
+//						{
+//							code_ret = mk_indexed_arg_addr();
+//						}
+//						else // if (!var->is_arg())
+//						{
+//							code_ret = mk_indexed_var_addr();
+//						}
+//					}
+//					else // if (var->mem_offset() == 0)
+//					{
+//						if (var->is_arg())
+//						{
+//							code_ret = mk_arg_addr();
+//						}
+//						else // if (!var->is_arg())
+//						{
+//							code_ret = mk_var_addr();
+//						}
+//					}
+//				}
+//				break;
+//			case SymType::ArrayVarName:
+//				{
+//					auto var = sym->var();
+//					set_ir_code_st_var_is_arg(var->is_arg());
+//
+//					//if (var->mem_offset() != 0)
+//					//{
+//					//	code_ret = mk_const(var->mem_offset());
+//
+//					//	if (var->is_arg())
+//					//	{
+//					//		code_ret = mk_indexed_arg_addr();
+//					//	}
+//					//	else // if (!var->is_arg())
+//					//	{
+//					//		code_ret = mk_indexed_var_addr();
+//					//	}
+//					//}
+//					//else // if (var->mem_offset() == 0)
+//					//{
+//					//	if (var->is_arg())
+//					//	{
+//					//		code_ret = mk_arg_addr();
+//					//	}
+//					//	else // if (!var->is_arg())
+//					//	{
+//					//		code_ret = mk_var_addr();
+//					//	}
+//					//}
+//
+//					if (var->is_arg())
+//					{
+//						if (var->mem_offset() != 0)
+//						{
+//							code_ret = mk_const(var->mem_offset());
+//							code_ret = mk_indexed_arg_addr();
+//						}
+//						else
+//						{
+//							code_ret = mk_arg_addr();
+//						}
+//						// Arrays are passed by reference, so this grabs
+//						// the address
+//						code_ret = mk_ld_basic();
+//					}
+//					else // if (!var->is_arg())
+//					{
+//						if (var->mem_offset() != 0)
+//						{
+//							code_ret = mk_const(var->mem_offset());
+//							code_ret = mk_indexed_var_addr();
+//						}
+//						else
+//						{
+//							code_ret = mk_var_addr();
+//						}
+//					}
+//				}
+//				break;
+//
+//			case SymType::FuncName:
+//				code_ret = mk_const_func(sym->name());
+//				break;
+//
+//			default:
+//				printerr("VmBackend",
+//					"::__handle_ir_pure_expr_real_address()",
+//					"::handle_ref_sym():  Eek!\n");
+//				exit(1);
+//				code_ret = nullptr;
+//				break;
+//		}
+//	};
+//
+//	auto handle_ref_lab = [&]() -> void
+//	{
+//		code_ret = mk_const_lab(cstm_strdup(__func_tbl->get_label_name(
+//			(a->lab_num))));
+//	};
+//
+//	switch (a->spec_op)
+//	{
+//		// Symbol reference
+//		case IrSpecExOp::RefSym:
+//			handle_ref_sym();
+//			break;
+//
+//
+//		// Label reference
+//		case IrSpecExOp::RefLab:
+//			handle_ref_lab();
+//			break;
+//
+//		default:
+//			printerr("VmBackend::__handle_ir_pure_expr_real_address():  ",
+//				"a->spec_op Eek!\n");
+//			exit(1);
+//			break;
+//	}
+//
+//	return code_ret;
+//}
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_arr_data_address
 	(IrExpr* p)
 {
-	auto a = p->args.front();
+	return nullptr;
+}
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_real_address(IrExpr* p)
+{
+	return nullptr;
+}
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_deref(IrExpr* p)
+{
+	auto a = p->args.at(0);
 
 	if (a->is_pure)
 	{
-		printerr("VmBackend::__handle_ir_pure_expr_arr_data_address():  ",
+		printerr("VmBackend::__handle_ir_pure_expr_deref():  ",
 			"a->is_pure Eek!\n");
 		exit(1);
 	}
 
 	if (a->spec_op != IrSpecExOp::RefSym)
 	{
-		printerr("VmBackend::__handle_ir_pure_expr_arr_data_address():  ",
+		printerr("VmBackend::__handle_ir_pure_expr_deref():  ",
 			"a->spec_op Eek!\n");
 		exit(1);
 	}
 
 	auto sym = a->sym;
-	if (expr_is_ld_address())
-	{
-		push_ld_sym(sym);
-	}
 
-
-	set_ir_code_st_var_is_arg(false);
-
-	switch (sym->type())
-	{
-		case SymType::ArrayVarName:
-			{
-				auto var = sym->var();
-				set_ir_code_st_var_is_arg(var->is_arg());
-
-				if (var->is_arg())
-				{
-					//printerr("VmBackend",
-					//	"::__handle_ir_pure_expr_arr_data_address():  ",
-					//	"var->is_arg() Eek!\n");
-					//exit(1);
-
-
-					// Dereference
-					if (var->mem_offset() != 0)
-					{
-						mk_const(var->mem_offset());
-						mk_indexed_arg_addr();
-					}
-					else
-					{
-						mk_arg_addr();
-					}
-
-					mk_ld_basic();
-
-					// Now compute thing
-					mk_const_u8(array_var_dim_storage_size);
-					return mk_add();
-				}
-				else
-				{
-					mk_const(var->mem_offset() 
-						+ array_var_dim_storage_size);
-					return mk_indexed_var_addr();
-				}
-			}
-
-		default:
-			printerr("VmBackend",
-				"::__handle_ir_pure_expr_arr_data_address():  ",
-				"sym->type() Eek!\n");
-			exit(1);
-			return nullptr;
-	}
-}
-BackendCodeBase* VmBackend::__handle_ir_pure_expr_real_address(IrExpr* p)
-{
-	auto a = p->args.at(0);
-
-	if (a->is_pure)
-	{
-		printerr("VmBackend::__handle_ir_pure_expr_real_address():  ",
-			"a->is_pure Eek!\n");
-		exit(1);
-	}
-
-
-	BackendCodeBase* code_ret;
-
-	auto handle_ref_sym = [&]() -> void
-	{
-		auto sym = a->sym;
-
-		if (expr_is_ld_address())
-		{
-			push_ld_sym(sym);
-		}
-
-		set_ir_code_st_var_is_arg(false);
-
-		switch (sym->type())
-		{
-			case SymType::ScalarVarName:
-				{
-					auto var = sym->var();
-					set_ir_code_st_var_is_arg(var->is_arg());
-
-					if (var->mem_offset() != 0)
-					{
-						code_ret = mk_const(var->mem_offset());
-
-						if (var->is_arg())
-						{
-							code_ret = mk_indexed_arg_addr();
-						}
-						else // if (!var->is_arg())
-						{
-							code_ret = mk_indexed_var_addr();
-						}
-					}
-					else // if (var->mem_offset() == 0)
-					{
-						if (var->is_arg())
-						{
-							code_ret = mk_arg_addr();
-						}
-						else // if (!var->is_arg())
-						{
-							code_ret = mk_var_addr();
-						}
-					}
-				}
-				break;
-			case SymType::ArrayVarName:
-				{
-					auto var = sym->var();
-					set_ir_code_st_var_is_arg(var->is_arg());
-
-					//if (var->mem_offset() != 0)
-					//{
-					//	code_ret = mk_const(var->mem_offset());
-
-					//	if (var->is_arg())
-					//	{
-					//		code_ret = mk_indexed_arg_addr();
-					//	}
-					//	else // if (!var->is_arg())
-					//	{
-					//		code_ret = mk_indexed_var_addr();
-					//	}
-					//}
-					//else // if (var->mem_offset() == 0)
-					//{
-					//	if (var->is_arg())
-					//	{
-					//		code_ret = mk_arg_addr();
-					//	}
-					//	else // if (!var->is_arg())
-					//	{
-					//		code_ret = mk_var_addr();
-					//	}
-					//}
-
-					if (var->is_arg())
-					{
-						if (var->mem_offset() != 0)
-						{
-							code_ret = mk_const(var->mem_offset());
-							code_ret = mk_indexed_arg_addr();
-						}
-						else
-						{
-							code_ret = mk_arg_addr();
-						}
-						// Arrays are passed by reference, so this grabs
-						// the address
-						code_ret = mk_ld_basic();
-					}
-					else // if (!var->is_arg())
-					{
-						if (var->mem_offset() != 0)
-						{
-							code_ret = mk_const(var->mem_offset());
-							code_ret = mk_indexed_var_addr();
-						}
-						else
-						{
-							code_ret = mk_var_addr();
-						}
-					}
-				}
-				break;
-
-			case SymType::FuncName:
-				code_ret = mk_const_func(sym->name());
-				break;
-
-			default:
-				printerr("VmBackend",
-					"::__handle_ir_pure_expr_real_address()",
-					"::handle_ref_sym():  Eek!\n");
-				exit(1);
-				code_ret = nullptr;
-				break;
-		}
-	};
-
-	auto handle_ref_lab = [&]() -> void
-	{
-		code_ret = mk_const_lab(cstm_strdup(__func_tbl->get_label_name(
-			(a->lab_num))));
-	};
-
-	switch (a->spec_op)
-	{
-		// Symbol reference
-		case IrSpecExOp::RefSym:
-			handle_ref_sym();
-			break;
-
-
-		// Label reference
-		case IrSpecExOp::RefLab:
-			handle_ref_lab();
-			break;
-
-		default:
-			printerr("VmBackend::__handle_ir_pure_expr_real_address():  ",
-				"a->spec_op Eek!\n");
-			exit(1);
-			break;
-	}
-
-	return code_ret;
+	return nullptr;
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
 {

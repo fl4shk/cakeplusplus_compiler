@@ -45,11 +45,18 @@ Frontend::~Frontend()
 antlrcpp::Any Frontend::visitProgram
 	(GrammarParser::ProgramContext *ctx)
 {
-	//__program_node = mk_ast_node(AstOp::Prog);
+	auto&& globalFuncDecl = ctx->globalFuncDecl();
 
-	auto&& funcDecl = ctx->funcDecl();
+	std::vector<GrammarParser::FuncDeclContext*> funcDecl;
 
-	std::map<GrammarParser::FuncDeclContext*, Ident> temp_ident_map;
+	for (auto* global_func_decl : globalFuncDecl)
+	{
+		global_func_decl->accept(this);
+		funcDecl.push_back(pop_func_decl());
+	}
+
+
+	//auto&& funcDecl = ctx->funcDecl();
 
 	for (auto* func_decl : funcDecl)
 	{
@@ -59,7 +66,7 @@ antlrcpp::Any Frontend::visitProgram
 		func_decl->identName()->accept(this);
 		auto ident = pop_str();
 
-		temp_ident_map[func_decl] = ident;
+		__func_decl_to_ident_map[func_decl] = ident;
 
 		if (__func_tbl.contains(ident))
 		{
@@ -70,7 +77,6 @@ antlrcpp::Any Frontend::visitProgram
 		__func_tbl.insert_or_assign(mk_global_func(ret_type, ident));
 
 		__curr_func = __func_tbl.at(ident);
-		//__curr_scope_node = __curr_func->scope_node()->children.front();
 		__curr_scope_node = curr_func().get_args_scope_node();
 
 		auto&& funcArgDecl = func_decl->funcArgDecl();
@@ -93,14 +99,13 @@ antlrcpp::Any Frontend::visitProgram
 	// Now visit the statements
 
 	{
-
 	Json::Value func_ir_code_json_output_root;
 
 	Json::ArrayIndex index_i = 0;
 	
 	for (auto* iter : funcDecl)
 	{
-		auto ident = temp_ident_map.at(iter);
+		auto ident = __func_decl_to_ident_map.at(iter);
 
 		__curr_func = __func_tbl.at(ident);
 		__curr_scope_node = curr_func().get_args_scope_node();
@@ -125,21 +130,17 @@ antlrcpp::Any Frontend::visitProgram
 	}
 	}
 
-	std::vector<Function*> func_vec;
-
 	{
 	bool found_main = false;
 	for (auto* iter : funcDecl)
 	{
-		auto ident = temp_ident_map.at(iter);
-		//printout("iteration:  ", *ident, "\n");
+		auto ident = __func_decl_to_ident_map.at(iter);
 
 		if (*ident == "main")
 		{
 			found_main = true;
 
 			auto temp = __func_tbl.at(ident);
-			//printout("temp:  ", *temp->name(), "\n");
 
 			auto&& temp_args = temp->get_args();
 
@@ -150,17 +151,8 @@ antlrcpp::Any Frontend::visitProgram
 				exit(1);
 			}
 		}
-		//__curr_func = __func_tbl.at(ident);
-		//curr_func().gen_vm_code(__func_tbl);
-
-		////curr_func().osprint_vm_code(cout);
-		func_vec.push_back(__func_tbl.at(ident));
+		__func_vec.push_back(__func_tbl.at(ident));
 	}
-
-	//for (auto iter : func_vec)
-	//{
-	//	printout("func_vec:  ", *iter->name(), "\n");
-	//}
 
 	if (!found_main)
 	{
@@ -169,12 +161,29 @@ antlrcpp::Any Frontend::visitProgram
 	}
 	}
 
-	__vm_backend.reset(new VmBackend(std::move(func_vec), &__func_tbl));
+	__vm_backend.reset(new VmBackend(std::move(__func_vec), &__func_tbl));
 	__vm_backend->gen_code();
 	__vm_backend->osprint_code(cout);
 
 	return nullptr;
 }
+//antlrcpp::Any Frontend::visitClassDecl
+//	(GrammarParser::ClassDeclContext *ctx)
+//{
+//	return nullptr;
+//}
+antlrcpp::Any Frontend::visitGlobalFuncDecl
+	(GrammarParser::GlobalFuncDeclContext *ctx)
+{
+	push_func_decl(ctx->funcDecl());
+	return nullptr;
+}
+//antlrcpp::Any Frontend::visitMemberFuncDecl
+//	(GrammarParser::MemberFuncDeclContext *ctx)
+//{
+//	push_func_decl(ctx->funcDecl();
+//	return nullptr;
+//}
 
 antlrcpp::Any Frontend::visitFuncDecl
 	(GrammarParser::FuncDeclContext *ctx)
@@ -304,10 +313,13 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 
 		auto var = sym->var();
 
-		//if (var->is_arg())
-		//{
-		//}
-		//else // if (!var->is_arg())
+		if (var->is_arg())
+		{
+			push_ir_expr(codegen().mk_pure_expr_real_address
+				(codegen().mk_pure_expr_deref
+				(codegen().mk_spec_expr_ref_sym(sym))));
+		}
+		else // if (!var->is_arg())
 		{
 			push_ir_expr(codegen().mk_pure_expr_real_address
 				(codegen().mk_spec_expr_ref_sym(sym)));
@@ -352,9 +364,13 @@ antlrcpp::Any Frontend::visitStmt
 	{
 		ctx->putnStatement()->accept(this);
 	}
-	else if (ctx->varDecl())
+	//else if (ctx->varDecl())
+	//{
+	//	ctx->varDecl()->accept(this);
+	//}
+	else if (ctx->localVarDecl())
 	{
-		ctx->varDecl()->accept(this);
+		ctx->localVarDecl()->accept(this);
 	}
 	else if (ctx->funcCall())
 	{
@@ -421,8 +437,45 @@ antlrcpp::Any Frontend::visitPutnStatement
 
 	return nullptr;
 }
+//antlrcpp::Any Frontend::visitMemberVarDecl
+//	(GrammarParser::MemberVarDeclContext *ctx)
+//{
+//	__var_decl_is_func_local = false;
+//
+//	ctx->varDecl()->accept(this);
+//
+//	return nullptr;
+//}
+antlrcpp::Any Frontend::visitLocalVarDecl
+	(GrammarParser::LocalVarDeclContext *ctx)
+{
+	__var_decl_is_func_local = true;
+
+	ctx->varDecl()->accept(this);
+
+	return nullptr;
+}
 antlrcpp::Any Frontend::visitVarDecl
 	(GrammarParser::VarDeclContext *ctx)
+{
+	if (ctx->builtinTypeVarDecl())
+	{
+		ctx->builtinTypeVarDecl()->accept(this);
+	}
+	//else if (ctx->classInstDecl())
+	//{
+	//	ctx->classInstDecl()->accept(this);
+	//}
+	else
+	{
+		err("visitVarDecl():  Eek!");
+	}
+	
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitBuiltinTypeVarDecl
+	(GrammarParser::BuiltinTypeVarDeclContext *ctx)
 {
 	ctx->builtinTypename()->accept(this);
 	const auto some_builtin_typename = pop_builtin_typename();
@@ -440,6 +493,7 @@ antlrcpp::Any Frontend::visitVarDecl
 
 	return nullptr;
 }
+
 antlrcpp::Any Frontend::visitFuncArgDecl
 	(GrammarParser::FuncArgDeclContext *ctx)
 {
@@ -583,10 +637,23 @@ antlrcpp::Any Frontend::visitAssignment
 		//codegen().mk_code_st(get_top_mm(), 
 		//	codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
 		//	IrBinop::Add, mem, index), expr);
+
+		//codegen().mk_code_st
+		//	(convert_builtin_typename_to_mm(sym->var()->type()),
+		//	codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
+		//	IrBinop::Add, mem, index), expr);
+
+		auto type_size = codegen().mk_pure_expr_constant
+			(IrMachineMode::Pointer, get_builtin_typename_size
+			(sym->var()->type()));
+
+		auto multiplied_index = codegen().mk_pure_expr_binop
+			(IrMachineMode::Pointer, IrBinop::Mul, type_size, index);
+
 		codegen().mk_code_st
 			(convert_builtin_typename_to_mm(sym->var()->type()),
 			codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
-			IrBinop::Add, mem, index), expr);
+			IrBinop::Add, mem, multiplied_index), expr);
 	}
 
 
@@ -1248,12 +1315,15 @@ void Frontend::__visit_ident_access
 		}
 		else // if (ctx_subscript_expr)
 		{
-			//auto var = sym->var();
+			auto var = sym->var();
 
-			//if (var->is_arg())
-			//{
-			//}
-			//else
+			if (var->is_arg())
+			{
+				mem = codegen().mk_pure_expr_arr_data_address
+					(codegen().mk_pure_expr_deref
+					(codegen().mk_spec_expr_ref_sym(sym)));
+			}
+			else // if (!var->is_arg())
 			{
 				mem = codegen().mk_pure_expr_arr_data_address
 					(codegen().mk_spec_expr_ref_sym(sym));
@@ -1314,10 +1384,24 @@ antlrcpp::Any Frontend::visitIdentRhs
 		//push_ir_expr(codegen().mk_expr_ld(get_top_mm(),
 		//	codegen().mk_expr_binop(IrMachineMode::Pointer,
 		//	IrBinop::Add, mem, index)));
+
+		//push_ir_expr(codegen().mk_pure_expr_ld
+		//	(convert_builtin_typename_to_mm(sym->var()->type()),
+		//	codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
+		//	IrBinop::Add, mem, index)));
+
+		auto type_size = codegen().mk_pure_expr_constant
+			(IrMachineMode::Pointer, 
+			get_builtin_typename_size(sym->var()->type()));
+
+		auto multiplied_index = codegen().mk_pure_expr_binop
+			(IrMachineMode::Pointer, IrBinop::Mul, type_size, index);
+
 		push_ir_expr(codegen().mk_pure_expr_ld
 			(convert_builtin_typename_to_mm(sym->var()->type()),
 			codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
-			IrBinop::Add, mem, index)));
+			IrBinop::Add, mem, multiplied_index)));
+
 	}
 
 	return nullptr;

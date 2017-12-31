@@ -17,9 +17,9 @@ enum class SymType : u32
 	ScalarVarName,
 	ArrayVarName,
 	FuncName,
-	//ClassName,
-	////ScalarClassInstName,
-	////ArrayClassInstName,
+	ClassName,
+	ScalarClassInstName,
+	ArrayClassInstName,
 };
 
 enum class BuiltinTypename : u32

@@ -80,6 +80,8 @@ protected:		// variables
 
 	//std::stack<AstNode*> __ast_node_stack;
 
+	std::vector<Function*> __func_vec;
+
 
 	std::stack<s64> __num_stack;
 	std::stack<std::string*> __str_stack;
@@ -88,10 +90,15 @@ protected:		// variables
 	std::stack<Symbol*> __sym_stack;
 	std::stack<Function*> __func_stack;
 	std::stack<IrExpr*> __ir_expr_stack;
-	//std::stack<IrMachineMode> __mm_stack;
+	std::stack<GrammarParser::FuncDeclContext*> __func_decl_stack;
 
 	//AstNode* __program_node;
 	CodeGenerator __codegen;
+
+	std::map<GrammarParser::FuncDeclContext*, Ident> 
+		__func_decl_to_ident_map;
+	
+	bool __var_decl_is_func_local;
 
 public:		// functions
 	inline Frontend()
@@ -110,6 +117,13 @@ public:		// functions
 
 protected:		// visitor functions
 
+    //antlrcpp::Any visitClassDecl
+    //	(GrammarParser::ClassDeclContext *ctx);
+    antlrcpp::Any visitGlobalFuncDecl
+    	(GrammarParser::GlobalFuncDeclContext *ctx);
+    //antlrcpp::Any visitMemberFuncDecl
+    //	(GrammarParser::MemberFuncDeclContext *ctx);
+
 	antlrcpp::Any visitFuncDecl
 		(GrammarParser::FuncDeclContext *ctx);
 	antlrcpp::Any visitFuncCall
@@ -124,8 +138,19 @@ protected:		// visitor functions
 
 	antlrcpp::Any visitPutnStatement
 		(GrammarParser::PutnStatementContext *ctx);
+
+
+    //antlrcpp::Any visitMemberVarDecl
+    //	(GrammarParser::MemberVarDeclContext *ctx);
+    antlrcpp::Any visitLocalVarDecl
+    	(GrammarParser::LocalVarDeclContext *ctx);
 	antlrcpp::Any visitVarDecl
 		(GrammarParser::VarDeclContext *ctx);
+	antlrcpp::Any visitBuiltinTypeVarDecl
+		(GrammarParser::BuiltinTypeVarDeclContext *ctx);
+    //antlrcpp::Any visitClassInstDecl
+    //	(GrammarParser::ClassInstDeclContext *ctx);
+
 	antlrcpp::Any visitFuncArgDecl
 		(GrammarParser::FuncArgDeclContext *ctx);
 
@@ -411,36 +436,21 @@ protected:		// non-visitor functions
 	}
 
 
+	inline void push_func_decl(GrammarParser::FuncDeclContext* to_push)
+	{
+		__func_decl_stack.push(to_push);
+	}
+	inline auto pop_func_decl()
+	{
+		auto ret = __func_decl_stack.top();
+		__func_decl_stack.pop();
+		return ret;
+	}
+	inline auto get_top_func_decl()
+	{
+		return __func_decl_stack.top();
+	}
 
-	//inline void push_ir_code(IrCode* to_push)
-	//{
-	//	__ir_code_stack.push(to_push);
-	//}
-	//inline auto pop_ir_code()
-	//{
-	//	auto ret = __ir_code_stack.top();
-	//	__ir_code_stack.pop();
-	//	return ret;
-	//}
-	//inline auto get_top_ir_code()
-	//{
-	//	return __ir_code_stack.top();
-	//}
-
-	//inline void push_mm(IrMachineMode to_push)
-	//{
-	//	__mm_stack.push(to_push);
-	//}
-	//inline auto pop_mm()
-	//{
-	//	auto ret = __mm_stack.top();
-	//	__mm_stack.pop();
-	//	return ret;
-	//}
-	//inline auto get_top_mm()
-	//{
-	//	return __mm_stack.top();
-	//}
 };
 
 #endif		// frontend_class_hpp

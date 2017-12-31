@@ -32,6 +32,7 @@ public:		// functions
 		IrExpr* where);
 	IrExpr* mk_pure_expr_arr_data_address(IrExpr* where);
 	IrExpr* mk_pure_expr_real_address(IrExpr* where);
+	IrExpr* mk_pure_expr_deref(IrExpr* what);
 	IrExpr* mk_pure_expr_ld(IrMachineMode s_mm, IrExpr* where);
 	//IrExpr* mk_pure_expr_casted_ld(IrMachineMode s_mm, IrExpr* where);
 	IrExpr* mk_pure_expr_cast(IrMachineMode s_mm, IrExpr* expr);

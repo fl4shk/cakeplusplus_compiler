@@ -40,6 +40,11 @@ enum class IrPureExOp
 	// function, or label)
 	RealAddress,
 
+
+	// Dereference
+	Deref,
+
+
 	// Load
 	Ld,
 
