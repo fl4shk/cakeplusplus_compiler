@@ -39,8 +39,8 @@ s64 main()
 u64 get_size(s64 a[])
 {
 	//return sizeof(a);
-	//return clear_arr(a);
-	return sizeof(a);
+	return clear_arr(a);
+	//return sizeof(a);
 }
 
 u64 clear_arr(s64 ret[])

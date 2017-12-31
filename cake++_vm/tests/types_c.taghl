@@ -1,2 +1,2 @@
-syn keyword CTagsFunction main get_size
+syn keyword CTagsFunction clear_arr main get_size
 
