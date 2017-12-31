@@ -28,7 +28,8 @@ protected:		// variables
 
 	Ident __cleanup_lab_ident = nullptr;
 
-	bool __ir_code_is_st, __expr_is_st_address, __ir_code_st_var_is_arg;
+	bool __ir_code_is_st, __expr_is_st_address, __expr_is_ld_address, 
+		__ir_code_st_var_is_arg;
 
 public:		// functions
 	BackendBase(std::vector<Function*>&& s_func_vec, 
@@ -50,6 +51,7 @@ protected:		// functions
 	gen_getter_and_setter_by_val(curr_iop);
 	gen_getter_and_setter_by_val(ir_code_is_st);
 	gen_getter_and_setter_by_val(expr_is_st_address);
+	gen_getter_and_setter_by_val(expr_is_ld_address);
 	gen_getter_and_setter_by_val(ir_code_st_var_is_arg);
 
 protected:		// IR handler functions
@@ -62,7 +64,11 @@ protected:		// IR handler functions
 	virtual BackendCodeBase* __handle_ir_pure_expr_sizeof(IrExpr* p) = 0;
 	virtual BackendCodeBase* 
 		__handle_ir_pure_expr_call_with_ret(IrExpr* p) = 0;
-	virtual BackendCodeBase* __handle_ir_pure_expr_address(IrExpr* p) = 0;
+	//virtual BackendCodeBase* __handle_ir_pure_expr_address(IrExpr* p) = 0;
+	virtual BackendCodeBase* __handle_ir_pure_expr_arr_data_address
+		(IrExpr* p) = 0;
+	virtual BackendCodeBase* __handle_ir_pure_expr_real_address(IrExpr* p) 
+		= 0;
 	virtual BackendCodeBase* __handle_ir_pure_expr_ld(IrExpr* p) = 0;
 	virtual BackendCodeBase* __handle_ir_pure_expr_cast(IrExpr* p) = 0;
 

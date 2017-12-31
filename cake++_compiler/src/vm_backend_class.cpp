@@ -1002,6 +1002,9 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_len(IrExpr* p)
 				if (var->is_arg())
 				{
 					__mk_address_of_variable(var);
+					mk_ld_basic();
+
+					// The array was passed by reference
 					return mk_ld_basic();
 				}
 				else
@@ -1069,6 +1072,10 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_sizeof(IrExpr* p)
 						__mk_address_of_variable(var);
 
 						// Load the number of elements from memory...
+						mk_ld_basic();
+
+						// Also, remember that arrays are passed by
+						// reference.
 						mk_ld_basic();
 
 						// ...and multiply it by the size of the type
@@ -1139,14 +1146,85 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_call_with_ret(IrExpr* p)
 	// smaller immediate value.
 	mk_const(-amount_to_subtract_from_sp);
 	return mk_add_to_sp();
+} 
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_arr_data_address
+	(IrExpr* p)
+{
+	auto a = p->args.front();
+
+	if (a->is_pure)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_arr_data_address():  ",
+			"a->is_pure Eek!\n");
+		exit(1);
+	}
+
+	if (a->spec_op != IrSpecExOp::RefSym)
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_arr_data_address():  ",
+			"a->spec_op Eek!\n");
+		exit(1);
+	}
+
+	auto sym = a->sym;
+
+	set_ir_code_st_var_is_arg(false);
+
+	switch (sym->type())
+	{
+		case SymType::ArrayVarName:
+			{
+				auto var = sym->var();
+				set_ir_code_st_var_is_arg(var->is_arg());
+
+				if (var->is_arg())
+				{
+					//printerr("VmBackend",
+					//	"::__handle_ir_pure_expr_arr_data_address():  ",
+					//	"var->is_arg() Eek!\n");
+					//exit(1);
+
+
+					// Dereference
+					if (var->mem_offset() != 0)
+					{
+						mk_const(var->mem_offset());
+						mk_indexed_arg_addr();
+					}
+					else
+					{
+						mk_arg_addr();
+					}
+
+					mk_ld_basic();
+
+					// Now compute thing
+					mk_const_u8(array_var_dim_storage_size);
+					return mk_add();
+				}
+				else
+				{
+					mk_const(var->mem_offset() 
+						+ array_var_dim_storage_size);
+					return mk_indexed_var_addr();
+				}
+			}
+
+		default:
+			printerr("VmBackend",
+				"::__handle_ir_pure_expr_arr_data_address():  ",
+				"sym->type() Eek!\n");
+			exit(1);
+			return nullptr;
+	}
 }
-BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_real_address(IrExpr* p)
 {
 	auto a = p->args.at(0);
 
 	if (a->is_pure)
 	{
-		printerr("VmBackend::__handle_ir_pure_expr_address():  ",
+		printerr("VmBackend::__handle_ir_pure_expr_real_address():  ",
 			"a->is_pure Eek!\n");
 		exit(1);
 	}
@@ -1193,36 +1271,62 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 					}
 				}
 				break;
-
 			case SymType::ArrayVarName:
 				{
 					auto var = sym->var();
 					set_ir_code_st_var_is_arg(var->is_arg());
 
+					//if (var->mem_offset() != 0)
+					//{
+					//	code_ret = mk_const(var->mem_offset());
+
+					//	if (var->is_arg())
+					//	{
+					//		code_ret = mk_indexed_arg_addr();
+					//	}
+					//	else // if (!var->is_arg())
+					//	{
+					//		code_ret = mk_indexed_var_addr();
+					//	}
+					//}
+					//else // if (var->mem_offset() == 0)
+					//{
+					//	if (var->is_arg())
+					//	{
+					//		code_ret = mk_arg_addr();
+					//	}
+					//	else // if (!var->is_arg())
+					//	{
+					//		code_ret = mk_var_addr();
+					//	}
+					//}
 
 					if (var->is_arg())
 					{
 						if (var->mem_offset() != 0)
 						{
-							// Since arrays are passed by reference, we
-							// only need to use the argument directly
 							code_ret = mk_const(var->mem_offset());
-
-							code_ret = mk_indexed_var_addr();
+							code_ret = mk_indexed_arg_addr();
 						}
-						else // if (var->mem_offset() == 0)
+						else
 						{
 							code_ret = mk_arg_addr();
 						}
+						// Arrays are passed by reference, so this grabs
+						// the address
+						code_ret = mk_ld_basic();
 					}
 					else // if (!var->is_arg())
 					{
-						// Add sizeof(u64) because of the space
-						// allocated for the dimensions of the array
-						code_ret = mk_const(array_var_dim_storage_size 
-							+ var->mem_offset());
-
-						code_ret = mk_indexed_var_addr();
+						if (var->mem_offset() != 0)
+						{
+							code_ret = mk_const(var->mem_offset());
+							code_ret = mk_indexed_var_addr();
+						}
+						else
+						{
+							code_ret = mk_var_addr();
+						}
 					}
 				}
 				break;
@@ -1232,7 +1336,8 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 				break;
 
 			default:
-				printerr("VmBackend::__handle_ir_pure_expr_address()",
+				printerr("VmBackend",
+					"::__handle_ir_pure_expr_real_address()",
 					"::handle_ref_sym():  Eek!\n");
 				exit(1);
 				code_ret = nullptr;
@@ -1260,7 +1365,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_address(IrExpr* p)
 			break;
 
 		default:
-			printerr("VmBackend::__handle_ir_pure_expr_address():  ",
+			printerr("VmBackend::__handle_ir_pure_expr_real_address():  ",
 				"a->spec_op Eek!\n");
 			exit(1);
 			break;
@@ -1272,7 +1377,9 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
 {
 	auto where = p->args.front();
 
+	//set_expr_is_ld_address(true);
 	handle_ir_pure_expr(where);
+	//set_expr_is_ld_address(false);
 
 	switch (p->mm)
 	{
@@ -1473,6 +1580,16 @@ BackendCodeBase* VmBackend::handle_ir_code_return_expr(IrCode* p)
 
 	mk_st_basic();
 
+	if (!expr->is_pure)
+	{
+		printerr("VmBackend::handle_ir_code_return_expr():  ",
+			"Second Eek!\n");
+		exit(1);
+	}
+	//if (expr->pure_op == IrPureExOp::CallWithRet)
+	//{
+	//}
+
 
 	mk_const_u8(0);
 	return mk_beq_far(__cleanup_lab_ident);
@@ -1512,12 +1629,12 @@ BackendCodeBase* VmBackend::handle_ir_code_jump(IrCode* p)
 		auto what_if = where->args.at(1);
 		auto what_else = where->args.at(2);
 
-		const bool what_if_is_addr = (what_if->is_pure 
-			&& (what_if->pure_op == IrPureExOp::Address));
-		const bool what_else_is_addr = (what_else->is_pure 
-			&& (what_else->pure_op == IrPureExOp::Address));
+		const bool what_if_is_real_addr = (what_if->is_pure 
+			&& (what_if->pure_op == IrPureExOp::RealAddress));
+		const bool what_else_is_real_addr = (what_else->is_pure 
+			&& (what_else->pure_op == IrPureExOp::RealAddress));
 
-		if (what_if_is_addr && !what_else_is_addr)
+		if (what_if_is_real_addr && !what_else_is_real_addr)
 		{
 			auto ref_lab = what_if->args.front();
 			auto get_next_pc = what_else;
@@ -1547,7 +1664,7 @@ BackendCodeBase* VmBackend::handle_ir_code_jump(IrCode* p)
 			code_ret = mk_bne_far(cstm_strdup(__func_tbl->get_label_name
 				(ref_lab->lab_num)));
 		}
-		else if (!what_if_is_addr && what_else_is_addr)
+		else if (!what_if_is_real_addr && what_else_is_real_addr)
 		{
 			auto get_next_pc = what_if;
 			auto ref_lab = what_else->args.front();
@@ -1631,7 +1748,11 @@ BackendCodeBase* VmBackend::handle_ir_code_call(IrCode* p)
 {
 	//return nullptr;
 	auto call_expr = p->args().front();
-	return handle_ir_pure_expr(call_expr);
+	handle_ir_pure_expr(call_expr);
+
+	// Clean up return value since it's not being used.
+	mk_const_s8(static_cast<s8>(-static_cast<s64>(sizeof(u64))));
+	return mk_add_to_sp();
 }
 BackendCodeBase* VmBackend::handle_ir_code_syscall(IrCode* p)
 {

@@ -56,10 +56,14 @@ BackendCodeBase* BackendBase::handle_ir_pure_expr(IrExpr* p)
 			return __handle_ir_pure_expr_call_with_ret(p);
 
 
-		// Memory address (example of use:  grabs address from symbol,
-		// function, or label)
-		case IrPureExOp::Address:
-			return __handle_ir_pure_expr_address(p);
+		// Address of array data
+		case IrPureExOp::ArrDataAddress:
+			return __handle_ir_pure_expr_arr_data_address(p);
+
+		// "Real" memory address (example of use:  grabs address from
+		// symbol, function, or label)
+		case IrPureExOp::RealAddress:
+			return __handle_ir_pure_expr_real_address(p);
 
 		// Load
 		case IrPureExOp::Ld:

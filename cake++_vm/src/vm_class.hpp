@@ -157,7 +157,7 @@ private:		// functions
 	{
 		if constexpr (enable_debug)
 		{
-			printout(args...);
+			printerr(args...);
 		}
 	}
 

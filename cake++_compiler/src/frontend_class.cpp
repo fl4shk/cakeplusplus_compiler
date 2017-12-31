@@ -284,7 +284,7 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 	{
 		// Scalars are passed by value
 
-		auto mem = codegen().mk_pure_expr_address
+		auto mem = codegen().mk_pure_expr_real_address
 			(codegen().mk_spec_expr_ref_sym(sym));
 		push_ir_expr(codegen().mk_pure_expr_ld
 			(convert_builtin_typename_to_mm(sym->var()->type()), mem));
@@ -293,8 +293,17 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 	{
 		// Since arrays are passed by reference, we only need to grab the
 		// address for this argument
-		push_ir_expr(codegen().mk_pure_expr_address
-			(codegen().mk_spec_expr_ref_sym(sym)));
+
+		auto var = sym->var();
+
+		//if (var->is_arg())
+		//{
+		//}
+		//else // if (!var->is_arg())
+		{
+			push_ir_expr(codegen().mk_pure_expr_real_address
+				(codegen().mk_spec_expr_ref_sym(sym)));
+		}
 	}
 	else
 	{
@@ -763,7 +772,7 @@ antlrcpp::Any Frontend::visitDoWhileStatement
 	// Continue the loop if the condition is non-zero
 	codegen().mk_code_jump(codegen().mk_spec_expr_if_then_else
 		(IrMachineMode::Pointer, cond,
-		codegen().mk_pure_expr_address(codegen().mk_spec_expr_ref_lab
+		codegen().mk_pure_expr_real_address(codegen().mk_spec_expr_ref_lab
 		(label_before_statements->lab_num())), 
 		codegen().mk_spec_expr_get_next_pc()));
 
@@ -1197,15 +1206,20 @@ void Frontend::__visit_ident_access
 		"\" was found!"));
 
 	//auto addr = codegen().mk_address(sym);
-	auto mem = codegen().mk_pure_expr_address
-		(codegen().mk_spec_expr_ref_sym(sym));
-	IrExpr* index;
+	//auto mem = codegen().mk_pure_expr_address
+	//	(codegen().mk_spec_expr_ref_sym(sym));
+
+	//auto mem = codegen().mk_pure_expr_arr_data_address
+	//	(codegen().mk_spec_expr_ref_sym(sym));
+	IrExpr * mem, * index;
 
 	
 	if (sym->type() == SymType::ScalarVarName)
 	{
 		if (!ctx_subscript_expr)
 		{
+			mem = codegen().mk_pure_expr_real_address
+				(codegen().mk_spec_expr_ref_sym(sym));
 			//index = codegen().mk_const(0);
 			index = codegen().mk_pure_expr_constant
 				(IrMachineMode::Pointer, 0);
@@ -1226,6 +1240,16 @@ void Frontend::__visit_ident_access
 		}
 		else // if (ctx_subscript_expr)
 		{
+			auto var = sym->var();
+
+			//if (var->is_arg())
+			//{
+			//}
+			//else
+			{
+				mem = codegen().mk_pure_expr_arr_data_address
+					(codegen().mk_spec_expr_ref_sym(sym));
+			}
 			ctx_subscript_expr->accept(this);
 			//index = pop_ir_code();
 			index = pop_ir_expr();

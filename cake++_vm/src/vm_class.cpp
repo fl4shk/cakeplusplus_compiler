@@ -152,20 +152,32 @@ void Vm::exec_one_instr(VmInstrOp op)
 			break;
 
 		case VmInstrOp::arg:
-			push(fp() - 8);
-			debug_printout("arg");
+			{
+				const auto temp = fp() - 8;
+				debug_printout("arg:  ", temp);
+				push(temp);
+			}
 			break;
 		case VmInstrOp::argx:
-			push(fp() - 8 + pop());
-			debug_printout("argx");
+			{
+				const auto temp = fp() - 8 + pop();
+				debug_printout("argx:  ", temp);
+				push(temp);
+			}
 			break;
 		case VmInstrOp::var:
-			push(fp() + 16);
-			debug_printout("var");
+			{
+				const auto temp = fp() + 16;
+				debug_printout("var:  ", temp);
+				push(temp);
+			}
 			break;
 		case VmInstrOp::varx:
-			push(fp() + 16 + pop());
-			debug_printout("varx");
+			{
+				const auto temp = fp() + 16 + pop();
+				debug_printout("varx:  ", temp);
+				push(temp);
+			}
 			break;
 		case VmInstrOp::get_pc:
 			push(pc());

@@ -68,7 +68,9 @@ private:		// IR handler functions
 	BackendCodeBase* __handle_ir_pure_expr_len(IrExpr* p);
 	BackendCodeBase* __handle_ir_pure_expr_sizeof(IrExpr* p);
 	BackendCodeBase* __handle_ir_pure_expr_call_with_ret(IrExpr* p);
-	BackendCodeBase* __handle_ir_pure_expr_address(IrExpr* p);
+	//BackendCodeBase* __handle_ir_pure_expr_address(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_arr_data_address(IrExpr* p);
+	BackendCodeBase* __handle_ir_pure_expr_real_address(IrExpr* p) ;
 	BackendCodeBase* __handle_ir_pure_expr_ld(IrExpr* p);
 	BackendCodeBase* __handle_ir_pure_expr_cast(IrExpr* p);
 

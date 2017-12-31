@@ -360,9 +360,29 @@ IrExpr* CodeGenerator::mk_pure_expr_unfinished_call_with_ret
 
 	return ret;
 }
-IrExpr* CodeGenerator::mk_pure_expr_address(IrExpr* where)
+//IrExpr* CodeGenerator::mk_pure_expr_address(IrExpr* where)
+//{
+//	auto ret = mk_ir_pure_expr(IrPureExOp::Address, IrMachineMode::Pointer);
+//
+//	ret->append_arg(where);
+//
+//	return ret;
+//}
+
+IrExpr* CodeGenerator::mk_pure_expr_arr_data_address(IrExpr* where)
 {
-	auto ret = mk_ir_pure_expr(IrPureExOp::Address, IrMachineMode::Pointer);
+	auto ret = mk_ir_pure_expr(IrPureExOp::ArrDataAddress, 
+		IrMachineMode::Pointer);
+
+	ret->append_arg(where);
+
+	return ret;
+}
+
+IrExpr* CodeGenerator::mk_pure_expr_real_address(IrExpr* where)
+{
+	auto ret = mk_ir_pure_expr(IrPureExOp::RealAddress, 
+		IrMachineMode::Pointer);
 
 	ret->append_arg(where);
 
@@ -779,10 +799,21 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node, IrExpr* p)
 				break;
 
 
-			// Memory address (example of use:  grabs address from symbol, 
-			case IrPureExOp::Address:
-				//osprintout(os, "address", temp, p->mm);
-				node["__op"] = "address";
+			//// Memory address (example of use:  grabs address from symbol, 
+			//case IrPureExOp::Address:
+			//	//osprintout(os, "address", temp, p->mm);
+			//	node["__op"] = "address";
+			//	break;
+
+			// Address of array data
+			case IrPureExOp::ArrDataAddress:
+				node["__op"] = "arr_data_address";
+				break;
+
+			// "Real" memory address (example of use:  grabs address from
+			// symbol, function, or label)
+			case IrPureExOp::RealAddress:
+				node["__op"] = "real_address";
 				break;
 
 			// Load

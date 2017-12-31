@@ -4,15 +4,25 @@
 		quit
 main:
 {
-		const(1)
-		bne(_0)
-		;const(9)
-		;const(0)
-		;syscall
-		;const_u8(10)
-		;const(2)
-		;syscall
+		const(32)
+		add_to_sp
+		const(3)
+		var
+		st_basic
+		const_u8(0)
+		const(8)
+		varx
+		const(clear_arr)
+		call
+		const(-8)
+		add_to_sp
 	_0:
-	_1:
+		const(-32)
+		add_to_sp
+		ret
+}
+clear_arr:
+{
+	_0:
 		ret
 }

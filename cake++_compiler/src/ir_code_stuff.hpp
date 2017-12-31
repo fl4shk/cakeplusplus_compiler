@@ -33,9 +33,12 @@ enum class IrPureExOp
 	CallWithRet,
 
 
-	// Memory address (example of use:  grabs address from symbol,
+	// Address of array data
+	ArrDataAddress,
+
+	// "Real" memory address (example of use:  grabs address from symbol,
 	// function, or label)
-	Address,
+	RealAddress,
 
 	// Load
 	Ld,

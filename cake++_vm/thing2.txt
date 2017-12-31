@@ -1,0 +1,34 @@
+At PC 0:  const_u8(0)
+At PC 3:  const(17)
+At PC 13:  call
+At PC 17:  const(32)
+At PC 27:  add_to_sp
+At PC 29:  const(3)
+At PC 39:  var:  188
+At PC 41:  __exec_st():  188, 3
+At PC 43:  const_u8(0)
+At PC 46:  var:  188
+At PC 48:  const(103)
+At PC 58:  call
+At PC 103:  const_u8(8)
+At PC 106:  arg:  228
+At PC 108:  __exec_ld():  228, 188
+At PC 110:  __exec_ld():  188, 3
+At PC 112:  const_u8(8)
+At PC 115:  mul
+At PC 117:  add
+At PC 119:  const(-8)
+At PC 129:  argx:  220
+At PC 131:  __exec_st():  220, 32
+At PC 133:  const_u8(0)
+At PC 136:  beq(0)
+At PC 146:  ret
+At PC 60:  const(-8)
+At PC 70:  add_to_sp
+At PC 72:  arg:  164
+At PC 74:  __exec_st():  164, 32
+At PC 76:  const_u8(0)
+At PC 79:  beq(0)
+At PC 89:  const(-32)
+At PC 99:  add_to_sp
+At PC 101:  ret
