@@ -1,61 +1,55 @@
 s64 main()
 {
-	//u8 six[6];
 	s64 temp[3];
 
-	//putn(sizeof(temp));
-
-	//putn(clear_arr(temp));
-	//return clear_arr(temp);
-
-	//{
-	//u64 i;
-	//i = 0;
-
-	//while (i < len(temp))
-	//{
-	//	temp[i] = i * 8;
-	//	putn(temp[i]);
-
-	//	i = i + 1;
-	//}
-
-	//}
-
-
-	//if (temp[0] == temp[1])
-	//{
-	//	temp[2] = 7;
-	//}
-	//putn(get_size(temp));
-
-
-
-	//return 9000;
-	putn(len(temp));
-	return get_size(temp);
+	//putn(len(temp));
+	return get_size_s64(temp);
 }
 
-u64 get_size(s64 a[])
+u64 get_size_s64(s64 a[])
 {
-	//return sizeof(a);
-	return clear_arr(a);
-	//return sizeof(a);
+	//return clear_arr_s64(a);
+	return sizeof(a);
 }
 
-u64 clear_arr(s64 ret[])
-{
-	u64 i;
-	i = 0;
-
-	while (i < len(ret))
-	{
-		ret[i] = 0;
-		i = i + 1;
-	}
-
-	return sizeof(ret);
-}
+//u64 clear_arr_s64(s64 to_clear[])
+//{
+//	u32 i;
+//	i = 0;
+//
+//	u64 ret;
+//	ret = 0;
+//	//ret = ret + sizeof(ret);
+//	{
+//	u64 temp;
+//	temp = sizeof(ret);
+//	ret = add_u64(ret, temp);
+//	}
+//
+//	while (i < len(to_clear))
+//	{
+//		to_clear[i] = 0;
+//		//i = i + 1;
+//		putn(i);
+//
+//		{
+//		u32 one;
+//		one = 1;
+//		i = add_u32(i, one);
+//		}
+//
+//		//ret += sizeof(ret);
+//		//ret = add(ret, sizeof(ret));
+//		{
+//		u64 temp;
+//		temp = sizeof(ret);
+//		ret = add_u64(ret, temp);
+//		}
+//	}
+//
+//	//return sizeof(ret);
+//	return ret;
+//}
 
 //u64 add_u64(u64 a, u64 b)
 //{
@@ -66,3 +60,11 @@ u64 clear_arr(s64 ret[])
 //{
 //	return (a + b);
 //}
+
+u32 add_u32(u32 a, u32 b)
+{
+	//return (a + b);
+	u32 ret;
+	ret = a + b;
+	return ret;
+}

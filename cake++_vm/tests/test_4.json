@@ -1,0 +1,158 @@
+[
+	{
+		"_func_name" : "main",
+		"contents" : 
+		[
+			{
+				"__iop" : "return_expr",
+				"args" : 
+				[
+					{
+						"__op" : "call_with_ret",
+						"_mm" : "u64",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "get_size_s64"
+							},
+							{
+								"__op" : "real_address",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_sym",
+										"_mm" : "pointer",
+										"_name" : "temp"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"_func_name" : "get_size_s64",
+		"contents" : 
+		[
+			{
+				"__iop" : "return_expr",
+				"args" : 
+				[
+					{
+						"__op" : "sizeof",
+						"_mm" : "length",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "a"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"_func_name" : "add_u32",
+		"contents" : 
+		[
+			{
+				"__iop" : "st",
+				"_mm" : "u32",
+				"args" : 
+				[
+					{
+						"__op" : "real_address",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "ref_sym",
+								"_mm" : "pointer",
+								"_name" : "ret"
+							}
+						]
+					},
+					{
+						"__op" : "binop",
+						"_binop" : "add",
+						"_mm" : "u32",
+						"args" : 
+						[
+							{
+								"__op" : "ld",
+								"_mm" : "u32",
+								"args" : 
+								[
+									{
+										"__op" : "real_address",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "a"
+											}
+										]
+									}
+								]
+							},
+							{
+								"__op" : "ld",
+								"_mm" : "u32",
+								"args" : 
+								[
+									{
+										"__op" : "real_address",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "ref_sym",
+												"_mm" : "pointer",
+												"_name" : "b"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"__iop" : "return_expr",
+				"args" : 
+				[
+					{
+						"__op" : "ld",
+						"_mm" : "u32",
+						"args" : 
+						[
+							{
+								"__op" : "real_address",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_sym",
+										"_mm" : "pointer",
+										"_name" : "ret"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]

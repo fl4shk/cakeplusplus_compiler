@@ -93,9 +93,11 @@ antlrcpp::Any Frontend::visitProgram
 	// Now visit the statements
 
 	{
-	//Json::Value func_ir_code_json_output_root;
 
-	//Json::ArrayIndex index_i = 0;
+	Json::Value func_ir_code_json_output_root;
+
+	Json::ArrayIndex index_i = 0;
+	
 	for (auto* iter : funcDecl)
 	{
 		auto ident = temp_ident_map.at(iter);
@@ -105,16 +107,22 @@ antlrcpp::Any Frontend::visitProgram
 
 		iter->accept(this);
 
-		//auto& temp_json_output_root 
-		//	= func_ir_code_json_output_root[index_i];
-		//codegen().output_func_ir_code_as_json
-		//	(temp_json_output_root, curr_func());
+		if constexpr (debug_show_json)
+		{
+			auto& temp_json_output_root 
+				= func_ir_code_json_output_root[index_i];
+			codegen().output_func_ir_code_as_json
+				(temp_json_output_root, curr_func());
 
-		//++index_i;
+			++index_i;
+		}
 	}
 
-	//write_json(cout, &func_ir_code_json_output_root);
-	//exit(0);
+	if constexpr (debug_show_json)
+	{
+		write_json(cout, &func_ir_code_json_output_root);
+		exit(0);
+	}
 	}
 
 	std::vector<Function*> func_vec;
@@ -1240,7 +1248,7 @@ void Frontend::__visit_ident_access
 		}
 		else // if (ctx_subscript_expr)
 		{
-			auto var = sym->var();
+			//auto var = sym->var();
 
 			//if (var->is_arg())
 			//{

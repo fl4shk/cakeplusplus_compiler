@@ -738,6 +738,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 		case IrBinop::CmpGt:
 		case IrBinop::CmpLe:
 		case IrBinop::CmpGe:
+			printerr("binop:  generating runtime cast\n");
 			code_a = __gen_runtime_cast(a->mm, code_a, a);
 			code_b = __gen_runtime_cast(b->mm, code_b, b);
 			break;

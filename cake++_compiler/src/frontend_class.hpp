@@ -44,6 +44,9 @@ public:		// functions
 class Frontend : public GrammarVisitor
 {
 public:		// constants
+	//static constexpr bool debug_show_json = true;
+	static constexpr bool debug_show_json = false;
+
 	// Ridiculously high number of function arguments permitted.
 	// 
 	// This number is arbitrary.

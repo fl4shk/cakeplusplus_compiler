@@ -10,19 +10,129 @@ main:
 		var
 		st_basic
 		const_u8(0)
-		const(8)
-		varx
-		const(clear_arr)
+		var
+		const(clear_arr_s64)
 		call
 		const(-8)
 		add_to_sp
+		arg
+		st_basic
+		const_u8(0)
+		beq(_0)
 	_0:
 		const(-32)
 		add_to_sp
 		ret
 }
-clear_arr:
+get_size_s64:
 {
+		const_u8(8)
+		arg
+		ld_basic
+		ld_basic
+		const_u8(8)
+		mul
+		add
+		const(-8)
+		argx
+		st_basic
+		const_u8(0)
+		beq(_0)
+	_0:
+		ret
+}
+clear_arr_s64:
+{
+		const(16)
+		add_to_sp
+		const(0)
+		var
+		st_u32
+		const(0)
+		const(4)
+		varx
+		st_basic
+	_0:
+		var
+		ld_u32
+		arg
+		ld_basic
+		ld_basic
+		cmp_ult
+		const_u8(32)
+		bit_lsl
+		const_u8(32)
+		bit_lsr
+		beq(_1)
+		const(0)
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		var
+		ld_u32
+		add
+		st_basic
+		var
+		ld_u32
+		const(0)
+		syscall
+		const_u8(10)
+		const(2)
+		syscall
+		const(1)
+		const(12)
+		varx
+		st_u32
+		const_u8(0)
+		const(12)
+		varx
+		ld_u32
+		var
+		ld_u32
+		const(add_u32)
+		call
+		const(-16)
+		add_to_sp
+		var
+		st_u32
+		const_u8(0)
+		beq(_0)
+	_1:
+		const_u8(8)
+		arg
+		ld_basic
+		ld_basic
+		const_u8(8)
+		mul
+		add
+		const(-8)
+		argx
+		st_basic
+		const_u8(0)
+		beq(_2)
+	_2:
+		const(-16)
+		add_to_sp
+		ret
+}
+add_u32:
+{
+		arg
+		ld_u32
+		const(-8)
+		argx
+		ld_u32
+		add
+		const_u8(32)
+		bit_lsl
+		const_u8(32)
+		bit_lsr
+		const(-16)
+		argx
+		st_basic
+		const_u8(0)
+		beq(_0)
 	_0:
 		ret
 }
