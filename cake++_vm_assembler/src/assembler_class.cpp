@@ -46,17 +46,16 @@ Assembler::Assembler(GrammarParser& parser, bool s_show_ws)
 
 int Assembler::run()
 {
+	push_scope_child_num(0);
 	// Two passes
 	for (__pass=0; __pass<2; ++__pass)
 	{
 		__pc = 0;
 
 		__curr_scope_node = sym_tbl().tree().children.front();
-		push_scope_child_num(0);
 
 		visitProgram(__program_ctx);
 
-		pop_scope_child_num();
 	};
 
 	return 0;
@@ -187,20 +186,6 @@ antlrcpp::Any Assembler::visitScopedLines
 	}
 	else // if (__pass)
 	{
-		//if (__curr_scope_node == sym_tbl().tree().children.front())
-		//{
-		//}
-		//else
-		//{
-		//}
-
-
-		//if (__scope_child_num_stack.size() == 1)
-		//{
-		//}
-
-		//printout("visitScopedLines() start:  ",
-		//	__scope_child_num_stack.size(), "\n");
 		__curr_scope_node = __curr_scope_node->children.at
 			(get_top_scope_child_num());
 		push_scope_child_num(0);
@@ -218,13 +203,14 @@ antlrcpp::Any Assembler::visitScopedLines
 	}
 	else // if (__pass)
 	{
-		//__curr_scope_node = 
-
 		pop_scope_child_num();
 
-		auto temp = pop_scope_child_num();
-		++temp;
-		push_scope_child_num(temp);
+		if (__scope_child_num_stack.size() >= 1)
+		{
+			auto temp = pop_scope_child_num();
+			++temp;
+			push_scope_child_num(temp);
+		}
 		__curr_scope_node = __curr_scope_node->parent;
 	}
 
