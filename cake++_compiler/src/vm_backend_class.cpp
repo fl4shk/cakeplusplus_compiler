@@ -558,9 +558,10 @@ std::ostream& VmBackend::__osprint_one_code(std::ostream& os,
 }
 
 BackendCodeBase* VmBackend::__gen_runtime_cast(IrMachineMode some_mm, 
-	BackendCodeBase* p, IrExpr* orig_expr)
+	BackendCodeBase* p, IrExpr* orig_expr, bool is_arg)
 {
-	if (orig_expr->is_pure && (orig_expr->pure_op == IrPureExOp::Ld))
+	if (!is_arg && orig_expr->is_pure 
+		&& (orig_expr->pure_op == IrPureExOp::Ld))
 	{
 		// The reason for this is that loads already zero-extend or
 		// sign-extend as needed.
@@ -705,6 +706,8 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 
 	auto code_a = handle_ir_pure_expr(a);
 	auto code_b = handle_ir_pure_expr(b);
+	//auto code_a = __gen_runtime_cast(a->mm, handle_ir_pure_expr(a), a);
+	//auto code_b = __gen_runtime_cast(a->mm, handle_ir_pure_expr(b), b);
 
 	switch (p->binop)
 	{
@@ -738,7 +741,7 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_binop(IrExpr* p)
 		case IrBinop::CmpGt:
 		case IrBinop::CmpLe:
 		case IrBinop::CmpGe:
-			printerr("binop:  generating runtime cast\n");
+			//printerr("binop:  generating runtime cast\n");
 			code_a = __gen_runtime_cast(a->mm, code_a, a);
 			code_b = __gen_runtime_cast(b->mm, code_b, b);
 			break;
@@ -1168,6 +1171,11 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_arr_data_address
 	}
 
 	auto sym = a->sym;
+	if (expr_is_ld_address())
+	{
+		push_ld_sym(sym);
+	}
+
 
 	set_ir_code_st_var_is_arg(false);
 
@@ -1236,6 +1244,11 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_real_address(IrExpr* p)
 	auto handle_ref_sym = [&]() -> void
 	{
 		auto sym = a->sym;
+
+		if (expr_is_ld_address())
+		{
+			push_ld_sym(sym);
+		}
 
 		set_ir_code_st_var_is_arg(false);
 
@@ -1378,37 +1391,77 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
 {
 	auto where = p->args.front();
 
-	//set_expr_is_ld_address(true);
+	set_expr_is_ld_address(true);
 	handle_ir_pure_expr(where);
-	//set_expr_is_ld_address(false);
+	set_expr_is_ld_address(false);
 
-	switch (p->mm)
+	auto ld_sym = pop_ld_sym();
+
+
+	if (((ld_sym->type() == SymType::ScalarVarName)
+		&& (!ld_sym->var()->is_arg()))
+		|| (ld_sym->type() == SymType::ArrayVarName))
 	{
-		case IrMachineMode::U64:
-		case IrMachineMode::S64:
-			return mk_ld_basic();
+		switch (p->mm)
+		{
+			case IrMachineMode::U64:
+			case IrMachineMode::S64:
+				return mk_ld_basic();
 
-		case IrMachineMode::U32:
-			return mk_ld_u32();
-		case IrMachineMode::S32:
-			return mk_ld_s32();
+			case IrMachineMode::U32:
+				return mk_ld_u32();
+			case IrMachineMode::S32:
+				return mk_ld_s32();
 
-		case IrMachineMode::U16:
-			return mk_ld_u16();
-		case IrMachineMode::S16:
-			return mk_ld_s16();
+			case IrMachineMode::U16:
+				return mk_ld_u16();
+			case IrMachineMode::S16:
+				return mk_ld_s16();
 
-		case IrMachineMode::U8:
-			return mk_ld_u8();
-		case IrMachineMode::S8:
-			return mk_ld_s8();
+			case IrMachineMode::U8:
+				return mk_ld_u8();
+			case IrMachineMode::S8:
+				return mk_ld_s8();
 
-		case IrMachineMode::Pointer:
-		case IrMachineMode::Length:
-		default:
-			printerr("VmBackend::__handle_ir_pure_expr_ld():  Eek!\n");
-			exit(1);
-			return nullptr;
+			case IrMachineMode::Pointer:
+			case IrMachineMode::Length:
+			default:
+				printerr("VmBackend::__handle_ir_pure_expr_ld():  Eek!\n");
+				exit(1);
+				return nullptr;
+		}
+	}
+	else if ((ld_sym->type() == SymType::ScalarVarName)
+		&& (ld_sym->var()->is_arg()))
+	{
+		switch (p->mm)
+		{
+			case IrMachineMode::U64:
+			case IrMachineMode::S64:
+			case IrMachineMode::U32:
+			case IrMachineMode::S32:
+			case IrMachineMode::U16:
+			case IrMachineMode::S16:
+			case IrMachineMode::U8:
+			case IrMachineMode::S8:
+				{
+					auto temp = mk_ld_basic();
+					return __gen_runtime_cast(p->mm, temp, p, true);
+				}
+
+			case IrMachineMode::Pointer:
+			case IrMachineMode::Length:
+			default:
+				printerr("VmBackend::__handle_ir_pure_expr_ld():  Eek!\n");
+				exit(1);
+				return nullptr;
+		}
+	}
+	else
+	{
+		printerr("VmBackend::__handle_ir_pure_expr_ld():  else Eek!\n");
+		exit(1);
+		return nullptr;
 	}
 }
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_cast(IrExpr* p)

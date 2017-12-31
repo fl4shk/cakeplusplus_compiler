@@ -798,7 +798,8 @@ s64 Vm::pop()
 }
 void Vm::push(s64 to_push)
 {
-	if ((sp() + 8) >= __mem.size())
+	//printout("push():  ", sp(), "\n");
+	if ((sp() + sizeof(s64)) >= __mem.size())
 	{
 		err("push():  Stack pointer out of valid range!");
 	}

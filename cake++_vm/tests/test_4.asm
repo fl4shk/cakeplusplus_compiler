@@ -4,9 +4,9 @@
 		quit
 main:
 {
-		const(32)
+		const(88)
 		add_to_sp
-		const(3)
+		const(10)
 		var
 		st_basic
 		const_u8(0)
@@ -15,12 +15,18 @@ main:
 		call
 		const(-8)
 		add_to_sp
+		const(0)
+		syscall
+		const_u8(10)
+		const(2)
+		syscall
+		const(0)
 		arg
 		st_basic
 		const_u8(0)
 		beq(_0)
 	_0:
-		const(-32)
+		const(-88)
 		add_to_sp
 		ret
 }
@@ -43,12 +49,30 @@ get_size_s64:
 }
 clear_arr_s64:
 {
-		const(16)
+		const(32)
 		add_to_sp
 		const(0)
 		var
 		st_u32
 		const(0)
+		const(4)
+		varx
+		st_basic
+		const(8)
+		const(12)
+		varx
+		st_basic
+		const_u8(0)
+		const(12)
+		varx
+		ld_basic
+		const(4)
+		varx
+		ld_basic
+		const(add_u64)
+		call
+		const(-16)
+		add_to_sp
 		const(4)
 		varx
 		st_basic
@@ -73,19 +97,30 @@ clear_arr_s64:
 		ld_u32
 		add
 		st_basic
-		var
-		ld_u32
-		const(0)
-		syscall
-		const_u8(10)
-		const(2)
-		syscall
+		const(8)
+		const(20)
+		varx
+		st_basic
+		const_u8(0)
+		const(20)
+		varx
+		ld_basic
+		const(4)
+		varx
+		ld_basic
+		const(add_u64)
+		call
+		const(-16)
+		add_to_sp
+		const(4)
+		varx
+		st_basic
 		const(1)
-		const(12)
+		const(28)
 		varx
 		st_u32
 		const_u8(0)
-		const(12)
+		const(28)
 		varx
 		ld_u32
 		var
@@ -99,40 +134,68 @@ clear_arr_s64:
 		const_u8(0)
 		beq(_0)
 	_1:
-		const_u8(8)
-		arg
+		const(4)
+		varx
 		ld_basic
-		ld_basic
-		const_u8(8)
-		mul
-		add
 		const(-8)
 		argx
 		st_basic
 		const_u8(0)
 		beq(_2)
 	_2:
-		const(-16)
+		const(-32)
 		add_to_sp
 		ret
 }
-add_u32:
+add_u64:
 {
 		arg
-		ld_u32
+		ld_basic
 		const(-8)
 		argx
-		ld_u32
+		ld_basic
 		add
-		const_u8(32)
-		bit_lsl
-		const_u8(32)
-		bit_lsr
 		const(-16)
 		argx
 		st_basic
 		const_u8(0)
 		beq(_0)
 	_0:
+		ret
+}
+add_u32:
+{
+		const(4)
+		add_to_sp
+		arg
+		ld_basic
+		const_u8(32)
+		bit_lsl
+		const_u8(32)
+		bit_lsr
+		const(-8)
+		argx
+		ld_basic
+		const_u8(32)
+		bit_lsl
+		const_u8(32)
+		bit_lsr
+		add
+		const_u8(32)
+		bit_lsl
+		const_u8(32)
+		bit_lsr
+		var
+		st_u32
+		var
+		ld_u32
+		const(-16)
+		argx
+		st_basic
+		const_u8(0)
+		beq(_0)
+	_0:
+		const(-4)
+		add_to_sp
 		ret
 }

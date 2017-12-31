@@ -1,6 +1,9 @@
 s64 main()
 {
-	s64 temp[3];
+	//s64 temp[9000];
+	s64 temp[10];
+	//s64 temp[200];
+	//s64 temp[3];
 
 	//putn(len(temp));
 	//return get_size_s64(temp);
@@ -11,7 +14,8 @@ s64 main()
 	//b[0] = 3;
 	//return add_u32(a, b);
 
-	return clear_arr_s64(temp);
+	putn(clear_arr_s64(temp));
+	return 0;
 }
 
 u64 get_size_s64(s64 a[])
@@ -23,33 +27,46 @@ u64 get_size_s64(s64 a[])
 u64 clear_arr_s64(s64 to_clear[])
 {
 	u32 i;
+	//u64 i;
 	i = 0;
 
 	u64 ret;
 	ret = 0;
 
+	{
+	u64 temp;
+	temp = sizeof(temp);
+	ret = add_u64(ret, temp);
+	}
+
 	while (i < len(to_clear))
 	{
 		to_clear[i] = 0;
-		putn(i);
+
+		{
+		u64 temp;
+		temp = sizeof(temp);
+		ret = add_u64(ret, temp);
+		}
 
 		{
 		u32 one;
 		one = 1;
 		i = add_u32(i, one);
 		}
-		//i = i + u32(1);
 
 	}
 
-	return sizeof(to_clear);
+	//return sizeof(to_clear);
+	//return 0;
+	return ret;
 }
 
-//u64 add_u64(u64 a, u64 b)
-//{
-//	return (a + b);
-//}
-//
+u64 add_u64(u64 a, u64 b)
+{
+	return (a + b);
+}
+
 //s64 add_s64(s64 a, s64 b)
 //{
 //	return (a + b);
@@ -65,5 +82,10 @@ u64 clear_arr_s64(s64 to_clear[])
 
 u64 add_u32(u32 a, u32 b)
 {
-	return (a + b);
+	//putn(a);
+	//putn(b);
+	u32 ret;
+	ret = (a + b);
+	//putn(ret);
+	return ret;
 }

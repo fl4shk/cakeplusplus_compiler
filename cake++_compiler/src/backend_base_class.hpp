@@ -30,6 +30,8 @@ protected:		// variables
 
 	bool __ir_code_is_st, __expr_is_st_address, __expr_is_ld_address, 
 		__ir_code_st_var_is_arg;
+	//Symbol* __ld_sym;
+	std::stack<Symbol*> __ld_sym_stack;
 
 public:		// functions
 	BackendBase(std::vector<Function*>&& s_func_vec, 
@@ -42,11 +44,27 @@ public:		// functions
 protected:		// functions
 	// Cast that happens at runtime.
 	virtual BackendCodeBase* __gen_runtime_cast
-		(IrMachineMode some_mm, BackendCodeBase* p, IrExpr* orig_expr) = 0;
+		(IrMachineMode some_mm, BackendCodeBase* p, IrExpr* orig_expr,
+		bool is_arg) = 0;
 	virtual void __gen_startup_code() = 0;
 	virtual void __gen_one_func_code() = 0;
 	virtual std::ostream& __osprint_one_code(std::ostream& os,
 		BackendCodeBase* some_code) = 0;
+
+	inline void push_ld_sym(Symbol* to_push)
+	{
+		__ld_sym_stack.push(to_push);
+	}
+	inline auto pop_ld_sym()
+	{
+		auto ret = __ld_sym_stack.top();
+		__ld_sym_stack.pop();
+		return ret;
+	}
+	inline auto get_top_ld_sym()
+	{
+		return __ld_sym_stack.top();
+	}
 	
 	gen_getter_and_setter_by_val(curr_iop);
 	gen_getter_and_setter_by_val(ir_code_is_st);
