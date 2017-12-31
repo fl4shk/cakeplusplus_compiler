@@ -1,7 +1,2 @@
-syn keyword CTagsFunction add_u32 main clear_arr_s64 get_size_s64
+syn keyword CTagsFunction add_u32 main get_size_s64 disp_arr_s64
 
-" Matches for file test_4.cpp:
-if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "test_4.cpp") || TagHighlight#Option#GetOption("IgnoreFileScope")
-	syn keyword CTagsClass Egg
-	
-endif

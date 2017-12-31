@@ -644,7 +644,7 @@ antlrcpp::Any Frontend::visitAssignment
 		//	IrBinop::Add, mem, index), expr);
 
 		auto type_size = codegen().mk_pure_expr_constant
-			(IrMachineMode::Pointer, get_builtin_typename_size
+			(IrMachineMode::Length, get_builtin_typename_size
 			(sym->var()->type()));
 
 		auto multiplied_index = codegen().mk_pure_expr_binop
@@ -1391,7 +1391,7 @@ antlrcpp::Any Frontend::visitIdentRhs
 		//	IrBinop::Add, mem, index)));
 
 		auto type_size = codegen().mk_pure_expr_constant
-			(IrMachineMode::Pointer, 
+			(IrMachineMode::Length, 
 			get_builtin_typename_size(sym->var()->type()));
 
 		auto multiplied_index = codegen().mk_pure_expr_binop

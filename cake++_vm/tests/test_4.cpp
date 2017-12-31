@@ -13,13 +13,22 @@ s64 main()
 	arr[8] = 1;
 	arr[9] = 0;
 
+	return disp_arr_s64(arr);
+
+}
+
+u64 disp_arr_s64(s64 arr[])
+{
 	u64 i;
 	i = 0;
 	while (i < len(arr))
 	{
-		putn(i);
+		//putn(i);
+		putn(arr[i]);
 		i = i + 1;
 	}
+
+	return sizeof(arr);
 }
 
 //s64 main()

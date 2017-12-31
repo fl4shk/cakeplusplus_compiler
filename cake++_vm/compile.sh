@@ -1,2 +1,2 @@
 #!/bin/bash
-./compiler <tests/test_"$1".c >tests/test_"$1".asm
+./compiler <tests/test_"$1".cpp >tests/test_"$1".asm

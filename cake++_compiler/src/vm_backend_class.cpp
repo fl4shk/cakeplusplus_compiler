@@ -690,8 +690,10 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_constant(IrExpr* p)
 		case IrMachineMode::S8:
 			return mk_const_s8((s8)p->simm);
 
-		case IrMachineMode::Pointer:
+		//case IrMachineMode::Pointer:
+			
 		case IrMachineMode::Length:
+			return mk_const(p->uimm);
 		default:
 			printerr("VmBackend::__handle_ir_pure_expr_constant():  ",
 				"Eek!\n");
@@ -1246,7 +1248,11 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_arr_data_address
 					//}
 
 					//mk_ld_basic();
-					handle_ir_pure_expr(a->args.front());
+
+
+					//handle_ir_pure_expr(a->args.front());
+
+					handle_ir_pure_expr(a);
 
 					// Now compute thing
 					mk_const_u8(array_var_dim_storage_size);

@@ -4,180 +4,138 @@
 		quit
 main:
 {
-		const(96)
+		const(88)
 		add_to_sp
 		const(10)
 		var
 		st_basic
-		const_u8(0)
-		var
-		const(clear_arr_s64)
-		call
-		const(-8)
-		add_to_sp
-		const_s8(-8)
-		add_to_sp
-		const(0)
-		const(88)
-		varx
-		st_basic
-	_0:
-		const(88)
-		varx
-		ld_basic
-		const(10)
-		cmp_ult
-		beq(_1)
-		const(88)
-		varx
-		ld_basic
-		const(88)
-		mul
+		const(9)
 		const(8)
 		varx
-		const(88)
-		varx
-		ld_basic
-		add
 		st_basic
 		const(8)
+		const(8)
 		varx
-		const(88)
-		varx
-		ld_basic
-		add
-		ld_basic
-		const(0)
-		syscall
-		const_u8(10)
-		const(2)
-		syscall
-		const(88)
-		varx
-		ld_basic
+		const(8)
 		const(1)
-		add
-		const(88)
-		varx
-		st_basic
-		const_u8(0)
-		beq(_0)
-	_1:
-		const_u8(0)
-		var
-		const(clear_arr_s64)
-		call
-		const(-8)
-		add_to_sp
-		const_s8(-8)
-		add_to_sp
-		const(-1)
-		const(0)
-		syscall
-		const_u8(10)
-		const(2)
-		syscall
-		const(-1)
-		const(0)
-		syscall
-		const_u8(10)
-		const(2)
-		syscall
-		const(0)
-		const(88)
-		varx
-		st_basic
-	_2:
-		const(88)
-		varx
-		ld_basic
-		const(10)
-		cmp_ult
-		beq(_3)
-		const(8)
-		varx
-		const(88)
-		varx
-		ld_basic
-		add
-		ld_basic
-		const(0)
-		syscall
-		const_u8(10)
-		const(2)
-		syscall
-		const(88)
-		varx
-		ld_basic
-		const(1)
-		add
-		const(88)
-		varx
-		st_basic
-		const_u8(0)
-		beq(_2)
-	_3:
-		const(0)
-		arg
-		st_basic
-		const_u8(0)
-		beq(_4)
-	_4:
-		const(-96)
-		add_to_sp
-		ret
-}
-get_size_s64:
-{
-		const_u8(8)
-		arg
-		ld_basic
-		ld_basic
-		const_u8(8)
 		mul
 		add
-		const(-8)
-		argx
 		st_basic
-		const_u8(0)
-		beq(_0)
-	_0:
-		ret
-}
-clear_arr_s64:
-{
+		const(7)
+		const(8)
+		varx
+		const(8)
+		const(2)
+		mul
+		add
+		st_basic
+		const(6)
+		const(8)
+		varx
+		const(8)
+		const(3)
+		mul
+		add
+		st_basic
+		const(5)
+		const(8)
+		varx
+		const(8)
 		const(4)
+		mul
+		add
+		st_basic
+		const(4)
+		const(8)
+		varx
+		const(8)
+		const(5)
+		mul
+		add
+		st_basic
+		const(3)
+		const(8)
+		varx
+		const(8)
+		const(6)
+		mul
+		add
+		st_basic
+		const(2)
+		const(8)
+		varx
+		const(8)
+		const(7)
+		mul
+		add
+		st_basic
+		const(1)
+		const(8)
+		varx
+		const(8)
+		const(8)
+		mul
+		add
+		st_basic
+		const(0)
+		const(8)
+		varx
+		const(8)
+		const(9)
+		mul
+		add
+		st_basic
+		const_u8(0)
+		var
+		const(disp_arr_s64)
+		call
+		const(-8)
+		add_to_sp
+		arg
+		st_basic
+		const_u8(0)
+		beq(_0)
+	_0:
+		const(-88)
+		add_to_sp
+		ret
+}
+disp_arr_s64:
+{
+		const(8)
 		add_to_sp
 		const(0)
 		var
-		st_u32
+		st_basic
 	_0:
 		var
-		ld_u32
+		ld_basic
 		arg
 		ld_basic
 		ld_basic
 		cmp_ult
-		const_u8(32)
-		bit_lsl
-		const_u8(32)
-		bit_lsr
 		beq(_1)
-		const(0)
 		arg
 		ld_basic
 		const_u8(8)
 		add
+		const(8)
 		var
-		ld_u32
+		ld_basic
+		mul
 		add
-		st_basic
+		ld_basic
+		const(0)
+		syscall
+		const_u8(10)
+		const(2)
+		syscall
 		var
-		ld_u32
+		ld_basic
 		const(1)
 		add
 		var
-		st_u32
+		st_basic
 		const_u8(0)
 		beq(_0)
 	_1:
@@ -194,7 +152,7 @@ clear_arr_s64:
 		const_u8(0)
 		beq(_2)
 	_2:
-		const(-4)
+		const(-8)
 		add_to_sp
 		ret
 }
