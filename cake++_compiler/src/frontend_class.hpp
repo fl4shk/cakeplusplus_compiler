@@ -136,8 +136,13 @@ protected:		// visitor functions
 	antlrcpp::Any visitStmt
 		(GrammarParser::StmtContext *ctx);
 
+	antlrcpp::Any visitPseudoFuncCallStmt
+		(GrammarParser::PseudoFuncCallStmtContext *ctx);
+
 	antlrcpp::Any visitPutnStatement
 		(GrammarParser::PutnStatementContext *ctx);
+	antlrcpp::Any visitPutcharStatement
+		(GrammarParser::PutcharStatementContext *ctx);
 
 
     //antlrcpp::Any visitMemberVarDecl

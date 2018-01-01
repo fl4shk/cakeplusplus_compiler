@@ -360,10 +360,14 @@ antlrcpp::Any Frontend::visitStmt
 	{
 		ctx->statements()->accept(this);
 	}
-	else if (ctx->putnStatement())
+	else if (ctx->pseudoFuncCallStmt())
 	{
-		ctx->putnStatement()->accept(this);
+		ctx->pseudoFuncCallStmt()->accept(this);
 	}
+	//else if (ctx->putnStatement())
+	//{
+	//	ctx->putnStatement()->accept(this);
+	//}
 	//else if (ctx->varDecl())
 	//{
 	//	ctx->varDecl()->accept(this);
@@ -419,12 +423,30 @@ antlrcpp::Any Frontend::visitStmt
 	}
 	else
 	{
-		err("visitStmt():  Eek!\n");
+		err("visitStmt():  Eek!");
 	}
 
 	return nullptr;
 }
 
+antlrcpp::Any Frontend::visitPseudoFuncCallStmt
+	(GrammarParser::PseudoFuncCallStmtContext *ctx)
+{
+	if (ctx->putnStatement())
+	{
+		ctx->putnStatement()->accept(this);
+	}
+	else if (ctx->putcharStatement())
+	{
+		ctx->putcharStatement()->accept(this);
+	}
+	else
+	{
+		err("visitPseudoFuncCallStmt():  Eek!");
+	}
+
+	return nullptr;
+}
 antlrcpp::Any Frontend::visitPutnStatement
 	(GrammarParser::PutnStatementContext *ctx)
 {
@@ -434,13 +456,26 @@ antlrcpp::Any Frontend::visitPutnStatement
 		(IrSyscallShorthandOp::DispNum);
 	some_disp_num->append_arg(pop_ir_expr());
 
-	auto some_disp_char = codegen().mk_code_unfinished_syscall
-		(IrSyscallShorthandOp::DispChar);
-	some_disp_char->append_arg(codegen().mk_pure_expr_constant
-		(IrMachineMode::U8, '\n'));
+	//auto some_disp_char = codegen().mk_code_unfinished_syscall
+	//	(IrSyscallShorthandOp::DispChar);
+	//some_disp_char->append_arg(codegen().mk_pure_expr_constant
+	//	(IrMachineMode::U8, '\n'));
 
 	return nullptr;
 }
+
+antlrcpp::Any Frontend::visitPutcharStatement
+	(GrammarParser::PutcharStatementContext *ctx)
+{
+	ctx->expr()->accept(this);
+
+	auto some_disp_char = codegen().mk_code_unfinished_syscall
+		(IrSyscallShorthandOp::DispChar);
+	some_disp_char->append_arg(pop_ir_expr());
+
+	return nullptr;
+}
+
 //antlrcpp::Any Frontend::visitMemberVarDecl
 //	(GrammarParser::MemberVarDeclContext *ctx)
 //{

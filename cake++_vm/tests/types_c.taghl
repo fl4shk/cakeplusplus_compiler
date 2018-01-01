@@ -1,2 +1,2 @@
-syn keyword CTagsFunction add_u32 main get_size_s64 disp_arr_s64
+syn keyword CTagsFunction disp_space fun_func_b disp_newline fun_func_a main disp_arr_s64 add_u32 disp_comma clear_arr_s64 get_size_s64
 

@@ -6,7 +6,14 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/249c3c0/
 add_u32	test_3.cpp	/^u32 add_u32(u32 a, u32 b)$/;"	kind:f	typeref:typename:u32	signature:(u32 a,u32 b)
+clear_arr_s64	test_4.cpp	/^u64 clear_arr_s64(s64 to_clear[])$/;"	kind:f	typeref:typename:u64	signature:(s64 to_clear[])
 disp_arr_s64	test_4.cpp	/^u64 disp_arr_s64(s64 arr[])$/;"	kind:f	typeref:typename:u64	signature:(s64 arr[])
+disp_comma	test_4.cpp	/^u8 disp_comma()$/;"	kind:f	typeref:typename:u8	signature:()
+disp_newline	test_4.cpp	/^u8 disp_newline()$/;"	kind:f	typeref:typename:u8	signature:()
+disp_space	test_4.cpp	/^u8 disp_space()$/;"	kind:f	typeref:typename:u8	signature:()
+fun_func_a	test_4.cpp	/^u64 fun_func_a(s64 arr[])$/;"	kind:f	typeref:typename:u64	signature:(s64 arr[])
+fun_func_b	test_4.cpp	/^u64 fun_func_b(s64 arr[])$/;"	kind:f	typeref:typename:u64	signature:(s64 arr[])
 get_size_s64	test_3.cpp	/^u64 get_size_s64(s64 a[])$/;"	kind:f	typeref:typename:u64	signature:(s64 a[])
+get_size_s64	test_4.cpp	/^u64 get_size_s64(s64 a[])$/;"	kind:f	typeref:typename:u64	signature:(s64 a[])
 main	test_3.cpp	/^s64 main()$/;"	kind:f	typeref:typename:s64	signature:()
 main	test_4.cpp	/^s64 main()$/;"	kind:f	typeref:typename:s64	signature:()

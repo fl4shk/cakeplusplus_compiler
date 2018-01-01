@@ -4,68 +4,173 @@
 		quit
 main:
 {
-		const(48)
+		const(40)
 		add_to_sp
 		const(4)
 		var
 		st_basic
-		const(0)
-		const(40)
-		varx
+		const_u8(0)
+		var
+		const(fun_func_a)
+		call
+		const(-8)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
+		const_u8(0)
+		var
+		const(disp_arr_s64)
+		call
+		const(-8)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
+		const_u8(0)
+		var
+		const(fun_func_b)
+		call
+		const(-8)
+		add_to_sp
+		arg
 		st_basic
+		const_u8(0)
+		beq(_0)
 	_0:
-		const(40)
-		varx
-		ld_basic
-		const(4)
-		cmp_ult
-		beq(_1)
-		const(40)
-		varx
-		ld_basic
-		const(8)
-		mul
-		const(8)
-		varx
-		const(8)
-		const(40)
-		varx
-		ld_basic
-		mul
-		add
-		st_basic
-		const(8)
-		varx
-		const(8)
-		const(40)
-		varx
-		ld_basic
-		mul
-		add
-		ld_basic
-		const(0)
-		syscall
-		const_u8(10)
+		const(-40)
+		add_to_sp
+		ret
+}
+disp_newline:
+{
+		const(10)
 		const(2)
 		syscall
-		const(40)
-		varx
+	_0:
+		ret
+}
+disp_space:
+{
+		const(32)
+		const(2)
+		syscall
+	_0:
+		ret
+}
+disp_comma:
+{
+		const(44)
+		const(2)
+		syscall
+	_0:
+		ret
+}
+fun_func_a:
+{
+		const(8)
+		add_to_sp
+		const(0)
+		var
+		st_basic
+	_0:
+		var
+		ld_basic
+		arg
+		ld_basic
+		ld_basic
+		cmp_ult
+		beq(_1)
+		var
+		ld_basic
+		const(8)
+		mul
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(8)
+		var
+		ld_basic
+		mul
+		add
+		st_basic
+		var
 		ld_basic
 		const(1)
 		add
-		const(40)
-		varx
+		var
 		st_basic
 		const_u8(0)
 		beq(_0)
 	_1:
-		const(9000)
-		arg
+		var
+		ld_basic
+		const(-8)
+		argx
 		st_basic
 		const_u8(0)
 		beq(_2)
 	_2:
-		const(-48)
+		const(-8)
+		add_to_sp
+		ret
+}
+fun_func_b:
+{
+		const(8)
+		add_to_sp
+		const(0)
+		var
+		st_basic
+	_0:
+		var
+		ld_basic
+		arg
+		ld_basic
+		ld_basic
+		cmp_ult
+		beq(_1)
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(8)
+		var
+		ld_basic
+		mul
+		add
+		ld_basic
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(8)
+		var
+		ld_basic
+		mul
+		add
+		ld_basic
+		add
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(8)
+		var
+		ld_basic
+		mul
+		add
+		st_basic
+		var
+		ld_basic
+		const(1)
+		add
+		var
+		st_basic
+		const_u8(0)
+		beq(_0)
+	_1:
+	_2:
+		const(-8)
 		add_to_sp
 		ret
 }
@@ -96,9 +201,104 @@ disp_arr_s64:
 		ld_basic
 		const(0)
 		syscall
-		const_u8(10)
-		const(2)
-		syscall
+		var
+		ld_basic
+		const(1)
+		add
+		var
+		st_basic
+		var
+		ld_basic
+		arg
+		ld_basic
+		ld_basic
+		cmp_ult
+		beq(_2)
+		const_u8(0)
+		const(disp_comma)
+		call
+		const(0)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
+		const_u8(0)
+		const(disp_space)
+		call
+		const(0)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
+	_2:
+		const_u8(0)
+		beq(_0)
+	_1:
+		const_u8(0)
+		const(disp_newline)
+		call
+		const(0)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
+		const_u8(8)
+		arg
+		ld_basic
+		ld_basic
+		const_u8(8)
+		mul
+		add
+		const(-8)
+		argx
+		st_basic
+		const_u8(0)
+		beq(_3)
+	_3:
+		const(-8)
+		add_to_sp
+		ret
+}
+get_size_s64:
+{
+		const_u8(8)
+		arg
+		ld_basic
+		ld_basic
+		const_u8(8)
+		mul
+		add
+		const(-8)
+		argx
+		st_basic
+		const_u8(0)
+		beq(_0)
+	_0:
+		ret
+}
+clear_arr_s64:
+{
+		const(8)
+		add_to_sp
+		const(0)
+		var
+		st_basic
+	_0:
+		var
+		ld_basic
+		arg
+		ld_basic
+		ld_basic
+		cmp_ult
+		beq(_1)
+		const(0)
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(8)
+		var
+		ld_basic
+		mul
+		add
+		st_basic
 		var
 		ld_basic
 		const(1)

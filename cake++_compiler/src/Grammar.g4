@@ -38,7 +38,7 @@ statements: '{' stmt* '}' ;
 
 stmt:
 	statements
-	| putnStatement ';'
+	| pseudoFuncCallStmt ';'
 	| localVarDecl ';'
 	| funcCall ';'
 	//| expr ';'
@@ -55,9 +55,14 @@ stmt:
 	;
 
 
-// Temporary pseudo-function
+// Pseudo-functions
+pseudoFuncCallStmt:
+	putnStatement
+	| putcharStatement
+	;
+
 putnStatement: 'putn' '(' expr ')' ;
-//putcharStatement: 'putchar' '(' expr ')' ;
+putcharStatement: 'putchar' '(' expr ')' ;
 //getcharStatement: 'getchar()' ;
 
 //memberVarDecl: varDecl ;
