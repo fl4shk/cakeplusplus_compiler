@@ -4,21 +4,35 @@
 		quit
 main:
 {
-		const(48)
+		const(208)
 		add_to_sp
-		const(4)
+		const(200)
 		var
 		st_basic
-		const(6)
-		syscall
-		const(40)
-		varx
-		st_basic
-		const(40)
-		varx
-		ld_basic
-		const(2)
-		syscall
+		const_u8(0)
+		var
+		const(getline)
+		call
+		const(-8)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
+		const_u8(0)
+		var
+		const(disp_str)
+		call
+		const(-8)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
+		const_u8(0)
+		var
+		const(disp_str)
+		call
+		const(-8)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
 		const_u8(0)
 		const(disp_newline)
 		call
@@ -27,7 +41,171 @@ main:
 		const_s8(-8)
 		add_to_sp
 	_0:
-		const(-48)
+		const(-208)
+		add_to_sp
+		ret
+}
+getline:
+{
+		const(17)
+		add_to_sp
+		arg
+		ld_basic
+		ld_basic
+		var
+		st_basic
+		const(0)
+		const(8)
+		varx
+		st_basic
+	_0:
+		const(6)
+		syscall
+		const(16)
+		varx
+		st_u8
+		const(16)
+		varx
+		ld_u8
+		const(10)
+		cmp_ne
+		beq(_1)
+		const(16)
+		varx
+		ld_u8
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(1)
+		const(8)
+		varx
+		ld_basic
+		mul
+		add
+		st_u8
+	_1:
+		const(8)
+		varx
+		ld_basic
+		const(1)
+		add
+		const(8)
+		varx
+		st_basic
+		const(16)
+		varx
+		ld_u8
+		const(10)
+		cmp_ne
+		const(8)
+		varx
+		ld_basic
+		const(1)
+		add
+		var
+		ld_basic
+		cmp_slt
+		bit_and
+		const_u8(0)
+		cmp_ne
+		bne(_0)
+		const(0)
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(1)
+		const(8)
+		varx
+		ld_basic
+		mul
+		add
+		st_u8
+		const(8)
+		varx
+		ld_basic
+		const(-8)
+		argx
+		st_basic
+		const_u8(0)
+		beq(_2)
+	_2:
+		const(-17)
+		add_to_sp
+		ret
+}
+disp_str:
+{
+		const(16)
+		add_to_sp
+		arg
+		ld_basic
+		ld_basic
+		var
+		st_basic
+		const(0)
+		const(8)
+		varx
+		st_basic
+	_0:
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(1)
+		const(8)
+		varx
+		ld_basic
+		mul
+		add
+		ld_u8
+		const(0)
+		cmp_ne
+		const(8)
+		varx
+		ld_basic
+		var
+		ld_basic
+		cmp_ult
+		bit_and
+		const_u8(0)
+		cmp_ne
+		beq(_1)
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(1)
+		const(8)
+		varx
+		ld_basic
+		mul
+		add
+		ld_u8
+		const(2)
+		syscall
+		const(8)
+		varx
+		ld_basic
+		const(1)
+		add
+		const(8)
+		varx
+		st_basic
+		const_u8(0)
+		beq(_0)
+	_1:
+		arg
+		ld_basic
+		ld_basic
+		const(-8)
+		argx
+		st_basic
+		const_u8(0)
+		beq(_2)
+	_2:
+		const(-16)
 		add_to_sp
 		ret
 }

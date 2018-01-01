@@ -48,7 +48,7 @@ stmt:
 	| ifStatement
 	| ifChainStatement
 	| whileStatement
-	| doWhileStatement
+	| doWhileStatement ';'
 	//| forStatement
 	| returnExprStatement ';'
 	| returnNothingStatement ';'

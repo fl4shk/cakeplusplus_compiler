@@ -1,24 +1,68 @@
 s64 main()
 {
-	s64 arr[4];
+	u8 buf[200];
 
-	//arr[0] = arr[1];
-
-
-	//fun_func_a(arr);
-	//disp_arr_s64(arr);
-
-	//return fun_func_b(arr);
-
-	s64 x;
-	x = getchar();
-	//disp_newline();
-	putchar(x);
+	getline(buf);
+	disp_str(buf);
+	disp_str(buf);
 	disp_newline();
+
+}
+
+u64 getline(u8 buf[])
+{
+	u64 buf_len;
+	buf_len = len(buf);
+
+
+	u64 i;
+	i = 0;
+
+	{
+
+	// You can indeed name a variable "char" in this language.
+	u8 char;
+	do
+	{
+		char = getchar();
+		// newline
+		if (char != 10)
+		{
+			buf[i] = char;
+		}
+
+		i += 1;
+
+	} while ((char != 10) && ((i + 1) < buf_len));
+
+	}
+
+	// Null terminate
+	buf[i] = 0;
+
+	return i;
+}
+
+u64 disp_str(u8 str[])
+{
+	u64 buf_len;
+	buf_len = len(str);
+
+	u64 i;
+	i = 0;
+
+	while ((str[i] != 0) && (i < buf_len))
+	{
+		putchar(str[i]);
+		i += 1;
+	}
+
+	return len(str);
 }
 
 u8 disp_newline()
 {
+	// Ther really should be 
 	putchar(10);
 }
 u8 disp_space()
