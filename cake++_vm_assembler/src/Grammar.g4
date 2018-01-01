@@ -95,8 +95,13 @@ exprLogical:
 
 exprCompare:
 	exprAddSub
-	| exprCompare TokOpAddSub exprAddSub
+	//| exprCompare TokOpAddSub exprAddSub
+	| exprJustAdd
+	| exprJustSub
 	;
+
+exprJustAdd: exprAddSub '+' exprCompare ;
+exprJustSub: exprAddSub '-' exprCompare ;
 
 exprAddSub:
 	exprMulDivModEtc
@@ -199,7 +204,7 @@ TokChar: LexCharDelim LexInsideChar LexCharDelim ;
 
 TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
-TokOpAddSub: ('+' | '-') ;
+//TokOpAddSub: ('+' | '-') ;
 TokOpMulDivMod: ('*' | '/' | '%') ;
 TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
 TokDecNum: [0-9] ([0-9]*) ;

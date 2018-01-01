@@ -1114,37 +1114,85 @@ antlrcpp::Any Assembler::visitExprLogical
 	}
 	return nullptr;
 }
+//antlrcpp::Any Assembler::visitExprCompare
+//	(GrammarParser::ExprCompareContext *ctx)
+//{
+//	if (ctx->exprCompare())
+//	{
+//		ctx->exprCompare()->accept(this);
+//		const auto left = pop_num();
+//
+//		ctx->exprAddSub()->accept(this);
+//		const auto right = pop_num();
+//
+//		auto&& op = ctx->TokOpAddSub()->toString();
+//
+//		if (op == "+")
+//		{
+//			push_num(left + right);
+//		}
+//		else if (op == "-")
+//		{
+//			push_num(left - right);
+//		}
+//		else
+//		{
+//			printerr("visitExprCompare():  Eek!\n");
+//			exit(1);
+//		}
+//	}
+//	else
+//	{
+//		ctx->exprAddSub()->accept(this);
+//	}
+//	return nullptr;
+//}
 antlrcpp::Any Assembler::visitExprCompare
 	(GrammarParser::ExprCompareContext *ctx)
 {
-	if (ctx->exprCompare())
+	if (ctx->exprAddSub())
 	{
-		ctx->exprCompare()->accept(this);
-		const auto left = pop_num();
-
 		ctx->exprAddSub()->accept(this);
-		const auto right = pop_num();
-
-		auto&& op = ctx->TokOpAddSub()->toString();
-
-		if (op == "+")
-		{
-			push_num(left + right);
-		}
-		else if (op == "-")
-		{
-			push_num(left - right);
-		}
-		else
-		{
-			printerr("visitExprCompare():  Eek!\n");
-			exit(1);
-		}
+	}
+	else if (ctx->exprJustAdd())
+	{
+		ctx->exprJustAdd()->accept(this);
+	}
+	else if (ctx->exprJustSub())
+	{
+		ctx->exprJustSub()->accept(this);
 	}
 	else
 	{
-		ctx->exprAddSub()->accept(this);
+		printerr("visitExprCompare():  Eek!\n");
+		exit(1);
 	}
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitExprJustAdd
+	(GrammarParser::ExprJustAddContext *ctx)
+{
+	ctx->exprAddSub()->accept(this);
+	const auto left = pop_num();
+
+	ctx->exprCompare()->accept(this);
+	const auto right = pop_num();
+
+	push_num(left + right);
+
+	return nullptr;
+}
+antlrcpp::Any Assembler::visitExprJustSub
+	(GrammarParser::ExprJustSubContext *ctx)
+{
+	ctx->exprAddSub()->accept(this);
+	const auto left = pop_num();
+
+	ctx->exprCompare()->accept(this);
+	const auto right = pop_num();
+
+	push_num(left - right);
+
 	return nullptr;
 }
 antlrcpp::Any Assembler::visitExprAddSub
@@ -1181,7 +1229,22 @@ antlrcpp::Any Assembler::visitExprAddSub
 		}
 		else if (op == "/")
 		{
-			push_num(left / right);
+			if (right != 0)
+			{
+				push_num(left / right);
+			}
+			else
+			{
+				if (__pass)
+				{
+					printerr("Error:  Cannot divide by zero!\n");
+					exit(1);
+				}
+				else
+				{
+					push_num(0);
+				}
+			}
 		}
 		else if (op == "%")
 		{
