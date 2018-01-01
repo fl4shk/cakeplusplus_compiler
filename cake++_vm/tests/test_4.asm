@@ -19,24 +19,9 @@ main:
 		add_to_sp
 		const_u8(0)
 		var
-		const(disp_str)
+		const(disp_str_as_numbers)
 		call
 		const(-8)
-		add_to_sp
-		const_s8(-8)
-		add_to_sp
-		const_u8(0)
-		var
-		const(disp_str)
-		call
-		const(-8)
-		add_to_sp
-		const_s8(-8)
-		add_to_sp
-		const_u8(0)
-		const(disp_newline)
-		call
-		const(0)
 		add_to_sp
 		const_s8(-8)
 		add_to_sp
@@ -149,6 +134,12 @@ disp_str:
 		varx
 		st_basic
 	_0:
+		const(8)
+		varx
+		ld_basic
+		var
+		ld_basic
+		cmp_ult
 		arg
 		ld_basic
 		const_u8(8)
@@ -162,12 +153,6 @@ disp_str:
 		ld_u8
 		const(0)
 		cmp_ne
-		const(8)
-		varx
-		ld_basic
-		var
-		ld_basic
-		cmp_ult
 		bit_and
 		const_u8(0)
 		cmp_ne
@@ -196,8 +181,8 @@ disp_str:
 		const_u8(0)
 		beq(_0)
 	_1:
-		arg
-		ld_basic
+		const(8)
+		varx
 		ld_basic
 		const(-8)
 		argx
@@ -205,6 +190,125 @@ disp_str:
 		const_u8(0)
 		beq(_2)
 	_2:
+		const(-16)
+		add_to_sp
+		ret
+}
+disp_str_as_numbers:
+{
+		const(16)
+		add_to_sp
+		arg
+		ld_basic
+		ld_basic
+		var
+		st_basic
+		const(0)
+		const(8)
+		varx
+		st_basic
+	_0:
+		const(8)
+		varx
+		ld_basic
+		var
+		ld_basic
+		cmp_ult
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(1)
+		const(8)
+		varx
+		ld_basic
+		mul
+		add
+		ld_u8
+		const(0)
+		cmp_ne
+		bit_and
+		const_u8(0)
+		cmp_ne
+		beq(_1)
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(1)
+		const(8)
+		varx
+		ld_basic
+		mul
+		add
+		ld_u8
+		const(0)
+		syscall
+		const(8)
+		varx
+		ld_basic
+		const(1)
+		add
+		const(8)
+		varx
+		st_basic
+		const(8)
+		varx
+		ld_basic
+		var
+		ld_basic
+		cmp_ult
+		arg
+		ld_basic
+		const_u8(8)
+		add
+		const(1)
+		const(8)
+		varx
+		ld_basic
+		mul
+		add
+		ld_u8
+		const(0)
+		cmp_ne
+		bit_and
+		const_u8(0)
+		cmp_ne
+		beq(_2)
+		const_u8(0)
+		const(disp_comma)
+		call
+		const(0)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
+		const_u8(0)
+		const(disp_space)
+		call
+		const(0)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
+	_2:
+		const_u8(0)
+		beq(_0)
+	_1:
+		const_u8(0)
+		const(disp_newline)
+		call
+		const(0)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
+		const(8)
+		varx
+		ld_basic
+		const(-8)
+		argx
+		st_basic
+		const_u8(0)
+		beq(_3)
+	_3:
 		const(-16)
 		add_to_sp
 		ret

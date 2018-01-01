@@ -3,9 +3,22 @@ s64 main()
 	u8 buf[200];
 
 	getline(buf);
-	disp_str(buf);
-	disp_str(buf);
-	disp_newline();
+	//disp_str(buf);
+	//putchar(10);
+	//disp_str(buf);
+	//putchar(10);
+
+	//putchar(97);
+	//putchar(98);
+	//putchar(99);
+	//putchar(32);
+	//putchar(97);
+	//putchar(98);
+	//putchar(99);
+	//putchar(10);
+
+
+	disp_str_as_numbers(buf);
 
 }
 
@@ -51,13 +64,39 @@ u64 disp_str(u8 str[])
 	u64 i;
 	i = 0;
 
-	while ((str[i] != 0) && (i < buf_len))
+	while ((i < buf_len) && (str[i] != 0))
 	{
 		putchar(str[i]);
 		i += 1;
 	}
 
-	return len(str);
+	//return len(str);
+	return i;
+}
+
+u64 disp_str_as_numbers(u8 str[])
+{
+	u64 buf_len;
+	buf_len = len(str);
+	u64 i;
+	i = 0;
+
+	while ((i < buf_len) && (str[i] != 0))
+	{
+		putn(str[i]);
+
+
+		i += 1;
+
+		if ((i < buf_len) && (str[i] != 0))
+		{
+			disp_comma();
+			disp_space();
+		}
+	}
+	disp_newline();
+
+	return i;
 }
 
 u8 disp_newline()
