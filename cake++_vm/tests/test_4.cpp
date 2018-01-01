@@ -5,10 +5,16 @@ s64 main()
 	//arr[0] = arr[1];
 
 
-	fun_func_a(arr);
-	disp_arr_s64(arr);
+	//fun_func_a(arr);
+	//disp_arr_s64(arr);
 
-	return fun_func_b(arr);
+	//return fun_func_b(arr);
+
+	s64 x;
+	x = getchar();
+	//disp_newline();
+	putchar(x);
+	disp_newline();
 }
 
 u8 disp_newline()

@@ -55,7 +55,7 @@ stmt:
 	;
 
 
-// Pseudo-functions
+// Pseudo-functions (statements)
 pseudoFuncCallStmt:
 	putnStatement
 	| putcharStatement
@@ -63,7 +63,16 @@ pseudoFuncCallStmt:
 
 putnStatement: 'putn' '(' expr ')' ;
 putcharStatement: 'putchar' '(' expr ')' ;
-//getcharStatement: 'getchar()' ;
+
+// Pseudo-functions (expressions)
+pseudoFuncCallExpr:
+	getnExpr
+	| getcharExpr
+	;
+getnExpr: 'getn()' ;
+getcharExpr: 'getchar()' ;
+
+
 
 //memberVarDecl: varDecl ;
 localVarDecl: varDecl ;
@@ -140,6 +149,7 @@ exprMulDivModEtc:
 
 	| numExpr
 	| funcCall
+	| pseudoFuncCallExpr
 	| identRhs
 	| lenExpr
 	| sizeofExpr

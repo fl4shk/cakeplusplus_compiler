@@ -388,6 +388,15 @@ IrExpr* CodeGenerator::mk_pure_expr_real_address(IrExpr* where)
 
 	return ret;
 }
+IrExpr* CodeGenerator::mk_pure_expr_unfinished_syscall(IrMachineMode s_mm, 
+	IrSyscallShorthandOp s_syscall_shorthand_op)
+{
+	auto ret = mk_ir_pure_expr(IrPureExOp::Syscall, s_mm);
+
+	ret->syscall_shorthand_op = s_syscall_shorthand_op;
+
+	return ret;
+}
 IrExpr* CodeGenerator::mk_pure_expr_deref(IrExpr* what)
 {
 	auto ret = mk_ir_pure_expr(IrPureExOp::Deref, IrMachineMode::Pointer);
@@ -827,6 +836,12 @@ void CodeGenerator::output_ir_expr_as_json(Json::Value& node, IrExpr* p)
 			// Dereference
 			case IrPureExOp::Deref:
 				node["__op"] = "deref";
+				break;
+
+			case IrPureExOp::Syscall:
+				node["__op"] = "syscall";
+				node["_syscall_shorthand_op"] 
+					= sconcat(p->syscall_shorthand_op);
 				break;
 
 			// Load

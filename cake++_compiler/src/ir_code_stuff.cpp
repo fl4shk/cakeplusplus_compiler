@@ -16,6 +16,10 @@ std::ostream& operator << (std::ostream& os,
 			return osprintout(os, "disp_str");
 		case IrSyscallShorthandOp::GetNum:
 			return osprintout(os, "get_num");
+		case IrSyscallShorthandOp::GetNumUnsigned:
+			return osprintout(os, "get_num_Unsigned");
+		case IrSyscallShorthandOp::GetChar:
+			return osprintout(os, "get_char");
 	}
 
 	printerr("osprintout of IrSyscallShorthandOp:  Eek!\n");

@@ -44,6 +44,8 @@ enum class IrPureExOp
 	// Dereference
 	Deref,
 
+	Syscall,
+
 
 	// Load
 	Ld,
@@ -151,6 +153,8 @@ enum class IrSyscallShorthandOp : u64
 	DispChar,
 	DispStr,
 	GetNum,
+	GetNumUnsigned,
+	GetChar,
 };
 
 enum class IrMachineMode : u32
@@ -245,6 +249,7 @@ public:		// variables
 		//Function* func;
 		Symbol* sym;
 		s64 lab_num;
+		IrSyscallShorthandOp syscall_shorthand_op;
 	};
 	IrMachineMode mm;
 

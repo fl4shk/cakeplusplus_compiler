@@ -1,6 +1,6 @@
 #include "vm_class.hpp"
 
-Vm::Vm(size_t s_mem_size)
+Vm::Vm(const std::string& input_fname, size_t s_mem_size)
 {
 	if (s_mem_size > max_mem_size)
 	{
@@ -22,7 +22,24 @@ Vm::Vm(size_t s_mem_size)
 		__mem.resize(s_mem_size);
 	}
 
-	__program = std::move(get_stdin_as_str());
+	//__program = std::move(get_stdin_as_str());
+
+	{
+	std::ifstream infile(input_fname);
+
+	std::string temp;
+
+	int c;
+	do
+	{
+		c = infile.get();
+		if (!infile.eof())
+		{
+			temp += c;
+		}
+	} while (!infile.eof());
+	__program = std::move(temp);
+	}
 
 	{
 		std::string __temp;
@@ -667,6 +684,18 @@ void Vm::__exec_syscall(VmSyscallOp op)
 				s64 a;
 				cin >> a;
 				push(a);
+			}
+			break;
+		case VmSyscallOp::get_num_unsigned:
+			{
+				u64 a;
+				cin >> a;
+				push(a);
+			}
+			break;
+		case VmSyscallOp::get_char:
+			{
+				push(getchar());
 			}
 			break;
 		default:

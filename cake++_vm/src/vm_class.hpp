@@ -2,6 +2,7 @@
 #define vm_class_hpp
 
 #include "misc_includes.hpp"
+#include <fstream>
 
 
 enum class VmInstrOp : u16
@@ -109,6 +110,8 @@ enum class VmSyscallOp : u64
 	disp_char,
 	disp_str,
 	get_num,
+	get_num_unsigned,
+	get_char,
 };
 
 
@@ -142,7 +145,7 @@ private:		// variables
 
 
 public:		// functions
-	Vm(size_t s_mem_size);
+	Vm(const std::string& input_fname, size_t s_mem_size);
 	~Vm();
 
 

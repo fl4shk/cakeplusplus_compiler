@@ -4,39 +4,30 @@
 		quit
 main:
 {
-		const(40)
+		const(48)
 		add_to_sp
 		const(4)
 		var
 		st_basic
-		const_u8(0)
-		var
-		const(fun_func_a)
-		call
-		const(-8)
-		add_to_sp
-		const_s8(-8)
-		add_to_sp
-		const_u8(0)
-		var
-		const(disp_arr_s64)
-		call
-		const(-8)
-		add_to_sp
-		const_s8(-8)
-		add_to_sp
-		const_u8(0)
-		var
-		const(fun_func_b)
-		call
-		const(-8)
-		add_to_sp
-		arg
+		const(6)
+		syscall
+		const(40)
+		varx
 		st_basic
+		const(40)
+		varx
+		ld_basic
+		const(2)
+		syscall
 		const_u8(0)
-		beq(_0)
+		const(disp_newline)
+		call
+		const(0)
+		add_to_sp
+		const_s8(-8)
+		add_to_sp
 	_0:
-		const(-40)
+		const(-48)
 		add_to_sp
 		ret
 }

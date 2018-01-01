@@ -1478,6 +1478,11 @@ BackendCodeBase* VmBackend::__handle_ir_pure_expr_deref(IrExpr* p)
 
 	return nullptr;
 }
+BackendCodeBase* VmBackend::__handle_ir_pure_expr_syscall(IrExpr* p)
+{
+	mk_const(static_cast<u64>(p->syscall_shorthand_op));
+	return mk_syscall();
+}
 BackendCodeBase* VmBackend::__handle_ir_pure_expr_ld(IrExpr* p)
 {
 	auto where = p->args.front();

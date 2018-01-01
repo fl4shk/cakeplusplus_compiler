@@ -147,6 +147,9 @@ BackendCodeBase* BackendBase::handle_ir_pure_expr(IrExpr* p)
 		case IrPureExOp::Deref:
 			return __handle_ir_pure_expr_deref(p);
 
+		case IrPureExOp::Syscall:
+			return __handle_ir_pure_expr_syscall(p);
+
 		// Load
 		case IrPureExOp::Ld:
 			return __handle_ir_pure_expr_ld(p);

@@ -145,6 +145,14 @@ protected:		// visitor functions
 		(GrammarParser::PutcharStatementContext *ctx);
 
 
+	antlrcpp::Any visitPseudoFuncCallExpr
+		(GrammarParser::PseudoFuncCallExprContext *ctx);
+	antlrcpp::Any visitGetnExpr
+		(GrammarParser::GetnExprContext *ctx);
+	antlrcpp::Any visitGetcharExpr
+		(GrammarParser::GetcharExprContext *ctx);
+
+
     //antlrcpp::Any visitMemberVarDecl
     //	(GrammarParser::MemberVarDeclContext *ctx);
     antlrcpp::Any visitLocalVarDecl

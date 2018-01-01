@@ -476,6 +476,39 @@ antlrcpp::Any Frontend::visitPutcharStatement
 	return nullptr;
 }
 
+antlrcpp::Any Frontend::visitPseudoFuncCallExpr
+	(GrammarParser::PseudoFuncCallExprContext *ctx)
+{
+	if (ctx->getnExpr())
+	{
+		ctx->getnExpr()->accept(this);
+	}
+	else if (ctx->getcharExpr())
+	{
+		ctx->getcharExpr()->accept(this);
+	}
+	else
+	{
+		err("visitPseudoFuncCallExpr():  Eek!");
+	}
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitGetnExpr
+	(GrammarParser::GetnExprContext *ctx)
+{
+	push_ir_expr(codegen().mk_pure_expr_unfinished_syscall
+		(IrMachineMode::S64, IrSyscallShorthandOp::GetNum));
+	return nullptr;
+}
+
+antlrcpp::Any Frontend::visitGetcharExpr
+	(GrammarParser::GetcharExprContext *ctx)
+{
+	push_ir_expr(codegen().mk_pure_expr_unfinished_syscall
+		(IrMachineMode::U8, IrSyscallShorthandOp::GetChar));
+	return nullptr;
+}
+
 //antlrcpp::Any Frontend::visitMemberVarDecl
 //	(GrammarParser::MemberVarDeclContext *ctx)
 //{
@@ -1369,6 +1402,10 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 	else if (ctx->funcCall())
 	{
 		ctx->funcCall()->accept(this);
+	}
+	else if (ctx->pseudoFuncCallExpr())
+	{
+		ctx->pseudoFuncCallExpr()->accept(this);
 	}
 	else if (ctx->identRhs())
 	{
