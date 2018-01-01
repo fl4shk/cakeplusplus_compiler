@@ -112,8 +112,13 @@ exprLogical:
 
 exprCompare:
 	exprAddSub
-	| exprCompare TokOpAddSub exprAddSub
+	//| exprCompare TokOpAddSub exprAddSub
+	| exprJustAdd
+	| exprJustSub
 	;
+
+exprJustAdd: exprAddSub '+' exprCompare ;
+exprJustSub: exprAddSub '-' exprCompare ;
 
 exprAddSub:
 	exprMulDivModEtc
@@ -122,25 +127,34 @@ exprAddSub:
 	;
 
 exprMulDivModEtc:
-	exprUnary
+	('~' exprBitInvert)
+	| ('-' exprNegate)
+	| ('!' exprLogNot)
+
 	| numExpr
 	| funcCall
 	| identRhs
 	| lenExpr
 	| sizeofExpr
 	| castExpr
-	| '(' expr ')'
+	| ('(' expr ')')
 	;
 
-exprUnary:
-	exprBitInvert
-	| exprNegate
-	| exprLogNot
-	;
+//exprUnary:
+//	exprBitInvert
+//	| exprNegate
+//	| exprLogNot
+//	;
 
-exprBitInvert: '~' expr ;
-exprNegate: '-' expr ;
-exprLogNot: '!' expr ;
+//exprBitInvert: '~' expr ;
+//exprNegate: '-' expr ;
+//exprLogNot: '!' expr ;
+exprBitInvert: expr ;
+exprNegate: expr ;
+exprLogNot: expr ;
+//exprBitInvert: TokOpBitInvert expr ;
+//exprNegate: TokOpNegate expr ;
+//exprLogNot: TokOpLogNot expr ;
 
 identLhs:
 	identName
@@ -168,6 +182,9 @@ subscriptConst: '[' numExpr ']' ;
 
 
 // Lexer rules
+//fragment FragOpAdd: '+' ;
+//fragment FragOpSub: '-' ;
+
 TokIf: 'if' ;
 TokElse: 'else' ;
 TokWhile: 'while' ;
@@ -179,8 +196,13 @@ LexMultilineComment: '/*' (.*?) '*/' -> skip ;
 LexWhitespace: (' ' | '\t' | '\n') -> skip ;
 TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
-TokOpAddSub: ('+' | '-') ;
+//TokOpAddSub: ('+' | '-') ;
+//TokOpAdd: '+' ;
+//TokOpSub: '-' ;
 TokOpMulDivMod: ('*' | '/' | '%') ;
+TokOpBitInvert: '~' ;
+//TokOpNegate: '-' ;
+TokOpLogNot: '!' ;
 //TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
 TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>');
 TokBuiltinTypename: 

@@ -4,99 +4,62 @@
 		quit
 main:
 {
-		const(88)
+		const(89)
 		add_to_sp
 		const(10)
 		var
 		st_basic
-		const(9)
-		const(8)
-		varx
-		st_basic
-		const(8)
-		const(8)
-		varx
-		const(8)
 		const(1)
-		mul
-		add
-		st_basic
-		const(7)
-		const(8)
+		const(88)
 		varx
-		const(8)
-		const(2)
-		mul
-		add
-		st_basic
-		const(6)
-		const(8)
+		st_u8
+		const(88)
 		varx
-		const(8)
-		const(3)
-		mul
-		add
-		st_basic
-		const(5)
-		const(8)
-		varx
-		const(8)
-		const(4)
-		mul
-		add
-		st_basic
-		const(4)
-		const(8)
-		varx
-		const(8)
-		const(5)
-		mul
-		add
-		st_basic
-		const(3)
-		const(8)
-		varx
-		const(8)
-		const(6)
-		mul
-		add
-		st_basic
-		const(2)
-		const(8)
-		varx
-		const(8)
-		const(7)
-		mul
-		add
-		st_basic
-		const(1)
-		const(8)
-		varx
-		const(8)
-		const(8)
-		mul
-		add
-		st_basic
+		ld_u8
 		const(0)
-		const(8)
+		syscall
+		const_u8(10)
+		const(2)
+		syscall
+		const(88)
 		varx
-		const(8)
-		const(9)
-		mul
-		add
-		st_basic
-		const_u8(0)
-		var
-		const(disp_arr_s64)
-		call
-		const(-8)
-		add_to_sp
+		ld_u8
+		const(1)
+		sub
+		const(88)
+		varx
+		st_u8
+		const(88)
+		varx
+		ld_u8
+		const(0)
+		syscall
+		const_u8(10)
+		const(2)
+		syscall
+		const(88)
+		varx
+		ld_u8
+		const(1)
+		sub
+		const(88)
+		varx
+		st_u8
+		const(88)
+		varx
+		ld_u8
+		const(0)
+		syscall
+		const_u8(10)
+		const(2)
+		syscall
+		const(-1)
 		arg
 		st_basic
 		const_u8(0)
 		beq(_0)
 	_0:
-		const(-88)
+		const(-89)
 		add_to_sp
 		ret
 }

@@ -2,19 +2,57 @@ s64 main()
 {
 	s64 arr[10];
 
-	arr[0] = 9;
-	arr[1] = 8;
-	arr[2] = 7;
-	arr[3] = 6;
-	arr[4] = 5;
-	arr[5] = 4;
-	arr[6] = 3;
-	arr[7] = 2;
-	arr[8] = 1;
-	arr[9] = 0;
+	//arr[0] = 9 + sizeof(arr);
+	//arr[1] = 8 + sizeof(arr);
+	//arr[2] = 7 + sizeof(arr);
+	//arr[3] = 6 + sizeof(arr);
+	//arr[4] = 5 + sizeof(arr);
+	//arr[5] = 4 + sizeof(arr);
+	//arr[6] = 3 + sizeof(arr);
+	//arr[7] = 2 + sizeof(arr);
+	//arr[8] = 1 + sizeof(arr);
+	//arr[9] = 0 + sizeof(arr);
 
-	return disp_arr_s64(arr);
+	//{
+	//u8 i;
+	//i = 0;
 
+	//u64 j;
+	////j = len(arr) - 1;
+	////j = len(arr);
+	////j = j - 1;
+
+	//while (i < len(arr))
+	//{
+	//	arr[i] = j;
+	//	//j = j + 1;
+	//	//j = (1 - j);
+	//	//j = j - 1;
+	//	//j = j - 1;
+	//	//j = 5 - 6;
+	//	//i = i + (-1);
+	//}
+	//}
+
+	//return disp_arr_s64(arr);
+
+	u8 i;
+	i = 1;
+	//i = i + (-1);
+	//i = i - 1;
+	//i = i + (-1);
+	//i = (-i);
+	//i = -i;
+	//return i;
+	//return - 1;
+	putn(i);
+	i = i - 1;
+	putn(i);
+	i = i - 1;
+	//return i;
+	putn(i);
+
+	return -1;
 }
 
 u64 disp_arr_s64(s64 arr[])

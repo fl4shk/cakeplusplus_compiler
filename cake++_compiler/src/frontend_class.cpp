@@ -998,49 +998,95 @@ antlrcpp::Any Frontend::visitExprLogical
 
 	return nullptr;
 }
+//antlrcpp::Any Frontend::visitExprCompare
+//	(GrammarParser::ExprCompareContext *ctx)
+//{
+//	//if (ctx->exprAddSub())
+//	if (!ctx->exprCompare())
+//	{
+//		ctx->exprAddSub()->accept(this);
+//	}
+//	else // if (ctx->exprCompare())
+//	{
+//		////auto to_push = mk_ast_node(AstOp::expr_binop);
+//		//auto to_push = mk_ast_expr(AstExprOp::Binop);
+//
+//
+//		ctx->exprCompare()->accept(this);
+//		auto a = pop_ir_expr();
+//
+//		//to_push->append_child(pop_ast_node());
+//
+//		auto&& op = ctx->TokOpAddSub()->toString();
+//
+//		IrBinop s_binop;
+//
+//		if (op == "+")
+//		{
+//			s_binop = IrBinop::Add;
+//		}
+//		else if (op == "-")
+//		{
+//			s_binop = IrBinop::Sub;
+//		}
+//		else
+//		{
+//			err("visitExprCompare():  binop type Eek!\n");
+//		}
+//
+//		ctx->exprAddSub()->accept(this);
+//		auto b = pop_ir_expr();
+//
+//		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+//		push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+//			s_binop, a, b));
+//	}
+//
+//	return nullptr;
+//}
+
 antlrcpp::Any Frontend::visitExprCompare
 	(GrammarParser::ExprCompareContext *ctx)
 {
-	//if (ctx->exprAddSub())
-	if (!ctx->exprCompare())
+	if (ctx->exprAddSub())
 	{
 		ctx->exprAddSub()->accept(this);
 	}
-	else // if (ctx->exprCompare())
+	else if (ctx->exprJustAdd())
 	{
-		////auto to_push = mk_ast_node(AstOp::expr_binop);
-		//auto to_push = mk_ast_expr(AstExprOp::Binop);
-
-
-		ctx->exprCompare()->accept(this);
-		auto a = pop_ir_expr();
-
-		//to_push->append_child(pop_ast_node());
-
-		auto&& op = ctx->TokOpAddSub()->toString();
-
-		IrBinop s_binop;
-
-		if (op == "+")
-		{
-			s_binop = IrBinop::Add;
-		}
-		else if (op == "-")
-		{
-			s_binop = IrBinop::Sub;
-		}
-		else
-		{
-			err("visitExprCompare():  binop type Eek!\n");
-		}
-
-		ctx->exprAddSub()->accept(this);
-		auto b = pop_ir_expr();
-
-		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
-		push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-			s_binop, a, b));
+		ctx->exprJustAdd()->accept(this);
 	}
+	else if (ctx->exprJustSub())
+	{
+		ctx->exprJustSub()->accept(this);
+	}
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprJustAdd
+	(GrammarParser::ExprJustAddContext *ctx)
+{
+	ctx->exprAddSub()->accept(this);
+	auto a = pop_ir_expr();
+
+	ctx->exprCompare()->accept(this);
+	auto b = pop_ir_expr();
+
+	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+		IrBinop::Add, a, b));
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprJustSub
+	(GrammarParser::ExprJustSubContext *ctx)
+{
+	ctx->exprAddSub()->accept(this);
+	auto a = pop_ir_expr();
+
+	ctx->exprCompare()->accept(this);
+	auto b = pop_ir_expr();
+
+	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+		IrBinop::Sub, a, b));
 
 	return nullptr;
 }
@@ -1135,10 +1181,22 @@ antlrcpp::Any Frontend::visitExprAddSub
 antlrcpp::Any Frontend::visitExprMulDivModEtc
 	(GrammarParser::ExprMulDivModEtcContext *ctx)
 {
-	if (ctx->exprUnary())
+	if (ctx->exprBitInvert())
 	{
-		ctx->exprUnary()->accept(this);
+		ctx->exprBitInvert()->accept(this);
 	}
+	else if (ctx->exprNegate())
+	{
+		ctx->exprNegate()->accept(this);
+	}
+	else if (ctx->exprLogNot())
+	{
+		ctx->exprLogNot()->accept(this);
+	}
+	//if (ctx->exprUnary())
+	//{
+	//	ctx->exprUnary()->accept(this);
+	//}
 	else if (ctx->numExpr())
 	{
 		ctx->numExpr()->accept(this);
@@ -1179,27 +1237,27 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 	return nullptr;
 }
 
-antlrcpp::Any Frontend::visitExprUnary
-	(GrammarParser::ExprUnaryContext *ctx)
-{
-	if (ctx->exprBitInvert())
-	{
-		ctx->exprBitInvert()->accept(this);
-	}
-	else if (ctx->exprNegate())
-	{
-		ctx->exprNegate()->accept(this);
-	}
-	else if (ctx->exprLogNot())
-	{
-		ctx->exprLogNot()->accept(this);
-	}
-	else
-	{
-		err("visitExprUnary():  Eek!\n");
-	}
-	return nullptr;
-}
+//antlrcpp::Any Frontend::visitExprUnary
+//	(GrammarParser::ExprUnaryContext *ctx)
+//{
+//	if (ctx->exprBitInvert())
+//	{
+//		ctx->exprBitInvert()->accept(this);
+//	}
+//	else if (ctx->exprNegate())
+//	{
+//		ctx->exprNegate()->accept(this);
+//	}
+//	else if (ctx->exprLogNot())
+//	{
+//		ctx->exprLogNot()->accept(this);
+//	}
+//	else
+//	{
+//		err("visitExprUnary():  Eek!\n");
+//	}
+//	return nullptr;
+//}
 antlrcpp::Any Frontend::visitExprBitInvert
 	(GrammarParser::ExprBitInvertContext *ctx)
 {

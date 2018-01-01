@@ -183,12 +183,18 @@ protected:		// visitor functions
 		(GrammarParser::ExprLogicalContext *ctx);
 	antlrcpp::Any visitExprCompare
 		(GrammarParser::ExprCompareContext *ctx);
+
+	antlrcpp::Any visitExprJustAdd
+		(GrammarParser::ExprJustAddContext *ctx);
+	antlrcpp::Any visitExprJustSub
+		(GrammarParser::ExprJustSubContext *ctx);
+
 	antlrcpp::Any visitExprAddSub
 		(GrammarParser::ExprAddSubContext *ctx);
 	antlrcpp::Any visitExprMulDivModEtc
 		(GrammarParser::ExprMulDivModEtcContext *ctx);
-	antlrcpp::Any visitExprUnary
-		(GrammarParser::ExprUnaryContext *ctx);
+	//antlrcpp::Any visitExprUnary
+	//	(GrammarParser::ExprUnaryContext *ctx);
 	antlrcpp::Any visitExprBitInvert
 		(GrammarParser::ExprBitInvertContext *ctx);
 	antlrcpp::Any visitExprNegate
