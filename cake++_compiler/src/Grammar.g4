@@ -44,6 +44,7 @@ stmt:
 	//| expr ';'
 	////| exprMulDivModEtc ';'
 	| assignment ';'
+	| extendedAssignment ';'
 	| ifStatement
 	| ifChainStatement
 	| whileStatement
@@ -80,6 +81,7 @@ builtinTypename: TokBuiltinTypename ;
 
 nonSizedArrayIdentName: identName '[' ']' ;
 assignment: identLhs '=' expr ;
+extendedAssignment: identLhs TokOpExtendedAssignment expr ;
 
 ifStatement: TokIf '(' expr ')' statements ;
 ifChainStatement: TokIf '(' expr ')' statements TokElse elseStatements ;
@@ -127,9 +129,9 @@ exprAddSub:
 	;
 
 exprMulDivModEtc:
-	('~' exprBitInvert)
-	| ('-' exprNegate)
-	| ('!' exprLogNot)
+	'~' exprBitInvert
+	| '-' exprNegate
+	| '!' exprLogNot
 
 	| numExpr
 	| funcCall
@@ -140,21 +142,10 @@ exprMulDivModEtc:
 	| ('(' expr ')')
 	;
 
-//exprUnary:
-//	exprBitInvert
-//	| exprNegate
-//	| exprLogNot
-//	;
 
-//exprBitInvert: '~' expr ;
-//exprNegate: '-' expr ;
-//exprLogNot: '!' expr ;
 exprBitInvert: expr ;
 exprNegate: expr ;
 exprLogNot: expr ;
-//exprBitInvert: TokOpBitInvert expr ;
-//exprNegate: TokOpNegate expr ;
-//exprLogNot: TokOpLogNot expr ;
 
 identLhs:
 	identName
@@ -182,8 +173,6 @@ subscriptConst: '[' numExpr ']' ;
 
 
 // Lexer rules
-//fragment FragOpAdd: '+' ;
-//fragment FragOpSub: '-' ;
 
 TokIf: 'if' ;
 TokElse: 'else' ;
@@ -194,6 +183,11 @@ TokReturn: 'return' ;
 LexLineComment: '//' (~ '\n')* -> skip;
 LexMultilineComment: '/*' (.*?) '*/' -> skip ;
 LexWhitespace: (' ' | '\t' | '\n') -> skip ;
+TokOpExtendedAssignment: 
+	('+=' | '-=' | '*=' | '/=' | '%=' 
+	| '&=' | '|=' | '^='
+	| '<<=' | '>>=')
+	;
 TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
 //TokOpAddSub: ('+' | '-') ;

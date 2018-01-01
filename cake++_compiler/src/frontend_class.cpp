@@ -389,6 +389,10 @@ antlrcpp::Any Frontend::visitStmt
 	{
 		ctx->assignment()->accept(this);
 	}
+	else if (ctx->extendedAssignment())
+	{
+		ctx->extendedAssignment()->accept(this);
+	}
 	else if (ctx->ifStatement())
 	{
 		ctx->ifStatement()->accept(this);
@@ -652,6 +656,127 @@ antlrcpp::Any Frontend::visitAssignment
 
 		codegen().mk_code_st
 			(convert_builtin_typename_to_mm(sym->var()->type()),
+			codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
+			IrBinop::Add, mem, multiplied_index), expr);
+	}
+
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExtendedAssignment
+	(GrammarParser::ExtendedAssignmentContext *ctx)
+{
+	ctx->identLhs()->accept(this);
+
+
+	auto sym = pop_sym();
+	const auto sym_mm = convert_builtin_typename_to_mm(sym->var()->type());
+
+
+	auto mem = pop_ir_expr();
+	auto index = pop_ir_expr();
+
+	ctx->expr()->accept(this);
+	auto orig_expr = pop_ir_expr();
+	decltype(orig_expr) expr = nullptr;
+
+	auto&& op = ctx->TokOpExtendedAssignment()->toString();
+
+	IrBinop s_binop;
+
+
+	if (op == "+=")
+	{
+		s_binop = IrBinop::Add;
+	}
+	else if (op == "-=")
+	{
+		s_binop = IrBinop::Sub;
+	}
+	else if (op == "*=")
+	{
+		s_binop = IrBinop::Mul;
+	}
+	else if (op == "/=")
+	{
+		s_binop = IrBinop::Div;
+	}
+	else if (op == "%=")
+	{
+		s_binop = IrBinop::Mod;
+	}
+
+	else if (op == "&=")
+	{
+		s_binop = IrBinop::BitAnd;
+	}
+	else if (op == "|=")
+	{
+		s_binop = IrBinop::BitOr;
+	}
+	else if (op == "^=")
+	{
+		s_binop = IrBinop::BitXor;
+	}
+	else if (op == "<<=")
+	{
+		s_binop = IrBinop::BitShiftLeft;
+	}
+	else if (op == ">>=")
+	{
+		s_binop = IrBinop::BitShiftRight;
+	}
+	else
+	{
+		err("visitExtendedAssignment():  Binop Eek!");
+	}
+
+	if (index->is_pure && (index->pure_op == IrPureExOp::Constant) 
+		&& (index->simm == 0))
+	{
+		expr = codegen().mk_pure_expr_binop(sym_mm, s_binop, 
+			codegen().mk_pure_expr_ld(sym_mm, mem), orig_expr);
+	}
+	else
+	{
+		auto type_size = codegen().mk_pure_expr_constant
+			(IrMachineMode::Length, get_builtin_typename_size
+			(sym->var()->type()));
+
+		auto multiplied_index = codegen().mk_pure_expr_binop
+			(IrMachineMode::Pointer, IrBinop::Mul, type_size, index);
+
+		auto load = codegen().mk_pure_expr_ld(sym_mm,
+			codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
+			IrBinop::Add, mem, multiplied_index));
+
+		expr = codegen().mk_pure_expr_binop(sym_mm, s_binop, load, 
+			orig_expr);
+	}
+
+
+	// Accept again for the store
+	ctx->identLhs()->accept(this);
+	pop_sym();
+
+	mem = pop_ir_expr();
+	index = pop_ir_expr();
+
+	if (index->is_pure && (index->pure_op == IrPureExOp::Constant) 
+		&& (index->simm == 0))
+	{
+		codegen().mk_code_st(sym_mm, mem, expr);
+	}
+	else
+	{
+		auto type_size = codegen().mk_pure_expr_constant
+			(IrMachineMode::Length, get_builtin_typename_size
+			(sym->var()->type()));
+
+		auto multiplied_index = codegen().mk_pure_expr_binop
+			(IrMachineMode::Pointer, IrBinop::Mul, type_size, index);
+
+		codegen().mk_code_st(sym_mm,
 			codegen().mk_pure_expr_binop(IrMachineMode::Pointer,
 			IrBinop::Add, mem, multiplied_index), expr);
 	}

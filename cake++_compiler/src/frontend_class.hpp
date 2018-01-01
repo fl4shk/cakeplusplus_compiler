@@ -161,6 +161,8 @@ protected:		// visitor functions
 
 	antlrcpp::Any visitAssignment
 		(GrammarParser::AssignmentContext *ctx);
+	antlrcpp::Any visitExtendedAssignment
+		(GrammarParser::ExtendedAssignmentContext *ctx);
 
 	antlrcpp::Any visitIfStatement
 		(GrammarParser::IfStatementContext *ctx);

@@ -4,62 +4,68 @@
 		quit
 main:
 {
-		const(89)
+		const(48)
 		add_to_sp
-		const(10)
+		const(4)
 		var
 		st_basic
-		const(1)
-		const(88)
+		const(0)
+		const(40)
 		varx
-		st_u8
-		const(88)
+		st_basic
+	_0:
+		const(40)
 		varx
-		ld_u8
+		ld_basic
+		const(4)
+		cmp_ult
+		beq(_1)
+		const(40)
+		varx
+		ld_basic
+		const(8)
+		mul
+		const(8)
+		varx
+		const(8)
+		const(40)
+		varx
+		ld_basic
+		mul
+		add
+		st_basic
+		const(8)
+		varx
+		const(8)
+		const(40)
+		varx
+		ld_basic
+		mul
+		add
+		ld_basic
 		const(0)
 		syscall
 		const_u8(10)
 		const(2)
 		syscall
-		const(88)
+		const(40)
 		varx
-		ld_u8
+		ld_basic
 		const(1)
-		sub
-		const(88)
+		add
+		const(40)
 		varx
-		st_u8
-		const(88)
-		varx
-		ld_u8
-		const(0)
-		syscall
-		const_u8(10)
-		const(2)
-		syscall
-		const(88)
-		varx
-		ld_u8
-		const(1)
-		sub
-		const(88)
-		varx
-		st_u8
-		const(88)
-		varx
-		ld_u8
-		const(0)
-		syscall
-		const_u8(10)
-		const(2)
-		syscall
-		const(-1)
-		arg
 		st_basic
 		const_u8(0)
 		beq(_0)
-	_0:
-		const(-89)
+	_1:
+		const(9000)
+		arg
+		st_basic
+		const_u8(0)
+		beq(_2)
+	_2:
+		const(-48)
 		add_to_sp
 		ret
 }
