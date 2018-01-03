@@ -70,7 +70,7 @@ antlrcpp::Any Frontend::visitProgram
 
 		if (__func_tbl.contains(ident))
 		{
-			err(ctx, sconcat("Can't have more than one function called \"",
+			err(sconcat("Can't have more than one function called \"",
 				*ident, "\"!"));
 		}
 
@@ -83,7 +83,7 @@ antlrcpp::Any Frontend::visitProgram
 
 		if (funcArgDecl.size() > max_num_func_args)
 		{
-			err(ctx, sconcat("Function called \"", *ident, "\" takes ",
+			err(sconcat("Function called \"", *ident, "\" takes ",
 				"far, far too many arguments!  ",
 				"Note:  Max permitted amount is ", max_num_func_args, 
 				"."));
@@ -206,7 +206,7 @@ antlrcpp::Any Frontend::visitFuncCall
 
 	if (func == nullptr)
 	{
-		err(ctx, sconcat("Can't find function with identifier \"", *ident, 
+		err(sconcat("Can't find function with identifier \"", *ident, 
 			"\"!"));
 	}
 
@@ -225,7 +225,7 @@ antlrcpp::Any Frontend::visitFuncCall
 
 	if (args.size() != funcArgExpr.size())
 	{
-		err(ctx, sconcat("Function called \"", *ident, "\" expects ",
+		err(sconcat("Function called \"", *ident, "\" expects ",
 			args.size(), " arguments, but instead got ",
 			funcArgExpr.size(), " arguments!"));
 	}
@@ -262,14 +262,14 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 	ctx->identName()->accept(this);
 	auto ident = pop_str();
 
-	auto sym = find_sym_or_err(ctx, ident,
+	auto sym = find_sym_or_err(ident,
 		sconcat("No symbol exists called \"", *ident, "\"!"));
 
 	// Function argument type checking
 	if ((arg_sym->type() == SymType::ScalarVarName)
 		&& (sym->type() != SymType::ScalarVarName))
 	{
-		err(ctx, sconcat("Function called \"", *func->name(),
+		err(sconcat("Function called \"", *func->name(),
 			"\" expects a scalar value for argument number ",
 			which_arg, "!"));
 	}
@@ -277,7 +277,7 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 	{
 		if (sym->type() != SymType::ArrayVarName)
 		{
-			err(ctx, sconcat("Function called \"", *func->name(),
+			err(sconcat("Function called \"", *func->name(),
 				"\" expects an array value for argument number ",
 				which_arg, "!"));
 		}
@@ -285,7 +285,7 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 		{
 			if (arg_sym->var()->type() != sym->var()->type())
 			{
-				err(ctx, sconcat("Function called \"", *func->name(),
+				err(sconcat("Function called \"", *func->name(),
 					"\" expects an array of type ",
 					arg_sym->var()->type(), " for argument number ",
 					which_arg, "!"));
@@ -293,7 +293,7 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 		}
 		else
 		{
-			err(ctx, "visitFuncArgExpr():  Argument type checking Eek!");
+			err("visitFuncArgExpr():  Argument type checking Eek!");
 		}
 	}
 
@@ -327,7 +327,7 @@ antlrcpp::Any Frontend::visitFuncArgExpr
 	}
 	else
 	{
-		err(ctx, "visitFuncArgExpr():  Eek!\n");
+		err("visitFuncArgExpr():  Eek!\n");
 	}
 
 	return nullptr;
@@ -423,7 +423,7 @@ antlrcpp::Any Frontend::visitStmt
 	}
 	else
 	{
-		err(ctx, "visitStmt():  Eek!");
+		err("visitStmt():  Eek!");
 	}
 
 	return nullptr;
@@ -442,7 +442,7 @@ antlrcpp::Any Frontend::visitPseudoFuncCallStmt
 	}
 	else
 	{
-		err(ctx, "visitPseudoFuncCallStmt():  Eek!");
+		err("visitPseudoFuncCallStmt():  Eek!");
 	}
 
 	return nullptr;
@@ -489,7 +489,7 @@ antlrcpp::Any Frontend::visitPseudoFuncCallExpr
 	}
 	else
 	{
-		err(ctx, "visitPseudoFuncCallExpr():  Eek!");
+		err("visitPseudoFuncCallExpr():  Eek!");
 	}
 	return nullptr;
 }
@@ -540,7 +540,7 @@ antlrcpp::Any Frontend::visitVarDecl
 	//}
 	else
 	{
-		err(ctx, "visitVarDecl():  Eek!");
+		err("visitVarDecl():  Eek!");
 	}
 	
 	return nullptr;
@@ -587,7 +587,7 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 	}
 	else
 	{
-		err(ctx, "visitFuncArgDecl():  Eek!\n");
+		err("visitFuncArgDecl():  Eek!\n");
 	}
 
 	arg_sym.var()->set_name(pop_str());
@@ -603,7 +603,7 @@ antlrcpp::Any Frontend::visitFuncArgDecl
 
 	if (existing_sym != nullptr)
 	{
-		err(ctx, sconcat("Function called \"", *curr_func().name(), 
+		err(sconcat("Function called \"", *curr_func().name(), 
 			"\" cannot have two arguments with same identifiers!\n",
 			"Note:  offending argument has identifier \"",
 			*arg_sym.name(), "\"."));
@@ -663,7 +663,7 @@ antlrcpp::Any Frontend::visitBuiltinTypename
 	}
 	else
 	{
-		err(ctx, "visitBuiltinTypename():  Eek!\n");
+		err("visitBuiltinTypename():  Eek!\n");
 	}
 	return nullptr;
 }
@@ -796,7 +796,7 @@ antlrcpp::Any Frontend::visitExtendedAssignment
 	}
 	else
 	{
-		err(ctx, "visitExtendedAssignment():  Binop Eek!");
+		err("visitExtendedAssignment():  Binop Eek!");
 	}
 
 	if (index->is_pure && (index->pure_op == IrPureExOp::Constant) 
@@ -1057,7 +1057,7 @@ antlrcpp::Any Frontend::visitReturnExprStatement
 //	to_push->append_child(pop_ast_node());
 //
 //	push_ast_node(to_push);
-	//err(ctx, "visitReturnExprStatement() is not fully implemented!");
+	//err("visitReturnExprStatement() is not fully implemented!");
 
 	ctx->expr()->accept(this);
 	codegen().mk_code_return_expr(pop_ir_expr());
@@ -1071,7 +1071,7 @@ antlrcpp::Any Frontend::visitReturnNothingStatement
 //	auto to_push = mk_ast_stmt(AstStmtOp::ReturnNothing);
 //
 //	push_ast_node(to_push);
-	err(ctx, "visitReturnNothingStatement() is not fully implemented!");
+	err("visitReturnNothingStatement() is not fully implemented!");
 	return nullptr;
 }
 
@@ -1112,7 +1112,7 @@ antlrcpp::Any Frontend::visitExpr
 		}
 		else
 		{
-			err(ctx, "visitExpr():  binop type Eek!\n");
+			err("visitExpr():  binop type Eek!\n");
 		}
 
 		ctx->exprLogical()->accept(this);
@@ -1179,7 +1179,7 @@ antlrcpp::Any Frontend::visitExprLogical
 		}
 		else
 		{
-			err(ctx, "visitExprLogical():  binop type Eek!\n");
+			err("visitExprLogical():  binop type Eek!\n");
 		}
 
 		ctx->exprCompare()->accept(this);
@@ -1224,7 +1224,7 @@ antlrcpp::Any Frontend::visitExprLogical
 //		}
 //		else
 //		{
-//			err(ctx, "visitExprCompare():  binop type Eek!\n");
+//			err("visitExprCompare():  binop type Eek!\n");
 //		}
 //
 //		ctx->exprAddSub()->accept(this);
@@ -1286,246 +1286,91 @@ antlrcpp::Any Frontend::visitExprJustSub
 antlrcpp::Any Frontend::visitExprAddSub
 	(GrammarParser::ExprAddSubContext *ctx)
 {
-	////if (ctx->exprMulDivModEtc())
-	//if (!ctx->exprAddSub())
-	//{
-	//	ctx->exprMulDivModEtc()->accept(this);
-	//}
-	//else // if (ctx->exprAddSub())
-	//{
-	//	////auto to_push = mk_ast_node(AstOp::expr_binop);
-	//	//auto to_push = mk_ast_expr(AstExprOp::Binop);
-
-
-	//	ctx->exprAddSub()->accept(this);
-	//	auto a = pop_ir_expr();
-
-	//	//to_push->append_child(pop_ast_node());
-
-	//	std::string op;
-	//	
-	//	if (ctx->TokOpMulDivMod())
-	//	{
-	//		op = ctx->TokOpMulDivMod()->toString();
-	//	}
-	//	else if (ctx->TokOpBitwise())
-	//	{
-	//		op = ctx->TokOpBitwise()->toString();
-	//	}
-	//	else
-	//	{
-	//		err(ctx, "visitExprAddSub():  operator Eek!\n");
-	//	}
-
-	//	IrBinop s_binop;
-
-	//	if (op == "*")
-	//	{
-	//		s_binop = IrBinop::Mul;
-	//	}
-	//	else if (op == "/")
-	//	{
-	//		s_binop = IrBinop::Div;
-	//	}
-	//	else if (op == "%")
-	//	{
-	//		s_binop = IrBinop::Mod;
-	//	}
-	//	else if (op == "&")
-	//	{
-	//		s_binop = IrBinop::BitAnd;
-	//	}
-	//	else if (op == "|")
-	//	{
-	//		s_binop = IrBinop::BitOr;
-	//	}
-	//	else if (op == "^")
-	//	{
-	//		s_binop = IrBinop::BitXor;
-	//	}
-	//	else if (op == "<<")
-	//	{
-	//		s_binop = IrBinop::BitShiftLeft;
-	//	}
-	//	else if (op == ">>")
-	//	{
-	//		s_binop = IrBinop::BitShiftRight;
-	//	}
-	//	//else if (op == ">>>")
-	//	//{
-	//	//	//to_push->bin_op = AstBinOp::BitAsr;
-	//	//	s_binop = IrBinop::BitAsr;
-	//	//}
-	//	else
-	//	{
-	//		err(ctx, "visitExprAddSub():  binop type Eek!\n");
-	//	}
-
-	//	ctx->exprMulDivModEtc()->accept(this);
-	//	auto b = pop_ir_expr();
-
-	//	//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
-	//	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-	//		s_binop, a, b));
-	//}
-
-	if (ctx->exprJustMul())
-	{
-		ctx->exprJustMul()->accept(this);
-	}
-	else if (ctx->exprJustDiv())
-	{
-		ctx->exprJustDiv()->accept(this);
-	}
-	else if (ctx->exprJustMod())
-	{
-		ctx->exprJustMod()->accept(this);
-	}
-	else if (ctx->exprJustBitAnd())
-	{
-		ctx->exprJustBitAnd()->accept(this);
-	}
-	else if (ctx->exprJustBitOr())
-	{
-		ctx->exprJustBitOr()->accept(this);
-	}
-	else if (ctx->exprJustBitXor())
-	{
-		ctx->exprJustBitXor()->accept(this);
-	}
-	else if (ctx->exprJustBitShiftLeft())
-	{
-		ctx->exprJustBitShiftLeft()->accept(this);
-	}
-	else if (ctx->exprJustBitShiftRight())
-	{
-		ctx->exprJustBitShiftRight()->accept(this);
-	}
-	else if (ctx->exprMulDivModEtc())
+	//if (ctx->exprMulDivModEtc())
+	if (!ctx->exprAddSub())
 	{
 		ctx->exprMulDivModEtc()->accept(this);
 	}
-	else
+	else // if (ctx->exprAddSub())
 	{
-		err(ctx, "visitExprAddSub():  Eek!");
+		////auto to_push = mk_ast_node(AstOp::expr_binop);
+		//auto to_push = mk_ast_expr(AstExprOp::Binop);
+
+
+		ctx->exprAddSub()->accept(this);
+		auto a = pop_ir_expr();
+
+		//to_push->append_child(pop_ast_node());
+
+		std::string op;
+		
+		if (ctx->TokOpMulDivMod())
+		{
+			op = ctx->TokOpMulDivMod()->toString();
+		}
+		else if (ctx->TokOpBitwise())
+		{
+			op = ctx->TokOpBitwise()->toString();
+		}
+		else
+		{
+			err("visitExprAddSub():  operator Eek!\n");
+		}
+
+		IrBinop s_binop;
+
+		if (op == "*")
+		{
+			s_binop = IrBinop::Mul;
+		}
+		else if (op == "/")
+		{
+			s_binop = IrBinop::Div;
+		}
+		else if (op == "%")
+		{
+			s_binop = IrBinop::Mod;
+		}
+		else if (op == "&")
+		{
+			s_binop = IrBinop::BitAnd;
+		}
+		else if (op == "|")
+		{
+			s_binop = IrBinop::BitOr;
+		}
+		else if (op == "^")
+		{
+			s_binop = IrBinop::BitXor;
+		}
+		else if (op == "<<")
+		{
+			s_binop = IrBinop::BitShiftLeft;
+		}
+		else if (op == ">>")
+		{
+			s_binop = IrBinop::BitShiftRight;
+		}
+		//else if (op == ">>>")
+		//{
+		//	//to_push->bin_op = AstBinOp::BitAsr;
+		//	s_binop = IrBinop::BitAsr;
+		//}
+		else
+		{
+			err("visitExprAddSub():  binop type Eek!\n");
+		}
+
+		ctx->exprMulDivModEtc()->accept(this);
+		auto b = pop_ir_expr();
+
+		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
+		push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+			s_binop, a, b));
 	}
 
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustMul
-	(GrammarParser::ExprJustMulContext *ctx)
-{
-	ctx->exprMulDivModEtc()->accept(this);
-	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
-	auto b = pop_ir_expr();
-
-	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-		IrBinop::Mul, a, b));
-
-	return nullptr;
-}
-antlrcpp::Any Frontend::visitExprJustDiv
-	(GrammarParser::ExprJustDivContext *ctx)
-{
-	ctx->exprMulDivModEtc()->accept(this);
-	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
-	auto b = pop_ir_expr();
-
-	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-		IrBinop::Div, a, b));
-
-	return nullptr;
-}
-antlrcpp::Any Frontend::visitExprJustMod
-	(GrammarParser::ExprJustModContext *ctx)
-{
-	ctx->exprMulDivModEtc()->accept(this);
-	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
-	auto b = pop_ir_expr();
-
-	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-		IrBinop::Mod, a, b));
-
-	return nullptr;
-}
-antlrcpp::Any Frontend::visitExprJustBitAnd
-	(GrammarParser::ExprJustBitAndContext *ctx)
-{
-	ctx->exprMulDivModEtc()->accept(this);
-	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
-	auto b = pop_ir_expr();
-
-	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-		IrBinop::BitAnd, a, b));
-
-	return nullptr;
-}
-antlrcpp::Any Frontend::visitExprJustBitOr
-	(GrammarParser::ExprJustBitOrContext *ctx)
-{
-	ctx->exprMulDivModEtc()->accept(this);
-	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
-	auto b = pop_ir_expr();
-
-	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-		IrBinop::BitOr, a, b));
-
-	return nullptr;
-}
-antlrcpp::Any Frontend::visitExprJustBitXor
-	(GrammarParser::ExprJustBitXorContext *ctx)
-{
-	ctx->exprMulDivModEtc()->accept(this);
-	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
-	auto b = pop_ir_expr();
-
-	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-		IrBinop::BitXor, a, b));
-
-	return nullptr;
-}
-antlrcpp::Any Frontend::visitExprJustBitShiftLeft
-	(GrammarParser::ExprJustBitShiftLeftContext *ctx)
-{
-	ctx->exprMulDivModEtc()->accept(this);
-	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
-	auto b = pop_ir_expr();
-
-	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-		IrBinop::BitShiftLeft, a, b));
-
-	return nullptr;
-}
-antlrcpp::Any Frontend::visitExprJustBitShiftRight
-	(GrammarParser::ExprJustBitShiftRightContext *ctx)
-{
-	ctx->exprMulDivModEtc()->accept(this);
-	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
-	auto b = pop_ir_expr();
-
-	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-		IrBinop::BitShiftRight, a, b));
-
-	return nullptr;
-}
-
-
 antlrcpp::Any Frontend::visitExprMulDivModEtc
 	(GrammarParser::ExprMulDivModEtcContext *ctx)
 {
@@ -1584,7 +1429,7 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 	}
 	else
 	{
-		err(ctx, "visitExprMulDivModEtc():  Eek!\n");
+		err("visitExprMulDivModEtc():  Eek!\n");
 	}
 	return nullptr;
 }
@@ -1606,7 +1451,7 @@ antlrcpp::Any Frontend::visitExprMulDivModEtc
 //	}
 //	else
 //	{
-//		err(ctx, "visitExprUnary():  Eek!\n");
+//		err("visitExprUnary():  Eek!\n");
 //	}
 //	return nullptr;
 //}
@@ -1686,7 +1531,7 @@ void Frontend::__visit_ident_access
 	ctx_ident_name->accept(this);
 	auto ident = pop_str();
 
-	auto sym = find_sym_or_err(ctx_ident_name, ident, 
+	auto sym = find_sym_or_err(ident, 
 		sconcat("No symbol with identifier \"", *ident, 
 		"\" was found!"));
 
@@ -1711,8 +1556,8 @@ void Frontend::__visit_ident_access
 		}
 		else // if (ctx_subscript_expr)
 		{
-			err(ctx_ident_name, sconcat("Symbol with identifier \"", 
-				*ident, "\" is not an array!"));
+			err(sconcat("Symbol with identifier \"", *ident, 
+				"\" is not an array!"));
 		}
 	}
 
@@ -1720,8 +1565,8 @@ void Frontend::__visit_ident_access
 	{
 		if (!ctx_subscript_expr)
 		{
-			err(ctx_ident_name, sconcat("Symbol with identifier \"", 
-				*ident, "\" is an array!"));
+			err(sconcat("Symbol with identifier \"", *ident, 
+				"\" is an array!"));
 		}
 		else // if (ctx_subscript_expr)
 		{
@@ -1745,7 +1590,7 @@ void Frontend::__visit_ident_access
 	}
 	else
 	{
-		err(ctx_ident_name, "__visit_ident_access():  Unknown SymType!");
+		err("__visit_ident_access():  Unknown SymType!");
 	}
 
 	//push_ir_code(codegen().mk_ldx(addr, index));
@@ -1831,7 +1676,7 @@ antlrcpp::Any Frontend::visitIdentDecl
 	if (sym_tbl().find_in_this_blklev(__curr_scope_node, sym.var()->name()) 
 		!= nullptr)
 	{
-		err(ctx, sconcat("Symbol with identifier \"", *sym.var()->name(), 
+		err(sconcat("Symbol with identifier \"", *sym.var()->name(), 
 			"\" already exists in this scope!\n"));
 	}
 
@@ -1883,13 +1728,13 @@ antlrcpp::Any Frontend::visitNumExpr
 antlrcpp::Any Frontend::visitLenExpr
 	(GrammarParser::LenExprContext *ctx)
 {
-	//err(ctx, "visitLenExpr() is not fully implemented!");
+	//err("visitLenExpr() is not fully implemented!");
 
 	ctx->identName()->accept(this);
 
 	auto ident = pop_str();
 
-	auto sym = find_sym_or_err(ctx, ident, 
+	auto sym = find_sym_or_err(ident, 
 		sconcat("Cannot find symbol called \"", *ident, 
 		"\" for len() expression!"));
 
@@ -1904,14 +1749,14 @@ antlrcpp::Any Frontend::visitLenExpr
 antlrcpp::Any Frontend::visitSizeofExpr
 	(GrammarParser::SizeofExprContext *ctx)
 {
-	//err(ctx, "visitSizeofExpr() is not fully implemented!");
+	//err("visitSizeofExpr() is not fully implemented!");
 	//return nullptr;
 
 	ctx->identName()->accept(this);
 
 	auto ident = pop_str();
 
-	auto sym = find_sym_or_err(ctx, ident, 
+	auto sym = find_sym_or_err(ident, 
 		sconcat("Cannot find symbol called \"", *ident, 
 		"\" for sizeof() expression!"));
 

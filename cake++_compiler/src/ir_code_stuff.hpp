@@ -61,9 +61,6 @@ enum class IrSpecExOp
 	// Symbol reference
 	RefSym,
 
-	//// Function reference
-	//RefFunc,
-
 	// Label reference
 	RefLab,
 

@@ -206,24 +206,6 @@ protected:		// visitor functions
 
 	antlrcpp::Any visitExprAddSub
 		(GrammarParser::ExprAddSubContext *ctx);
-
-	antlrcpp::Any visitExprJustMul
-		(GrammarParser::ExprJustMulContext *ctx);
-	antlrcpp::Any visitExprJustDiv
-		(GrammarParser::ExprJustDivContext *ctx);
-	antlrcpp::Any visitExprJustMod
-		(GrammarParser::ExprJustModContext *ctx);
-	antlrcpp::Any visitExprJustBitAnd
-		(GrammarParser::ExprJustBitAndContext *ctx);
-	antlrcpp::Any visitExprJustBitOr
-		(GrammarParser::ExprJustBitOrContext *ctx);
-	antlrcpp::Any visitExprJustBitXor
-		(GrammarParser::ExprJustBitXorContext *ctx);
-	antlrcpp::Any visitExprJustBitShiftLeft
-		(GrammarParser::ExprJustBitShiftLeftContext *ctx);
-	antlrcpp::Any visitExprJustBitShiftRight
-		(GrammarParser::ExprJustBitShiftRightContext *ctx);
-
 	antlrcpp::Any visitExprMulDivModEtc
 		(GrammarParser::ExprMulDivModEtcContext *ctx);
 	//antlrcpp::Any visitExprUnary
@@ -267,8 +249,7 @@ protected:		// non-visitor functions
 	{
 		if (type_size <= 0)
 		{
-			err(nullptr, sconcat("Frontend",
-				"::calc_var_non_size_used_space():  Eek!"));
+			err("Frontend::calc_var_non_size_used_space():  Eek!");
 		}
 
 		const size_t ret = (static_cast<size_t>(type_size) * dim);
@@ -276,21 +257,10 @@ protected:		// non-visitor functions
 	}
 
 
-	inline void err(antlr4::ParserRuleContext* ctx, 
-		const std::string& msg)
+	inline void err(const std::string& msg)
 	{
-		if (ctx == nullptr)
-		{
-			printerr("Error:  ", msg, "\n");
-		}
-		else
-		{
-			auto tok = ctx->getStart();
-			const size_t line = tok->getLine();
-			const size_t pos_in_line = tok->getCharPositionInLine();
-			printerr("Error on line ", line, ", position ", pos_in_line,
-				":  ", msg, "\n");
-		}
+		// This needs to be augmented with line number and character
+		printerr("Error:  ", msg, "\n");
 		exit(1);
 	}
 
@@ -350,8 +320,8 @@ protected:		// non-visitor functions
 	////	return ret;
 	////}
 
-	inline Symbol* find_sym_or_err(antlr4::ParserRuleContext* ctx, 
-		Ident ident, const std::string& error_msg)
+	inline Symbol* find_sym_or_err(Ident ident, 
+		const std::string& error_msg)
 	{
 		auto sym = sym_tbl().find(__curr_scope_node, ident);
 
@@ -362,7 +332,7 @@ protected:		// non-visitor functions
 		else
 		{
 			//err(sconcat(error_msg_left, *ident, error_msg_right));
-			err(ctx, error_msg);
+			err(error_msg);
 		}
 		return nullptr;
 	}

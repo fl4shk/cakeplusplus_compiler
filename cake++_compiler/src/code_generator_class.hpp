@@ -4,7 +4,7 @@
 
 #include "symbol_table_classes.hpp"
 //#include "abstract_syntax_tree_classes.hpp"
-#include "vm_code_class.hpp"
+#include "backends/vm_code_class.hpp"
 //#include "ir_code_classes.hpp"
 #include "ir_code_stuff.hpp"
 

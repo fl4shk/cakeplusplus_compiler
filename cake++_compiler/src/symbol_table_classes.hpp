@@ -7,7 +7,6 @@
 //#include "symbol_table_base_class.hpp"
 #include "scoped_table_base_class.hpp"
 
-#include "vm_code_class.hpp"
 //#include "ir_code_classes.hpp"
 #include "ir_code_stuff.hpp"
 #include "allocation_stuff.hpp"
@@ -217,7 +216,6 @@ private:		// variables
 	// in __scope_node->children.front()
 	ScopedTableNode<Symbol>* __scope_node;
 
-	//VmCode __vm_code;
 	IrCode __ir_code;
 
 
@@ -240,16 +238,12 @@ public:		// functions
 	inline Function(ScopedTableNode<Symbol>* s_scope_node)
 		: __scope_node(s_scope_node)
 	{
-		//__vm_code.next = &__vm_code;
-		//__vm_code.prev = &__vm_code;
 		__ir_code.next = &__ir_code;
 		__ir_code.prev = &__ir_code;
 	}
 	inline Function(Ident s_name, ScopedTableNode<Symbol>* s_scope_node)
 		: __name(s_name), __scope_node(s_scope_node)
 	{
-		//__vm_code.next = &__vm_code;
-		//__vm_code.prev = &__vm_code;
 		__ir_code.next = &__ir_code;
 		__ir_code.prev = &__ir_code;
 	}
@@ -291,19 +285,6 @@ public:		// functions
 	gen_getter_and_setter_by_val(ret_type);
 
 private:		// functions
-	//inline VmCode* mk_linked_vm_code(VmRawInstrOp s_raw_op)
-	//{
-	//	return ::mk_linked_vm_code(__vm_code, s_raw_op);
-	//}
-
-	//inline VmCode* mk_unlinked_vm_code(VmRawInstrOp s_raw_op)
-	//{
-	//	return ::mk_unlinked_vm_code(s_raw_op);
-	//}
-	//inline void relink_vm_code(VmCode* p)
-	//{
-	//	::relink_vm_code(p, __vm_code.prev);
-	//}
 
 
 };

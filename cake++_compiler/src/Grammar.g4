@@ -90,8 +90,14 @@ funcArgDecl:
 	| builtinTypename nonSizedArrayIdentName
 	;
 
+//anyTypename: 
+//	identName
+//	| builtinTypename ;
 builtinTypename: TokBuiltinTypename ;
 
+//fullTypename: anyTypename (ptrSpecifier*) ;
+//
+//ptrSpecifier: '$';
 
 nonSizedArrayIdentName: identName '[' ']' ;
 assignment: identLhs '=' expr ;
@@ -138,9 +144,21 @@ exprJustSub: exprAddSub '-' exprCompare ;
 
 exprAddSub:
 	exprMulDivModEtc
-	| exprAddSub TokOpMulDivMod exprMulDivModEtc
-	| exprAddSub TokOpBitwise exprMulDivModEtc
+	//| exprAddSub TokOpMulDivMod exprMulDivModEtc
+	//| exprAddSub TokOpBitwise exprMulDivModEtc
+	| exprJustMul | exprJustDiv | exprJustMod
+	| exprJustBitAnd | exprJustBitOr | exprJustBitXor
+	| exprJustBitShiftLeft | exprJustBitShiftRight
 	;
+
+exprJustMul: exprMulDivModEtc '*' exprAddSub ;
+exprJustDiv: exprMulDivModEtc '/' exprAddSub ;
+exprJustMod: exprMulDivModEtc '%' exprAddSub ;
+exprJustBitAnd: exprMulDivModEtc '&' exprAddSub ;
+exprJustBitOr: exprMulDivModEtc '|' exprAddSub ;
+exprJustBitXor: exprMulDivModEtc '^' exprAddSub ;
+exprJustBitShiftLeft: exprMulDivModEtc '<<' exprAddSub ;
+exprJustBitShiftRight: exprMulDivModEtc '>>' exprAddSub ;
 
 exprMulDivModEtc:
 	'~' exprBitInvert
@@ -205,15 +223,6 @@ TokOpExtendedAssignment:
 	;
 TokOpLogical: ('&&' | '||') ;
 TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
-//TokOpAddSub: ('+' | '-') ;
-//TokOpAdd: '+' ;
-//TokOpSub: '-' ;
-TokOpMulDivMod: ('*' | '/' | '%') ;
-TokOpBitInvert: '~' ;
-//TokOpNegate: '-' ;
-TokOpLogNot: '!' ;
-//TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>' | '>>>') ;
-TokOpBitwise: ('&' | '|' | '^' | '<<' | '>>');
 TokBuiltinTypename: 
 	('u64' | 's64' | 'u32' | 's32' | 'u16' | 's16' | 'u8' | 's8')
 	;
