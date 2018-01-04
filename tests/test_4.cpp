@@ -9,6 +9,10 @@ s64 main()
 	//buf[0] = buf[1] * buf[2];
 	buf[0] = buf[1] + buf[2];
 
+	buf[2] += buf[2];
+
+	//buf[300] = 7;
+
 }
 
 //u64 getline(u8 buf[])

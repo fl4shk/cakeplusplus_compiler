@@ -1362,47 +1362,6 @@ antlrcpp::Any Frontend::visitExprFinishSub
 antlrcpp::Any Frontend::visitExprAddSub
 	(GrammarParser::ExprAddSubContext *ctx)
 {
-	//if (ctx->exprJustMul())
-	//{
-	//	ctx->exprJustMul()->accept(this);
-	//}
-	//else if (ctx->exprJustDiv())
-	//{
-	//	ctx->exprJustDiv()->accept(this);
-	//}
-	//else if (ctx->exprJustMod())
-	//{
-	//	ctx->exprJustMod()->accept(this);
-	//}
-	//else if (ctx->exprJustBitAnd())
-	//{
-	//	ctx->exprJustBitAnd()->accept(this);
-	//}
-	//else if (ctx->exprJustBitOr())
-	//{
-	//	ctx->exprJustBitOr()->accept(this);
-	//}
-	//else if (ctx->exprJustBitXor())
-	//{
-	//	ctx->exprJustBitXor()->accept(this);
-	//}
-	//else if (ctx->exprJustBitShiftLeft())
-	//{
-	//	ctx->exprJustBitShiftLeft()->accept(this);
-	//}
-	//else if (ctx->exprJustBitShiftRight())
-	//{
-	//	ctx->exprJustBitShiftRight()->accept(this);
-	//}
-	//else if (ctx->exprMulDivModEtc())
-	//{
-	//	ctx->exprMulDivModEtc()->accept(this);
-	//}
-	//else
-	//{
-	//	err(ctx, "visitExprAddSub():  Eek!");
-	//}
-
 	if (ctx->exprAddSub())
 	{
 		if (ctx->exprMulDivModEtc())

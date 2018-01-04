@@ -22,7 +22,7 @@
 					},
 					{
 						"__op" : "binop",
-						"_binop" : "mul",
+						"_binop" : "add",
 						"_mm" : "u8",
 						"args" : 
 						[
@@ -117,6 +117,199 @@
 								]
 							}
 						]
+					}
+				]
+			},
+			{
+				"__iop" : "st",
+				"_mm" : "u8",
+				"args" : 
+				[
+					{
+						"__op" : "binop",
+						"_binop" : "add",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "arr_data_address",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_sym",
+										"_mm" : "pointer",
+										"_name" : "buf"
+									}
+								]
+							},
+							{
+								"__op" : "binop",
+								"_binop" : "mul",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "const",
+										"_immediate" : "1",
+										"_mm" : "length"
+									},
+									{
+										"__op" : "const",
+										"_immediate" : "2",
+										"_mm" : "s64"
+									}
+								]
+							}
+						]
+					},
+					{
+						"__op" : "binop",
+						"_binop" : "add",
+						"_mm" : "u8",
+						"args" : 
+						[
+							{
+								"__op" : "ld",
+								"_mm" : "u8",
+								"args" : 
+								[
+									{
+										"__op" : "binop",
+										"_binop" : "add",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "arr_data_address",
+												"_mm" : "pointer",
+												"args" : 
+												[
+													{
+														"__op" : "ref_sym",
+														"_mm" : "pointer",
+														"_name" : "buf"
+													}
+												]
+											},
+											{
+												"__op" : "binop",
+												"_binop" : "mul",
+												"_mm" : "pointer",
+												"args" : 
+												[
+													{
+														"__op" : "const",
+														"_immediate" : "1",
+														"_mm" : "length"
+													},
+													{
+														"__op" : "const",
+														"_immediate" : "2",
+														"_mm" : "s64"
+													}
+												]
+											}
+										]
+									}
+								]
+							},
+							{
+								"__op" : "ld",
+								"_mm" : "u8",
+								"args" : 
+								[
+									{
+										"__op" : "binop",
+										"_binop" : "add",
+										"_mm" : "pointer",
+										"args" : 
+										[
+											{
+												"__op" : "arr_data_address",
+												"_mm" : "pointer",
+												"args" : 
+												[
+													{
+														"__op" : "ref_sym",
+														"_mm" : "pointer",
+														"_name" : "buf"
+													}
+												]
+											},
+											{
+												"__op" : "binop",
+												"_binop" : "mul",
+												"_mm" : "pointer",
+												"args" : 
+												[
+													{
+														"__op" : "const",
+														"_immediate" : "1",
+														"_mm" : "length"
+													},
+													{
+														"__op" : "const",
+														"_immediate" : "2",
+														"_mm" : "s64"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"__iop" : "st",
+				"_mm" : "u8",
+				"args" : 
+				[
+					{
+						"__op" : "binop",
+						"_binop" : "add",
+						"_mm" : "pointer",
+						"args" : 
+						[
+							{
+								"__op" : "arr_data_address",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "ref_sym",
+										"_mm" : "pointer",
+										"_name" : "buf"
+									}
+								]
+							},
+							{
+								"__op" : "binop",
+								"_binop" : "mul",
+								"_mm" : "pointer",
+								"args" : 
+								[
+									{
+										"__op" : "const",
+										"_immediate" : "1",
+										"_mm" : "length"
+									},
+									{
+										"__op" : "const",
+										"_immediate" : "300",
+										"_mm" : "s64"
+									}
+								]
+							}
+						]
+					},
+					{
+						"__op" : "const",
+						"_immediate" : "7",
+						"_mm" : "s64"
 					}
 				]
 			}

@@ -193,9 +193,9 @@ exprFinishBitShiftLeft: '<<' ;
 exprFinishBitShiftRight: '>>' ;
 
 exprMulDivModEtc:
-	'~' exprBitInvert
-	| '-' exprNegate
-	| '!' exprLogNot
+	exprBitInvert
+	| exprNegate
+	| exprLogNot
 
 	| numExpr
 	| funcCall
@@ -204,13 +204,13 @@ exprMulDivModEtc:
 	| lenExpr
 	| sizeofExpr
 	| castExpr
-	| ('(' expr ')')
+	| '(' expr ')'
 	;
 
 
-exprBitInvert: expr ;
-exprNegate: expr ;
-exprLogNot: expr ;
+exprBitInvert: '~' expr ;
+exprNegate: '-' expr ;
+exprLogNot: '!' expr ;
 
 identLhs:
 	identName
