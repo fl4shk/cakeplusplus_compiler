@@ -194,35 +194,55 @@ protected:		// visitor functions
 
 	antlrcpp::Any visitExpr
 		(GrammarParser::ExprContext *ctx);
+	antlrcpp::Any visitExprFinishLogAnd
+		(GrammarParser::ExprFinishLogAndContext *ctx);
+	antlrcpp::Any visitExprFinishLogOr
+		(GrammarParser::ExprFinishLogOrContext *ctx);
+
 	antlrcpp::Any visitExprLogical
 		(GrammarParser::ExprLogicalContext *ctx);
+
+	antlrcpp::Any visitExprFinishCompareEq
+		(GrammarParser::ExprFinishCompareEqContext *ctx);
+	antlrcpp::Any visitExprFinishCompareNe
+		(GrammarParser::ExprFinishCompareNeContext *ctx);
+	antlrcpp::Any visitExprFinishCompareLt
+		(GrammarParser::ExprFinishCompareLtContext *ctx);
+	antlrcpp::Any visitExprFinishCompareGt
+		(GrammarParser::ExprFinishCompareGtContext *ctx);
+	antlrcpp::Any visitExprFinishCompareLe
+		(GrammarParser::ExprFinishCompareLeContext *ctx);
+	antlrcpp::Any visitExprFinishCompareGe
+		(GrammarParser::ExprFinishCompareGeContext *ctx);
+
+
 	antlrcpp::Any visitExprCompare
 		(GrammarParser::ExprCompareContext *ctx);
 
-	antlrcpp::Any visitExprJustAdd
-		(GrammarParser::ExprJustAddContext *ctx);
-	antlrcpp::Any visitExprJustSub
-		(GrammarParser::ExprJustSubContext *ctx);
+	antlrcpp::Any visitExprFinishAdd
+		(GrammarParser::ExprFinishAddContext *ctx);
+	antlrcpp::Any visitExprFinishSub
+		(GrammarParser::ExprFinishSubContext *ctx);
 
 	antlrcpp::Any visitExprAddSub
 		(GrammarParser::ExprAddSubContext *ctx);
 
-	antlrcpp::Any visitExprJustMul
-		(GrammarParser::ExprJustMulContext *ctx);
-	antlrcpp::Any visitExprJustDiv
-		(GrammarParser::ExprJustDivContext *ctx);
-	antlrcpp::Any visitExprJustMod
-		(GrammarParser::ExprJustModContext *ctx);
-	antlrcpp::Any visitExprJustBitAnd
-		(GrammarParser::ExprJustBitAndContext *ctx);
-	antlrcpp::Any visitExprJustBitOr
-		(GrammarParser::ExprJustBitOrContext *ctx);
-	antlrcpp::Any visitExprJustBitXor
-		(GrammarParser::ExprJustBitXorContext *ctx);
-	antlrcpp::Any visitExprJustBitShiftLeft
-		(GrammarParser::ExprJustBitShiftLeftContext *ctx);
-	antlrcpp::Any visitExprJustBitShiftRight
-		(GrammarParser::ExprJustBitShiftRightContext *ctx);
+	antlrcpp::Any visitExprFinishMul
+		(GrammarParser::ExprFinishMulContext *ctx);
+	antlrcpp::Any visitExprFinishDiv
+		(GrammarParser::ExprFinishDivContext *ctx);
+	antlrcpp::Any visitExprFinishMod
+		(GrammarParser::ExprFinishModContext *ctx);
+	antlrcpp::Any visitExprFinishBitAnd
+		(GrammarParser::ExprFinishBitAndContext *ctx);
+	antlrcpp::Any visitExprFinishBitOr
+		(GrammarParser::ExprFinishBitOrContext *ctx);
+	antlrcpp::Any visitExprFinishBitXor
+		(GrammarParser::ExprFinishBitXorContext *ctx);
+	antlrcpp::Any visitExprFinishBitShiftLeft
+		(GrammarParser::ExprFinishBitShiftLeftContext *ctx);
+	antlrcpp::Any visitExprFinishBitShiftRight
+		(GrammarParser::ExprFinishBitShiftRightContext *ctx);
 
 	antlrcpp::Any visitExprMulDivModEtc
 		(GrammarParser::ExprMulDivModEtcContext *ctx);

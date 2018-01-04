@@ -124,41 +124,73 @@ returnNothingStatement: TokReturn ;
 
 expr:
 	exprLogical
-	| expr TokOpLogical exprLogical
+	//| expr TokOpLogical exprLogical
+	//| exprJustLogAnd | exprJustLogOr
+	| expr exprFinishLogAnd exprLogical
+	| expr exprFinishLogOr exprLogical
 	;
+
+exprFinishLogAnd: '&&' ;
+exprFinishLogOr: '||' ;
+
+// TokOpLogical: ('&&' | '||') ;
 
 exprLogical:
 	exprCompare
-	| exprLogical TokOpCompare exprCompare
+	//| exprLogical TokOpCompare exprCompare
+	//| exprJustCompareEq | exprJustCompareNe
+	//| exprJustCompareLt | exprJustCompareGt
+	//| exprJustCompareLe | exprJustCompareGe
+
+	| exprLogical exprFinishCompareEq exprCompare
+	| exprLogical exprFinishCompareNe exprCompare
+	| exprLogical exprFinishCompareLt exprCompare
+	| exprLogical exprFinishCompareGt exprCompare
+	| exprLogical exprFinishCompareLe exprCompare
+	| exprLogical exprFinishCompareGe exprCompare
 	;
+
+// TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
+
+exprFinishCompareEq: '==' ;
+exprFinishCompareNe: '!=' ;
+exprFinishCompareLt: '<' ;
+exprFinishCompareGt: '>' ;
+exprFinishCompareLe: '<=' ;
+exprFinishCompareGe: '>=' ;
 
 exprCompare:
 	exprAddSub
-	//| exprCompare TokOpAddSub exprAddSub
-	| exprJustAdd
-	| exprJustSub
+	| exprCompare exprFinishAdd exprAddSub
+	| exprCompare exprFinishSub exprAddSub
 	;
 
-exprJustAdd: exprAddSub '+' exprCompare ;
-exprJustSub: exprAddSub '-' exprCompare ;
+exprFinishAdd: '+' ;
+exprFinishSub: '-' ;
 
 exprAddSub:
 	exprMulDivModEtc
-	//| exprAddSub TokOpMulDivMod exprMulDivModEtc
-	//| exprAddSub TokOpBitwise exprMulDivModEtc
-	| exprJustMul | exprJustDiv | exprJustMod
-	| exprJustBitAnd | exprJustBitOr | exprJustBitXor
-	| exprJustBitShiftLeft | exprJustBitShiftRight
+	//| exprJustMul | exprJustDiv | exprJustMod
+	//| exprJustBitAnd | exprJustBitOr | exprJustBitXor
+	//| exprJustBitShiftLeft | exprJustBitShiftRight
+	| exprAddSub exprFinishMul exprMulDivModEtc
+	| exprAddSub exprFinishDiv exprMulDivModEtc
+	| exprAddSub exprFinishMod exprMulDivModEtc
+	| exprAddSub exprFinishBitAnd exprMulDivModEtc
+	| exprAddSub exprFinishBitOr exprMulDivModEtc
+	| exprAddSub exprFinishBitXor exprMulDivModEtc
+	| exprAddSub exprFinishBitShiftLeft exprMulDivModEtc
+	| exprAddSub exprFinishBitShiftRight exprMulDivModEtc
 	;
 
-exprJustMul: exprMulDivModEtc '*' exprAddSub ;
-exprJustDiv: exprMulDivModEtc '/' exprAddSub ;
-exprJustMod: exprMulDivModEtc '%' exprAddSub ;
-exprJustBitAnd: exprMulDivModEtc '&' exprAddSub ;
-exprJustBitOr: exprMulDivModEtc '|' exprAddSub ;
-exprJustBitXor: exprMulDivModEtc '^' exprAddSub ;
-exprJustBitShiftLeft: exprMulDivModEtc '<<' exprAddSub ;
-exprJustBitShiftRight: exprMulDivModEtc '>>' exprAddSub ;
+exprFinishMul: '*' ;
+exprFinishDiv: '/' ;
+exprFinishMod: '%' ;
+exprFinishBitAnd: '&' ;
+exprFinishBitOr: '|' ;
+exprFinishBitXor: '^' ;
+exprFinishBitShiftLeft: '<<' ;
+exprFinishBitShiftRight: '>>' ;
 
 exprMulDivModEtc:
 	'~' exprBitInvert
@@ -221,8 +253,6 @@ TokOpExtendedAssignment:
 	| '&=' | '|=' | '^='
 	| '<<=' | '>>=')
 	;
-TokOpLogical: ('&&' | '||') ;
-TokOpCompare: ('==' | '!=' | '<' | '>' | '<=' | '>=') ;
 TokBuiltinTypename: 
 	('u64' | 's64' | 'u32' | 's32' | 'u16' | 's16' | 'u8' | 's8')
 	;

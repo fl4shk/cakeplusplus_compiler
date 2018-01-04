@@ -6,7 +6,8 @@ s64 main()
 
 	//disp_str_as_numbers(buf);
 
-	buf[0] = buf[1] * buf[2];
+	//buf[0] = buf[1] * buf[2];
+	buf[0] = buf[1] + buf[2];
 
 }
 

@@ -1078,190 +1078,269 @@ antlrcpp::Any Frontend::visitReturnNothingStatement
 antlrcpp::Any Frontend::visitExpr
 	(GrammarParser::ExprContext *ctx)
 {
-	//if (ctx->exprLogical())
-	if (!ctx->expr())
+	//if (ctx->exprJustLogAnd())
+	//{
+	//	ctx->exprJustLogAnd()->accept(this);
+	//}
+	//else if (ctx->exprJustLogAnd())
+	//{
+	//	ctx->exprJustLogAnd()->accept(this);
+	//}
+	//else if (ctx->exprLogical())
+	//{
+	//	ctx->exprLogical()->accept(this);
+	//}
+	//else
+	//{
+	//	err(ctx, "visitExpr():  Eek!");
+	//}
+
+	if (ctx->expr())
 	{
-		ctx->exprLogical()->accept(this);
-	}
-	else // if (ctx->expr())
-	{
-		////auto to_push = mk_ast_node(AstOp::expr_binop);
-		//auto to_push = mk_ast_expr(AstExprOp::Binop);
-
-
-		ctx->expr()->accept(this);
-		//auto a = pop_ir_code();
-		////to_push->append_child(pop_ast_node());
-		auto a = pop_ir_expr();
-
-		auto&& op = ctx->TokOpLogical()->toString();
-
-		IrBinop s_binop;
-
-		if (op == "&&")
+		if (ctx->exprLogical())
 		{
-			//to_push->bin_op = AstBinOp::LogAnd;
-			//s_binop = IrBinop::BitAnd;
-			s_binop = IrBinop::LogAnd;
-		}
-		else if (op == "||")
-		{
-			//to_push->bin_op = AstBinOp::LogOr;
-			//s_binop = IrBinop::BitOr;
-			s_binop = IrBinop::LogOr;
+			// Accept ctx->exprLogical() first because of how the stack
+			// stuff works.
+			ctx->exprLogical()->accept(this);
 		}
 		else
 		{
-			err(ctx, "visitExpr():  binop type Eek!\n");
+			err(ctx, "visitExpr():  !ctx->exprLogical() Eek!");
 		}
 
+		ctx->expr()->accept(this);
+
+		if (ctx->exprFinishLogAnd())
+		{
+			ctx->exprFinishLogAnd()->accept(this);
+		}
+		else if (ctx->exprFinishLogOr())
+		{
+			ctx->exprFinishLogOr()->accept(this);
+		}
+		else
+		{
+			err(ctx, "visitExpr():  ctx->expr() Eek!");
+		}
+
+	}
+	else if (ctx->exprLogical())
+	{
 		ctx->exprLogical()->accept(this);
-		//auto b = pop_ir_code();
-		auto b = pop_ir_expr();
-
-		//auto some_binop = codegen().mk_binop(s_binop, a, b);
-
-		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
-		push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-			s_binop, a, b));
+	}
+	else
+	{
+		err(ctx, "visitExpr():  Eek!");
 	}
 
 	return nullptr;
 }
+
+antlrcpp::Any Frontend::visitExprFinishLogAnd
+	(GrammarParser::ExprFinishLogAndContext *ctx)
+{
+	auto a = pop_ir_expr();
+	auto b = pop_ir_expr();
+
+	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+		IrBinop::LogAnd, a, b));
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprFinishLogOr
+	(GrammarParser::ExprFinishLogOrContext *ctx)
+{
+	auto a = pop_ir_expr();
+	auto b = pop_ir_expr();
+
+	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+		IrBinop::LogOr, a, b));
+
+	return nullptr;
+}
+
 antlrcpp::Any Frontend::visitExprLogical
 	(GrammarParser::ExprLogicalContext *ctx)
 {
-	//if (ctx->exprCompare())
-	if (!ctx->exprLogical())
+	if (ctx->exprLogical())
 	{
-		ctx->exprCompare()->accept(this);
-	}
-	else // if (ctx->exprLogical())
-	{
-		////auto to_push = mk_ast_node(AstOp::expr_binop);
-		//auto to_push = mk_ast_expr(AstExprOp::Binop);
-
-
-		ctx->exprLogical()->accept(this);
-		//auto a = pop_ir_code();
-		//to_push->append_child(pop_ast_node());
-
-		auto a = pop_ir_expr();
-
-		auto&& op = ctx->TokOpCompare()->toString();
-
-
-		IrBinop s_binop;
-
-		if (op == "==")
+		if (ctx->exprCompare())
 		{
-			s_binop = IrBinop::CmpEq;
-		}
-		else if (op == "!=")
-		{
-			s_binop = IrBinop::CmpNe;
-		}
-		else if (op == "<")
-		{
-			s_binop = IrBinop::CmpLt;
-		}
-		else if (op == ">")
-		{
-			s_binop = IrBinop::CmpGt;
-		}
-		else if (op == "<=")
-		{
-			s_binop = IrBinop::CmpLe;
-		}
-		else if (op == ">=")
-		{
-			s_binop = IrBinop::CmpGe;
+			// Accept ctx->exprCompare() first because of how the stack
+			// stuff works.
+			ctx->exprCompare()->accept(this);
 		}
 		else
 		{
-			err(ctx, "visitExprLogical():  binop type Eek!\n");
+			err(ctx, "visitExprLogical():  !ctx->exprCompare() Eek!");
 		}
+		ctx->exprLogical()->accept(this);
 
+
+		if (ctx->exprFinishCompareEq())
+		{
+			ctx->exprFinishCompareEq()->accept(this);
+		}
+		else if (ctx->exprFinishCompareNe())
+		{
+			ctx->exprFinishCompareNe()->accept(this);
+		}
+		else if (ctx->exprFinishCompareLt())
+		{
+			ctx->exprFinishCompareLt()->accept(this);
+		}
+		else if (ctx->exprFinishCompareGt())
+		{
+			ctx->exprFinishCompareGt()->accept(this);
+		}
+		else if (ctx->exprFinishCompareLe())
+		{
+			ctx->exprFinishCompareLe()->accept(this);
+		}
+		else if (ctx->exprFinishCompareGe())
+		{
+			ctx->exprFinishCompareGe()->accept(this);
+		}
+		else
+		{
+			err(ctx, "visitExprLogical():  ctx->exprLogical() Eek!");
+		}
+	}
+	else if (ctx->exprCompare())
+	{
 		ctx->exprCompare()->accept(this);
-		auto b = pop_ir_expr();
-
-		push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-			s_binop, a, b));
+	}
+	else
+	{
+		err(ctx, "visitExprLogical():  Eek!");
 	}
 
 	return nullptr;
 }
-//antlrcpp::Any Frontend::visitExprCompare
-//	(GrammarParser::ExprCompareContext *ctx)
-//{
-//	//if (ctx->exprAddSub())
-//	if (!ctx->exprCompare())
-//	{
-//		ctx->exprAddSub()->accept(this);
-//	}
-//	else // if (ctx->exprCompare())
-//	{
-//		////auto to_push = mk_ast_node(AstOp::expr_binop);
-//		//auto to_push = mk_ast_expr(AstExprOp::Binop);
-//
-//
-//		ctx->exprCompare()->accept(this);
-//		auto a = pop_ir_expr();
-//
-//		//to_push->append_child(pop_ast_node());
-//
-//		auto&& op = ctx->TokOpAddSub()->toString();
-//
-//		IrBinop s_binop;
-//
-//		if (op == "+")
-//		{
-//			s_binop = IrBinop::Add;
-//		}
-//		else if (op == "-")
-//		{
-//			s_binop = IrBinop::Sub;
-//		}
-//		else
-//		{
-//			err(ctx, "visitExprCompare():  binop type Eek!\n");
-//		}
-//
-//		ctx->exprAddSub()->accept(this);
-//		auto b = pop_ir_expr();
-//
-//		//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
-//		push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-//			s_binop, a, b));
-//	}
-//
-//	return nullptr;
-//}
+
+antlrcpp::Any Frontend::visitExprFinishCompareEq
+	(GrammarParser::ExprFinishCompareEqContext *ctx)
+{
+	auto a = pop_ir_expr();
+	auto b = pop_ir_expr();
+
+	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+		IrBinop::CmpEq, a, b));
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprFinishCompareNe
+	(GrammarParser::ExprFinishCompareNeContext *ctx)
+{
+	auto a = pop_ir_expr();
+	auto b = pop_ir_expr();
+
+	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+		IrBinop::CmpNe, a, b));
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprFinishCompareLt
+	(GrammarParser::ExprFinishCompareLtContext *ctx)
+{
+	auto a = pop_ir_expr();
+	auto b = pop_ir_expr();
+
+	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+		IrBinop::CmpLt, a, b));
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprFinishCompareGt
+	(GrammarParser::ExprFinishCompareGtContext *ctx)
+{
+	auto a = pop_ir_expr();
+	auto b = pop_ir_expr();
+
+	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+		IrBinop::CmpGt, a, b));
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprFinishCompareLe
+	(GrammarParser::ExprFinishCompareLeContext *ctx)
+{
+	auto a = pop_ir_expr();
+	auto b = pop_ir_expr();
+
+	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+		IrBinop::CmpLe, a, b));
+
+	return nullptr;
+}
+antlrcpp::Any Frontend::visitExprFinishCompareGe
+	(GrammarParser::ExprFinishCompareGeContext *ctx)
+{
+	auto a = pop_ir_expr();
+	auto b = pop_ir_expr();
+
+	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
+		IrBinop::CmpGe, a, b));
+
+	return nullptr;
+}
 
 antlrcpp::Any Frontend::visitExprCompare
 	(GrammarParser::ExprCompareContext *ctx)
 {
-	if (ctx->exprAddSub())
+	//if (ctx->exprAddSub())
+	//{
+	//	ctx->exprAddSub()->accept(this);
+	//}
+	//else if (ctx->exprJustAdd())
+	//{
+	//	ctx->exprJustAdd()->accept(this);
+	//}
+	//else if (ctx->exprJustSub())
+	//{
+	//	ctx->exprJustSub()->accept(this);
+	//}
+
+	if (ctx->exprCompare())
+	{
+		if (ctx->exprAddSub())
+		{
+			ctx->exprAddSub()->accept(this);
+		}
+		else
+		{
+			err(ctx, "visitExprCompare():  !ctx->exprAddSub() Eek!");
+		}
+		ctx->exprCompare()->accept(this);
+
+		if (ctx->exprFinishAdd())
+		{
+			ctx->exprFinishAdd()->accept(this);
+		}
+		else if (ctx->exprFinishSub())
+		{
+			ctx->exprFinishSub()->accept(this);
+		}
+		else
+		{
+			err(ctx, "visitExprCompare():  ctx->exprCompare() Eek!");
+		}
+	}
+	else if (ctx->exprAddSub())
 	{
 		ctx->exprAddSub()->accept(this);
 	}
-	else if (ctx->exprJustAdd())
+	else
 	{
-		ctx->exprJustAdd()->accept(this);
+		err(ctx, "visitExprCompare():  Eek!");
 	}
-	else if (ctx->exprJustSub())
-	{
-		ctx->exprJustSub()->accept(this);
-	}
+
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustAdd
-	(GrammarParser::ExprJustAddContext *ctx)
+antlrcpp::Any Frontend::visitExprFinishAdd
+	(GrammarParser::ExprFinishAddContext *ctx)
 {
-	ctx->exprAddSub()->accept(this);
 	auto a = pop_ir_expr();
-
-	ctx->exprCompare()->accept(this);
 	auto b = pop_ir_expr();
 
 	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
@@ -1269,13 +1348,10 @@ antlrcpp::Any Frontend::visitExprJustAdd
 
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustSub
-	(GrammarParser::ExprJustSubContext *ctx)
+antlrcpp::Any Frontend::visitExprFinishSub
+	(GrammarParser::ExprFinishSubContext *ctx)
 {
-	ctx->exprAddSub()->accept(this);
 	auto a = pop_ir_expr();
-
-	ctx->exprCompare()->accept(this);
 	auto b = pop_ir_expr();
 
 	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
@@ -1286,120 +1362,95 @@ antlrcpp::Any Frontend::visitExprJustSub
 antlrcpp::Any Frontend::visitExprAddSub
 	(GrammarParser::ExprAddSubContext *ctx)
 {
-	////if (ctx->exprMulDivModEtc())
-	//if (!ctx->exprAddSub())
+	//if (ctx->exprJustMul())
+	//{
+	//	ctx->exprJustMul()->accept(this);
+	//}
+	//else if (ctx->exprJustDiv())
+	//{
+	//	ctx->exprJustDiv()->accept(this);
+	//}
+	//else if (ctx->exprJustMod())
+	//{
+	//	ctx->exprJustMod()->accept(this);
+	//}
+	//else if (ctx->exprJustBitAnd())
+	//{
+	//	ctx->exprJustBitAnd()->accept(this);
+	//}
+	//else if (ctx->exprJustBitOr())
+	//{
+	//	ctx->exprJustBitOr()->accept(this);
+	//}
+	//else if (ctx->exprJustBitXor())
+	//{
+	//	ctx->exprJustBitXor()->accept(this);
+	//}
+	//else if (ctx->exprJustBitShiftLeft())
+	//{
+	//	ctx->exprJustBitShiftLeft()->accept(this);
+	//}
+	//else if (ctx->exprJustBitShiftRight())
+	//{
+	//	ctx->exprJustBitShiftRight()->accept(this);
+	//}
+	//else if (ctx->exprMulDivModEtc())
 	//{
 	//	ctx->exprMulDivModEtc()->accept(this);
 	//}
-	//else // if (ctx->exprAddSub())
+	//else
 	//{
-	//	////auto to_push = mk_ast_node(AstOp::expr_binop);
-	//	//auto to_push = mk_ast_expr(AstExprOp::Binop);
-
-
-	//	ctx->exprAddSub()->accept(this);
-	//	auto a = pop_ir_expr();
-
-	//	//to_push->append_child(pop_ast_node());
-
-	//	std::string op;
-	//	
-	//	if (ctx->TokOpMulDivMod())
-	//	{
-	//		op = ctx->TokOpMulDivMod()->toString();
-	//	}
-	//	else if (ctx->TokOpBitwise())
-	//	{
-	//		op = ctx->TokOpBitwise()->toString();
-	//	}
-	//	else
-	//	{
-	//		err(ctx, "visitExprAddSub():  operator Eek!\n");
-	//	}
-
-	//	IrBinop s_binop;
-
-	//	if (op == "*")
-	//	{
-	//		s_binop = IrBinop::Mul;
-	//	}
-	//	else if (op == "/")
-	//	{
-	//		s_binop = IrBinop::Div;
-	//	}
-	//	else if (op == "%")
-	//	{
-	//		s_binop = IrBinop::Mod;
-	//	}
-	//	else if (op == "&")
-	//	{
-	//		s_binop = IrBinop::BitAnd;
-	//	}
-	//	else if (op == "|")
-	//	{
-	//		s_binop = IrBinop::BitOr;
-	//	}
-	//	else if (op == "^")
-	//	{
-	//		s_binop = IrBinop::BitXor;
-	//	}
-	//	else if (op == "<<")
-	//	{
-	//		s_binop = IrBinop::BitShiftLeft;
-	//	}
-	//	else if (op == ">>")
-	//	{
-	//		s_binop = IrBinop::BitShiftRight;
-	//	}
-	//	//else if (op == ">>>")
-	//	//{
-	//	//	//to_push->bin_op = AstBinOp::BitAsr;
-	//	//	s_binop = IrBinop::BitAsr;
-	//	//}
-	//	else
-	//	{
-	//		err(ctx, "visitExprAddSub():  binop type Eek!\n");
-	//	}
-
-	//	ctx->exprMulDivModEtc()->accept(this);
-	//	auto b = pop_ir_expr();
-
-	//	//push_ir_expr(codegen().mk_expr_binop(get_top_mm(), s_binop, a, b));
-	//	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
-	//		s_binop, a, b));
+	//	err(ctx, "visitExprAddSub():  Eek!");
 	//}
 
-	if (ctx->exprJustMul())
+	if (ctx->exprAddSub())
 	{
-		ctx->exprJustMul()->accept(this);
-	}
-	else if (ctx->exprJustDiv())
-	{
-		ctx->exprJustDiv()->accept(this);
-	}
-	else if (ctx->exprJustMod())
-	{
-		ctx->exprJustMod()->accept(this);
-	}
-	else if (ctx->exprJustBitAnd())
-	{
-		ctx->exprJustBitAnd()->accept(this);
-	}
-	else if (ctx->exprJustBitOr())
-	{
-		ctx->exprJustBitOr()->accept(this);
-	}
-	else if (ctx->exprJustBitXor())
-	{
-		ctx->exprJustBitXor()->accept(this);
-	}
-	else if (ctx->exprJustBitShiftLeft())
-	{
-		ctx->exprJustBitShiftLeft()->accept(this);
-	}
-	else if (ctx->exprJustBitShiftRight())
-	{
-		ctx->exprJustBitShiftRight()->accept(this);
+		if (ctx->exprMulDivModEtc())
+		{
+			ctx->exprMulDivModEtc()->accept(this);
+		}
+		else
+		{
+			err(ctx, "visitExprAddSub():  !ctx->exprMulDivModEtc() Eek!");
+		}
+		ctx->exprAddSub()->accept(this);
+
+		if (ctx->exprFinishMul())
+		{
+			ctx->exprFinishMul()->accept(this);
+		}
+		else if (ctx->exprFinishDiv())
+		{
+			ctx->exprFinishDiv()->accept(this);
+		}
+		else if (ctx->exprFinishMod())
+		{
+			ctx->exprFinishMod()->accept(this);
+		}
+		else if (ctx->exprFinishBitAnd())
+		{
+			ctx->exprFinishBitAnd()->accept(this);
+		}
+		else if (ctx->exprFinishBitOr())
+		{
+			ctx->exprFinishBitOr()->accept(this);
+		}
+		else if (ctx->exprFinishBitXor())
+		{
+			ctx->exprFinishBitXor()->accept(this);
+		}
+		else if (ctx->exprFinishBitShiftLeft())
+		{
+			ctx->exprFinishBitShiftLeft()->accept(this);
+		}
+		else if (ctx->exprFinishBitShiftRight())
+		{
+			ctx->exprFinishBitShiftRight()->accept(this);
+		}
+		else
+		{
+			err(ctx, "visitExprAddSub():  ctx->exprAddSub() Eek!");
+		}
 	}
 	else if (ctx->exprMulDivModEtc())
 	{
@@ -1412,13 +1463,10 @@ antlrcpp::Any Frontend::visitExprAddSub
 
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustMul
-	(GrammarParser::ExprJustMulContext *ctx)
+antlrcpp::Any Frontend::visitExprFinishMul
+	(GrammarParser::ExprFinishMulContext *ctx)
 {
-	ctx->exprMulDivModEtc()->accept(this);
 	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
 	auto b = pop_ir_expr();
 
 	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
@@ -1426,13 +1474,10 @@ antlrcpp::Any Frontend::visitExprJustMul
 
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustDiv
-	(GrammarParser::ExprJustDivContext *ctx)
+antlrcpp::Any Frontend::visitExprFinishDiv
+	(GrammarParser::ExprFinishDivContext *ctx)
 {
-	ctx->exprMulDivModEtc()->accept(this);
 	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
 	auto b = pop_ir_expr();
 
 	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
@@ -1440,13 +1485,10 @@ antlrcpp::Any Frontend::visitExprJustDiv
 
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustMod
-	(GrammarParser::ExprJustModContext *ctx)
+antlrcpp::Any Frontend::visitExprFinishMod
+	(GrammarParser::ExprFinishModContext *ctx)
 {
-	ctx->exprMulDivModEtc()->accept(this);
 	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
 	auto b = pop_ir_expr();
 
 	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
@@ -1454,13 +1496,10 @@ antlrcpp::Any Frontend::visitExprJustMod
 
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustBitAnd
-	(GrammarParser::ExprJustBitAndContext *ctx)
+antlrcpp::Any Frontend::visitExprFinishBitAnd
+	(GrammarParser::ExprFinishBitAndContext *ctx)
 {
-	ctx->exprMulDivModEtc()->accept(this);
 	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
 	auto b = pop_ir_expr();
 
 	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
@@ -1468,13 +1507,10 @@ antlrcpp::Any Frontend::visitExprJustBitAnd
 
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustBitOr
-	(GrammarParser::ExprJustBitOrContext *ctx)
+antlrcpp::Any Frontend::visitExprFinishBitOr
+	(GrammarParser::ExprFinishBitOrContext *ctx)
 {
-	ctx->exprMulDivModEtc()->accept(this);
 	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
 	auto b = pop_ir_expr();
 
 	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
@@ -1482,13 +1518,10 @@ antlrcpp::Any Frontend::visitExprJustBitOr
 
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustBitXor
-	(GrammarParser::ExprJustBitXorContext *ctx)
+antlrcpp::Any Frontend::visitExprFinishBitXor
+	(GrammarParser::ExprFinishBitXorContext *ctx)
 {
-	ctx->exprMulDivModEtc()->accept(this);
 	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
 	auto b = pop_ir_expr();
 
 	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
@@ -1496,13 +1529,10 @@ antlrcpp::Any Frontend::visitExprJustBitXor
 
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustBitShiftLeft
-	(GrammarParser::ExprJustBitShiftLeftContext *ctx)
+antlrcpp::Any Frontend::visitExprFinishBitShiftLeft
+	(GrammarParser::ExprFinishBitShiftLeftContext *ctx)
 {
-	ctx->exprMulDivModEtc()->accept(this);
 	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
 	auto b = pop_ir_expr();
 
 	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
@@ -1510,13 +1540,10 @@ antlrcpp::Any Frontend::visitExprJustBitShiftLeft
 
 	return nullptr;
 }
-antlrcpp::Any Frontend::visitExprJustBitShiftRight
-	(GrammarParser::ExprJustBitShiftRightContext *ctx)
+antlrcpp::Any Frontend::visitExprFinishBitShiftRight
+	(GrammarParser::ExprFinishBitShiftRightContext *ctx)
 {
-	ctx->exprMulDivModEtc()->accept(this);
 	auto a = pop_ir_expr();
-
-	ctx->exprAddSub()->accept(this);
 	auto b = pop_ir_expr();
 
 	push_ir_expr(codegen().mk_pure_expr_binop(get_mm_for_binop(a, b),
