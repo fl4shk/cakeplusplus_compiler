@@ -334,6 +334,7 @@ private:		// functions
 	void exec_arithlog_instr(ArithLogOper oper, u64 arg_0, u64 arg_1);
 	void exec_load_instr(LoadType load_type, u64 address);
 	void exec_store_instr(StoreType store_type, u64 address, u64 data);
+	void exec_syscall(SystemCall system_call);
 };
 
 }

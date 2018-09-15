@@ -578,6 +578,7 @@ void Vm::handle_instr_from_group_4(u8 oper, u64 extended_arg)
 			break;
 
 		case static_cast<u8>(InstrGrp4Oper::Syscall):
+			exec_syscall(static_cast<SystemCall>(pop()));
 			break;
 
 		default:
@@ -697,6 +698,32 @@ void Vm::exec_store_instr(StoreType store_type, u64 address, u64 data)
 
 		default:
 			err("Vm::exec_store_instr():  Eek!");
+			break;
+	}
+}
+
+void Vm::exec_syscall(SystemCall system_call)
+{
+	switch (system_call)
+	{
+		case SystemCall::DispChar:
+			printout(static_cast<char>(pop()));
+			break;
+
+		// Temporary!
+		case SystemCall::DispStr:
+			break;
+
+		case SystemCall::DispUInt:
+			printout(static_cast<u64>(pop()));
+			break;
+
+		case SystemCall::DispSInt:
+			printout(static_cast<s64>(pop()));
+			break;
+
+		case SystemCall::Exit:
+			exit(pop());
 			break;
 	}
 }
