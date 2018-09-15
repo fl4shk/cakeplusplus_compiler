@@ -45,19 +45,53 @@ size_t Vm::InstrHeader::num_arg_bytes() const
 
 		case 3:
 		case 4:
+			return 0;
+
 		default:
 			return 0;
+	}
+}
+
+bool Vm::InstrHeader::valid() const
+{
+	switch (group())
+	{
+		case 0:
+			return (oper() < static_cast<decltype(oper())>
+				(Vm::InstrGrp0Oper::Invalid));
+
+		case 1:
+			return (oper() < static_cast<decltype(oper())>
+				(Vm::InstrGrp1Oper::Invalid));
+
+		case 2:
+			return (oper() < static_cast<decltype(oper())>
+				(Vm::InstrGrp2Oper::Invalid));
+
+		case 3:
+			return (oper() < static_cast<decltype(oper())>
+				(Vm::InstrGrp3Oper::Invalid));
+
+		case 4:
+			return (oper() < static_cast<decltype(oper())>
+				(Vm::InstrGrp4Oper::Invalid));
+
+		default:
+			return false;
 	}
 }
 
 Vm::Vm(size_t s_mem_amount, const std::string& s_code_filename)
 	: __mem_amount(s_mem_amount), __code_filename(s_code_filename)
 {
+	__pc = 0;
+	__sp = 0;
+	__fp = 0;
+
 	if (mem_amount() > max_mem_amount)
 	{
-		printerr("Error:  Too much memory requested.  Max amount ",
+		err("Error:  Too much memory requested.  Max amount ",
 			"permitted:  ", max_mem_amount, "\n");
-		exit(1);
 	}
 
 	__mem.reset(new u8[mem_amount()]);
@@ -70,10 +104,9 @@ Vm::Vm(size_t s_mem_amount, const std::string& s_code_filename)
 	{
 		if (i >= mem_amount())
 		{
-			printerr("Error:  Not enough memory requested for file \"",
+			err("Not enough memory requested for file \"",
 				code_filename(), "\"!  Amount requested was ",
 				mem_amount(), ".\n");
-			exit(1);
 		}
 
 		const int c = code_file.get();
@@ -82,6 +115,14 @@ Vm::Vm(size_t s_mem_amount, const std::string& s_code_filename)
 		++i;
 
 	} while (!code_file.eof());
+
+	// Clear the rest of the allocated memory.
+	for (; i<mem_amount(); ++i)
+	{
+		__mem[i] = 0;
+	}
+
+
 }
 
 Vm::~Vm()
@@ -101,9 +142,10 @@ u8 Vm::get_raw_mem8_at(Address where) const
 	}
 	else // if (where >= mem_amount)
 	{
-		printerr("Error:  get_raw_mem8_at():  address 0x", std::hex, where,
+		err("Error:  get_raw_mem8_at():  address 0x", std::hex, where,
 			std::dec, " not in allocated memory range!\n");
-		exit(1);
+
+		return get_bits_with_range(9001, 7, 0);
 	}
 }
 u16 Vm::get_raw_mem16_at(Address where) const
@@ -144,9 +186,8 @@ void Vm::set_mem8_at(Address where, u8 data)
 	}
 	else // if (where >= mem_amount)
 	{
-		printerr("Error:  set_mem8_at():  address 0x", std::hex, where,
+		err("Error:  set_mem8_at():  address 0x", std::hex, where,
 			std::dec, " not in allocated memory range!\n");
-		exit(1);
 	}
 }
 void Vm::set_mem16_at(Address where, u16 data)

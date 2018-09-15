@@ -16,34 +16,6 @@ public:		// constants
 public:		// types
 	typedef u64 Address;
 
-	class InstrHeader
-	{
-	private:		// variables
-		u8 __group, __oper;
-
-	public:		// functions
-		inline InstrHeader(u16 to_copy)
-		{
-			*this = to_copy;
-		}
-
-		inline InstrHeader(const InstrHeader& to_copy) = default;
-
-		inline InstrHeader& operator = (const InstrHeader& to_copy)
-			= default;
-		inline InstrHeader& operator = (u16 to_copy)
-		{
-			__group = to_copy >> 8;
-			__oper = to_copy;
-			return *this;
-		}
-
-		size_t num_arg_bytes() const;
-
-		gen_getter_by_val(group)
-		gen_getter_by_val(oper)
-	};
-
 	enum class InstrGrp0Oper : u8
 	{
 		Add,
@@ -75,6 +47,8 @@ public:		// types
 		Jmpx,
 		Jfal,
 		Jtru,
+
+		Invalid,
 	};
 
 	enum class InstrGrp1Oper : u8
@@ -108,6 +82,8 @@ public:		// types
 		Jmpxi,
 		Bfal,
 		Btru,
+
+		Invalid,
 	};
 
 	enum class InstrGrp2Oper : u8
@@ -119,6 +95,8 @@ public:		// types
 		Constu32,
 		Consts32,
 		Const,
+
+		Invalid,
 	};
 
 	enum class InstrGrp3Oper : u8
@@ -126,6 +104,8 @@ public:		// types
 		Arg,
 		Var,
 		GetPc,
+
+		Invalid,
 	};
 
 	enum class InstrGrp4Oper : u8
@@ -136,7 +116,39 @@ public:		// types
 		Call,
 		Ret,
 		Syscall,
+
+		Invalid,
 	};
+
+	class InstrHeader
+	{
+	private:		// variables
+		u8 __group, __oper;
+
+	public:		// functions
+		inline InstrHeader(u16 to_copy)
+		{
+			*this = to_copy;
+		}
+
+		inline InstrHeader(const InstrHeader& to_copy) = default;
+
+		inline InstrHeader& operator = (const InstrHeader& to_copy)
+			= default;
+		inline InstrHeader& operator = (u16 to_copy)
+		{
+			__group = to_copy >> 8;
+			__oper = to_copy;
+			return *this;
+		}
+
+		size_t num_arg_bytes() const;
+		bool valid() const;
+
+		gen_getter_by_val(group)
+		gen_getter_by_val(oper)
+	};
+
 
 
 private:		// variables
@@ -157,32 +169,40 @@ public:		// functions
 	gen_getter_by_con_ref(code_filename)
 
 private:		// functions
+	template<typename... ArgTypes>
+	void err(ArgTypes&&... args) const
+	{
+		printerr(std::hex, "Error (pc:  0x",  __pc, ", sp:  0x", __sp,
+			", fp:  0x", __fp, "):  ", std::dec, args...);
+		exit(1);
+	}
+
 	u8 get_raw_mem8_at(Address where) const;
 	u16 get_raw_mem16_at(Address where) const;
 	u32 get_raw_mem32_at(Address where) const;
 	u64 get_mem64_at(Address where) const;
 
-	inline u64 get_casted_mem_u8_at(Address where) const
+	inline u64 get_extended_mem_u8_at(Address where) const
 	{
 		return static_cast<u64>(static_cast<u8>(get_raw_mem8_at(where)));
 	}
-	inline s64 get_casted_mem_s8_at(Address where) const
+	inline s64 get_extended_mem_s8_at(Address where) const
 	{
 		return static_cast<s64>(static_cast<s8>(get_raw_mem8_at(where)));
 	}
-	inline u64 get_casted_mem_u16_at(Address where) const
+	inline u64 get_extended_mem_u16_at(Address where) const
 	{
 		return static_cast<u64>(static_cast<u16>(get_raw_mem16_at(where)));
 	}
-	inline s64 get_casted_mem_s16_at(Address where) const
+	inline s64 get_extended_mem_s16_at(Address where) const
 	{
 		return static_cast<s64>(static_cast<s16>(get_raw_mem16_at(where)));
 	}
-	inline u64 get_casted_mem_u32_at(Address where) const
+	inline u64 get_extended_mem_u32_at(Address where) const
 	{
 		return static_cast<u64>(static_cast<u32>(get_raw_mem32_at(where)));
 	}
-	inline s64 get_casted_mem_s32_at(Address where) const
+	inline s64 get_extended_mem_s32_at(Address where) const
 	{
 		return static_cast<s64>(static_cast<s32>(get_raw_mem32_at(where)));
 	}
@@ -192,6 +212,23 @@ private:		// functions
 	void set_mem16_at(Address where, u16 data);
 	void set_mem32_at(Address where, u32 data);
 	void set_mem64_at(Address where, u64 data);
+
+	inline u64 pop_u64()
+	{
+		__sp += sizeof(u64);
+		const u64 ret = get_mem64_at(__sp);
+
+		return ret;
+	}
+	inline s64 pop_s64()
+	{
+		return static_cast<s64>(pop_u64());
+	}
+	inline void push(u64 to_push)
+	{
+		set_mem64_at(__sp, to_push);
+		__sp -= sizeof(u64);
+	}
 };
 
 }
