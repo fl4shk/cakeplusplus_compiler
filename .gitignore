@@ -89,3 +89,4 @@ cake++_compiler/tests/*.json
 cake++_compiler/tests/*.json.ignore
 cake++_compiler/*.json
 cake++_compiler/*.json.ignore
+*.pdf
