@@ -291,7 +291,7 @@
 				iiii iiii  iiii iiii  iiii iiii  iiii iiii
 				iiii iiii  iiii iiii  iiii iiii  iiii iiii</code>
 				* Effect:  <code><b>push</b>(imm64);</code>
-	* Group 3:  <code>arg</code>, <code>var</code>, <code>get_pc</code>
+	* Group 3:  <code>arg</code>, <code>var</code>, <code>get\_pc</code>
 		* Encoding:  <code>0000 0011  oooo oooo</code>
 			* o:  opcode
 		* List:
@@ -301,10 +301,10 @@
 			* <b>var</b>
 				* Opcode:  <code>0x01</code>
 				* Effect:  <code><b>push</b>(<b>fp</b> + 16);</code>
-			* <b>get_pc</b>
+			* <b>get\_pc</b>
 				* Opcode:  <code>0x02</code>
 				* Effect:  <code><b>push</b>(<b>pc</b>);</code>
-	* Group 4:  <code>argx</code>, <code>varx</code>, <code>add_to_sp</code>, <code>call</code>,
+	* Group 4:  <code>argx</code>, <code>varx</code>, <code>add\_to\_sp</code>, <code>call</code>,
 	<code>ret</code>
 		* Encoding:  <code>0000 0100  oooo oooo</code>
 			* o:  opcode

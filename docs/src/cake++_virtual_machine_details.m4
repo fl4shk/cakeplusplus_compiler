@@ -305,7 +305,7 @@ define(`MEM64', `_BOLD(mem64)[$1]')dnl
 				iiii iiii  iiii iiii  iiii iiii  iiii iiii
 				iiii iiii  iiii iiii  iiii iiii  iiii iiii)
 				* Effect:  _CODE(PUSH(imm64);)
-	* Group 3:  _CODE(arg), _CODE(var), _CODE(get_pc)
+	* Group 3:  _CODE(arg), _CODE(var), _CODE(get\_pc)
 		* Encoding:  _CODE(0000 0011  oooo oooo)
 			* o:  opcode
 		* List:
@@ -315,10 +315,10 @@ define(`MEM64', `_BOLD(mem64)[$1]')dnl
 			* _BOLD(var)
 				* OPCODE(0x01)
 				* Effect:  _CODE(PUSH(FP() + 16);)
-			* _BOLD(get_pc)
+			* _BOLD(get\_pc)
 				* OPCODE(0x02)
 				* Effect:  _CODE(PUSH(PC());)
-	* Group 4:  _CODE(argx), _CODE(varx), _CODE(add_to_sp), _CODE(call),
+	* Group 4:  _CODE(argx), _CODE(varx), _CODE(add\_to\_sp), _CODE(call),
 	_CODE(ret)
 		* Encoding:  _CODE(0000 0100  oooo oooo)
 			* o:  opcode
