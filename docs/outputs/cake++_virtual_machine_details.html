@@ -1,0 +1,716 @@
+<h1>Cake++ Virtual Machine Details</h1>
+
+<ul>
+<li>This is a stack machine that uses byte addressing.</li>
+<li>Basic data types supported for arithmetic are
+
+<ul>
+<li><code>uint64_t</code>, <code>int64_t</code></li>
+</ul>
+</li>
+<li>8 integer types are supported for loads and stores:
+
+<ul>
+<li><code>uint8_t</code>, <code>int8_t</code>, <code>uint16_t</code>, <code>int16_t</code>,  <code>uint32_t</code>,
+<code>int32_t</code>, <code>uint64_t</code>, <code>int64_t</code></li>
+</ul>
+</li>
+<li>Registers:
+
+<ul>
+<li><code><b>pc</b></code>:  program counter</li>
+<li><code><b>sp</b></code>:  stack pointer</li>
+<li><code><b>fp</b></code>:  frame pointer (points to the start of the stack frame)</li>
+</ul>
+</li>
+<li>Stack frame:
+
+<ul>
+<li><code><b>fp</b> - <b>arg_space</b> - 8</code>:  return value</li>
+<li><code><b>fp</b> - <b>arg_space</b></code>:  arguments to this specific call of the
+function, in reverse order.
+
+<ul>
+<li>Example:  for a function with two arguments, the first argument
+to the function is at (<code><b>fp</b> - 8</code>), and the second argument to
+the function is at (<code><b>fp</b> - 16</code>)</li>
+</ul>
+</li>
+<li><code><b>fp</b></code>:  return address</li>
+<li><code><b>fp</b> + 8</code>:  old <b>fp</b></li>
+<li><code><b>fp</b> + 16</code>:  local variables of this specific call of the
+function</li>
+<li><code><b>fp</b> + 16 + <b>var_space</b></code>:  temporaries (basically just stuff on
+the stack)</li>
+</ul>
+</li>
+<li>Instructions:
+
+<ul>
+<li>Group 0:  Non-immediate Arithmetic/Logic instructions,
+Non-immediate-indexed loads and stores, non-immediate-indexed jumps
+
+<ul>
+<li>Encoding:  <code>0000 0000  oooo oooo</code>
+
+<ul>
+<li>o:  opcode</li>
+</ul>
+</li>
+<li>List:
+
+<ul>
+<li><b>add</b>
+
+<ul>
+<li>Opcode:  <code>0x00</code></li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() + <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>sub</b>
+
+<ul>
+<li>Opcode:  <code>0x01</code></li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() - <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>mul</b>
+
+<ul>
+<li>Opcode:  <code>0x02</code></li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() * <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>udiv</b>
+
+<ul>
+<li>Opcode:  <code>0x03</code></li>
+<li>Note:  divide unsigned</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() udiv <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>sdiv</b>
+
+<ul>
+<li>Opcode:  <code>0x04</code></li>
+<li>Note:  divide signed</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() sdiv <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>umod</b>
+
+<ul>
+<li>Opcode:  <code>0x05</code></li>
+<li>Note:  modulo unsigned</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() umod <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>smod</b>
+
+<ul>
+<li>Opcode:  <code>0x05</code></li>
+<li>Note:  modulo signed</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() smod <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>uslt</b>
+
+<ul>
+<li>Opcode:  <code>0x06</code></li>
+<li>Note:  set less than unsigned</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() uslt <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>sslt</b>
+
+<ul>
+<li>Opcode:  <code>0x06</code></li>
+<li>Note:  set less than signed</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() sslt <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>and</b>
+
+<ul>
+<li>Opcode:  <code>0x07</code></li>
+<li>Note:  bitwise and</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() &amp; <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>or</b>
+
+<ul>
+<li>Opcode:  <code>0x08</code></li>
+<li>Note:  bitwise or</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() | <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>xor</b>
+
+<ul>
+<li>Opcode:  <code>0x09</code></li>
+<li>Note:  bitwise xor</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() ^ <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>lsl</b>
+
+<ul>
+<li>Opcode:  <code>0x0a</code></li>
+<li>Note:  logical shift left</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() &lt;&lt; <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>lsr</b>
+
+<ul>
+<li>Opcode:  <code>0x0b</code></li>
+<li>Note:  logical shift right</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() lsr <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>asr</b>
+
+<ul>
+<li>Opcode:  <code>0x0c</code></li>
+<li>Note:  arithmetic shift right</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() asr <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>ldux8</b>
+
+<ul>
+<li>Opcode:  <code>0x0d</code></li>
+<li>Effect:  <code><b>push</b>(<b>zero_extend_to_64</b>(<b>mem8</b>[<b>pop</b>()
++ <b>pop</b>()]));</code></li>
+</ul>
+</li>
+<li><b>ldsx8</b>
+
+<ul>
+<li>Opcode:  <code>0x0e</code></li>
+<li>Effect:  <code><b>push</b>(<b>sign_extend_to_64</b>(<b>mem8</b>[<b>pop</b>()
++ <b>pop</b>()]));</code></li>
+</ul>
+</li>
+<li><b>ldux16</b>
+
+<ul>
+<li>Opcode:  <code>0x0f</code></li>
+<li>Effect:  <code><b>push</b>(<b>zero_extend_to_64</b>(<b>mem16</b>[<b>pop</b>()
++ <b>pop</b>()]));</code></li>
+</ul>
+</li>
+<li><b>ldsx16</b>
+
+<ul>
+<li>Opcode:  <code>0x10</code></li>
+<li>Effect:  <code><b>push</b>(<b>sign_extend_to_64</b>(<b>mem16</b>[<b>pop</b>()
++ <b>pop</b>()]));</code></li>
+</ul>
+</li>
+<li><b>ldux32</b>
+
+<ul>
+<li>Opcode:  <code>0x11</code></li>
+<li>Effect:  <code><b>push</b>(<b>zero_extend_to_64</b>(<b>mem32</b>[<b>pop</b>()
++ <b>pop</b>()]));</code></li>
+</ul>
+</li>
+<li><b>ldsx32</b>
+
+<ul>
+<li>Opcode:  <code>0x12</code></li>
+<li>Effect:  <code><b>push</b>(<b>sign_extend_to_64</b>(<b>mem32</b>[<b>pop</b>()
++ <b>pop</b>()]));</code></li>
+</ul>
+</li>
+<li><b>ldx64</b>
+
+<ul>
+<li>Opcode:  <code>0x13</code></li>
+<li>Effect:  <code><b>push</b>(<b>mem64</b>[<b>pop</b>() + <b>pop</b>()]);</code></li>
+</ul>
+</li>
+<li><b>stx8</b>
+
+<ul>
+<li>Opcode:  <code>0x14</code></li>
+<li>Effect:  <code><b>mem8</b>[<b>pop</b>() + <b>pop</b>()] = (<b>pop</b>()[7:0]);</code></li>
+</ul>
+</li>
+<li><b>stx16</b>
+
+<ul>
+<li>Opcode:  <code>0x15</code></li>
+<li>Effect:  <code><b>mem16</b>[<b>pop</b>() + <b>pop</b>()] = (<b>pop</b>()[15:0]);</code></li>
+</ul>
+</li>
+<li><b>stx32</b>
+
+<ul>
+<li>Opcode:  <code>0x16</code></li>
+<li>Effect:  <code><b>mem32</b>[<b>pop</b>() + <b>pop</b>()] = (<b>pop</b>()[31:0]);</code></li>
+</ul>
+</li>
+<li><b>stx64</b>
+
+<ul>
+<li>Opcode:  <code>0x17</code></li>
+<li>Effect:  <code><b>mem64</b>[<b>pop</b>() + <b>pop</b>()] = <b>pop</b>();</code></li>
+</ul>
+</li>
+<li><b>jmpx</b>
+
+<ul>
+<li>Opcode:  <code>0x18</code></li>
+<li>Effect:  <code><b>pc</b> = (<b>pop</b>() + <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>jfal</b>
+
+<ul>
+<li>Opcode:  <code>0x19</code></li>
+<li>Effect:  <code>if (<b>pop</b>() == 0) { <b>pc</b> = <b>pop</b>(); }</code></li>
+</ul>
+</li>
+<li><b>jtru</b>
+
+<ul>
+<li>Opcode:  <code>0x1a</code></li>
+<li>Effect:  <code>if (<b>pop</b>() != 0) { <b>pc</b> = <b>pop</b>(); }</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Group 1:  Immediate arithmetic/logic instructions, immediate-indexed
+loads and stores, and jumps that use immediates
+
+<ul>
+<li>Encoding:  <code>0000 0001  oooo oooo  iiii iiii  iiii iiii</code>
+
+<ul>
+<li>o:  opcode</li>
+<li>i:  sign-extended 16-bit immediate</li>
+</ul>
+</li>
+<li>List:
+
+<ul>
+<li><b>addi simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x00</code></li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() + <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>subi simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x01</code></li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() - <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>muli simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x02</code></li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() * <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>udivi simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x03</code></li>
+<li>Note:  divide unsigned</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>()
+udiv <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>sdivi simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x04</code></li>
+<li>Note:  divide signed</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>()
+sdiv <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>umodi simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x05</code></li>
+<li>Note:  modulo unsigned</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>()
+umod <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>smodi simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x05</code></li>
+<li>Note:  modulo signed</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>()
+smod <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>uslti simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x06</code></li>
+<li>Note:  set less than unsigned</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>()
+uslt <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>sslti simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x06</code></li>
+<li>Note:  set less than signed</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>()
+sslt <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>andi simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x07</code></li>
+<li>Note:  bitwise and</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() &amp; <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>ori simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x08</code></li>
+<li>Note:  bitwise or</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() | <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>xori simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x09</code></li>
+<li>Note:  bitwise xor</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>() ^ <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>lsli simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x0a</code></li>
+<li>Note:  logical shift left</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>()
+&lt;&lt; <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>lsri simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x0b</code></li>
+<li>Note:  logical shift right</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>()
+lsr <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>asri simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x0c</code></li>
+<li>Note:  arithmetic shift right</li>
+<li>Effect:  <code><b>push</b>(<b>pop</b>()
+asr <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>ldux8i simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x0d</code></li>
+<li>Effect:  <code><b>push</b>(<b>zero_extend_to_64</b>(<b>mem8</b>[<b>pop</b>()</li>
+<li><b>sign_extend_to_64</b>(simm16)]));</code></li>
+</ul>
+</li>
+<li><b>ldsx8i simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x0e</code></li>
+<li>Effect:  <code><b>push</b>(<b>sign_extend_to_64</b>(<b>mem8</b>[<b>pop</b>()</li>
+<li><b>sign_extend_to_64</b>(simm16)]));</code></li>
+</ul>
+</li>
+<li><b>ldux16i simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x0f</code></li>
+<li>Effect:  <code><b>push</b>(<b>zero_extend_to_64</b>(<b>mem16</b>[<b>pop</b>()</li>
+<li><b>sign_extend_to_64</b>(simm16)]));</code></li>
+</ul>
+</li>
+<li><b>ldsx16 simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x10</code></li>
+<li>Effect:  <code><b>push</b>(<b>sign_extend_to_64</b>(<b>mem16</b>[<b>pop</b>()</li>
+<li><b>pop</b>()]));</code></li>
+</ul>
+</li>
+<li><b>ldux32i simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x11</code></li>
+<li>Effect:  <code><b>push</b>(<b>zero_extend_to_64</b>(<b>mem32</b>[<b>pop</b>()</li>
+<li><b>sign_extend_to_64</b>(simm16)]));</code></li>
+</ul>
+</li>
+<li><b>ldsx32i simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x12</code></li>
+<li>Effect:  <code><b>push</b>(<b>sign_extend_to_64</b>(<b>mem32</b>[<b>pop</b>()</li>
+<li><b>sign_extend_to_64</b>(simm16)]));</code></li>
+</ul>
+</li>
+<li><b>ldx64i simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x13</code></li>
+<li>Effect:  <code><b>push</b>(<b>mem64</b>[<b>pop</b>()
++ <b>sign_extend_to_64</b>(simm16)]);</code></li>
+</ul>
+</li>
+<li><b>stx8i simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x14</code></li>
+<li>Effect:  <code><b>mem8</b>[<b>pop</b>()
++ <b>sign_extend_to_64</b>(simm16)] = (<b>pop</b>()[7:0]);</code></li>
+</ul>
+</li>
+<li><b>stx16i simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x15</code></li>
+<li>Effect:  <code><b>mem16</b>[<b>pop</b>()
++ <b>sign_extend_to_64</b>(simm16)] = (<b>pop</b>()[15:0]);</code></li>
+</ul>
+</li>
+<li><b>stx32i simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x16</code></li>
+<li>Effect:  <code><b>mem32</b>[<b>pop</b>()
++ <b>sign_extend_to_64</b>(simm16)] = (<b>pop</b>()[31:0]);</code></li>
+</ul>
+</li>
+<li><b>stx64i simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x17</code></li>
+<li>Effect:  <code><b>mem64</b>[<b>pop</b>()
++ <b>sign_extend_to_64</b>(simm16)] = <b>pop</b>();</code></li>
+</ul>
+</li>
+<li><b>jmpxi simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x18</code></li>
+<li>Effect:  <code><b>pc</b> = (<b>pop</b>()
++ <b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>bfal simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x19</code></li>
+<li>Effect:  <code>if (<b>pop</b>() == 0) { <b>pc</b> = <b>pc</b>
++ <b>sign_extend_to_64</b>(simm16); }</code></li>
+</ul>
+</li>
+<li><b>btru simm16</b>
+
+<ul>
+<li>Opcode:  <code>0x1a</code></li>
+<li>Effect:  <code>if (<b>pop</b>() != 0) { <b>pc</b> = <b>pc</b>
++ <b>sign_extend_to_64</b>(simm16); }</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Group 2:  Constants
+
+<ul>
+<li>List:
+
+<ul>
+<li><b>constu8 uimm8</b>
+
+<ul>
+<li>Encoding:  <code>0000 0010  0000 0000 iiii iiii</code></li>
+<li>Effect:  <code><b>push</b>(<b>zero_extend_to_64</b>(uimm8));</code></li>
+</ul>
+</li>
+<li><b>consts8 simm8</b>
+
+<ul>
+<li>Encoding:  <code>0000 0010  0000 0001 iiii iiii</code></li>
+<li>Effect:  <code><b>push</b>(<b>sign_extend_to_64</b>(simm8));</code></li>
+</ul>
+</li>
+<li><b>constu16 uimm16</b>
+
+<ul>
+<li>Encoding:  <code>0000 0010  0000 0010
+iiii iiii  iiii iiii</code></li>
+<li>Effect:  <code><b>push</b>(<b>zero_extend_to_64</b>(uimm16));</code></li>
+</ul>
+</li>
+<li><b>consts16 simm16</b>
+
+<ul>
+<li>Encoding:  <code>0000 0010  0000 0011
+iiii iiii  iiii iiii</code></li>
+<li>Effect:  <code><b>push</b>(<b>sign_extend_to_64</b>(simm16));</code></li>
+</ul>
+</li>
+<li><b>constu32 uimm32</b>
+
+<ul>
+<li>Encoding:  <code>0000 0010  0000 0100
+iiii iiii  iiii iiii  iiii iiii  iiii iiii</code></li>
+<li>Effect:  <code><b>push</b>(<b>zero_extend_to_64</b>(uimm32));</code></li>
+</ul>
+</li>
+<li><b>consts32 simm32</b>
+
+<ul>
+<li>Encoding:  <code>0000 0010  0000 0101
+iiii iiii  iiii iiii  iiii iiii  iiii iiii</code></li>
+<li>Effect:  <code><b>push</b>(<b>sign_extend_to_64</b>(simm32));</code></li>
+</ul>
+</li>
+<li><b>const imm64</b>
+
+<ul>
+<li>Encoding:  <code>0000 0010  0000 0110
+iiii iiii  iiii iiii  iiii iiii  iiii iiii
+iiii iiii  iiii iiii  iiii iiii  iiii iiii</code></li>
+<li>Effect:  <code><b>push</b>(imm64);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Group 3:  <code>arg</code>, <code>var</code>, <code>get_pc</code>
+
+<ul>
+<li>Encoding:  <code>0000 0011  oooo oooo</code>
+
+<ul>
+<li>o:  opcode</li>
+</ul>
+</li>
+<li>List:
+
+<ul>
+<li><b>arg</b>
+
+<ul>
+<li>Opcode:  <code>0x00</code></li>
+<li>Effect:  <code><b>push</b>(<b>fp</b> - 8);</code></li>
+</ul>
+</li>
+<li><b>var</b>
+
+<ul>
+<li>Opcode:  <code>0x01</code></li>
+<li>Effect:  <code><b>push</b>(<b>fp</b> + 16);</code></li>
+</ul>
+</li>
+<li><b>get_pc</b>
+
+<ul>
+<li>Opcode:  <code>0x02</code></li>
+<li>Effect:  <code><b>push</b>(<b>pc</b>);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Group 4:  <code>argx</code>, <code>varx</code>, <code>add_to_sp</code>, <code>call</code>,
+<code>ret</code>
+
+<ul>
+<li>Encoding:  <code>0000 0100  oooo oooo</code>
+
+<ul>
+<li>o:  opcode</li>
+</ul>
+</li>
+<li>List:
+
+<ul>
+<li><b>argx</b>
+
+<ul>
+<li>Opcode:  <code>0x00</code></li>
+<li>Effect:  <code><b>push</b>(<b>fp</b> - 8 + <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>varx</b>
+
+<ul>
+<li>Opcode:  <code>0x01</code></li>
+<li>Effect:  <code><b>push</b>(<b>fp</b> + 16 + <b>pop</b>());</code></li>
+</ul>
+</li>
+<li><b>add_to_sp</b>
+
+<ul>
+<li>Opcode:  <code>0x02</code></li>
+<li>Effect:  <code><b>sp</b> = <b>sp</b> + <b>pop</b>();</code></li>
+</ul>
+</li>
+<li><b>call</b>
+
+<ul>
+<li>Opcode:  <code>0x03</code></li>
+<li>Effect:<br/>
+<code>{<br>
+&emsp;&emsp;address = <b>pop</b>();<br>
+&emsp;&emsp;<b>push</b>(<b>pc</b>);<br>
+&emsp;&emsp;<b>old_fp</b> = <b>fp</b>;<br>
+&emsp;&emsp;<b>fp</b> = <b>sp</b>;<br>
+&emsp;&emsp;<b>push</b>(<b>old_fp</b>)<br>
+&emsp;&emsp;<b>pc</b> = address;<br>
+}</code></li>
+</ul>
+</li>
+<li><b>ret</b>
+
+<ul>
+<li>Opcode:  <code>0x04</code></li>
+<li>Effect:  <code><b>return_sequence()</b>;</code></li>
+</ul>
+</li>
+<li><b>syscall</b>
+
+<ul>
+<li>Opcode:  <code>0x05</code></li>
+<li>Effect:  <code><b>exec_syscall(<b>pop</b>())</b>;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
