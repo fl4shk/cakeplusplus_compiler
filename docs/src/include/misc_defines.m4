@@ -12,6 +12,7 @@ define(`_BOLD',_CONCAT3(`<b>',$1,`</b>'))dnl
 define(`_ITALIC',_CONCAT3(`<i>',$1,`</i>'))dnl
 define(`_UNDERLINE',_CONCAT3(`<u>',$1,`</u>'))dnl
 define(`_NEWLINE',`<br>')dnl
+define(`_TAB',`&emsp;')dnl
 define(`_UINT8_T',`_MDCODE(uint8_t)')dnl
 define(`_INT8_T',`_MDCODE(int8_t)')dnl
 define(`_UINT16_T',`_MDCODE(uint16_t)')dnl

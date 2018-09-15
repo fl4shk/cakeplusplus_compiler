@@ -322,7 +322,7 @@
 				* Opcode:  <code>0x03</code>
 				* Effect:  
 				<code>{<br>
-				&emsp;&emsp;address = <b>pop</b>();<br>
+				&emsp;&emsp;;address = <b>pop</b>();<br>
 				&emsp;&emsp;<b>push</b>(<b>pc</b>);<br>
 				&emsp;&emsp;<b>old\_fp</b> = <b>fp</b>;<br>
 				&emsp;&emsp;<b>fp</b> = <b>sp</b>;<br>
