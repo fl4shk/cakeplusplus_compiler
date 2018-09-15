@@ -130,10 +130,12 @@
 				* Effect:  <code><b>pc</b> = (<b>pop</b>() + <b>pop</b>());</code>
 			* <b>jfal</b>
 				* Opcode:  <code>0x19</code>
-				* Effect:  <code>if (<b>pop</b>() == 0) { <b>pc</b> = <b>pop</b>(); }</code>
+				* Effect:  <code>cond = <b>pop</b>(); temp = <b>pop</b>(); <br>
+				if (cond == 0) { <b>pc</b> = temp; }</code>
 			* <b>jtru</b>
 				* Opcode:  <code>0x1a</code>
-				* Effect:  <code>if (<b>pop</b>() != 0) { <b>pc</b> = <b>pop</b>(); }</code>
+				* Effect:  <code>cond = <b>pop</b>(); temp = <b>pop</b>(); <br>
+				if (cond != 0) { <b>pc</b> = temp; }</code>
 	* Group 1:  Immediate arithmetic/logic instructions, immediate-indexed
 	loads and stores, and jumps that use immediates
 		* Encoding:  <code>0000 0001  oooo oooo  iiii iiii  iiii iiii</code>
@@ -322,7 +324,7 @@
 				* Opcode:  <code>0x03</code>
 				* Effect:  
 				<code>{<br>
-				&emsp;&emsp;;address = <b>pop</b>();<br>
+				&emsp;&emsp;address = <b>pop</b>();<br>
 				&emsp;&emsp;<b>push</b>(<b>pc</b>);<br>
 				&emsp;&emsp;<b>old\_fp</b> = <b>fp</b>;<br>
 				&emsp;&emsp;<b>fp</b> = <b>sp</b>;<br>

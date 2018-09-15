@@ -16,6 +16,44 @@ public:		// constants
 public:		// types
 	typedef u64 Address;
 
+	enum class ArithLogOper : u8
+	{
+		Add,
+		Sub,
+		Mul,
+		Udiv,
+		Sdiv,
+		Umod,
+		Smod,
+		Uslt,
+		Sslt,
+		And,
+		Or,
+		Xor,
+		Lsl,
+		Lsr,
+		Asr,
+	};
+
+	enum class LoadType : u8
+	{
+		U8,
+		S8,
+		U16,
+		S16,
+		U32,
+		S32,
+		Any64
+	};
+
+	enum class StoreType : u8
+	{
+		Any8,
+		Any16,
+		Any32,
+		Any64
+	};
+
 	enum class InstrGrp0Oper : u8
 	{
 		Add,
@@ -120,6 +158,15 @@ public:		// types
 		Invalid,
 	};
 
+	enum class SystemCall : u64
+	{
+		DispChar,
+		DispStr,
+		DispUInt,
+		DispSInt,
+		Exit
+	};
+
 	class InstrHeader
 	{
 	private:		// variables
@@ -143,6 +190,7 @@ public:		// types
 		}
 
 		size_t num_arg_bytes() const;
+		bool arg_is_signed() const;
 		bool valid() const;
 
 		gen_getter_by_val(group)
@@ -170,10 +218,11 @@ public:		// functions
 
 private:		// functions
 	template<typename... ArgTypes>
-	void err(ArgTypes&&... args) const
+	inline void err(ArgTypes&&... args) const
 	{
 		printerr(std::hex, "Error (pc:  0x",  __pc, ", sp:  0x", __sp,
 			", fp:  0x", __fp, "):  ", std::dec, args...);
+		printerr("\n");
 		exit(1);
 	}
 
@@ -207,28 +256,84 @@ private:		// functions
 		return static_cast<s64>(static_cast<s32>(get_raw_mem32_at(where)));
 	}
 
+	inline InstrHeader ld_instr_header_and_inc_pc()
+	{
+		const InstrHeader ret(get_raw_mem16_at(__pc));
+		__pc += sizeof(u16);
+		return ret;
+	}
+
+	inline u64 ldu8_extended_and_inc_pc()
+	{
+		const auto ret = get_extended_mem_u8_at(__pc);
+		__pc += sizeof(u8);
+		return ret;
+	}
+	inline s64 lds8_extended_and_inc_pc()
+	{
+		const auto ret = get_extended_mem_s8_at(__pc);
+		__pc += sizeof(s8);
+		return ret;
+	}
+	inline u64 ldu16_extended_and_inc_pc()
+	{
+		const auto ret = get_extended_mem_u16_at(__pc);
+		__pc += sizeof(u16);
+		return ret;
+	}
+	inline s64 lds16_extended_and_inc_pc()
+	{
+		const auto ret = get_extended_mem_s16_at(__pc);
+		__pc += sizeof(s16);
+		return ret;
+	}
+	inline u64 ldu32_extended_and_inc_pc()
+	{
+		const auto ret = get_extended_mem_u32_at(__pc);
+		__pc += sizeof(u32);
+		return ret;
+	}
+	inline s64 lds32_extended_and_inc_pc()
+	{
+		const auto ret = get_extended_mem_s32_at(__pc);
+		__pc += sizeof(s32);
+		return ret;
+	}
+	inline u64 ld64_and_inc_pc()
+	{
+		const auto ret = get_mem64_at(__pc);
+		__pc += sizeof(u64);
+		return ret;
+	}
+
 
 	void set_mem8_at(Address where, u8 data);
 	void set_mem16_at(Address where, u16 data);
 	void set_mem32_at(Address where, u32 data);
 	void set_mem64_at(Address where, u64 data);
 
-	inline u64 pop_u64()
+	inline u64 pop()
 	{
 		__sp += sizeof(u64);
 		const u64 ret = get_mem64_at(__sp);
 
 		return ret;
 	}
-	inline s64 pop_s64()
-	{
-		return static_cast<s64>(pop_u64());
-	}
 	inline void push(u64 to_push)
 	{
 		set_mem64_at(__sp, to_push);
 		__sp -= sizeof(u64);
 	}
+
+	void handle_instr_from_group_0(u8 oper, u64 extended_arg);
+	void handle_instr_from_group_1(u8 oper, u64 extended_arg);
+	void handle_instr_from_group_2(u8 oper, u64 extended_arg);
+	void handle_instr_from_group_3(u8 oper, u64 extended_arg);
+	void handle_instr_from_group_4(u8 oper, u64 extended_arg);
+
+	void exec_arithlog_instr(ArithLogOper oper, u64 arg_0, u64 arg_1);
+	void exec_load_instr(LoadType load_type, u64 address);
+	void exec_store_instr(StoreType store_type, u64 address, u64 data);
 };
 
 }

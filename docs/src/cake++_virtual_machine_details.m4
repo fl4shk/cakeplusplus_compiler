@@ -144,10 +144,12 @@ define(`MEM64', `_BOLD(mem64)[$1]')dnl
 				* Effect:  _CODE(PC() = (POP() + POP());)
 			* _BOLD(jfal)
 				* OPCODE(0x19)
-				* Effect:  _CODE(if (POP() == 0) { PC() = POP(); })
+				* Effect:  _CODE(cond = POP(); temp = POP(); _NEWLINE()
+				if (cond == 0) { PC() = temp; })
 			* _BOLD(jtru)
 				* OPCODE(0x1a)
-				* Effect:  _CODE(if (POP() != 0) { PC() = POP(); })
+				* Effect:  _CODE(cond = POP(); temp = POP(); _NEWLINE()
+				if (cond != 0) { PC() = temp; })
 	* Group 1:  Immediate arithmetic/logic instructions, immediate-indexed
 	loads and stores, and jumps that use immediates
 		* Encoding:  _CODE(0000 0001  oooo oooo  iiii iiii  iiii iiii)
@@ -336,7 +338,7 @@ define(`MEM64', `_BOLD(mem64)[$1]')dnl
 				* OPCODE(0x03)
 				* Effect:  
 				_CODE({_NEWLINE()
-				_TAB()_TAB();address = POP();_NEWLINE()
+				_TAB()_TAB()address = POP();_NEWLINE()
 				_TAB()_TAB()PUSH(PC());_NEWLINE()
 				_TAB()_TAB()OLD_FP() = FP();_NEWLINE()
 				_TAB()_TAB()FP() = SP();_NEWLINE()

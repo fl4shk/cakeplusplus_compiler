@@ -271,14 +271,16 @@ Non-immediate-indexed loads and stores, non-immediate-indexed jumps
 
 <ul>
 <li>Opcode:  <code>0x19</code></li>
-<li>Effect:  <code>if (<b>pop</b>() == 0) { <b>pc</b> = <b>pop</b>(); }</code></li>
+<li>Effect:  <code>cond = <b>pop</b>(); temp = <b>pop</b>(); <br>
+if (cond == 0) { <b>pc</b> = temp; }</code></li>
 </ul>
 </li>
 <li><b>jtru</b>
 
 <ul>
 <li>Opcode:  <code>0x1a</code></li>
-<li>Effect:  <code>if (<b>pop</b>() != 0) { <b>pc</b> = <b>pop</b>(); }</code></li>
+<li>Effect:  <code>cond = <b>pop</b>(); temp = <b>pop</b>(); <br>
+if (cond != 0) { <b>pc</b> = temp; }</code></li>
 </ul>
 </li>
 </ul>
