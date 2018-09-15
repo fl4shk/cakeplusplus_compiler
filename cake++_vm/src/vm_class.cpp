@@ -128,6 +128,7 @@ bool Vm::InstrHeader::valid() const
 				(Vm::InstrGrp4Oper::Invalid));
 
 		default:
+			//printout("The worst of the eeks!\n");
 			return false;
 	}
 }
@@ -136,7 +137,7 @@ Vm::Vm(size_t s_mem_amount, const std::string& s_code_filename)
 	: __mem_amount(s_mem_amount), __code_filename(s_code_filename)
 {
 	__pc = 0;
-	__sp = 0;
+	//__sp = 0;
 	__fp = 0;
 
 	if (mem_amount() > max_mem_amount)
@@ -162,10 +163,16 @@ Vm::Vm(size_t s_mem_amount, const std::string& s_code_filename)
 
 		const int c = code_file.get();
 		__mem[i] = c;
+		//printout("debug:  ", std::hex, (size_t)__mem[i], std::dec, "\n");
 
 		++i;
+		++__sp;
+		++__fp;
 
 	} while (!code_file.eof());
+
+	__sp += 16;
+	__fp += 8;
 
 	// Clear the rest of the allocated memory.
 	for (; i<mem_amount(); ++i)
@@ -250,6 +257,12 @@ int Vm::run()
 				break;
 		}
 
+		//printout("stuffs:  ", std::hex, __pc, ", ", 
+		//	extended_arg, std::dec, "\n");
+		//printout("more stuffs:  ", std::hex, __pc, ", ",
+		//	(size_t)curr_instr_header.group(), ", ",
+		//	(size_t)curr_instr_header.oper(), std::dec, "\n");
+
 		switch (curr_instr_header.group())
 		{
 			case 0:
@@ -297,6 +310,9 @@ u16 Vm::get_raw_mem16_at(Address where) const
 	u16 ret = 0;
 	set_bits_with_range(ret, get_raw_mem8_at(where + 0), 15, 8);
 	set_bits_with_range(ret, get_raw_mem8_at(where + 1), 7, 0);
+
+	//printout("get_raw_mem16_at():  ", std::hex, where, ", ", ret, std::dec,
+	//	"\n");
 	return ret;
 }
 u32 Vm::get_raw_mem32_at(Address where) const
@@ -545,6 +561,8 @@ void Vm::handle_instr_from_group_3(u8 oper, u64 extended_arg)
 }
 void Vm::handle_instr_from_group_4(u8 oper, u64 extended_arg)
 {
+	//printout("handle_instr_from_group_4():  ", static_cast<u64>(oper),
+	//	"\n");
 	switch (oper)
 	{
 		case static_cast<u8>(InstrGrp4Oper::Argx):

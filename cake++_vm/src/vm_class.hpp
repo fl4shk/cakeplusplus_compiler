@@ -259,6 +259,10 @@ private:		// functions
 	inline InstrHeader ld_instr_header_and_inc_pc()
 	{
 		const InstrHeader ret(get_raw_mem16_at(__pc));
+
+		//printout("ld_instr_header_and_inc_pc():  ", std::hex, __pc,
+		//	", ", (size_t)ret.group(), ", ", (size_t)ret.oper(), std::dec,
+		//	"\n");
 		__pc += sizeof(u16);
 		return ret;
 	}

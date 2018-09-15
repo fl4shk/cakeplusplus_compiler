@@ -1,0 +1,7 @@
+constu8 97
+constu8 0
+syscall
+
+constu8 1
+constu8 4
+syscall
