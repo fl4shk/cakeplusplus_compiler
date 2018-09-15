@@ -6,6 +6,23 @@
 * 8 integer types are supported for loads and stores:
 	* `uint8_t`, `int8_t`, `uint16_t`, `int16_t`,  `uint32_t`,
 	`int32_t`, `uint64_t`, `int64_t`
+* Registers:
+	* <code><b>pc</b></code>:  program counter
+	* <code><b>sp</b></code>:  stack pointer
+	* <code><b>fp</b></code>:  frame pointer (points to the start of the stack frame)
+* Stack frame:
+	* <code><b>fp</b> - <b>arg\_space</b> - 8</code>:  return value
+	* <code><b>fp</b> - <b>arg\_space</b></code>:  arguments to this specific call of the
+	function, in reverse order.
+		* Example:  for a function with two arguments, the first argument
+		to the function is at (<code><b>fp</b> - 8</code>), and the second argument to
+		the function is at (<code><b>fp</b> - 16</code>)
+	* <code><b>fp</b></code>:  return address
+	* <code><b>fp</b> + 8</code>:  old <b>fp</b>
+	* <code><b>fp</b> + 16</code>:  local variables of this specific call of the
+	function
+	* <code><b>fp</b> + 16 + <b>var\_space</b></code>:  temporaries (basically just stuff on
+	the stack)
 * Instructions:
 	* Group 0:  Non-immediate Arithmetic/Logic instructions,
 	Non-immediate-indexed loads and stores, non-immediate-indexed jumps
@@ -115,10 +132,10 @@
 				* Opcode:  <code>0x19</code>
 				* Effect:  <code>if (<b>pop</b>() == 0) { <b>pc</b> = <b>pop</b>(); }</code>
 			* <b>jtru</b>
-				* Opcode:  <code>0x19</code>
+				* Opcode:  <code>0x1a</code>
 				* Effect:  <code>if (<b>pop</b>() != 0) { <b>pc</b> = <b>pop</b>(); }</code>
 	* Group 1:  Immediate arithmetic/logic instructions, immediate-indexed
-	loads and stores, 
+	loads and stores, and jumps that use immediates
 		* Encoding:  <code>0000 0001  oooo oooo  iiii iiii  iiii iiii</code>
 			* o:  opcode
 			* i:  sign-extended 16-bit immediate
@@ -242,6 +259,79 @@
 				* Effect:  <code>if (<b>pop</b>() == 0) { <b>pc</b> = <b>pc</b>
 				\+ <b>sign\_extend\_to\_64</b>(simm16); }</code>
 			* <b>btru simm16</b>
-				* Opcode:  <code>0x19</code>
+				* Opcode:  <code>0x1a</code>
 				* Effect:  <code>if (<b>pop</b>() != 0) { <b>pc</b> = <b>pc</b>
 				\+ <b>sign\_extend\_to\_64</b>(simm16); }</code>
+	* Group 2:  Constants
+		* List:
+			* <b>constu8 uimm8</b>
+				* Encoding:  <code>0000 0010  0000 0000 iiii iiii</code>
+				* Effect:  <code><b>push</b>(<b>zero\_extend\_to\_64</b>(uimm8));</code>
+			* <b>consts8 simm8</b>
+				* Encoding:  <code>0000 0010  0000 0001 iiii iiii</code>
+				* Effect:  <code><b>push</b>(<b>sign\_extend\_to\_64</b>(simm8));</code>
+			* <b>constu16 uimm16</b>
+				* Encoding:  <code>0000 0010  0000 0010
+				iiii iiii  iiii iiii</code>
+				* Effect:  <code><b>push</b>(<b>zero\_extend\_to\_64</b>(uimm16));</code>
+			* <b>consts16 simm16</b>
+				* Encoding:  <code>0000 0010  0000 0011
+				iiii iiii  iiii iiii</code>
+				* Effect:  <code><b>push</b>(<b>sign\_extend\_to\_64</b>(simm16));</code>
+			* <b>constu32 uimm32</b>
+				* Encoding:  <code>0000 0010  0000 0100
+				iiii iiii  iiii iiii  iiii iiii  iiii iiii</code>
+				* Effect:  <code><b>push</b>(<b>zero\_extend\_to\_64</b>(uimm32));</code>
+			* <b>consts32 simm32</b>
+				* Encoding:  <code>0000 0010  0000 0101
+				iiii iiii  iiii iiii  iiii iiii  iiii iiii</code>
+				* Effect:  <code><b>push</b>(<b>sign\_extend\_to\_64</b>(simm32));</code>
+			* <b>const imm64</b>
+				* Encoding:  <code>0000 0010  0000 0110
+				iiii iiii  iiii iiii  iiii iiii  iiii iiii
+				iiii iiii  iiii iiii  iiii iiii  iiii iiii</code>
+				* Effect:  <code><b>push</b>(imm64);</code>
+	* Group 3:  <code>arg</code>, <code>var</code>, <code>get_pc</code>
+		* Encoding:  <code>0000 0011  oooo oooo</code>
+			* o:  opcode
+		* List:
+			* <b>arg</b>
+				* Opcode:  <code>0x00</code>
+				* Effect:  <code><b>push</b>(<b>fp</b> - 8);</code>
+			* <b>var</b>
+				* Opcode:  <code>0x01</code>
+				* Effect:  <code><b>push</b>(<b>fp</b> + 16);</code>
+			* <b>get_pc</b>
+				* Opcode:  <code>0x02</code>
+				* Effect:  <code><b>push</b>(<b>pc</b>);</code>
+	* Group 4:  <code>argx</code>, <code>varx</code>, <code>add_to_sp</code>, <code>call</code>,
+	<code>ret</code>
+		* Encoding:  <code>0000 0100  oooo oooo</code>
+			* o:  opcode
+		* List:
+			* <b>argx</b>
+				* Opcode:  <code>0x00</code>
+				* Effect:  <code><b>push</b>(<b>fp</b> - 8 + <b>pop</b>());</code>
+			* <b>varx</b>
+				* Opcode:  <code>0x01</code>
+				* Effect:  <code><b>push</b>(<b>fp</b> + 16 + <b>pop</b>());</code>
+			* <b>add\_to\_sp</b>
+				* Opcode:  <code>0x02</code>
+				* Effect:  <code><b>sp</b> = <b>sp</b> + <b>pop</b>();</code>
+			* <b>call</b>
+				* Opcode:  <code>0x03</code>
+				* Effect:  
+				<code>{<br>
+				&emsp;&emsp;address = <b>pop</b>();<br>
+				&emsp;&emsp;<b>push</b>(<b>pc</b>);<br>
+				&emsp;&emsp;<b>old\_fp</b> = <b>fp</b>;<br>
+				&emsp;&emsp;<b>fp</b> = <b>sp</b>;<br>
+				&emsp;&emsp;<b>push</b>(<b>old\_fp</b>)<br>
+				&emsp;&emsp;<b>pc</b> = address;<br>
+				}</code>
+			* <b>ret</b>
+				* Opcode:  <code>0x04</code>
+				* Effect:  <code><b>return\_sequence()</b>;</code>
+			* <b>syscall</b>
+				* Opcode:  <code>0x05</code>
+				* Effect:  <code><b>exec\_syscall(<b>pop</b>())</b>;</code>

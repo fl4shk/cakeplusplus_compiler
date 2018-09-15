@@ -3,6 +3,11 @@ define(`OPCODE', `Opcode:  _CODE($1)')dnl
 define(`PUSH', `_BOLD(push)($1)')dnl
 define(`POP', `_BOLD(pop)($1)')dnl
 define(`PC', `_BOLD(pc)')dnl
+define(`SP', `_BOLD(sp)')dnl
+define(`FP', `_BOLD(fp)')dnl
+define(`OLD_FP', `_BOLD(old\_fp)')dnl
+define(`ARG_SPACE', `_BOLD(arg\_space)')dnl
+define(`VAR_SPACE', `_BOLD(var\_space)')dnl
 define(`MEM8', `_BOLD(mem8)[$1]')dnl
 define(`MEM16', `_BOLD(mem16)[$1]')dnl
 define(`MEM32', `_BOLD(mem32)[$1]')dnl
@@ -15,6 +20,23 @@ define(`MEM64', `_BOLD(mem64)[$1]')dnl
 * 8 integer types are supported for loads and stores:
 	* _UINT8_T(), _INT8_T(), _UINT16_T(), _INT16_T(),  _UINT32_T(),
 	_INT32_T(), _UINT64_T(), _INT64_T()
+* Registers:
+	* _CODE(PC()):  program counter
+	* _CODE(SP()):  stack pointer
+	* _CODE(FP()):  frame pointer (points to the start of the stack frame)
+* Stack frame:
+	* _CODE(FP() - ARG_SPACE() - 8):  return value
+	* _CODE(FP() - ARG_SPACE):  arguments to this specific call of the
+	function, in reverse order.
+		* Example:  for a function with two arguments, the first argument
+		to the function is at (_CODE(FP() - 8)), and the second argument to
+		the function is at (_CODE(FP() - 16))
+	* _CODE(FP()):  return address
+	* _CODE(FP() + 8):  old FP()
+	* _CODE(FP() + 16):  local variables of this specific call of the
+	function
+	* _CODE(FP() + 16 + VAR_SPACE()):  temporaries (basically just stuff on
+	the stack)
 * Instructions:
 	* Group 0:  Non-immediate Arithmetic/Logic instructions,
 	Non-immediate-indexed loads and stores, non-immediate-indexed jumps
@@ -124,10 +146,10 @@ define(`MEM64', `_BOLD(mem64)[$1]')dnl
 				* OPCODE(0x19)
 				* Effect:  _CODE(if (POP() == 0) { PC() = POP(); })
 			* _BOLD(jtru)
-				* OPCODE(0x19)
+				* OPCODE(0x1a)
 				* Effect:  _CODE(if (POP() != 0) { PC() = POP(); })
 	* Group 1:  Immediate arithmetic/logic instructions, immediate-indexed
-	loads and stores, 
+	loads and stores, and jumps that use immediates
 		* Encoding:  _CODE(0000 0001  oooo oooo  iiii iiii  iiii iiii)
 			* o:  opcode
 			* i:  sign-extended 16-bit immediate
@@ -251,6 +273,79 @@ define(`MEM64', `_BOLD(mem64)[$1]')dnl
 				* Effect:  _CODE(if (POP() == 0) { PC() = PC()
 				\+ _SIGN_EXTEND_TO_64(simm16); })
 			* _BOLD(btru simm16)
-				* OPCODE(0x19)
+				* OPCODE(0x1a)
 				* Effect:  _CODE(if (POP() != 0) { PC() = PC()
 				\+ _SIGN_EXTEND_TO_64(simm16); })
+	* Group 2:  Constants
+		* List:
+			* _BOLD(constu8 uimm8)
+				* Encoding:  _CODE(0000 0010  0000 0000 iiii iiii)
+				* Effect:  _CODE(PUSH(_ZERO_EXTEND_TO_64(uimm8));)
+			* _BOLD(consts8 simm8)
+				* Encoding:  _CODE(0000 0010  0000 0001 iiii iiii)
+				* Effect:  _CODE(PUSH(_SIGN_EXTEND_TO_64(simm8));)
+			* _BOLD(constu16 uimm16)
+				* Encoding:  _CODE(0000 0010  0000 0010
+				iiii iiii  iiii iiii)
+				* Effect:  _CODE(PUSH(_ZERO_EXTEND_TO_64(uimm16));)
+			* _BOLD(consts16 simm16)
+				* Encoding:  _CODE(0000 0010  0000 0011
+				iiii iiii  iiii iiii)
+				* Effect:  _CODE(PUSH(_SIGN_EXTEND_TO_64(simm16));)
+			* _BOLD(constu32 uimm32)
+				* Encoding:  _CODE(0000 0010  0000 0100
+				iiii iiii  iiii iiii  iiii iiii  iiii iiii)
+				* Effect:  _CODE(PUSH(_ZERO_EXTEND_TO_64(uimm32));)
+			* _BOLD(consts32 simm32)
+				* Encoding:  _CODE(0000 0010  0000 0101
+				iiii iiii  iiii iiii  iiii iiii  iiii iiii)
+				* Effect:  _CODE(PUSH(_SIGN_EXTEND_TO_64(simm32));)
+			* _BOLD(const imm64)
+				* Encoding:  _CODE(0000 0010  0000 0110
+				iiii iiii  iiii iiii  iiii iiii  iiii iiii
+				iiii iiii  iiii iiii  iiii iiii  iiii iiii)
+				* Effect:  _CODE(PUSH(imm64);)
+	* Group 3:  _CODE(arg), _CODE(var), _CODE(get_pc)
+		* Encoding:  _CODE(0000 0011  oooo oooo)
+			* o:  opcode
+		* List:
+			* _BOLD(arg)
+				* OPCODE(0x00)
+				* Effect:  _CODE(PUSH(FP() - 8);)
+			* _BOLD(var)
+				* OPCODE(0x01)
+				* Effect:  _CODE(PUSH(FP() + 16);)
+			* _BOLD(get_pc)
+				* OPCODE(0x02)
+				* Effect:  _CODE(PUSH(PC());)
+	* Group 4:  _CODE(argx), _CODE(varx), _CODE(add_to_sp), _CODE(call),
+	_CODE(ret)
+		* Encoding:  _CODE(0000 0100  oooo oooo)
+			* o:  opcode
+		* List:
+			* _BOLD(argx)
+				* OPCODE(0x00)
+				* Effect:  _CODE(PUSH(FP() - 8 + POP());)
+			* _BOLD(varx)
+				* OPCODE(0x01)
+				* Effect:  _CODE(PUSH(FP() + 16 + POP());)
+			* _BOLD(add\_to\_sp)
+				* OPCODE(0x02)
+				* Effect:  _CODE(SP() = SP() + POP();)
+			* _BOLD(call)
+				* OPCODE(0x03)
+				* Effect:  
+				_CODE({_NEWLINE()
+				&emsp;&emsp;address = POP();_NEWLINE()
+				&emsp;&emsp;PUSH(PC());_NEWLINE()
+				&emsp;&emsp;OLD_FP() = FP();_NEWLINE()
+				&emsp;&emsp;FP() = SP();_NEWLINE()
+				&emsp;&emsp;PUSH(OLD_FP())_NEWLINE()
+				&emsp;&emsp;PC() = address;_NEWLINE()
+				})
+			* _BOLD(ret)
+				* OPCODE(0x04)
+				* Effect:  _CODE(_BOLD(return\_sequence());)
+			* _BOLD(syscall)
+				* OPCODE(0x05)
+				* Effect:  _CODE(_BOLD(exec\_syscall(POP()));)
