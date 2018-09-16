@@ -597,22 +597,27 @@ void Vm::handle_instr_from_group_4(u8 oper, u64 extended_arg)
 			break;
 		case static_cast<u8>(InstrGrp4Oper::Call):
 			{
-				const auto address = pop();
-				push(__pc);
-				__pc = address;
-
+				//printout("pc ", std::hex, __pc, std::dec, ":  call\n");
+				//printout("fp:  ", std::hex, __fp, std::dec, "\n");
 				const auto old_fp = __fp;
+				const auto addr = pop();
 				__fp = __sp;
+				push(__pc);
 				push(old_fp);
+				__pc = addr;
 			}
 			break;
 		case static_cast<u8>(InstrGrp4Oper::Ret):
 			{
+				//printout("pc ", std::hex, __pc, std::dec, ":  ret\n");
+				//printout("fp:  ", std::hex, __fp, std::dec, "\n");
 				const auto ret_addr = get_mem64_at(__fp);
 				const auto old_fp = get_mem64_at(__fp + 8);
 				__sp = __fp;
 				__fp = old_fp;
 				__pc = ret_addr;
+				//printout("pc ", std::hex, __pc, std::dec, ":  ret\n");
+				//printout("fp:  ", std::hex, __fp, std::dec, "\n");
 			}
 			break;
 

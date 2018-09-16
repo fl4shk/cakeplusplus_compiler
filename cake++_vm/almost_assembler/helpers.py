@@ -2,74 +2,182 @@
 
 from enum import IntEnum, auto
 
+class Blank:
+	def __init__(self):
+		pass
+
+def sconcat(*args):
+	ret = ""
+	for arg in args:
+		ret += str(arg)
+	return ret
+
 
 class AlmostAssembler:
 	def __init__(self):
-		self.__f = open("input.bin", mode="wb")
 		self.__pc = 0
+		self.__encoded_bytes = []
+
+	def finalize(self):
+		f = open("input.bin", mode="wb")
+		f.write(bytes(self.__encoded_bytes))
 
 	def pc(self):
 		return self.__pc
 
-	def __write_bytes(self, some_list):
+
+	class EncodedInstrPcs:
+		def __init__(self, header_pc, arg_pc, num_arg_bytes):
+			self.__header_pc = header_pc
+			self.__arg_pc = arg_pc
+			self.__num_arg_bytes = num_arg_bytes
+
+		def header_pc(self):
+			return self.__header_pc
+		def arg_pc(self):
+			return self.__arg_pc
+		def num_arg_bytes(self):
+			return self.__num_arg_bytes
+
+	def alloc(self, amount):
 		ret = self.__pc
 
-		to_write = bytes(some_list)
-		self.__pc += len(to_write)
-		self.__f.write(to_write)
+		for i in range(amount):
+			self.__write_next_byte(0)
 
 		return ret
 
+	def alloc_for_null_terminated_str(self, to_alloc_for):
+		return self.alloc(len(to_alloc_for) + 1)
 
-	def __write_8_bit(self, some_int):
-		self.__write_bytes([some_int & 0xff])
 
-	def __write_16_bit(self, some_int):
-		self.__write_8_bit(some_int >> 8)
-		self.__write_8_bit(some_int)
+	def paste_null_terminated_str(self, to_paste):
+		ret = self.__pc
+		for c in to_paste:
+			self.__write_next_byte(ord(c))
 
-	def __write_32_bit(self, some_int):
-		self.__write_16_bit(some_int >> 16)
-		self.__write_16_bit(some_int)
+		# Null terminate
+		self.__write_next_byte(0)
+		return ret
 
-	def __write_64_bit(self, some_int):
-		self.__write_32_bit(some_int >> 32)
-		self.__write_32_bit(some_int)
+
+	def patch_byte_raw(self, where, some_int):
+		self.__encoded_bytes[where] = (some_int & 0xff)
+
+	def patch_two_bytes_raw(self, where, some_int):
+		self.patch_byte_raw(where, (some_int >> 8))
+		self.patch_byte_raw((where + 1), some_int)
+	def patch_four_bytes_raw(self, where, some_int):
+		self.patch_two_bytes_raw(where, (some_int >> 16))
+		self.patch_two_bytes_raw((where + 2), some_int)
+	def patch_eight_bytes_raw(self, where, some_int):
+		self.patch_four_bytes_raw(where, (some_int >> 32))
+		self.patch_four_bytes_raw((where + 4), some_int)
+
+	def patch_instr_arg_byte(self, some_encoded_instr_pcs, some_int):
+		if (some_encoded_instr_pcs.num_arg_bytes() != 1):
+			print(sconcat("Error in args to ",
+				"AlmostAssembler.patch_instr_arg_byte()"))
+			exit(1)
+
+		where = some_encoded_instr_pcs.arg_pc()
+		self.patch_byte_raw(where, some_int)
+
+	def patch_instr_arg_two_bytes(self, some_encoded_instr_pcs, some_int):
+		if (some_encoded_instr_pcs.num_arg_bytes() != 2):
+			print(sconcat("Error in args to ",
+				"AlmostAssembler.patch_instr_arg_two_bytes()"))
+			exit(1)
+
+		where = some_encoded_instr_pcs.arg_pc()
+		self.patch_two_bytes_raw(where, some_int)
+	def patch_instr_arg_four_bytes(self, some_encoded_instr_pcs, some_int):
+		if (some_encoded_instr_pcs.num_arg_bytes() != 4):
+			print(sconcat("Error in args to ",
+				"AlmostAssembler.patch_instr_arg_four_bytes()"))
+			exit(1)
+
+		where = some_encoded_instr_pcs.arg_pc()
+		self.patch_four_bytes_raw(where, some_int)
+	def patch_instr_arg_eight_bytes(self, some_encoded_instr_pcs, some_int):
+		if (some_encoded_instr_pcs.num_arg_bytes() != 8):
+			print(sconcat("Error in args to ",
+				"AlmostAssembler.patch_instr_arg_eight_bytes()"))
+			exit(1)
+
+		where = some_encoded_instr_pcs.arg_pc()
+		self.patch_eight_bytes_raw(where, some_int)
+
+	def patch_relative_branch(self, patch_loc, jump_loc):
+		self.patch_instr_arg_two_bytes(patch_loc,
+			(jump_loc.header_pc() - patch_loc.header_pc() - 4))
+
+
+
+	def __write_next_byte(self, some_int):
+		ret = self.__pc
+		self.__pc += 1
+		self.__encoded_bytes.append(some_int & 0xff)
+		return ret
+
+	def __write_next_two_bytes(self, some_int):
+		ret = self.__write_next_byte(some_int >> 8)
+		self.__write_next_byte(some_int)
+		return ret
+
+	def __write_next_four_bytes(self, some_int):
+		ret = self.__write_next_two_bytes(some_int >> 16)
+		self.__write_next_two_bytes(some_int)
+		return ret
+
+	def __write_next_eight_bytes(self, some_int):
+		ret = self.__write_next_four_bytes(some_int >> 32)
+		self.__write_next_four_bytes(some_int)
+		return ret
 
 	def __encode_instr_header(self, group, oper):
-		ret = self.__write_8_bit(group)
-		self.__write_8_bit(oper)
+		ret = self.__write_next_byte(group)
+		self.__write_next_byte(oper)
 		return ret
 
 	def __encode_grp_0_instr(self, oper):
-		return self.__encode_instr_header(0, oper)
+		temp = self.__encode_instr_header(0, oper)
+		return self.EncodedInstrPcs(temp, 0, 0)
 
 	def __encode_grp_1_instr(self, oper, simm16):
-		ret = self.__encode_instr_header(1, oper)
-		self = self.__write_16_bit(simm16)
-		return ret
+		temp_0 = self.__encode_instr_header(1, oper)
+		temp_1 = self.__write_next_two_bytes(simm16)
+		return self.EncodedInstrPcs(temp_0, temp_1, 2)
 
 	def __encode_grp_2_instr(self, oper, immediate):
-		ret = self.__encode_instr_header(2, oper)
+		temp_0 = self.__encode_instr_header(2, oper)
+		temp_1 = 0
+		num_arg_bytes = 0
 
 		if ((oper == self.InstrGrp2Oper.Constu8)
 			or (oper == self.InstrGrp2Oper.Consts8)):
-			self.__write_8_bit(immediate)
+			temp_1 = self.__write_next_byte(immediate)
+			num_arg_bytes = 1
 		elif ((oper == self.InstrGrp2Oper.Constu16)
 			or (oper == self.InstrGrp2Oper.Consts16)):
-			self.__write_16_bit(immediate)
+			temp_1 = self.__write_next_two_bytes(immediate)
+			num_arg_bytes = 2
 		elif ((oper == self.InstrGrp2Oper.Constu32)
 			or (oper == self.InstrGrp2Oper.Consts32)):
-			self.__write_32_bit(immediate)
+			temp_1 = self.__write_next_four_bytes(immediate)
+			num_arg_bytes = 4
 		elif (oper == self.InstrGrp2Oper.Const64):
-			self.__write_64_bit(immediate)
+			temp_1 = self.__write_next_eight_bytes(immediate)
+			num_arg_bytes = 8
 
-		return ret
+		return self.EncodedInstrPcs(temp_0, temp_1, num_arg_bytes)
 
 	def __encode_grp_3_instr(self, oper):
-		return self.__encode_instr_header(3, oper)
+		temp = self.__encode_instr_header(3, oper)
+		return self.EncodedInstrPcs(temp, temp, 0)
 	def __encode_grp_4_instr(self, oper):
-		return self.__encode_instr_header(4, oper)
+		temp = self.__encode_instr_header(4, oper)
+		return self.EncodedInstrPcs(temp, temp, 0)
 
 	def enc_add(self):
 		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Add)
@@ -189,11 +297,15 @@ class AlmostAssembler:
 	def enc_jmpxi(self, simm16):
 		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Jmpxi, simm16)
 	def enc_bfal(self, simm16):
-		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Bfal,
-			(self.pc() - simm16))
+		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Bfal, simm16)
 	def enc_btru(self, simm16):
-		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Btru,
-			(self.pc() - simm16))
+		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Btru, simm16)
+	#def enc_bfal(self, simm16):
+	#	return self.__encode_grp_1_instr(self.InstrGrp1Oper.Bfal,
+	#		(self.pc() - simm16))
+	#def enc_btru(self, simm16):
+	#	return self.__encode_grp_1_instr(self.InstrGrp1Oper.Btru,
+	#		(self.pc() - simm16))
 
 	def enc_constu8(self, immediate):
 		return self.__encode_grp_2_instr(self.InstrGrp2Oper.Constu8,

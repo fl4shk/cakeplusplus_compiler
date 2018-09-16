@@ -1,62 +1,110 @@
 #! /usr/bin/env python3
 
-from helpers import AlmostAssembler
-
-class Blank:
-	def __init__(self):
-		pass
-
-def sconcat(*args):
-	ret = ""
-	for arg in args:
-		ret += str(arg)
-	return ret
-
-
-almost_assembler = AlmostAssembler()
-
-
-to_print = "Banks wants to empty the banks,"
-to_print += " fill our streets with banks,"
-to_print += " and run a bank-making operation out of his banks."
-to_print += "\n"
-
-#for c in to_print:
-#	almost_assembler.enc_constu8(ord(c))
-#	almost_assembler.enc_disp_char_syscall()
-#
-#
-#almost_assembler.enc_constu16(5)
-#almost_assembler.enc_constu16(94)
-#almost_assembler.enc_add()
-#almost_assembler.enc_disp_uint_syscall()
-#
-#almost_assembler.enc_constu8(ord("\n"))
-#almost_assembler.enc_disp_char_syscall()
-#
-
-almost_assembler.enc_constu16(0x5999)
-almost_assembler.enc_constu32(0x15623)
-almost_assembler.enc_add()
-
-
-almost_assembler.enc_constu16(0x9002)
-almost_assembler.enc_consts8(-1)
-almost_assembler.enc_add()
+from helpers import Blank, sconcat, AlmostAssembler
 
 
 
-almost_assembler.enc_stx64i(0)
+
+asm = AlmostAssembler()
+
+def patch_in_null_terminated_str(paste_loc, to_paste):
+	for c in to_paste:
+		asm.patch_byte_raw(paste_loc, ord(c))
+		paste_loc += 1
+	asm.patch_byte_raw(paste_loc, 0)
 
 
-almost_assembler.enc_constu16(0x9001)
-almost_assembler.enc_ldx64i(0)
-almost_assembler.enc_disp_uint_syscall()
+def start_func():
+	return asm.pc()
 
 
-almost_assembler.enc_constu8(ord("\n"))
-almost_assembler.enc_disp_char_syscall()
 
 
-almost_assembler.enc_constu16(9001)
-almost_assembler.enc_exit_syscall()
+asm.enc_constu8(0)
+patch_loc = asm.enc_bfal(0)
+
+
+
+func_udiv = start_func()
+
+
+# argument 0
+asm.enc_consts8(-8)
+asm.enc_argx()
+asm.enc_ldx64i(0)
+
+# argument 1
+asm.enc_arg()
+asm.enc_ldx64i(0)
+
+
+# push(arg_0 udiv arg_1)
+asm.enc_udiv()
+
+# return val address
+asm.enc_consts8(-16)
+asm.enc_argx()
+
+# store to the return value
+asm.enc_stx64i(0)
+
+asm.enc_ret()
+
+
+
+
+
+
+
+
+#fill_our_streets = asm.paste_null_terminated_str \
+#	("Banks wants to empty the banks," + " fill our streets with banks,"
+#	+ " and run a bank-making operation out of his banks." + "\n")
+
+
+
+jump_loc = asm.EncodedInstrPcs(asm.pc(), 0, 0)
+
+#asm.enc_const64(fill_our_streets)
+#asm.enc_disp_str_syscall()
+
+
+asm.patch_relative_branch(patch_loc, jump_loc)
+
+
+
+
+
+# Allocate space for return value
+asm.enc_const64(8)
+asm.enc_add_to_sp()
+
+
+
+
+# arguments to the function
+# Compute 333 / 9
+asm.enc_const64(9)
+asm.enc_const64(333)
+
+
+asm.enc_const64(func_udiv)
+asm.enc_call()
+
+
+
+asm.enc_consts8(-16)
+asm.enc_add_to_sp()
+
+
+
+
+asm.enc_disp_uint_syscall()
+
+
+asm.enc_constu16(9001)
+asm.enc_exit_syscall()
+
+
+
+asm.finalize()

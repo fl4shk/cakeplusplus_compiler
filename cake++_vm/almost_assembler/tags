@@ -9,6 +9,11 @@ Add	helpers.py	/^		Add = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access
 AddToSp	helpers.py	/^		AddToSp = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
 Addi	helpers.py	/^		Addi = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
 AlmostAssembler	helpers.py	/^class AlmostAssembler:$/;"	kind:c	inherits:	access:public
+AlmostAssembler.EncodedInstrPcs	helpers.py	/^	class EncodedInstrPcs:$/;"	kind:c	class:AlmostAssembler	inherits:	access:public
+AlmostAssembler.EncodedInstrPcs.__init__	helpers.py	/^		def __init__(self, header_pc, arg_pc, num_arg_bytes):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self, header_pc, arg_pc, num_arg_bytes)
+AlmostAssembler.EncodedInstrPcs.arg_pc	helpers.py	/^		def arg_pc(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+AlmostAssembler.EncodedInstrPcs.header_pc	helpers.py	/^		def header_pc(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+AlmostAssembler.EncodedInstrPcs.num_arg_bytes	helpers.py	/^		def num_arg_bytes(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
 AlmostAssembler.InstrGrp0Oper	helpers.py	/^	class InstrGrp0Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
 AlmostAssembler.InstrGrp0Oper.Add	helpers.py	/^		Add = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
 AlmostAssembler.InstrGrp0Oper.And	helpers.py	/^		And = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
@@ -101,11 +106,12 @@ AlmostAssembler.__encode_grp_3_instr	helpers.py	/^	def __encode_grp_3_instr(self
 AlmostAssembler.__encode_grp_4_instr	helpers.py	/^	def __encode_grp_4_instr(self, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper)
 AlmostAssembler.__encode_instr_header	helpers.py	/^	def __encode_instr_header(self, group, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, group, oper)
 AlmostAssembler.__init__	helpers.py	/^	def __init__(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
-AlmostAssembler.__write_16_bit	helpers.py	/^	def __write_16_bit(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
-AlmostAssembler.__write_32_bit	helpers.py	/^	def __write_32_bit(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
-AlmostAssembler.__write_64_bit	helpers.py	/^	def __write_64_bit(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
-AlmostAssembler.__write_8_bit	helpers.py	/^	def __write_8_bit(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
-AlmostAssembler.__write_bytes	helpers.py	/^	def __write_bytes(self, some_list):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_list)
+AlmostAssembler.__write_next_byte	helpers.py	/^	def __write_next_byte(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+AlmostAssembler.__write_next_eight_bytes	helpers.py	/^	def __write_next_eight_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+AlmostAssembler.__write_next_four_bytes	helpers.py	/^	def __write_next_four_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+AlmostAssembler.__write_next_two_bytes	helpers.py	/^	def __write_next_two_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+AlmostAssembler.alloc	helpers.py	/^	def alloc(self, amount):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, amount)
+AlmostAssembler.alloc_for_null_terminated_str	helpers.py	/^	def alloc_for_null_terminated_str(self, to_alloc_for):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, to_alloc_for)
 AlmostAssembler.enc_add	helpers.py	/^	def enc_add(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
 AlmostAssembler.enc_add_to_sp	helpers.py	/^	def enc_add_to_sp(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
 AlmostAssembler.enc_addi	helpers.py	/^	def enc_addi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
@@ -185,6 +191,17 @@ AlmostAssembler.enc_var	helpers.py	/^	def enc_var(self):$/;"	kind:m	class:Almost
 AlmostAssembler.enc_varx	helpers.py	/^	def enc_varx(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
 AlmostAssembler.enc_xor	helpers.py	/^	def enc_xor(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
 AlmostAssembler.enc_xori	helpers.py	/^	def enc_xori(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.finalize	helpers.py	/^	def finalize(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.paste_null_terminated_str	helpers.py	/^	def paste_null_terminated_str(self, to_paste):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, to_paste)
+AlmostAssembler.patch_byte_raw	helpers.py	/^	def patch_byte_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+AlmostAssembler.patch_eight_bytes_raw	helpers.py	/^	def patch_eight_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+AlmostAssembler.patch_four_bytes_raw	helpers.py	/^	def patch_four_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+AlmostAssembler.patch_instr_arg_byte	helpers.py	/^	def patch_instr_arg_byte(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+AlmostAssembler.patch_instr_arg_eight_bytes	helpers.py	/^	def patch_instr_arg_eight_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+AlmostAssembler.patch_instr_arg_four_bytes	helpers.py	/^	def patch_instr_arg_four_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+AlmostAssembler.patch_instr_arg_two_bytes	helpers.py	/^	def patch_instr_arg_two_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+AlmostAssembler.patch_relative_branch	helpers.py	/^	def patch_relative_branch(self, patch_loc, jump_loc):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, patch_loc, jump_loc)
+AlmostAssembler.patch_two_bytes_raw	helpers.py	/^	def patch_two_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
 AlmostAssembler.pc	helpers.py	/^	def pc(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
 And	helpers.py	/^		And = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
 Andi	helpers.py	/^		Andi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
@@ -193,6 +210,8 @@ Argx	helpers.py	/^		Argx = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	acce
 Asr	helpers.py	/^		Asr = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
 Asri	helpers.py	/^		Asri = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
 Bfal	helpers.py	/^		Bfal = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Blank	helpers.py	/^class Blank:$/;"	kind:c	inherits:	access:public
+Blank.__init__	helpers.py	/^	def __init__(self):$/;"	kind:m	class:Blank	access:public	signature:(self)
 Btru	helpers.py	/^		Btru = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
 Call	helpers.py	/^		Call = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
 Const64	helpers.py	/^		Const64 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
@@ -206,6 +225,7 @@ DispChar	helpers.py	/^		DispChar = 0$/;"	kind:v	class:AlmostAssembler.SystemCall
 DispSInt	helpers.py	/^		DispSInt = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
 DispStr	helpers.py	/^		DispStr = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
 DispUInt	helpers.py	/^		DispUInt = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+EncodedInstrPcs	helpers.py	/^	class EncodedInstrPcs:$/;"	kind:c	class:AlmostAssembler	inherits:	access:public
 Exit	helpers.py	/^		Exit = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
 GetPc	helpers.py	/^		GetPc = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp3Oper	access:public
 InstrGrp0Oper	helpers.py	/^	class InstrGrp0Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
@@ -274,13 +294,17 @@ __encode_grp_2_instr	helpers.py	/^	def __encode_grp_2_instr(self, oper, immediat
 __encode_grp_3_instr	helpers.py	/^	def __encode_grp_3_instr(self, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper)
 __encode_grp_4_instr	helpers.py	/^	def __encode_grp_4_instr(self, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper)
 __encode_instr_header	helpers.py	/^	def __encode_instr_header(self, group, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, group, oper)
+__init__	helpers.py	/^		def __init__(self, header_pc, arg_pc, num_arg_bytes):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self, header_pc, arg_pc, num_arg_bytes)
 __init__	helpers.py	/^	def __init__(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
-__write_16_bit	helpers.py	/^	def __write_16_bit(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
-__write_32_bit	helpers.py	/^	def __write_32_bit(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
-__write_64_bit	helpers.py	/^	def __write_64_bit(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
-__write_8_bit	helpers.py	/^	def __write_8_bit(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
-__write_bytes	helpers.py	/^	def __write_bytes(self, some_list):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_list)
-almost_assembler	almost_assembler.py	/^almost_assembler = AlmostAssembler()$/;"	kind:v	access:public
+__init__	helpers.py	/^	def __init__(self):$/;"	kind:m	class:Blank	access:public	signature:(self)
+__write_next_byte	helpers.py	/^	def __write_next_byte(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+__write_next_eight_bytes	helpers.py	/^	def __write_next_eight_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+__write_next_four_bytes	helpers.py	/^	def __write_next_four_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+__write_next_two_bytes	helpers.py	/^	def __write_next_two_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+alloc	helpers.py	/^	def alloc(self, amount):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, amount)
+alloc_for_null_terminated_str	helpers.py	/^	def alloc_for_null_terminated_str(self, to_alloc_for):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, to_alloc_for)
+arg_pc	helpers.py	/^		def arg_pc(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+asm	almost_assembler.py	/^asm = AlmostAssembler()$/;"	kind:v	access:public
 enc_add	helpers.py	/^	def enc_add(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
 enc_add_to_sp	helpers.py	/^	def enc_add_to_sp(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
 enc_addi	helpers.py	/^	def enc_addi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
@@ -360,6 +384,23 @@ enc_var	helpers.py	/^	def enc_var(self):$/;"	kind:m	class:AlmostAssembler	access
 enc_varx	helpers.py	/^	def enc_varx(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
 enc_xor	helpers.py	/^	def enc_xor(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
 enc_xori	helpers.py	/^	def enc_xori(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+finalize	helpers.py	/^	def finalize(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+func_add	almost_assembler.py	/^func_add = start_func()$/;"	kind:v	access:public
+header_pc	helpers.py	/^		def header_pc(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+jump_loc	almost_assembler.py	/^jump_loc = asm.EncodedInstrPcs(asm.pc(), 0, 0)$/;"	kind:v	access:public
+num_arg_bytes	helpers.py	/^		def num_arg_bytes(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+paste_null_terminated_str	helpers.py	/^	def paste_null_terminated_str(self, to_paste):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, to_paste)
+patch_byte_raw	helpers.py	/^	def patch_byte_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+patch_eight_bytes_raw	helpers.py	/^	def patch_eight_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+patch_four_bytes_raw	helpers.py	/^	def patch_four_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+patch_in_null_terminated_str	almost_assembler.py	/^def patch_in_null_terminated_str(paste_loc, to_paste):$/;"	kind:f	access:public	signature:(paste_loc, to_paste)
+patch_instr_arg_byte	helpers.py	/^	def patch_instr_arg_byte(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+patch_instr_arg_eight_bytes	helpers.py	/^	def patch_instr_arg_eight_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+patch_instr_arg_four_bytes	helpers.py	/^	def patch_instr_arg_four_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+patch_instr_arg_two_bytes	helpers.py	/^	def patch_instr_arg_two_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+patch_loc	almost_assembler.py	/^patch_loc = asm.enc_bfal(0)$/;"	kind:v	access:public
+patch_relative_branch	helpers.py	/^	def patch_relative_branch(self, patch_loc, jump_loc):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, patch_loc, jump_loc)
+patch_two_bytes_raw	helpers.py	/^	def patch_two_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
 pc	helpers.py	/^	def pc(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
-sconcat	almost_assembler.py	/^def sconcat(*args):$/;"	kind:f	access:public	signature:(*args)
-to_print	almost_assembler.py	/^to_print = "Banks wants to empty the banks,"$/;"	kind:v	access:public
+sconcat	helpers.py	/^def sconcat(*args):$/;"	kind:f	access:public	signature:(*args)
+start_func	almost_assembler.py	/^def start_func():$/;"	kind:f	access:public	signature:()

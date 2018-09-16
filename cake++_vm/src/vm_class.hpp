@@ -318,15 +318,23 @@ private:		// functions
 
 	inline u64 pop()
 	{
-		__sp += sizeof(u64);
+		if (__sp < 8)
+		{
+			err("pop():  Stack pointer out of valid range!");
+		}
+		__sp -= sizeof(u64);
 		const u64 ret = get_mem64_at(__sp);
 
 		return ret;
 	}
 	inline void push(u64 to_push)
 	{
+		if ((__sp + sizeof(u64)) >= mem_amount())
+		{
+			err("push():  Stack pointer out of range!");
+		}
 		set_mem64_at(__sp, to_push);
-		__sp -= sizeof(u64);
+		__sp += sizeof(u64);
 	}
 
 	void handle_instr_from_group_0(u8 oper, u64 extended_arg);
