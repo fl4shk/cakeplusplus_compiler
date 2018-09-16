@@ -209,18 +209,18 @@ class AlmostAssembler:
 		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Lsr)
 	def enc_asr(self):
 		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Asr)
-	def enc_ldux8(self):
-		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldux8)
-	def enc_ldsx8(self):
-		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldsx8)
-	def enc_ldux16(self):
-		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldux16)
-	def enc_ldsx16(self):
-		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldsx16)
-	def enc_ldux32(self):
-		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldux32)
-	def enc_ldsx32(self):
-		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldsx32)
+	def enc_ldxu8(self):
+		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldxu8)
+	def enc_ldxs8(self):
+		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldxs8)
+	def enc_ldxu16(self):
+		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldxu16)
+	def enc_ldxs16(self):
+		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldxs16)
+	def enc_ldxu32(self):
+		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldxu32)
+	def enc_ldxs32(self):
+		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldxs32)
 	def enc_ldx64(self):
 		return self.__encode_grp_0_instr(self.InstrGrp0Oper.Ldx64)
 	def enc_stx8(self):
@@ -268,21 +268,21 @@ class AlmostAssembler:
 		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Lsri, simm16)
 	def enc_asri(self, simm16):
 		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Asri, simm16)
-	def enc_ldux8i(self, simm16):
-		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldux8i, simm16)
-	def enc_ldsx8i(self, simm16):
-		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldsx8i, simm16)
-	def enc_ldux16i(self, simm16):
-		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldux16i,
+	def enc_ldxu8i(self, simm16):
+		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldxu8i, simm16)
+	def enc_ldxs8i(self, simm16):
+		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldxs8i, simm16)
+	def enc_ldxu16i(self, simm16):
+		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldxu16i,
 			simm16)
-	def enc_ldsx16i(self, simm16):
-		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldsx16i,
+	def enc_ldxs16i(self, simm16):
+		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldxs16i,
 			simm16)
-	def enc_ldux32i(self, simm16):
-		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldux32i,
+	def enc_ldxu32i(self, simm16):
+		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldxu32i,
 			simm16)
-	def enc_ldsx32i(self, simm16):
-		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldsx32i,
+	def enc_ldxs32i(self, simm16):
+		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldxs32i,
 			simm16)
 	def enc_ldx64i(self, simm16):
 		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Ldx64i, simm16)
@@ -296,10 +296,16 @@ class AlmostAssembler:
 		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Stx64i, simm16)
 	def enc_jmpxi(self, simm16):
 		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Jmpxi, simm16)
-	def enc_bfal(self, simm16):
+	def enc_raw_bfal(self, simm16):
 		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Bfal, simm16)
-	def enc_btru(self, simm16):
+	def enc_raw_btru(self, simm16):
 		return self.__encode_grp_1_instr(self.InstrGrp1Oper.Btru, simm16)
+
+	def enc_backwards_bfal(self, simm16):
+		return self.enc_raw_bfal(simm16 - self.pc() - 4)
+	def enc_backwards_btru(self, simm16):
+		return self.enc_raw_btru(simm16 - self.pc() - 4)
+
 	#def enc_bfal(self, simm16):
 	#	return self.__encode_grp_1_instr(self.InstrGrp1Oper.Bfal,
 	#		(self.pc() - simm16))
@@ -389,12 +395,12 @@ class AlmostAssembler:
 		Lsl = auto()
 		Lsr = auto()
 		Asr = auto()
-		Ldux8 = auto()
-		Ldsx8 = auto()
-		Ldux16 = auto()
-		Ldsx16 = auto()
-		Ldux32 = auto()
-		Ldsx32 = auto()
+		Ldxu8 = auto()
+		Ldxs8 = auto()
+		Ldxu16 = auto()
+		Ldxs16 = auto()
+		Ldxu32 = auto()
+		Ldxs32 = auto()
 		Ldx64 = auto()
 		Stx8 = auto()
 		Stx16 = auto()
@@ -419,12 +425,12 @@ class AlmostAssembler:
 		Lsli = auto()
 		Lsri = auto()
 		Asri = auto()
-		Ldux8i = auto()
-		Ldsx8i = auto()
-		Ldux16i = auto()
-		Ldsx16i = auto()
-		Ldux32i = auto()
-		Ldsx32i = auto()
+		Ldxu8i = auto()
+		Ldxs8i = auto()
+		Ldxu16i = auto()
+		Ldxs16i = auto()
+		Ldxu32i = auto()
+		Ldxs32i = auto()
 		Ldx64i = auto()
 		Stx8i = auto()
 		Stx16i = auto()

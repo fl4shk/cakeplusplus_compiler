@@ -177,7 +177,7 @@ Non-immediate-indexed loads and stores, non-immediate-indexed jumps
 <li>Effect:  <code><b>push</b>(<b>pop</b>() asr <b>pop</b>());</code></li>
 </ul>
 </li>
-<li><b>ldux8</b>
+<li><b>ldxu8</b>
 
 <ul>
 <li>Opcode:  <code>0x0d</code></li>
@@ -185,7 +185,7 @@ Non-immediate-indexed loads and stores, non-immediate-indexed jumps
 + <b>pop</b>()]));</code></li>
 </ul>
 </li>
-<li><b>ldsx8</b>
+<li><b>ldxs8</b>
 
 <ul>
 <li>Opcode:  <code>0x0e</code></li>
@@ -193,7 +193,7 @@ Non-immediate-indexed loads and stores, non-immediate-indexed jumps
 + <b>pop</b>()]));</code></li>
 </ul>
 </li>
-<li><b>ldux16</b>
+<li><b>ldxu16</b>
 
 <ul>
 <li>Opcode:  <code>0x0f</code></li>
@@ -201,7 +201,7 @@ Non-immediate-indexed loads and stores, non-immediate-indexed jumps
 + <b>pop</b>()]));</code></li>
 </ul>
 </li>
-<li><b>ldsx16</b>
+<li><b>ldxs16</b>
 
 <ul>
 <li>Opcode:  <code>0x10</code></li>
@@ -209,7 +209,7 @@ Non-immediate-indexed loads and stores, non-immediate-indexed jumps
 + <b>pop</b>()]));</code></li>
 </ul>
 </li>
-<li><b>ldux32</b>
+<li><b>ldxu32</b>
 
 <ul>
 <li>Opcode:  <code>0x11</code></li>
@@ -217,7 +217,7 @@ Non-immediate-indexed loads and stores, non-immediate-indexed jumps
 + <b>pop</b>()]));</code></li>
 </ul>
 </li>
-<li><b>ldsx32</b>
+<li><b>ldxs32</b>
 
 <ul>
 <li>Opcode:  <code>0x12</code></li>
@@ -427,7 +427,7 @@ lsr <b>sign_extend_to_64</b>(simm16));</code></li>
 asr <b>sign_extend_to_64</b>(simm16));</code></li>
 </ul>
 </li>
-<li><b>ldux8i simm16</b>
+<li><b>ldxu8i simm16</b>
 
 <ul>
 <li>Opcode:  <code>0x0d</code></li>
@@ -435,7 +435,7 @@ asr <b>sign_extend_to_64</b>(simm16));</code></li>
 <li><b>sign_extend_to_64</b>(simm16)]));</code></li>
 </ul>
 </li>
-<li><b>ldsx8i simm16</b>
+<li><b>ldxs8i simm16</b>
 
 <ul>
 <li>Opcode:  <code>0x0e</code></li>
@@ -443,7 +443,7 @@ asr <b>sign_extend_to_64</b>(simm16));</code></li>
 <li><b>sign_extend_to_64</b>(simm16)]));</code></li>
 </ul>
 </li>
-<li><b>ldux16i simm16</b>
+<li><b>ldxu16i simm16</b>
 
 <ul>
 <li>Opcode:  <code>0x0f</code></li>
@@ -451,7 +451,7 @@ asr <b>sign_extend_to_64</b>(simm16));</code></li>
 <li><b>sign_extend_to_64</b>(simm16)]));</code></li>
 </ul>
 </li>
-<li><b>ldsx16 simm16</b>
+<li><b>ldxs16 simm16</b>
 
 <ul>
 <li>Opcode:  <code>0x10</code></li>
@@ -459,7 +459,7 @@ asr <b>sign_extend_to_64</b>(simm16));</code></li>
 <li><b>pop</b>()]));</code></li>
 </ul>
 </li>
-<li><b>ldux32i simm16</b>
+<li><b>ldxu32i simm16</b>
 
 <ul>
 <li>Opcode:  <code>0x11</code></li>
@@ -467,7 +467,7 @@ asr <b>sign_extend_to_64</b>(simm16));</code></li>
 <li><b>sign_extend_to_64</b>(simm16)]));</code></li>
 </ul>
 </li>
-<li><b>ldsx32i simm16</b>
+<li><b>ldxs32i simm16</b>
 
 <ul>
 <li>Opcode:  <code>0x12</code></li>

@@ -86,27 +86,27 @@
 				* Opcode:  <code>0x0c</code>
 				* Note:  arithmetic shift right
 				* Effect:  <code><b>push</b>(<b>pop</b>() asr <b>pop</b>());</code>
-			* <b>ldux8</b>
+			* <b>ldxu8</b>
 				* Opcode:  <code>0x0d</code>
 				* Effect:  <code><b>push</b>(<b>zero\_extend\_to\_64</b>(<b>mem8</b>[<b>pop</b>()
 				\+ <b>pop</b>()]));</code>
-			* <b>ldsx8</b>
+			* <b>ldxs8</b>
 				* Opcode:  <code>0x0e</code>
 				* Effect:  <code><b>push</b>(<b>sign\_extend\_to\_64</b>(<b>mem8</b>[<b>pop</b>()
 				\+ <b>pop</b>()]));</code>
-			* <b>ldux16</b>
+			* <b>ldxu16</b>
 				* Opcode:  <code>0x0f</code>
 				* Effect:  <code><b>push</b>(<b>zero\_extend\_to\_64</b>(<b>mem16</b>[<b>pop</b>()
 				\+ <b>pop</b>()]));</code>
-			* <b>ldsx16</b>
+			* <b>ldxs16</b>
 				* Opcode:  <code>0x10</code>
 				* Effect:  <code><b>push</b>(<b>sign\_extend\_to\_64</b>(<b>mem16</b>[<b>pop</b>()
 				\+ <b>pop</b>()]));</code>
-			* <b>ldux32</b>
+			* <b>ldxu32</b>
 				* Opcode:  <code>0x11</code>
 				* Effect:  <code><b>push</b>(<b>zero\_extend\_to\_64</b>(<b>mem32</b>[<b>pop</b>()
 				\+ <b>pop</b>()]));</code>
-			* <b>ldsx32</b>
+			* <b>ldxs32</b>
 				* Opcode:  <code>0x12</code>
 				* Effect:  <code><b>push</b>(<b>sign\_extend\_to\_64</b>(<b>mem32</b>[<b>pop</b>()
 				\+ <b>pop</b>()]));</code>
@@ -208,27 +208,27 @@
 				* Note:  arithmetic shift right
 				* Effect:  <code><b>push</b>(<b>pop</b>()
 				asr <b>sign\_extend\_to\_64</b>(simm16));</code>
-			* <b>ldux8i simm16</b>
+			* <b>ldxu8i simm16</b>
 				* Opcode:  <code>0x0d</code>
 				* Effect:  <code><b>push</b>(<b>zero\_extend\_to\_64</b>(<b>mem8</b>[<b>pop</b>()
 				+ <b>sign\_extend\_to\_64</b>(simm16)]));</code>
-			* <b>ldsx8i simm16</b>
+			* <b>ldxs8i simm16</b>
 				* Opcode:  <code>0x0e</code>
 				* Effect:  <code><b>push</b>(<b>sign\_extend\_to\_64</b>(<b>mem8</b>[<b>pop</b>()
 				+ <b>sign\_extend\_to\_64</b>(simm16)]));</code>
-			* <b>ldux16i simm16</b>
+			* <b>ldxu16i simm16</b>
 				* Opcode:  <code>0x0f</code>
 				* Effect:  <code><b>push</b>(<b>zero\_extend\_to\_64</b>(<b>mem16</b>[<b>pop</b>()
 				+ <b>sign\_extend\_to\_64</b>(simm16)]));</code>
-			* <b>ldsx16 simm16</b>
+			* <b>ldxs16 simm16</b>
 				* Opcode:  <code>0x10</code>
 				* Effect:  <code><b>push</b>(<b>sign\_extend\_to\_64</b>(<b>mem16</b>[<b>pop</b>()
 				+ <b>pop</b>()]));</code>
-			* <b>ldux32i simm16</b>
+			* <b>ldxu32i simm16</b>
 				* Opcode:  <code>0x11</code>
 				* Effect:  <code><b>push</b>(<b>zero\_extend\_to\_64</b>(<b>mem32</b>[<b>pop</b>()
 				+ <b>sign\_extend\_to\_64</b>(simm16)]));</code>
-			* <b>ldsx32i simm16</b>
+			* <b>ldxs32i simm16</b>
 				* Opcode:  <code>0x12</code>
 				* Effect:  <code><b>push</b>(<b>sign\_extend\_to\_64</b>(<b>mem32</b>[<b>pop</b>()
 				+ <b>sign\_extend\_to\_64</b>(simm16)]));</code>

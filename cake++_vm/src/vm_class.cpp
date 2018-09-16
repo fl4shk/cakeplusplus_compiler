@@ -128,7 +128,7 @@ bool Vm::InstrHeader::valid() const
 				(Vm::InstrGrp4Oper::Invalid));
 
 		default:
-			//printout("The worst of the eeks!\n");
+			printout("The worst of the eeks!\n");
 			return false;
 	}
 }
