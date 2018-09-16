@@ -93,3 +93,5 @@ cake++_compiler/*.json.ignore
 cake++_vm/input.bin
 cake++_vm/almost_assembler/input.bin
 *.pyc
+cake++_vm/almost_assembler/tags
+cake++_vm/almost_assembler/types*.taghl
