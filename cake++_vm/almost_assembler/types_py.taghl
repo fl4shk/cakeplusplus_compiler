@@ -1,0 +1,12 @@
+syn keyword CTagsMember enc_ldux16 enc_ldsx32 enc_jtru enc_muli enc_lsri enc_ldux16i enc_constu32 enc_ldx64i enc_consts16 enc_disp_str_syscall enc_stx8i enc_sslt enc_disp_sint_syscall enc_bfal enc_get_pc enc_asri enc_smodi enc_uslt pc enc_stx16 enc_add_to_sp enc_const64 enc_syscall enc_disp_char_syscall enc_call enc_sdivi enc_udiv enc_argx enc_consts32 enc_umodi enc_xor enc_ldsx16i enc_subi
+syn keyword CTagsMember enc_ret enc_stx32 enc_ldux8i enc_ldx64 enc_xori enc_smod enc_consts8 enc_udivi enc_and enc_uslti enc_jmpxi enc_exit_syscall enc_varx __init__ enc_or enc_constu8 enc_jfal enc_sslti enc_ori enc_ldux32i enc_arg enc_sub enc_constu16 enc_add enc_andi enc_stx64 enc_mul enc_lsr enc_ldsx8 enc_ldsx16 enc_ldux8 enc_var enc_stx8 enc_ldux32 enc_ldsx8i enc_sdiv enc_lsl enc_lsli enc_jmpx enc_asr enc_ldsx32i enc_umod enc_stx32i enc_stx64i enc_addi enc_stx16i enc_disp_uint_syscall enc_btru
+syn keyword CTagsGlobalVariable Sdiv Ldux8i Argx Or
+syn keyword CTagsGlobalVariable Constu16 DispSInt Subi Ldsx32 Xor Stx32 AddToSp Lsr Stx32i Stx64 Sdivi Ldux32 Ldsx8i Ori Sslti Arg And Bfal Consts16 Exit Consts32 Smod Sslt Ret Stx64i Ldux16 Ldux16i Ldx64i Udivi Uslt Constu32 Smodi almost_assembler Jmpx DispUInt Jmpxi Ldsx32i Syscall Umodi Stx8i Ldsx16 Sub Add Constu8 Consts8 Andi Lsli Asr Btru Jfal Udiv Stx16 Call Varx Addi Ldx64 Jtru Stx8 Xori to_print Umod DispStr Asri Lsl GetPc Ldux8 DispChar Stx16i Mul Ldux32i Lsri Ldsx8 Uslti Const64 Muli Var Ldsx16i
+syn keyword CTagsFunction sconcat
+syn keyword CTagsClass AlmostAssembler InstrGrp0Oper InstrGrp2Oper InstrGrp4Oper InstrGrp1Oper SystemCall InstrGrp3Oper
+
+" Matches for file helpers.py:
+if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "helpers.py") || TagHighlight#Option#GetOption("IgnoreFileScope")
+	syn keyword CTagsMember __write_32_bit __encode_grp_4_instr __write_64_bit __write_8_bit __write_16_bit __encode_grp_0_instr __encode_instr_header __encode_grp_1_instr __encode_grp_3_instr __write_bytes __encode_grp_2_instr
+	
+endif

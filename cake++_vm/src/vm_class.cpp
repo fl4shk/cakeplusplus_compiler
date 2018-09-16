@@ -728,8 +728,25 @@ void Vm::exec_syscall(SystemCall system_call)
 			printout(static_cast<char>(pop()));
 			break;
 
-		// Temporary!
 		case SystemCall::DispStr:
+			{
+				Address address = pop();
+				std::string to_print;
+
+				char c = 1;
+				while (c != '\0')
+				{
+					c = get_raw_mem8_at(address);
+					++address;
+
+					if (c != '\0')
+					{
+						to_print += c;
+					}
+				}
+
+				printout(to_print);
+			}
 			break;
 
 		case SystemCall::DispUInt:
