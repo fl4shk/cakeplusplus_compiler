@@ -92,3 +92,4 @@ cake++_compiler/*.json.ignore
 *.pdf
 cake++_vm/input.bin
 cake++_vm/almost_assembler/input.bin
+*.pyc
