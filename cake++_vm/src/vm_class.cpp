@@ -399,7 +399,11 @@ void Vm::handle_instr_from_group_0(u8 oper, u64 extended_arg)
 		case static_cast<u8>(InstrGrp0Oper::Lsl):
 		case static_cast<u8>(InstrGrp0Oper::Lsr):
 		case static_cast<u8>(InstrGrp0Oper::Asr):
-			exec_arithlog_instr(arith_log_oper, pop(), pop());
+			{
+				const auto temp_0 = pop();
+				const auto temp_1 = pop();
+				exec_arithlog_instr(arith_log_oper, temp_0, temp_1);
+			}
 			break;
 
 		case static_cast<u8>(InstrGrp0Oper::Ldux8):
@@ -409,18 +413,31 @@ void Vm::handle_instr_from_group_0(u8 oper, u64 extended_arg)
 		case static_cast<u8>(InstrGrp0Oper::Ldux32):
 		case static_cast<u8>(InstrGrp0Oper::Ldsx32):
 		case static_cast<u8>(InstrGrp0Oper::Ldx64):
-			exec_load_instr(load_type, (pop() + pop()));
+			{
+				const auto temp_0 = pop();
+				const auto temp_1 = pop();
+				exec_load_instr(load_type, (temp_0 + temp_1));
+			}
 			break;
 
 		case static_cast<u8>(InstrGrp0Oper::Stx8):
 		case static_cast<u8>(InstrGrp0Oper::Stx16):
 		case static_cast<u8>(InstrGrp0Oper::Stx32):
 		case static_cast<u8>(InstrGrp0Oper::Stx64):
-			exec_store_instr(store_type, (pop() + pop()), pop());
+			{
+				const auto temp_0 = pop();
+				const auto temp_1 = pop();
+				const auto temp_2 = pop();
+				exec_store_instr(store_type, (temp_0 + temp_1), temp_2);
+			}
 			break;
 
 		case static_cast<u8>(InstrGrp0Oper::Jmpx):
-			__pc = pop() + pop();
+			{
+				const auto temp_0 = pop();
+				const auto temp_1 = pop();
+				__pc = temp_0 + temp_1;
+			}
 			break;
 		case static_cast<u8>(InstrGrp0Oper::Jfal):
 			{
@@ -489,7 +506,11 @@ void Vm::handle_instr_from_group_1(u8 oper, u64 extended_arg)
 		case static_cast<u8>(InstrGrp1Oper::Stx16i):
 		case static_cast<u8>(InstrGrp1Oper::Stx32i):
 		case static_cast<u8>(InstrGrp1Oper::Stx64i):
-			exec_store_instr(store_type, (pop() + extended_arg), pop());
+			{
+				const Address address = pop() + extended_arg;
+				const auto data = pop();
+				exec_store_instr(store_type, address, data);
+			}
 			break;
 
 		case static_cast<u8>(InstrGrp1Oper::Jmpxi):
