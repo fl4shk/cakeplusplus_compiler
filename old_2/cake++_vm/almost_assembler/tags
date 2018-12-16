@@ -1,0 +1,414 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/249c3c0/
+Add	almost_assembler.py	/^		Add = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AddToSp	almost_assembler.py	/^		AddToSp = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+Addi	almost_assembler.py	/^		Addi = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler	almost_assembler.py	/^class AlmostAssembler:$/;"	kind:c	inherits:	access:public
+AlmostAssembler.EncodedInstrPcs	almost_assembler.py	/^	class EncodedInstrPcs:$/;"	kind:c	class:AlmostAssembler	inherits:	access:public
+AlmostAssembler.EncodedInstrPcs.__init__	almost_assembler.py	/^		def __init__(self, header_pc, arg_pc, num_arg_bytes):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self, header_pc, arg_pc, num_arg_bytes)
+AlmostAssembler.EncodedInstrPcs.arg_pc	almost_assembler.py	/^		def arg_pc(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+AlmostAssembler.EncodedInstrPcs.header_pc	almost_assembler.py	/^		def header_pc(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+AlmostAssembler.EncodedInstrPcs.num_arg_bytes	almost_assembler.py	/^		def num_arg_bytes(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+AlmostAssembler.InstrGrp0Oper	almost_assembler.py	/^	class InstrGrp0Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+AlmostAssembler.InstrGrp0Oper.Add	almost_assembler.py	/^		Add = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.And	almost_assembler.py	/^		And = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Asr	almost_assembler.py	/^		Asr = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Jfal	almost_assembler.py	/^		Jfal = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Jmpx	almost_assembler.py	/^		Jmpx = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Jtru	almost_assembler.py	/^		Jtru = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Ldx64	almost_assembler.py	/^		Ldx64 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Ldxs16	almost_assembler.py	/^		Ldxs16 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Ldxs32	almost_assembler.py	/^		Ldxs32 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Ldxs8	almost_assembler.py	/^		Ldxs8 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Ldxu16	almost_assembler.py	/^		Ldxu16 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Ldxu32	almost_assembler.py	/^		Ldxu32 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Ldxu8	almost_assembler.py	/^		Ldxu8 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Lsl	almost_assembler.py	/^		Lsl = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Lsr	almost_assembler.py	/^		Lsr = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Mul	almost_assembler.py	/^		Mul = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Or	almost_assembler.py	/^		Or = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Sdiv	almost_assembler.py	/^		Sdiv = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Smod	almost_assembler.py	/^		Smod = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Sslt	almost_assembler.py	/^		Sslt = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Stx16	almost_assembler.py	/^		Stx16 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Stx32	almost_assembler.py	/^		Stx32 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Stx64	almost_assembler.py	/^		Stx64 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Stx8	almost_assembler.py	/^		Stx8 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Sub	almost_assembler.py	/^		Sub = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Udiv	almost_assembler.py	/^		Udiv = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Umod	almost_assembler.py	/^		Umod = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Uslt	almost_assembler.py	/^		Uslt = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp0Oper.Xor	almost_assembler.py	/^		Xor = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+AlmostAssembler.InstrGrp1Oper	almost_assembler.py	/^	class InstrGrp1Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+AlmostAssembler.InstrGrp1Oper.Addi	almost_assembler.py	/^		Addi = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Andi	almost_assembler.py	/^		Andi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Asri	almost_assembler.py	/^		Asri = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Bfal	almost_assembler.py	/^		Bfal = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Btru	almost_assembler.py	/^		Btru = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Jmpxi	almost_assembler.py	/^		Jmpxi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Ldx64i	almost_assembler.py	/^		Ldx64i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Ldxs16i	almost_assembler.py	/^		Ldxs16i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Ldxs32i	almost_assembler.py	/^		Ldxs32i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Ldxs8i	almost_assembler.py	/^		Ldxs8i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Ldxu16i	almost_assembler.py	/^		Ldxu16i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Ldxu32i	almost_assembler.py	/^		Ldxu32i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Ldxu8i	almost_assembler.py	/^		Ldxu8i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Lsli	almost_assembler.py	/^		Lsli = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Lsri	almost_assembler.py	/^		Lsri = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Muli	almost_assembler.py	/^		Muli = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Ori	almost_assembler.py	/^		Ori = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Sdivi	almost_assembler.py	/^		Sdivi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Smodi	almost_assembler.py	/^		Smodi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Sslti	almost_assembler.py	/^		Sslti = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Stx16i	almost_assembler.py	/^		Stx16i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Stx32i	almost_assembler.py	/^		Stx32i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Stx64i	almost_assembler.py	/^		Stx64i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Stx8i	almost_assembler.py	/^		Stx8i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Subi	almost_assembler.py	/^		Subi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Udivi	almost_assembler.py	/^		Udivi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Umodi	almost_assembler.py	/^		Umodi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Uslti	almost_assembler.py	/^		Uslti = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp1Oper.Xori	almost_assembler.py	/^		Xori = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+AlmostAssembler.InstrGrp2Oper	almost_assembler.py	/^	class InstrGrp2Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+AlmostAssembler.InstrGrp2Oper.Const64	almost_assembler.py	/^		Const64 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+AlmostAssembler.InstrGrp2Oper.Consts16	almost_assembler.py	/^		Consts16 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+AlmostAssembler.InstrGrp2Oper.Consts32	almost_assembler.py	/^		Consts32 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+AlmostAssembler.InstrGrp2Oper.Consts8	almost_assembler.py	/^		Consts8 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+AlmostAssembler.InstrGrp2Oper.Constu16	almost_assembler.py	/^		Constu16 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+AlmostAssembler.InstrGrp2Oper.Constu32	almost_assembler.py	/^		Constu32 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+AlmostAssembler.InstrGrp2Oper.Constu8	almost_assembler.py	/^		Constu8 = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+AlmostAssembler.InstrGrp3Oper	almost_assembler.py	/^	class InstrGrp3Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+AlmostAssembler.InstrGrp3Oper.Arg	almost_assembler.py	/^		Arg = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp3Oper	access:public
+AlmostAssembler.InstrGrp3Oper.GetPc	almost_assembler.py	/^		GetPc = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp3Oper	access:public
+AlmostAssembler.InstrGrp3Oper.Var	almost_assembler.py	/^		Var = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp3Oper	access:public
+AlmostAssembler.InstrGrp4Oper	almost_assembler.py	/^	class InstrGrp4Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+AlmostAssembler.InstrGrp4Oper.AddToSp	almost_assembler.py	/^		AddToSp = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+AlmostAssembler.InstrGrp4Oper.Argx	almost_assembler.py	/^		Argx = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+AlmostAssembler.InstrGrp4Oper.Call	almost_assembler.py	/^		Call = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+AlmostAssembler.InstrGrp4Oper.Ret	almost_assembler.py	/^		Ret = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+AlmostAssembler.InstrGrp4Oper.Syscall	almost_assembler.py	/^		Syscall = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+AlmostAssembler.InstrGrp4Oper.Varx	almost_assembler.py	/^		Varx = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+AlmostAssembler.SystemCall	almost_assembler.py	/^	class SystemCall(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+AlmostAssembler.SystemCall.DispChar	almost_assembler.py	/^		DispChar = 0$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+AlmostAssembler.SystemCall.DispSInt	almost_assembler.py	/^		DispSInt = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+AlmostAssembler.SystemCall.DispStr	almost_assembler.py	/^		DispStr = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+AlmostAssembler.SystemCall.DispUInt	almost_assembler.py	/^		DispUInt = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+AlmostAssembler.SystemCall.Exit	almost_assembler.py	/^		Exit = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+AlmostAssembler.__encode_grp_0_instr	almost_assembler.py	/^	def __encode_grp_0_instr(self, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper)
+AlmostAssembler.__encode_grp_1_instr	almost_assembler.py	/^	def __encode_grp_1_instr(self, oper, simm16):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper, simm16)
+AlmostAssembler.__encode_grp_2_instr	almost_assembler.py	/^	def __encode_grp_2_instr(self, oper, immediate):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper, immediate)
+AlmostAssembler.__encode_grp_3_instr	almost_assembler.py	/^	def __encode_grp_3_instr(self, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper)
+AlmostAssembler.__encode_grp_4_instr	almost_assembler.py	/^	def __encode_grp_4_instr(self, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper)
+AlmostAssembler.__encode_instr_header	almost_assembler.py	/^	def __encode_instr_header(self, group, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, group, oper)
+AlmostAssembler.__init__	almost_assembler.py	/^	def __init__(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.__write_next_byte	almost_assembler.py	/^	def __write_next_byte(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+AlmostAssembler.__write_next_eight_bytes	almost_assembler.py	/^	def __write_next_eight_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+AlmostAssembler.__write_next_four_bytes	almost_assembler.py	/^	def __write_next_four_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+AlmostAssembler.__write_next_two_bytes	almost_assembler.py	/^	def __write_next_two_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+AlmostAssembler.alloc	almost_assembler.py	/^	def alloc(self, amount):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, amount)
+AlmostAssembler.alloc_for_null_terminated_str	almost_assembler.py	/^	def alloc_for_null_terminated_str(self, to_alloc_for):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, to_alloc_for)
+AlmostAssembler.enc_add	almost_assembler.py	/^	def enc_add(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_add_to_sp	almost_assembler.py	/^	def enc_add_to_sp(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_addi	almost_assembler.py	/^	def enc_addi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_and	almost_assembler.py	/^	def enc_and(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_andi	almost_assembler.py	/^	def enc_andi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_arg	almost_assembler.py	/^	def enc_arg(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_argx	almost_assembler.py	/^	def enc_argx(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_asr	almost_assembler.py	/^	def enc_asr(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_asri	almost_assembler.py	/^	def enc_asri(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_backwards_bfal	almost_assembler.py	/^	def enc_backwards_bfal(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_backwards_btru	almost_assembler.py	/^	def enc_backwards_btru(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_call	almost_assembler.py	/^	def enc_call(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_const64	almost_assembler.py	/^	def enc_const64(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+AlmostAssembler.enc_consts16	almost_assembler.py	/^	def enc_consts16(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+AlmostAssembler.enc_consts32	almost_assembler.py	/^	def enc_consts32(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+AlmostAssembler.enc_consts8	almost_assembler.py	/^	def enc_consts8(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+AlmostAssembler.enc_constu16	almost_assembler.py	/^	def enc_constu16(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+AlmostAssembler.enc_constu32	almost_assembler.py	/^	def enc_constu32(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+AlmostAssembler.enc_constu8	almost_assembler.py	/^	def enc_constu8(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+AlmostAssembler.enc_disp_char_syscall	almost_assembler.py	/^	def enc_disp_char_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_disp_sint_syscall	almost_assembler.py	/^	def enc_disp_sint_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_disp_str_syscall	almost_assembler.py	/^	def enc_disp_str_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_disp_uint_syscall	almost_assembler.py	/^	def enc_disp_uint_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_exit_syscall	almost_assembler.py	/^	def enc_exit_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_get_pc	almost_assembler.py	/^	def enc_get_pc(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_jfal	almost_assembler.py	/^	def enc_jfal(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_jmpx	almost_assembler.py	/^	def enc_jmpx(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_jmpxi	almost_assembler.py	/^	def enc_jmpxi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_jtru	almost_assembler.py	/^	def enc_jtru(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_ldx64	almost_assembler.py	/^	def enc_ldx64(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_ldx64i	almost_assembler.py	/^	def enc_ldx64i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_ldxs16	almost_assembler.py	/^	def enc_ldxs16(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_ldxs16i	almost_assembler.py	/^	def enc_ldxs16i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_ldxs32	almost_assembler.py	/^	def enc_ldxs32(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_ldxs32i	almost_assembler.py	/^	def enc_ldxs32i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_ldxs8	almost_assembler.py	/^	def enc_ldxs8(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_ldxs8i	almost_assembler.py	/^	def enc_ldxs8i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_ldxu16	almost_assembler.py	/^	def enc_ldxu16(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_ldxu16i	almost_assembler.py	/^	def enc_ldxu16i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_ldxu32	almost_assembler.py	/^	def enc_ldxu32(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_ldxu32i	almost_assembler.py	/^	def enc_ldxu32i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_ldxu8	almost_assembler.py	/^	def enc_ldxu8(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_ldxu8i	almost_assembler.py	/^	def enc_ldxu8i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_lsl	almost_assembler.py	/^	def enc_lsl(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_lsli	almost_assembler.py	/^	def enc_lsli(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_lsr	almost_assembler.py	/^	def enc_lsr(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_lsri	almost_assembler.py	/^	def enc_lsri(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_mul	almost_assembler.py	/^	def enc_mul(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_muli	almost_assembler.py	/^	def enc_muli(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_or	almost_assembler.py	/^	def enc_or(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_ori	almost_assembler.py	/^	def enc_ori(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_raw_bfal	almost_assembler.py	/^	def enc_raw_bfal(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_raw_btru	almost_assembler.py	/^	def enc_raw_btru(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_ret	almost_assembler.py	/^	def enc_ret(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_sdiv	almost_assembler.py	/^	def enc_sdiv(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_sdivi	almost_assembler.py	/^	def enc_sdivi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_smod	almost_assembler.py	/^	def enc_smod(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_smodi	almost_assembler.py	/^	def enc_smodi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_sslt	almost_assembler.py	/^	def enc_sslt(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_sslti	almost_assembler.py	/^	def enc_sslti(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_stx16	almost_assembler.py	/^	def enc_stx16(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_stx16i	almost_assembler.py	/^	def enc_stx16i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_stx32	almost_assembler.py	/^	def enc_stx32(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_stx32i	almost_assembler.py	/^	def enc_stx32i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_stx64	almost_assembler.py	/^	def enc_stx64(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_stx64i	almost_assembler.py	/^	def enc_stx64i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_stx8	almost_assembler.py	/^	def enc_stx8(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_stx8i	almost_assembler.py	/^	def enc_stx8i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_sub	almost_assembler.py	/^	def enc_sub(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_subi	almost_assembler.py	/^	def enc_subi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_syscall	almost_assembler.py	/^	def enc_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_udiv	almost_assembler.py	/^	def enc_udiv(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_udivi	almost_assembler.py	/^	def enc_udivi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_umod	almost_assembler.py	/^	def enc_umod(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_umodi	almost_assembler.py	/^	def enc_umodi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_uslt	almost_assembler.py	/^	def enc_uslt(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_uslti	almost_assembler.py	/^	def enc_uslti(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.enc_var	almost_assembler.py	/^	def enc_var(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_varx	almost_assembler.py	/^	def enc_varx(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_xor	almost_assembler.py	/^	def enc_xor(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.enc_xori	almost_assembler.py	/^	def enc_xori(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+AlmostAssembler.finalize	almost_assembler.py	/^	def finalize(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+AlmostAssembler.paste_null_terminated_str	almost_assembler.py	/^	def paste_null_terminated_str(self, to_paste):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, to_paste)
+AlmostAssembler.patch_byte_raw	almost_assembler.py	/^	def patch_byte_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+AlmostAssembler.patch_eight_bytes_raw	almost_assembler.py	/^	def patch_eight_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+AlmostAssembler.patch_four_bytes_raw	almost_assembler.py	/^	def patch_four_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+AlmostAssembler.patch_instr_arg_byte	almost_assembler.py	/^	def patch_instr_arg_byte(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+AlmostAssembler.patch_instr_arg_eight_bytes	almost_assembler.py	/^	def patch_instr_arg_eight_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+AlmostAssembler.patch_instr_arg_four_bytes	almost_assembler.py	/^	def patch_instr_arg_four_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+AlmostAssembler.patch_instr_arg_two_bytes	almost_assembler.py	/^	def patch_instr_arg_two_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+AlmostAssembler.patch_relative_branch	almost_assembler.py	/^	def patch_relative_branch(self, patch_loc, jump_loc):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, patch_loc, jump_loc)
+AlmostAssembler.patch_two_bytes_raw	almost_assembler.py	/^	def patch_two_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+AlmostAssembler.pc	almost_assembler.py	/^	def pc(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+And	almost_assembler.py	/^		And = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Andi	almost_assembler.py	/^		Andi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Arg	almost_assembler.py	/^		Arg = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp3Oper	access:public
+Argx	almost_assembler.py	/^		Argx = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+Asr	almost_assembler.py	/^		Asr = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Asri	almost_assembler.py	/^		Asri = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Bfal	almost_assembler.py	/^		Bfal = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Blank	almost_assembler.py	/^class Blank:$/;"	kind:c	inherits:	access:public
+Blank.__init__	almost_assembler.py	/^	def __init__(self):$/;"	kind:m	class:Blank	access:public	signature:(self)
+Btru	almost_assembler.py	/^		Btru = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Call	almost_assembler.py	/^		Call = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+Const64	almost_assembler.py	/^		Const64 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+Consts16	almost_assembler.py	/^		Consts16 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+Consts32	almost_assembler.py	/^		Consts32 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+Consts8	almost_assembler.py	/^		Consts8 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+Constu16	almost_assembler.py	/^		Constu16 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+Constu32	almost_assembler.py	/^		Constu32 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+Constu8	almost_assembler.py	/^		Constu8 = 0$/;"	kind:v	class:AlmostAssembler.InstrGrp2Oper	access:public
+DispChar	almost_assembler.py	/^		DispChar = 0$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+DispSInt	almost_assembler.py	/^		DispSInt = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+DispStr	almost_assembler.py	/^		DispStr = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+DispUInt	almost_assembler.py	/^		DispUInt = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+EncodedInstrPcs	almost_assembler.py	/^	class EncodedInstrPcs:$/;"	kind:c	class:AlmostAssembler	inherits:	access:public
+Exit	almost_assembler.py	/^		Exit = auto()$/;"	kind:v	class:AlmostAssembler.SystemCall	access:public
+GetPc	almost_assembler.py	/^		GetPc = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp3Oper	access:public
+InstrGrp0Oper	almost_assembler.py	/^	class InstrGrp0Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+InstrGrp1Oper	almost_assembler.py	/^	class InstrGrp1Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+InstrGrp2Oper	almost_assembler.py	/^	class InstrGrp2Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+InstrGrp3Oper	almost_assembler.py	/^	class InstrGrp3Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+InstrGrp4Oper	almost_assembler.py	/^	class InstrGrp4Oper(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+Jfal	almost_assembler.py	/^		Jfal = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Jmpx	almost_assembler.py	/^		Jmpx = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Jmpxi	almost_assembler.py	/^		Jmpxi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Jtru	almost_assembler.py	/^		Jtru = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Ldx64	almost_assembler.py	/^		Ldx64 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Ldx64i	almost_assembler.py	/^		Ldx64i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Ldxs16	almost_assembler.py	/^		Ldxs16 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Ldxs16i	almost_assembler.py	/^		Ldxs16i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Ldxs32	almost_assembler.py	/^		Ldxs32 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Ldxs32i	almost_assembler.py	/^		Ldxs32i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Ldxs8	almost_assembler.py	/^		Ldxs8 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Ldxs8i	almost_assembler.py	/^		Ldxs8i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Ldxu16	almost_assembler.py	/^		Ldxu16 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Ldxu16i	almost_assembler.py	/^		Ldxu16i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Ldxu32	almost_assembler.py	/^		Ldxu32 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Ldxu32i	almost_assembler.py	/^		Ldxu32i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Ldxu8	almost_assembler.py	/^		Ldxu8 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Ldxu8i	almost_assembler.py	/^		Ldxu8i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Lsl	almost_assembler.py	/^		Lsl = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Lsli	almost_assembler.py	/^		Lsli = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Lsr	almost_assembler.py	/^		Lsr = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Lsri	almost_assembler.py	/^		Lsri = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Mul	almost_assembler.py	/^		Mul = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Muli	almost_assembler.py	/^		Muli = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Or	almost_assembler.py	/^		Or = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Ori	almost_assembler.py	/^		Ori = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Ret	almost_assembler.py	/^		Ret = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+Sdiv	almost_assembler.py	/^		Sdiv = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Sdivi	almost_assembler.py	/^		Sdivi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Smod	almost_assembler.py	/^		Smod = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Smodi	almost_assembler.py	/^		Smodi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Sslt	almost_assembler.py	/^		Sslt = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Sslti	almost_assembler.py	/^		Sslti = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Stx16	almost_assembler.py	/^		Stx16 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Stx16i	almost_assembler.py	/^		Stx16i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Stx32	almost_assembler.py	/^		Stx32 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Stx32i	almost_assembler.py	/^		Stx32i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Stx64	almost_assembler.py	/^		Stx64 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Stx64i	almost_assembler.py	/^		Stx64i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Stx8	almost_assembler.py	/^		Stx8 = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Stx8i	almost_assembler.py	/^		Stx8i = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Sub	almost_assembler.py	/^		Sub = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Subi	almost_assembler.py	/^		Subi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Syscall	almost_assembler.py	/^		Syscall = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+SystemCall	almost_assembler.py	/^	class SystemCall(IntEnum):$/;"	kind:c	class:AlmostAssembler	inherits:IntEnum	access:public
+Udiv	almost_assembler.py	/^		Udiv = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Udivi	almost_assembler.py	/^		Udivi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Umod	almost_assembler.py	/^		Umod = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Umodi	almost_assembler.py	/^		Umodi = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Uslt	almost_assembler.py	/^		Uslt = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Uslti	almost_assembler.py	/^		Uslti = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+Var	almost_assembler.py	/^		Var = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp3Oper	access:public
+Varx	almost_assembler.py	/^		Varx = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp4Oper	access:public
+Xor	almost_assembler.py	/^		Xor = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp0Oper	access:public
+Xori	almost_assembler.py	/^		Xori = auto()$/;"	kind:v	class:AlmostAssembler.InstrGrp1Oper	access:public
+__encode_grp_0_instr	almost_assembler.py	/^	def __encode_grp_0_instr(self, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper)
+__encode_grp_1_instr	almost_assembler.py	/^	def __encode_grp_1_instr(self, oper, simm16):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper, simm16)
+__encode_grp_2_instr	almost_assembler.py	/^	def __encode_grp_2_instr(self, oper, immediate):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper, immediate)
+__encode_grp_3_instr	almost_assembler.py	/^	def __encode_grp_3_instr(self, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper)
+__encode_grp_4_instr	almost_assembler.py	/^	def __encode_grp_4_instr(self, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, oper)
+__encode_instr_header	almost_assembler.py	/^	def __encode_instr_header(self, group, oper):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, group, oper)
+__init__	almost_assembler.py	/^		def __init__(self, header_pc, arg_pc, num_arg_bytes):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self, header_pc, arg_pc, num_arg_bytes)
+__init__	almost_assembler.py	/^	def __init__(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+__init__	almost_assembler.py	/^	def __init__(self):$/;"	kind:m	class:Blank	access:public	signature:(self)
+__write_next_byte	almost_assembler.py	/^	def __write_next_byte(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+__write_next_eight_bytes	almost_assembler.py	/^	def __write_next_eight_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+__write_next_four_bytes	almost_assembler.py	/^	def __write_next_four_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+__write_next_two_bytes	almost_assembler.py	/^	def __write_next_two_bytes(self, some_int):$/;"	kind:m	class:AlmostAssembler	file:	access:private	signature:(self, some_int)
+alloc	almost_assembler.py	/^	def alloc(self, amount):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, amount)
+alloc_for_null_terminated_str	almost_assembler.py	/^	def alloc_for_null_terminated_str(self, to_alloc_for):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, to_alloc_for)
+arg_pc	almost_assembler.py	/^		def arg_pc(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+asm	generate_input_dot_bin.py	/^asm = AlmostAssembler()$/;"	kind:v	access:public
+enc_add	almost_assembler.py	/^	def enc_add(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_add_to_sp	almost_assembler.py	/^	def enc_add_to_sp(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_addi	almost_assembler.py	/^	def enc_addi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_and	almost_assembler.py	/^	def enc_and(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_andi	almost_assembler.py	/^	def enc_andi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_arg	almost_assembler.py	/^	def enc_arg(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_argx	almost_assembler.py	/^	def enc_argx(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_asr	almost_assembler.py	/^	def enc_asr(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_asri	almost_assembler.py	/^	def enc_asri(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_backwards_bfal	almost_assembler.py	/^	def enc_backwards_bfal(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_backwards_btru	almost_assembler.py	/^	def enc_backwards_btru(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_call	almost_assembler.py	/^	def enc_call(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_const64	almost_assembler.py	/^	def enc_const64(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+enc_consts16	almost_assembler.py	/^	def enc_consts16(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+enc_consts32	almost_assembler.py	/^	def enc_consts32(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+enc_consts8	almost_assembler.py	/^	def enc_consts8(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+enc_constu16	almost_assembler.py	/^	def enc_constu16(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+enc_constu32	almost_assembler.py	/^	def enc_constu32(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+enc_constu8	almost_assembler.py	/^	def enc_constu8(self, immediate):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, immediate)
+enc_disp_char_syscall	almost_assembler.py	/^	def enc_disp_char_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_disp_sint_syscall	almost_assembler.py	/^	def enc_disp_sint_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_disp_str_syscall	almost_assembler.py	/^	def enc_disp_str_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_disp_uint_syscall	almost_assembler.py	/^	def enc_disp_uint_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_exit_syscall	almost_assembler.py	/^	def enc_exit_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_get_pc	almost_assembler.py	/^	def enc_get_pc(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_jfal	almost_assembler.py	/^	def enc_jfal(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_jmpx	almost_assembler.py	/^	def enc_jmpx(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_jmpxi	almost_assembler.py	/^	def enc_jmpxi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_jtru	almost_assembler.py	/^	def enc_jtru(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_ldx64	almost_assembler.py	/^	def enc_ldx64(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_ldx64i	almost_assembler.py	/^	def enc_ldx64i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_ldxs16	almost_assembler.py	/^	def enc_ldxs16(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_ldxs16i	almost_assembler.py	/^	def enc_ldxs16i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_ldxs32	almost_assembler.py	/^	def enc_ldxs32(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_ldxs32i	almost_assembler.py	/^	def enc_ldxs32i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_ldxs8	almost_assembler.py	/^	def enc_ldxs8(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_ldxs8i	almost_assembler.py	/^	def enc_ldxs8i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_ldxu16	almost_assembler.py	/^	def enc_ldxu16(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_ldxu16i	almost_assembler.py	/^	def enc_ldxu16i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_ldxu32	almost_assembler.py	/^	def enc_ldxu32(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_ldxu32i	almost_assembler.py	/^	def enc_ldxu32i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_ldxu8	almost_assembler.py	/^	def enc_ldxu8(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_ldxu8i	almost_assembler.py	/^	def enc_ldxu8i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_lsl	almost_assembler.py	/^	def enc_lsl(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_lsli	almost_assembler.py	/^	def enc_lsli(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_lsr	almost_assembler.py	/^	def enc_lsr(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_lsri	almost_assembler.py	/^	def enc_lsri(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_mul	almost_assembler.py	/^	def enc_mul(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_muli	almost_assembler.py	/^	def enc_muli(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_or	almost_assembler.py	/^	def enc_or(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_ori	almost_assembler.py	/^	def enc_ori(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_raw_bfal	almost_assembler.py	/^	def enc_raw_bfal(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_raw_btru	almost_assembler.py	/^	def enc_raw_btru(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_ret	almost_assembler.py	/^	def enc_ret(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_sdiv	almost_assembler.py	/^	def enc_sdiv(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_sdivi	almost_assembler.py	/^	def enc_sdivi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_smod	almost_assembler.py	/^	def enc_smod(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_smodi	almost_assembler.py	/^	def enc_smodi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_sslt	almost_assembler.py	/^	def enc_sslt(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_sslti	almost_assembler.py	/^	def enc_sslti(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_stx16	almost_assembler.py	/^	def enc_stx16(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_stx16i	almost_assembler.py	/^	def enc_stx16i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_stx32	almost_assembler.py	/^	def enc_stx32(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_stx32i	almost_assembler.py	/^	def enc_stx32i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_stx64	almost_assembler.py	/^	def enc_stx64(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_stx64i	almost_assembler.py	/^	def enc_stx64i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_stx8	almost_assembler.py	/^	def enc_stx8(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_stx8i	almost_assembler.py	/^	def enc_stx8i(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_sub	almost_assembler.py	/^	def enc_sub(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_subi	almost_assembler.py	/^	def enc_subi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_syscall	almost_assembler.py	/^	def enc_syscall(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_udiv	almost_assembler.py	/^	def enc_udiv(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_udivi	almost_assembler.py	/^	def enc_udivi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_umod	almost_assembler.py	/^	def enc_umod(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_umodi	almost_assembler.py	/^	def enc_umodi(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_uslt	almost_assembler.py	/^	def enc_uslt(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_uslti	almost_assembler.py	/^	def enc_uslti(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+enc_var	almost_assembler.py	/^	def enc_var(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_varx	almost_assembler.py	/^	def enc_varx(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_xor	almost_assembler.py	/^	def enc_xor(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+enc_xori	almost_assembler.py	/^	def enc_xori(self, simm16):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, simm16)
+fill_our_streets	generate_input_dot_bin.py	/^fill_our_streets = asm.paste_null_terminated_str \\$/;"	kind:v	access:public
+finalize	almost_assembler.py	/^	def finalize(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+func_disp_str_with_disp_char_syscall	generate_input_dot_bin.py	/^func_disp_str_with_disp_char_syscall = start_func()$/;"	kind:v	access:public
+func_udiv	generate_input_dot_bin.py	/^func_udiv = start_func()$/;"	kind:v	access:public
+header_pc	almost_assembler.py	/^		def header_pc(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+jump_loc	generate_input_dot_bin.py	/^jump_loc = asm.EncodedInstrPcs(asm.pc(), 0, 0)$/;"	kind:v	access:public
+num_arg_bytes	almost_assembler.py	/^		def num_arg_bytes(self):$/;"	kind:m	class:AlmostAssembler.EncodedInstrPcs	access:public	signature:(self)
+paste_null_terminated_str	almost_assembler.py	/^	def paste_null_terminated_str(self, to_paste):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, to_paste)
+patch_byte_raw	almost_assembler.py	/^	def patch_byte_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+patch_eight_bytes_raw	almost_assembler.py	/^	def patch_eight_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+patch_four_bytes_raw	almost_assembler.py	/^	def patch_four_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+patch_func_udiv	generate_input_dot_bin.py	/^patch_func_udiv = asm.enc_const64(0)$/;"	kind:v	access:public
+patch_in_null_terminated_str	generate_input_dot_bin.py	/^def patch_in_null_terminated_str(paste_loc, to_paste):$/;"	kind:f	access:public	signature:(paste_loc, to_paste)
+patch_instr_arg_byte	almost_assembler.py	/^	def patch_instr_arg_byte(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+patch_instr_arg_eight_bytes	almost_assembler.py	/^	def patch_instr_arg_eight_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+patch_instr_arg_four_bytes	almost_assembler.py	/^	def patch_instr_arg_four_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+patch_instr_arg_two_bytes	almost_assembler.py	/^	def patch_instr_arg_two_bytes(self, some_encoded_instr_pcs, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, some_encoded_instr_pcs, some_int)
+patch_loc	generate_input_dot_bin.py	/^patch_loc = asm.enc_raw_bfal(0)$/;"	kind:v	access:public
+patch_relative_branch	almost_assembler.py	/^	def patch_relative_branch(self, patch_loc, jump_loc):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, patch_loc, jump_loc)
+patch_two_bytes_raw	almost_assembler.py	/^	def patch_two_bytes_raw(self, where, some_int):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self, where, some_int)
+pc	almost_assembler.py	/^	def pc(self):$/;"	kind:m	class:AlmostAssembler	access:public	signature:(self)
+sconcat	almost_assembler.py	/^def sconcat(*args):$/;"	kind:f	access:public	signature:(*args)
+show_me_your_moves	generate_input_dot_bin.py	/^show_me_your_moves = asm.paste_null_terminated_str("Show me your moves!")$/;"	kind:v	access:public
+start_func	generate_input_dot_bin.py	/^def start_func():$/;"	kind:f	access:public	signature:()

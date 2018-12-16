@@ -1,0 +1,13 @@
+syn keyword CTagsMember enc_smod enc_ldxs16 enc_jmpxi patch_relative_branch enc_umod enc_lsl enc_lsri enc_varx header_pc enc_ldx64 enc_sdivi enc_constu32 enc_get_pc enc_stx8i enc_argx enc_exit_syscall alloc alloc_for_null_terminated_str enc_muli enc_backwards_btru
+syn keyword CTagsMember enc_disp_sint_syscall patch_four_bytes_raw enc_add enc_ldxs8 enc_raw_bfal pc enc_add_to_sp enc_disp_char_syscall patch_instr_arg_eight_bytes patch_instr_arg_four_bytes enc_stx64 enc_jmpx enc_raw_btru patch_two_bytes_raw patch_eight_bytes_raw enc_backwards_bfal enc_lsr enc_smodi enc_ldxs32i enc_subi num_arg_bytes enc_consts8 enc_xor enc_ldxu8i enc_andi enc_ldxu32 enc_stx32 enc_ret enc_umodi enc_stx16 enc_asr enc_mul enc_arg enc_uslti enc_jtru enc_uslt enc_xori enc_const64 arg_pc
+syn keyword CTagsMember enc_ldx64i enc_addi enc_ldxs8i enc_ldxs32 enc_ori patch_instr_arg_byte patch_instr_arg_two_bytes enc_sdiv enc_ldxu32i enc_ldxu8 enc_stx8 paste_null_terminated_str enc_or enc_ldxs16i enc_udiv enc_constu8 enc_syscall enc_consts32 enc_asri enc_sslt enc_var finalize enc_ldxu16i enc_disp_uint_syscall patch_byte_raw enc_stx32i enc_constu16 enc_sub enc_disp_str_syscall enc_call enc_stx16i enc_stx64i enc_udivi enc_consts16 enc_ldxu16 enc_jfal enc_and enc_lsli enc_sslti __init__
+syn keyword CTagsGlobalVariable Uslti Argx Ldx64i Lsl Subi Smod Stx32i And Consts16 Jtru patch_loc Muli Asr Sdiv Ldxu32 Stx64i AddToSp Or Add Stx16i
+syn keyword CTagsGlobalVariable Ret Sdivi Sslti Ldx64 Jmpxi Stx32 Ldxu8i Umod func_disp_str_with_disp_char_syscall Addi Ori asm fill_our_streets Ldxs16i Umodi Consts32 Ldxs32i Asri Sslt Jmpx Ldxu16 Stx8i Var Ldxu8 Ldxs16 Ldxu16i Udivi Const64 Uslt patch_func_udiv Andi Sub Stx64 Arg Ldxs8i Lsli Ldxs32 DispChar DispUInt Constu8 Lsr DispStr Udiv Xori Constu32 Stx16 DispSInt Consts8 Varx Constu16 Syscall Exit Lsri Smodi jump_loc Jfal Ldxs8 GetPc Xor Stx8 Call Bfal Mul Btru Ldxu32i func_udiv show_me_your_moves
+syn keyword CTagsFunction sconcat start_func patch_in_null_terminated_str
+syn keyword CTagsClass InstrGrp3Oper SystemCall InstrGrp0Oper InstrGrp2Oper InstrGrp1Oper InstrGrp4Oper Blank EncodedInstrPcs AlmostAssembler
+
+" Matches for file almost_assembler.py:
+if (has_key(b:TagHighlightPrivate, "NormalisedPath") && b:TagHighlightPrivate["NormalisedPath"] == "almost_assembler.py") || TagHighlight#Option#GetOption("IgnoreFileScope")
+	syn keyword CTagsMember __encode_grp_3_instr __write_next_eight_bytes __write_next_four_bytes __encode_grp_2_instr __encode_instr_header __encode_grp_1_instr __write_next_two_bytes __write_next_byte __encode_grp_4_instr __encode_grp_0_instr
+	
+endif

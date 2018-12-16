@@ -1,0 +1,1047 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/249c3c0/
+Add	vm_class.hpp	/^		Add,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Add	vm_class.hpp	/^		Add,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+AddToSp	vm_class.hpp	/^		AddToSp,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+Addi	vm_class.hpp	/^		Addi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Address	vm_class.hpp	/^	typedef u64 Address;$/;"	kind:t	class:cakeplusplus::Vm	typeref:typename:u64	access:public
+And	vm_class.hpp	/^		And,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+And	vm_class.hpp	/^		And,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Andi	vm_class.hpp	/^		Andi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Any16	vm_class.hpp	/^		Any16,$/;"	kind:e	enum:cakeplusplus::Vm::StoreType	access:public
+Any32	vm_class.hpp	/^		Any32,$/;"	kind:e	enum:cakeplusplus::Vm::StoreType	access:public
+Any64	vm_class.hpp	/^		Any64$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+Any64	vm_class.hpp	/^		Any64$/;"	kind:e	enum:cakeplusplus::Vm::StoreType	access:public
+Any8	vm_class.hpp	/^		Any8,$/;"	kind:e	enum:cakeplusplus::Vm::StoreType	access:public
+AnyPrintoutBackend	liborangepower_src/misc_output_classes.hpp	/^class AnyPrintoutBackend$/;"	kind:c	namespace:liborangepower::printout_etc
+Arg	vm_class.hpp	/^		Arg,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp3Oper	access:public
+Argx	vm_class.hpp	/^		Argx,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+ArithLogOper	vm_class.hpp	/^	enum class ArithLogOper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+Array2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline Array2dHelper()$/;"	kind:f	class:liborangepower::containers::Array2dHelper	access:public	signature:()
+Array2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline Array2dHelper(Type* s___arr, $/;"	kind:f	class:liborangepower::containers::Array2dHelper	access:public	signature:(Type * s___arr,const Vec2<size_t> & s_size_2d)
+Array2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline Array2dHelper(const Array2dHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::Array2dHelper	access:public	signature:(const Array2dHelper & to_copy)
+Array2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^class Array2dHelper$/;"	kind:c	namespace:liborangepower::containers
+ArrayCsz2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline ArrayCsz2dHelper()$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	access:public	signature:()
+ArrayCsz2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline ArrayCsz2dHelper(Type* s___arr)$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	access:public	signature:(Type * s___arr)
+ArrayCsz2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline ArrayCsz2dHelper(const ArrayCsz2dHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::ArrayCsz2dHelper	access:public	signature:(const ArrayCsz2dHelper & to_copy)
+ArrayCsz2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^class ArrayCsz2dHelper$/;"	kind:c	namespace:liborangepower::containers
+ArrayCszHelper	liborangepower_src/array_helper_classes.hpp	/^	ArrayCszHelper()$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	access:public	signature:()
+ArrayCszHelper	liborangepower_src/array_helper_classes.hpp	/^	ArrayCszHelper(Type* s_the_array) : __arr(s_the_array)$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	access:public	signature:(Type * s_the_array)
+ArrayCszHelper	liborangepower_src/array_helper_classes.hpp	/^	ArrayCszHelper(const ArrayCszHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::ArrayCszHelper	access:public	signature:(const ArrayCszHelper & to_copy)
+ArrayCszHelper	liborangepower_src/array_helper_classes.hpp	/^class ArrayCszHelper$/;"	kind:c	namespace:liborangepower::containers
+ArrayHelper	liborangepower_src/array_helper_classes.hpp	/^	inline ArrayHelper()$/;"	kind:f	class:liborangepower::containers::ArrayHelper	access:public	signature:()
+ArrayHelper	liborangepower_src/array_helper_classes.hpp	/^	inline ArrayHelper(Type* s_the_array, size_t s_size)$/;"	kind:f	class:liborangepower::containers::ArrayHelper	access:public	signature:(Type * s_the_array,size_t s_size)
+ArrayHelper	liborangepower_src/array_helper_classes.hpp	/^	inline ArrayHelper(const ArrayHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::ArrayHelper	access:public	signature:(const ArrayHelper & to_copy)
+ArrayHelper	liborangepower_src/array_helper_classes.hpp	/^class ArrayHelper$/;"	kind:c	namespace:liborangepower::containers
+Asr	vm_class.hpp	/^		Asr,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Asr	vm_class.hpp	/^		Asr,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Asri	vm_class.hpp	/^		Asri,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Bfal	vm_class.hpp	/^		Bfal,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+BigNum	liborangepower_src/gmp_stuff.hpp	/^typedef mpz_class BigNum;$/;"	kind:t	namespace:liborangepower::bignum	typeref:typename:mpz_class
+Btru	vm_class.hpp	/^		Btru,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Call	vm_class.hpp	/^		Call,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+Const	vm_class.hpp	/^		Const,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+Consts16	vm_class.hpp	/^		Consts16,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+Consts32	vm_class.hpp	/^		Consts32,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+Consts8	vm_class.hpp	/^		Consts8,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+Constu16	vm_class.hpp	/^		Constu16,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+Constu32	vm_class.hpp	/^		Constu32,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+Constu8	vm_class.hpp	/^		Constu8,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+DidQuitWithMiscOutput	liborangepower_src/mpi_handler_class.hpp	/^		DidQuitWithMiscOutput,$/;"	kind:e	enum:liborangepower::mpi::MpiHandler::ErrorCode	access:public
+DispChar	vm_class.hpp	/^		DispChar,$/;"	kind:e	enum:cakeplusplus::Vm::SystemCall	access:public
+DispSInt	vm_class.hpp	/^		DispSInt,$/;"	kind:e	enum:cakeplusplus::Vm::SystemCall	access:public
+DispStr	vm_class.hpp	/^		DispStr,$/;"	kind:e	enum:cakeplusplus::Vm::SystemCall	access:public
+DispUInt	vm_class.hpp	/^		DispUInt,$/;"	kind:e	enum:cakeplusplus::Vm::SystemCall	access:public
+ErrorCode	liborangepower_src/mpi_handler_class.hpp	/^	enum class ErrorCode : int$/;"	kind:g	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public
+Exit	vm_class.hpp	/^		Exit$/;"	kind:e	enum:cakeplusplus::Vm::SystemCall	access:public
+FakeError	liborangepower_src/mpi_handler_class.hpp	/^		FakeError,$/;"	kind:e	enum:liborangepower::mpi::MpiHandler::ErrorCode	access:public
+GetPc	vm_class.hpp	/^		GetPc,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp3Oper	access:public
+InstanceType	liborangepower_src/time_stuff.hpp	/^	typedef std::mt19937_64 InstanceType;$/;"	kind:t	class:liborangepower::time::Prng	typeref:typename:std::mt19937_64	access:public
+InstrGrp0Oper	vm_class.hpp	/^	enum class InstrGrp0Oper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+InstrGrp1Oper	vm_class.hpp	/^	enum class InstrGrp1Oper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+InstrGrp2Oper	vm_class.hpp	/^	enum class InstrGrp2Oper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+InstrGrp3Oper	vm_class.hpp	/^	enum class InstrGrp3Oper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+InstrGrp4Oper	vm_class.hpp	/^	enum class InstrGrp4Oper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+InstrHeader	vm_class.hpp	/^		inline InstrHeader(const InstrHeader& to_copy) = default;$/;"	kind:p	class:cakeplusplus::Vm::InstrHeader	access:public	signature:(const InstrHeader & to_copy)
+InstrHeader	vm_class.hpp	/^		inline InstrHeader(u16 to_copy)$/;"	kind:f	class:cakeplusplus::Vm::InstrHeader	access:public	signature:(u16 to_copy)
+InstrHeader	vm_class.hpp	/^	class InstrHeader$/;"	kind:c	class:cakeplusplus::Vm	access:public
+Invalid	vm_class.hpp	/^		Invalid,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Invalid	vm_class.hpp	/^		Invalid,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Invalid	vm_class.hpp	/^		Invalid,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+Invalid	vm_class.hpp	/^		Invalid,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp3Oper	access:public
+Invalid	vm_class.hpp	/^		Invalid,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+Jfal	vm_class.hpp	/^		Jfal,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Jmpx	vm_class.hpp	/^		Jmpx,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Jmpxi	vm_class.hpp	/^		Jmpxi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Jtru	vm_class.hpp	/^		Jtru,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Ldsx16	vm_class.hpp	/^		Ldsx16,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Ldsx16i	vm_class.hpp	/^		Ldsx16i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Ldsx32	vm_class.hpp	/^		Ldsx32,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Ldsx32i	vm_class.hpp	/^		Ldsx32i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Ldsx8	vm_class.hpp	/^		Ldsx8,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Ldsx8i	vm_class.hpp	/^		Ldsx8i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Ldux16	vm_class.hpp	/^		Ldux16,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Ldux16i	vm_class.hpp	/^		Ldux16i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Ldux32	vm_class.hpp	/^		Ldux32,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Ldux32i	vm_class.hpp	/^		Ldux32i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Ldux8	vm_class.hpp	/^		Ldux8,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Ldux8i	vm_class.hpp	/^		Ldux8i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Ldx64	vm_class.hpp	/^		Ldx64,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Ldx64i	vm_class.hpp	/^		Ldx64i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+LoadType	vm_class.hpp	/^	enum class LoadType : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+Lsl	vm_class.hpp	/^		Lsl,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Lsl	vm_class.hpp	/^		Lsl,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Lsli	vm_class.hpp	/^		Lsli,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Lsr	vm_class.hpp	/^		Lsr,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Lsr	vm_class.hpp	/^		Lsr,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Lsri	vm_class.hpp	/^		Lsri,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+MPI_HANDLER_STATIC_ASSERT_0	liborangepower_src/mpi_handler_class.hpp	/^#define MPI_HANDLER_STATIC_ASSERT_0(/;"	kind:d	signature:(type,func_name_str)
+MPI_HANDLER_STATIC_ASSERT_1	liborangepower_src/mpi_handler_class.hpp	/^#define MPI_HANDLER_STATIC_ASSERT_1(/;"	kind:d	signature:(type,func_name_str)
+MpiHandler	liborangepower_src/mpi_handler_class.hpp	/^	inline MpiHandler(int& s_argc, char** s_argv,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	access:public	signature:(int & s_argc,char ** s_argv,size_t s_num_threads_per_proc=1,size_t s_min_world_size=1)
+MpiHandler	liborangepower_src/mpi_handler_class.hpp	/^class MpiHandler$/;"	kind:c	namespace:liborangepower::mpi
+Mul	vm_class.hpp	/^		Mul,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Mul	vm_class.hpp	/^		Mul,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Muli	vm_class.hpp	/^		Muli,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Or	vm_class.hpp	/^		Or,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Or	vm_class.hpp	/^		Or,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Ori	vm_class.hpp	/^		Ori,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+PrevCurrPair	liborangepower_src/prev_curr_pair_class.hpp	/^class PrevCurrPair$/;"	kind:c	namespace:liborangepower::containers
+Prng	liborangepower_src/time_stuff.hpp	/^	inline Prng(int s_param_0=0, int s_param_1=0) $/;"	kind:f	class:liborangepower::time::Prng	access:public	signature:(int s_param_0=0,int s_param_1=0)
+Prng	liborangepower_src/time_stuff.hpp	/^class Prng$/;"	kind:c	namespace:liborangepower::time
+Profiler	liborangepower_src/time_stuff.hpp	/^class Profiler$/;"	kind:c	namespace:liborangepower::time
+Ret	vm_class.hpp	/^		Ret,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+S16	vm_class.hpp	/^		S16,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+S32	vm_class.hpp	/^		S32,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+S8	vm_class.hpp	/^		S8,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+Sdiv	vm_class.hpp	/^		Sdiv,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Sdiv	vm_class.hpp	/^		Sdiv,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Sdivi	vm_class.hpp	/^		Sdivi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+SeedType	liborangepower_src/time_stuff.hpp	/^		.time_since_epoch().count()) SeedType;$/;"	kind:t	class:liborangepower::time::Prng	access:public
+SizeT2d	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<size_t> SizeT2d;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<size_t>
+SizeTooBig	liborangepower_src/mpi_handler_class.hpp	/^		SizeTooBig,$/;"	kind:e	enum:liborangepower::mpi::MpiHandler::ErrorCode	access:public
+Smod	vm_class.hpp	/^		Smod,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Smod	vm_class.hpp	/^		Smod,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Smodi	vm_class.hpp	/^		Smodi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Sslt	vm_class.hpp	/^		Sslt,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Sslt	vm_class.hpp	/^		Sslt,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Sslti	vm_class.hpp	/^		Sslti,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+StoreType	vm_class.hpp	/^	enum class StoreType : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+Stx16	vm_class.hpp	/^		Stx16,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Stx16i	vm_class.hpp	/^		Stx16i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Stx32	vm_class.hpp	/^		Stx32,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Stx32i	vm_class.hpp	/^		Stx32i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Stx64	vm_class.hpp	/^		Stx64,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Stx64i	vm_class.hpp	/^		Stx64i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Stx8	vm_class.hpp	/^		Stx8,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Stx8i	vm_class.hpp	/^		Stx8i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Sub	vm_class.hpp	/^		Sub,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Sub	vm_class.hpp	/^		Sub,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Subi	vm_class.hpp	/^		Subi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Syscall	vm_class.hpp	/^		Syscall,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+SystemCall	vm_class.hpp	/^	enum class SystemCall : u64$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u64	access:public
+TooFewProcs	liborangepower_src/mpi_handler_class.hpp	/^		TooFewProcs,$/;"	kind:e	enum:liborangepower::mpi::MpiHandler::ErrorCode	access:public
+U16	vm_class.hpp	/^		U16,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+U32	vm_class.hpp	/^		U32,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+U8	vm_class.hpp	/^		U8,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+Udiv	vm_class.hpp	/^		Udiv,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Udiv	vm_class.hpp	/^		Udiv,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Udivi	vm_class.hpp	/^		Udivi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Umod	vm_class.hpp	/^		Umod,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Umod	vm_class.hpp	/^		Umod,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Umodi	vm_class.hpp	/^		Umodi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Uslt	vm_class.hpp	/^		Uslt,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Uslt	vm_class.hpp	/^		Uslt,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Uslti	vm_class.hpp	/^		Uslti,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+Var	vm_class.hpp	/^		Var,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp3Oper	access:public
+Varx	vm_class.hpp	/^		Varx,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+Vec2	liborangepower_src/vec2_classes.hpp	/^	constexpr inline Vec2() : x(Type()), y(Type())$/;"	kind:f	class:liborangepower::containers::Vec2	access:public	signature:()
+Vec2	liborangepower_src/vec2_classes.hpp	/^	constexpr inline Vec2(Vec2<OtherType>&& to_move)$/;"	kind:f	class:liborangepower::containers::Vec2	access:public	signature:(Vec2<OtherType> && to_move)
+Vec2	liborangepower_src/vec2_classes.hpp	/^	constexpr inline Vec2(const Type1& s_x, const Type2& s_y)$/;"	kind:f	class:liborangepower::containers::Vec2	access:public	signature:(const Type1 & s_x,const Type2 & s_y)
+Vec2	liborangepower_src/vec2_classes.hpp	/^	constexpr inline Vec2(const Vec2<OtherType>& to_copy)$/;"	kind:f	class:liborangepower::containers::Vec2	access:public	signature:(const Vec2<OtherType> & to_copy)
+Vec2	liborangepower_src/vec2_classes.hpp	/^class Vec2$/;"	kind:c	namespace:liborangepower::containers
+Vec2	liborangepower_src/vec2_classes.hpp	/^class Vec2<double>$/;"	kind:c	namespace:liborangepower::containers
+Vec2	liborangepower_src/vec2_classes.hpp	/^class Vec2<float>$/;"	kind:c	namespace:liborangepower::containers
+Vec2S16	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::s16> Vec2S16;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::s16>
+Vec2S32	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::s32> Vec2S32;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::s32>
+Vec2S64	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::s64> Vec2S64;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::s64>
+Vec2U16	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::u16> Vec2U16;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::u16>
+Vec2U32	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::u32> Vec2U32;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::u32>
+Vec2U64	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::u64> Vec2U64;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::u64>
+Vec2_dbl	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<double> Vec2_dbl;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<double>
+Vec2_flt	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<float> Vec2_flt;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<float>
+Vm	vm_class.cpp	/^Vm::Vm(size_t s_mem_amount, const std::string& s_code_filename)$/;"	kind:f	class:cakeplusplus::Vm	signature:(size_t s_mem_amount,const std::string & s_code_filename)
+Vm	vm_class.hpp	/^	Vm(size_t s_mem_amount, const std::string& s_code_filename);$/;"	kind:p	class:cakeplusplus::Vm	access:public	signature:(size_t s_mem_amount,const std::string & s_code_filename)
+Vm	vm_class.hpp	/^class Vm$/;"	kind:c	namespace:cakeplusplus
+Xor	vm_class.hpp	/^		Xor,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+Xor	vm_class.hpp	/^		Xor,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+Xori	vm_class.hpp	/^		Xori,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+__anone389622d0102	liborangepower_src/json_stuff.cpp	/^	{$/;"	kind:f	function:liborangepower::json::parse_json	typeref:typename:bool	file:	signature:(Json::CharReaderBuilder& actual_rbuilder)
+__anone389622d0202	liborangepower_src/json_stuff.cpp	/^	{$/;"	kind:f	function:liborangepower::json::write_json	file:	signature:(Json::StreamWriterBuilder& some_wbuilder)
+__anone389622d0302	liborangepower_src/json_stuff.cpp	/^	{$/;"	kind:f	function:liborangepower::json::debug_print_json	typeref:typename:void	file:	signature:()
+__anone389622d0402	liborangepower_src/json_stuff.cpp	/^	{$/;"	kind:f	function:liborangepower::json::debug_print_json	typeref:typename:void	file:	signature:()
+__anone389622d0502	liborangepower_src/json_stuff.cpp	/^	{$/;"	kind:f	function:liborangepower::json::debug_print_json	typeref:typename:void	file:	signature:()
+__anone389622d0602	liborangepower_src/json_stuff.cpp	/^	{$/;"	kind:f	function:liborangepower::json::debug_print_json	typeref:typename:void	file:	signature:()
+__argc_ptr	liborangepower_src/mpi_handler_class.hpp	/^	int* __argc_ptr;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:int *	access:protected
+__argv_ptr	liborangepower_src/mpi_handler_class.hpp	/^	char*** __argv_ptr;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:char ***	access:protected
+__arr	liborangepower_src/array_2d_helper_classes.hpp	/^	Type* __arr = nullptr;$/;"	kind:m	class:liborangepower::containers::Array2dHelper	typeref:typename:Type *	access:protected
+__arr	liborangepower_src/array_2d_helper_classes.hpp	/^	Type* __arr = nullptr;$/;"	kind:m	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:Type *	access:protected
+__arr	liborangepower_src/array_helper_classes.hpp	/^	Type* __arr = nullptr;$/;"	kind:m	class:liborangepower::containers::ArrayCszHelper	typeref:typename:Type *	access:public
+__arr	liborangepower_src/array_helper_classes.hpp	/^	Type* __arr = nullptr;$/;"	kind:m	class:liborangepower::containers::ArrayHelper	typeref:typename:Type *	access:protected
+__code_filename	vm_class.hpp	/^	std::string __code_filename;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:std::string	access:private
+__fp	vm_class.hpp	/^	Address __pc, __sp, __fp;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:Address	access:private
+__group	vm_class.hpp	/^		u8 __group, __oper;$/;"	kind:m	class:cakeplusplus::Vm::InstrHeader	typeref:typename:u8	access:private
+__init_array_backend	liborangepower_src/misc_utility_funcs.hpp	/^inline void __init_array_backend(Type* all_values_arr, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void	signature:(Type * all_values_arr,const Type & first_value,const RemainingTypes &...remaining_values)
+__init_array_backend	liborangepower_src/misc_utility_funcs.hpp	/^inline void __init_array_backend(Type* all_values_arr, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void	signature:(Type * all_values_arr,const Type & to_copy)
+__instance	liborangepower_src/time_stuff.hpp	/^	InstanceType __instance;$/;"	kind:m	class:liborangepower::time::Prng	typeref:typename:InstanceType	access:protected
+__mem	vm_class.hpp	/^	std::unique_ptr<u8[]> __mem;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:std::unique_ptr<u8[]>	access:private
+__mem_amount	vm_class.hpp	/^	size_t __mem_amount;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:size_t	access:private
+__min_world_size	liborangepower_src/mpi_handler_class.hpp	/^	size_t __num_threads_per_proc, __min_world_size;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:size_t	access:protected
+__num_threads_per_proc	liborangepower_src/mpi_handler_class.hpp	/^	size_t __num_threads_per_proc, __min_world_size;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:size_t	access:protected
+__oper	vm_class.hpp	/^		u8 __group, __oper;$/;"	kind:m	class:cakeplusplus::Vm::InstrHeader	typeref:typename:u8	access:private
+__param_0	liborangepower_src/time_stuff.hpp	/^	int __param_0, __param_1;$/;"	kind:m	class:liborangepower::time::Prng	typeref:typename:int	access:protected
+__param_1	liborangepower_src/time_stuff.hpp	/^	int __param_0, __param_1;$/;"	kind:m	class:liborangepower::time::Prng	typeref:typename:int	access:protected
+__pc	vm_class.hpp	/^	Address __pc, __sp, __fp;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:Address	access:private
+__size	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t __size = 0;$/;"	kind:m	class:liborangepower::containers::Array2dHelper	typeref:typename:size_t	access:protected
+__size	liborangepower_src/array_2d_helper_classes.hpp	/^	static constexpr size_t __size = __size_2d.x * __size_2d.y;$/;"	kind:m	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:size_t	access:protected
+__size	liborangepower_src/array_helper_classes.hpp	/^	size_t __size = 0;$/;"	kind:m	class:liborangepower::containers::ArrayHelper	typeref:typename:size_t	access:protected
+__size	liborangepower_src/array_helper_classes.hpp	/^	static constexpr size_t __size = _size;$/;"	kind:m	class:liborangepower::containers::ArrayCszHelper	typeref:typename:size_t	access:protected
+__size_2d	liborangepower_src/array_2d_helper_classes.hpp	/^	Vec2<size_t> __size_2d;$/;"	kind:m	class:liborangepower::containers::Array2dHelper	typeref:typename:Vec2<size_t>	access:protected
+__sp	vm_class.hpp	/^	Address __pc, __sp, __fp;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:Address	access:private
+__world_rank	liborangepower_src/mpi_handler_class.hpp	/^	int __world_rank, __world_size;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected
+__world_size	liborangepower_src/mpi_handler_class.hpp	/^	int __world_rank, __world_size;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected
+_align2	liborangepower_src/misc_defines.hpp	/^#define _align2 /;"	kind:d
+_align4	liborangepower_src/misc_defines.hpp	/^#define _align4 /;"	kind:d
+alignas_regular	liborangepower_src/misc_defines.hpp	/^#define alignas_regular /;"	kind:d
+anything_matches	liborangepower_src/misc_utility_funcs.hpp	/^bool anything_matches(const FirstType& first_val)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:bool	signature:(const FirstType & first_val)
+anything_matches	liborangepower_src/misc_utility_funcs.hpp	/^bool anything_matches(const FirstType& first_val, const SecondType& next, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:bool	signature:(const FirstType & first_val,const SecondType & next,RemArgTypes &&...rem_args)
+arg_is_signed	vm_class.cpp	/^bool Vm::InstrHeader::arg_is_signed() const$/;"	kind:f	class:cakeplusplus::Vm::InstrHeader	typeref:typename:bool	signature:() const
+arg_is_signed	vm_class.hpp	/^		bool arg_is_signed() const;$/;"	kind:p	class:cakeplusplus::Vm::InstrHeader	typeref:typename:bool	access:public	signature:() const
+argc	liborangepower_src/mpi_handler_class.hpp	/^	inline int argc() const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:() const
+argv	liborangepower_src/mpi_handler_class.hpp	/^	inline char** argv() const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:char **	access:public	signature:() const
+arr	liborangepower_src/array_2d_helper_classes.hpp	/^	Type* arr() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:Type *	access:public	signature:() const
+arr	liborangepower_src/array_2d_helper_classes.hpp	/^	Type* arr() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:Type *	access:public	signature:() const
+arr	liborangepower_src/array_helper_classes.hpp	/^	const Type* arr() const$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	typeref:typename:const Type *	access:public	signature:() const
+arr	liborangepower_src/array_helper_classes.hpp	/^	const Type* arr() const$/;"	kind:f	class:liborangepower::containers::ArrayHelper	typeref:typename:const Type *	access:public	signature:() const
+arr_memcpy	liborangepower_src/memwhatever_wrappers.hpp	/^inline void* arr_memcpy(Type* dst, const void* src, size_t num_elems)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void *	signature:(Type * dst,const void * src,size_t num_elems)
+arr_memcpy	liborangepower_src/memwhatever_wrappers.hpp	/^inline void* arr_memcpy(std::array<Type, size>& dst, const void* src)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void *	signature:(std::array<Type,size> & dst,const void * src)
+arr_memcpy	liborangepower_src/memwhatever_wrappers.hpp	/^inline void* arr_memcpy(std::array<dst_type, size>& dst, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void *	signature:(std::array<dst_type,size> & dst,std::array<src_type,size> & src)
+arr_memset	liborangepower_src/memwhatever_wrappers.hpp	/^inline void* arr_memset(Type* dst, int c, size_t num_elems)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void *	signature:(Type * dst,int c,size_t num_elems)
+arr_memset	liborangepower_src/memwhatever_wrappers.hpp	/^inline void* arr_memset(std::array<Type, size>& dst, size_t src)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void *	signature:(std::array<Type,size> & dst,size_t src)
+asm_comment	liborangepower_src/misc_defines.hpp	/^#define asm_comment(/;"	kind:d	signature:(stuff)
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(const Vec2<size_t>& offset_2d)$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:Type &	access:public	signature:(const Vec2<size_t> & offset_2d)
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(const Vec2<size_t>& offset_2d)$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:Type &	access:public	signature:(const Vec2<size_t> & offset_2d)
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(const Vec2S32& offset_2d)$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:Type &	access:public	signature:(const Vec2S32 & offset_2d)
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(const Vec2S32& offset_2d)$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:Type &	access:public	signature:(const Vec2S32 & offset_2d)
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(size_t x, size_t y)$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:Type &	access:public	signature:(size_t x,size_t y)
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(size_t x, size_t y)$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:Type &	access:public	signature:(size_t x,size_t y)
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(const Vec2<size_t>& offset_2d) const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:const Type &	access:public	signature:(const Vec2<size_t> & offset_2d) const
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(const Vec2<size_t>& offset_2d) const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:const Type &	access:public	signature:(const Vec2<size_t> & offset_2d) const
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(const Vec2S32& offset_2d) const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:const Type &	access:public	signature:(const Vec2S32 & offset_2d) const
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(const Vec2S32& offset_2d) const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:const Type &	access:public	signature:(const Vec2S32 & offset_2d) const
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(size_t x, size_t y) const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:const Type &	access:public	signature:(size_t x,size_t y) const
+at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(size_t x, size_t y) const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:const Type &	access:public	signature:(size_t x,size_t y) const
+at	liborangepower_src/array_helper_classes.hpp	/^	Type& at(size_t offset)$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	typeref:typename:Type &	access:public	signature:(size_t offset)
+at	liborangepower_src/array_helper_classes.hpp	/^	Type& at(size_t offset)$/;"	kind:f	class:liborangepower::containers::ArrayHelper	typeref:typename:Type &	access:public	signature:(size_t offset)
+at	liborangepower_src/array_helper_classes.hpp	/^	const Type& at(size_t offset) const$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	typeref:typename:const Type &	access:public	signature:(size_t offset) const
+at	liborangepower_src/array_helper_classes.hpp	/^	const Type& at(size_t offset) const$/;"	kind:f	class:liborangepower::containers::ArrayHelper	typeref:typename:const Type &	access:public	signature:(size_t offset) const
+back_up	liborangepower_src/prev_curr_pair_class.hpp	/^	inline void back_up()$/;"	kind:f	class:liborangepower::containers::PrevCurrPair	typeref:typename:void	access:public	signature:()
+back_up_and_update	liborangepower_src/prev_curr_pair_class.hpp	/^	inline void back_up_and_update(const type& n_curr)$/;"	kind:f	class:liborangepower::containers::PrevCurrPair	typeref:typename:void	access:public	signature:(const type & n_curr)
+back_up_and_update	liborangepower_src/prev_curr_pair_class.hpp	/^	inline void back_up_and_update(type&& n_curr)$/;"	kind:f	class:liborangepower::containers::PrevCurrPair	typeref:typename:void	access:public	signature:(type && n_curr)
+bignum	liborangepower_src/gmp_stuff.cpp	/^namespace bignum$/;"	kind:n	namespace:liborangepower	file:
+bignum	liborangepower_src/gmp_stuff.hpp	/^namespace bignum$/;"	kind:n	namespace:liborangepower
+bitwise	liborangepower_src/misc_bitwise_funcs.hpp	/^namespace bitwise$/;"	kind:n	namespace:liborangepower
+bprange_is_all	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr bool bprange_is_all(const Type& to_check, $/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:bool	signature:(const Type & to_check,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+bprange_is_all	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr bool bprange_is_all(size_t bit_pos_range_hi,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:bool	signature:(size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+bprange_to_mask	liborangepower_src/misc_defines.hpp	/^#define bprange_to_mask(/;"	kind:d	signature:(bit_pos_hi,bit_pos_lo)
+bprange_to_shifted_mask	liborangepower_src/misc_defines.hpp	/^#define bprange_to_shifted_mask(/;"	kind:d	signature:(bit_pos_hi,bit_pos_lo)
+cakeplusplus	vm_class.cpp	/^namespace cakeplusplus$/;"	kind:n	file:
+cakeplusplus	vm_class.hpp	/^namespace cakeplusplus$/;"	kind:n
+cakeplusplus::Add	vm_class.hpp	/^		Add,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Add	vm_class.hpp	/^		Add,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::AddToSp	vm_class.hpp	/^		AddToSp,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+cakeplusplus::Addi	vm_class.hpp	/^		Addi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::And	vm_class.hpp	/^		And,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::And	vm_class.hpp	/^		And,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Andi	vm_class.hpp	/^		Andi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Any16	vm_class.hpp	/^		Any16,$/;"	kind:e	enum:cakeplusplus::Vm::StoreType	access:public
+cakeplusplus::Any32	vm_class.hpp	/^		Any32,$/;"	kind:e	enum:cakeplusplus::Vm::StoreType	access:public
+cakeplusplus::Any64	vm_class.hpp	/^		Any64$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+cakeplusplus::Any64	vm_class.hpp	/^		Any64$/;"	kind:e	enum:cakeplusplus::Vm::StoreType	access:public
+cakeplusplus::Any8	vm_class.hpp	/^		Any8,$/;"	kind:e	enum:cakeplusplus::Vm::StoreType	access:public
+cakeplusplus::Arg	vm_class.hpp	/^		Arg,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp3Oper	access:public
+cakeplusplus::Argx	vm_class.hpp	/^		Argx,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+cakeplusplus::Asr	vm_class.hpp	/^		Asr,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Asr	vm_class.hpp	/^		Asr,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Asri	vm_class.hpp	/^		Asri,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Bfal	vm_class.hpp	/^		Bfal,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Btru	vm_class.hpp	/^		Btru,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Call	vm_class.hpp	/^		Call,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+cakeplusplus::Const	vm_class.hpp	/^		Const,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+cakeplusplus::Consts16	vm_class.hpp	/^		Consts16,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+cakeplusplus::Consts32	vm_class.hpp	/^		Consts32,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+cakeplusplus::Consts8	vm_class.hpp	/^		Consts8,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+cakeplusplus::Constu16	vm_class.hpp	/^		Constu16,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+cakeplusplus::Constu32	vm_class.hpp	/^		Constu32,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+cakeplusplus::Constu8	vm_class.hpp	/^		Constu8,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+cakeplusplus::DispChar	vm_class.hpp	/^		DispChar,$/;"	kind:e	enum:cakeplusplus::Vm::SystemCall	access:public
+cakeplusplus::DispSInt	vm_class.hpp	/^		DispSInt,$/;"	kind:e	enum:cakeplusplus::Vm::SystemCall	access:public
+cakeplusplus::DispStr	vm_class.hpp	/^		DispStr,$/;"	kind:e	enum:cakeplusplus::Vm::SystemCall	access:public
+cakeplusplus::DispUInt	vm_class.hpp	/^		DispUInt,$/;"	kind:e	enum:cakeplusplus::Vm::SystemCall	access:public
+cakeplusplus::Exit	vm_class.hpp	/^		Exit$/;"	kind:e	enum:cakeplusplus::Vm::SystemCall	access:public
+cakeplusplus::GetPc	vm_class.hpp	/^		GetPc,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp3Oper	access:public
+cakeplusplus::Invalid	vm_class.hpp	/^		Invalid,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Invalid	vm_class.hpp	/^		Invalid,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Invalid	vm_class.hpp	/^		Invalid,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp2Oper	access:public
+cakeplusplus::Invalid	vm_class.hpp	/^		Invalid,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp3Oper	access:public
+cakeplusplus::Invalid	vm_class.hpp	/^		Invalid,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+cakeplusplus::Jfal	vm_class.hpp	/^		Jfal,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Jmpx	vm_class.hpp	/^		Jmpx,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Jmpxi	vm_class.hpp	/^		Jmpxi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Jtru	vm_class.hpp	/^		Jtru,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Ldsx16	vm_class.hpp	/^		Ldsx16,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Ldsx16i	vm_class.hpp	/^		Ldsx16i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Ldsx32	vm_class.hpp	/^		Ldsx32,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Ldsx32i	vm_class.hpp	/^		Ldsx32i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Ldsx8	vm_class.hpp	/^		Ldsx8,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Ldsx8i	vm_class.hpp	/^		Ldsx8i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Ldux16	vm_class.hpp	/^		Ldux16,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Ldux16i	vm_class.hpp	/^		Ldux16i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Ldux32	vm_class.hpp	/^		Ldux32,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Ldux32i	vm_class.hpp	/^		Ldux32i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Ldux8	vm_class.hpp	/^		Ldux8,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Ldux8i	vm_class.hpp	/^		Ldux8i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Ldx64	vm_class.hpp	/^		Ldx64,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Ldx64i	vm_class.hpp	/^		Ldx64i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Lsl	vm_class.hpp	/^		Lsl,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Lsl	vm_class.hpp	/^		Lsl,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Lsli	vm_class.hpp	/^		Lsli,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Lsr	vm_class.hpp	/^		Lsr,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Lsr	vm_class.hpp	/^		Lsr,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Lsri	vm_class.hpp	/^		Lsri,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Mul	vm_class.hpp	/^		Mul,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Mul	vm_class.hpp	/^		Mul,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Muli	vm_class.hpp	/^		Muli,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Or	vm_class.hpp	/^		Or,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Or	vm_class.hpp	/^		Or,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Ori	vm_class.hpp	/^		Ori,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Ret	vm_class.hpp	/^		Ret,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+cakeplusplus::S16	vm_class.hpp	/^		S16,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+cakeplusplus::S32	vm_class.hpp	/^		S32,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+cakeplusplus::S8	vm_class.hpp	/^		S8,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+cakeplusplus::Sdiv	vm_class.hpp	/^		Sdiv,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Sdiv	vm_class.hpp	/^		Sdiv,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Sdivi	vm_class.hpp	/^		Sdivi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Smod	vm_class.hpp	/^		Smod,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Smod	vm_class.hpp	/^		Smod,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Smodi	vm_class.hpp	/^		Smodi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Sslt	vm_class.hpp	/^		Sslt,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Sslt	vm_class.hpp	/^		Sslt,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Sslti	vm_class.hpp	/^		Sslti,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Stx16	vm_class.hpp	/^		Stx16,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Stx16i	vm_class.hpp	/^		Stx16i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Stx32	vm_class.hpp	/^		Stx32,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Stx32i	vm_class.hpp	/^		Stx32i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Stx64	vm_class.hpp	/^		Stx64,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Stx64i	vm_class.hpp	/^		Stx64i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Stx8	vm_class.hpp	/^		Stx8,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Stx8i	vm_class.hpp	/^		Stx8i,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Sub	vm_class.hpp	/^		Sub,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Sub	vm_class.hpp	/^		Sub,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Subi	vm_class.hpp	/^		Subi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Syscall	vm_class.hpp	/^		Syscall,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+cakeplusplus::U16	vm_class.hpp	/^		U16,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+cakeplusplus::U32	vm_class.hpp	/^		U32,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+cakeplusplus::U8	vm_class.hpp	/^		U8,$/;"	kind:e	enum:cakeplusplus::Vm::LoadType	access:public
+cakeplusplus::Udiv	vm_class.hpp	/^		Udiv,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Udiv	vm_class.hpp	/^		Udiv,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Udivi	vm_class.hpp	/^		Udivi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Umod	vm_class.hpp	/^		Umod,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Umod	vm_class.hpp	/^		Umod,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Umodi	vm_class.hpp	/^		Umodi,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Uslt	vm_class.hpp	/^		Uslt,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Uslt	vm_class.hpp	/^		Uslt,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Uslti	vm_class.hpp	/^		Uslti,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+cakeplusplus::Var	vm_class.hpp	/^		Var,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp3Oper	access:public
+cakeplusplus::Varx	vm_class.hpp	/^		Varx,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp4Oper	access:public
+cakeplusplus::Vm	vm_class.hpp	/^class Vm$/;"	kind:c	namespace:cakeplusplus
+cakeplusplus::Vm::Address	vm_class.hpp	/^	typedef u64 Address;$/;"	kind:t	class:cakeplusplus::Vm	typeref:typename:u64	access:public
+cakeplusplus::Vm::ArithLogOper	vm_class.hpp	/^	enum class ArithLogOper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+cakeplusplus::Vm::InstrGrp0Oper	vm_class.hpp	/^	enum class InstrGrp0Oper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+cakeplusplus::Vm::InstrGrp1Oper	vm_class.hpp	/^	enum class InstrGrp1Oper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+cakeplusplus::Vm::InstrGrp2Oper	vm_class.hpp	/^	enum class InstrGrp2Oper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+cakeplusplus::Vm::InstrGrp3Oper	vm_class.hpp	/^	enum class InstrGrp3Oper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+cakeplusplus::Vm::InstrGrp4Oper	vm_class.hpp	/^	enum class InstrGrp4Oper : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+cakeplusplus::Vm::InstrHeader	vm_class.hpp	/^	class InstrHeader$/;"	kind:c	class:cakeplusplus::Vm	access:public
+cakeplusplus::Vm::InstrHeader::InstrHeader	vm_class.hpp	/^		inline InstrHeader(const InstrHeader& to_copy) = default;$/;"	kind:p	class:cakeplusplus::Vm::InstrHeader	access:public	signature:(const InstrHeader & to_copy)
+cakeplusplus::Vm::InstrHeader::InstrHeader	vm_class.hpp	/^		inline InstrHeader(u16 to_copy)$/;"	kind:f	class:cakeplusplus::Vm::InstrHeader	access:public	signature:(u16 to_copy)
+cakeplusplus::Vm::InstrHeader::__group	vm_class.hpp	/^		u8 __group, __oper;$/;"	kind:m	class:cakeplusplus::Vm::InstrHeader	typeref:typename:u8	access:private
+cakeplusplus::Vm::InstrHeader::__oper	vm_class.hpp	/^		u8 __group, __oper;$/;"	kind:m	class:cakeplusplus::Vm::InstrHeader	typeref:typename:u8	access:private
+cakeplusplus::Vm::InstrHeader::arg_is_signed	vm_class.cpp	/^bool Vm::InstrHeader::arg_is_signed() const$/;"	kind:f	class:cakeplusplus::Vm::InstrHeader	typeref:typename:bool	signature:() const
+cakeplusplus::Vm::InstrHeader::arg_is_signed	vm_class.hpp	/^		bool arg_is_signed() const;$/;"	kind:p	class:cakeplusplus::Vm::InstrHeader	typeref:typename:bool	access:public	signature:() const
+cakeplusplus::Vm::InstrHeader::num_arg_bytes	vm_class.cpp	/^size_t Vm::InstrHeader::num_arg_bytes() const$/;"	kind:f	class:cakeplusplus::Vm::InstrHeader	typeref:typename:size_t	signature:() const
+cakeplusplus::Vm::InstrHeader::num_arg_bytes	vm_class.hpp	/^		size_t num_arg_bytes() const;$/;"	kind:p	class:cakeplusplus::Vm::InstrHeader	typeref:typename:size_t	access:public	signature:() const
+cakeplusplus::Vm::InstrHeader::operator =	vm_class.hpp	/^		inline InstrHeader& operator = (const InstrHeader& to_copy)$/;"	kind:p	class:cakeplusplus::Vm::InstrHeader	typeref:typename:InstrHeader &	access:public	signature:(const InstrHeader & to_copy)
+cakeplusplus::Vm::InstrHeader::operator =	vm_class.hpp	/^		inline InstrHeader& operator = (u16 to_copy)$/;"	kind:f	class:cakeplusplus::Vm::InstrHeader	typeref:typename:InstrHeader &	access:public	signature:(u16 to_copy)
+cakeplusplus::Vm::InstrHeader::valid	vm_class.cpp	/^bool Vm::InstrHeader::valid() const$/;"	kind:f	class:cakeplusplus::Vm::InstrHeader	typeref:typename:bool	signature:() const
+cakeplusplus::Vm::InstrHeader::valid	vm_class.hpp	/^		bool valid() const;$/;"	kind:p	class:cakeplusplus::Vm::InstrHeader	typeref:typename:bool	access:public	signature:() const
+cakeplusplus::Vm::LoadType	vm_class.hpp	/^	enum class LoadType : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+cakeplusplus::Vm::StoreType	vm_class.hpp	/^	enum class StoreType : u8$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u8	access:public
+cakeplusplus::Vm::SystemCall	vm_class.hpp	/^	enum class SystemCall : u64$/;"	kind:g	class:cakeplusplus::Vm	typeref:typename:u64	access:public
+cakeplusplus::Vm::Vm	vm_class.cpp	/^Vm::Vm(size_t s_mem_amount, const std::string& s_code_filename)$/;"	kind:f	class:cakeplusplus::Vm	signature:(size_t s_mem_amount,const std::string & s_code_filename)
+cakeplusplus::Vm::Vm	vm_class.hpp	/^	Vm(size_t s_mem_amount, const std::string& s_code_filename);$/;"	kind:p	class:cakeplusplus::Vm	access:public	signature:(size_t s_mem_amount,const std::string & s_code_filename)
+cakeplusplus::Vm::__code_filename	vm_class.hpp	/^	std::string __code_filename;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:std::string	access:private
+cakeplusplus::Vm::__fp	vm_class.hpp	/^	Address __pc, __sp, __fp;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:Address	access:private
+cakeplusplus::Vm::__mem	vm_class.hpp	/^	std::unique_ptr<u8[]> __mem;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:std::unique_ptr<u8[]>	access:private
+cakeplusplus::Vm::__mem_amount	vm_class.hpp	/^	size_t __mem_amount;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:size_t	access:private
+cakeplusplus::Vm::__pc	vm_class.hpp	/^	Address __pc, __sp, __fp;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:Address	access:private
+cakeplusplus::Vm::__sp	vm_class.hpp	/^	Address __pc, __sp, __fp;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:Address	access:private
+cakeplusplus::Vm::err	vm_class.hpp	/^	inline void err(ArgTypes&&... args) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(ArgTypes &&...args) const
+cakeplusplus::Vm::exec_arithlog_instr	vm_class.cpp	/^void Vm::exec_arithlog_instr(ArithLogOper oper, u64 arg_0, u64 arg_1)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(ArithLogOper oper,u64 arg_0,u64 arg_1)
+cakeplusplus::Vm::exec_arithlog_instr	vm_class.hpp	/^	void exec_arithlog_instr(ArithLogOper oper, u64 arg_0, u64 arg_1);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(ArithLogOper oper,u64 arg_0,u64 arg_1)
+cakeplusplus::Vm::exec_load_instr	vm_class.cpp	/^void Vm::exec_load_instr(LoadType load_type, u64 address)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(LoadType load_type,u64 address)
+cakeplusplus::Vm::exec_load_instr	vm_class.hpp	/^	void exec_load_instr(LoadType load_type, u64 address);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(LoadType load_type,u64 address)
+cakeplusplus::Vm::exec_store_instr	vm_class.cpp	/^void Vm::exec_store_instr(StoreType store_type, u64 address, u64 data)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(StoreType store_type,u64 address,u64 data)
+cakeplusplus::Vm::exec_store_instr	vm_class.hpp	/^	void exec_store_instr(StoreType store_type, u64 address, u64 data);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(StoreType store_type,u64 address,u64 data)
+cakeplusplus::Vm::exec_syscall	vm_class.hpp	/^	void exec_syscall(SystemCall system_call);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(SystemCall system_call)
+cakeplusplus::Vm::get_extended_mem_s16_at	vm_class.hpp	/^	inline s64 get_extended_mem_s16_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:(Address where) const
+cakeplusplus::Vm::get_extended_mem_s32_at	vm_class.hpp	/^	inline s64 get_extended_mem_s32_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:(Address where) const
+cakeplusplus::Vm::get_extended_mem_s8_at	vm_class.hpp	/^	inline s64 get_extended_mem_s8_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:(Address where) const
+cakeplusplus::Vm::get_extended_mem_u16_at	vm_class.hpp	/^	inline u64 get_extended_mem_u16_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:(Address where) const
+cakeplusplus::Vm::get_extended_mem_u32_at	vm_class.hpp	/^	inline u64 get_extended_mem_u32_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:(Address where) const
+cakeplusplus::Vm::get_extended_mem_u8_at	vm_class.hpp	/^	inline u64 get_extended_mem_u8_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:(Address where) const
+cakeplusplus::Vm::get_mem64_at	vm_class.cpp	/^u64 Vm::get_mem64_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	signature:(Address where) const
+cakeplusplus::Vm::get_mem64_at	vm_class.hpp	/^	u64 get_mem64_at(Address where) const;$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:(Address where) const
+cakeplusplus::Vm::get_raw_mem16_at	vm_class.cpp	/^u16 Vm::get_raw_mem16_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u16	signature:(Address where) const
+cakeplusplus::Vm::get_raw_mem16_at	vm_class.hpp	/^	u16 get_raw_mem16_at(Address where) const;$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:u16	access:private	signature:(Address where) const
+cakeplusplus::Vm::get_raw_mem32_at	vm_class.cpp	/^u32 Vm::get_raw_mem32_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u32	signature:(Address where) const
+cakeplusplus::Vm::get_raw_mem32_at	vm_class.hpp	/^	u32 get_raw_mem32_at(Address where) const;$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:u32	access:private	signature:(Address where) const
+cakeplusplus::Vm::get_raw_mem8_at	vm_class.cpp	/^u8 Vm::get_raw_mem8_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u8	signature:(Address where) const
+cakeplusplus::Vm::get_raw_mem8_at	vm_class.hpp	/^	u8 get_raw_mem8_at(Address where) const;$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:u8	access:private	signature:(Address where) const
+cakeplusplus::Vm::handle_instr_from_group_0	vm_class.cpp	/^void Vm::handle_instr_from_group_0(u8 oper, u64 extended_arg)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(u8 oper,u64 extended_arg)
+cakeplusplus::Vm::handle_instr_from_group_0	vm_class.hpp	/^	void handle_instr_from_group_0(u8 oper, u64 extended_arg);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u8 oper,u64 extended_arg)
+cakeplusplus::Vm::handle_instr_from_group_1	vm_class.cpp	/^void Vm::handle_instr_from_group_1(u8 oper, u64 extended_arg)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(u8 oper,u64 extended_arg)
+cakeplusplus::Vm::handle_instr_from_group_1	vm_class.hpp	/^	void handle_instr_from_group_1(u8 oper, u64 extended_arg);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u8 oper,u64 extended_arg)
+cakeplusplus::Vm::handle_instr_from_group_2	vm_class.cpp	/^void Vm::handle_instr_from_group_2(u8 oper, u64 extended_arg)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(u8 oper,u64 extended_arg)
+cakeplusplus::Vm::handle_instr_from_group_2	vm_class.hpp	/^	void handle_instr_from_group_2(u8 oper, u64 extended_arg);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u8 oper,u64 extended_arg)
+cakeplusplus::Vm::handle_instr_from_group_3	vm_class.cpp	/^void Vm::handle_instr_from_group_3(u8 oper, u64 extended_arg)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(u8 oper,u64 extended_arg)
+cakeplusplus::Vm::handle_instr_from_group_3	vm_class.hpp	/^	void handle_instr_from_group_3(u8 oper, u64 extended_arg);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u8 oper,u64 extended_arg)
+cakeplusplus::Vm::handle_instr_from_group_4	vm_class.cpp	/^void Vm::handle_instr_from_group_4(u8 oper, u64 extended_arg)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(u8 oper,u64 extended_arg)
+cakeplusplus::Vm::handle_instr_from_group_4	vm_class.hpp	/^	void handle_instr_from_group_4(u8 oper, u64 extended_arg);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u8 oper,u64 extended_arg)
+cakeplusplus::Vm::ld64_and_inc_pc	vm_class.hpp	/^	inline u64 ld64_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:()
+cakeplusplus::Vm::ld_instr_header_and_inc_pc	vm_class.hpp	/^	inline InstrHeader ld_instr_header_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:InstrHeader	access:private	signature:()
+cakeplusplus::Vm::lds16_extended_and_inc_pc	vm_class.hpp	/^	inline s64 lds16_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:()
+cakeplusplus::Vm::lds32_extended_and_inc_pc	vm_class.hpp	/^	inline s64 lds32_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:()
+cakeplusplus::Vm::lds8_extended_and_inc_pc	vm_class.hpp	/^	inline s64 lds8_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:()
+cakeplusplus::Vm::ldu16_extended_and_inc_pc	vm_class.hpp	/^	inline u64 ldu16_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:()
+cakeplusplus::Vm::ldu32_extended_and_inc_pc	vm_class.hpp	/^	inline u64 ldu32_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:()
+cakeplusplus::Vm::ldu8_extended_and_inc_pc	vm_class.hpp	/^	inline u64 ldu8_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:()
+cakeplusplus::Vm::max_mem_amount	vm_class.hpp	/^	static constexpr size_t max_mem_amount = 0x100000000;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:size_t	access:public
+cakeplusplus::Vm::pop	vm_class.hpp	/^	inline u64 pop()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:()
+cakeplusplus::Vm::push	vm_class.hpp	/^	inline void push(u64 to_push)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u64 to_push)
+cakeplusplus::Vm::run	vm_class.cpp	/^int Vm::run()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:int	signature:()
+cakeplusplus::Vm::run	vm_class.hpp	/^	int run();$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:int	access:public	signature:()
+cakeplusplus::Vm::set_mem16_at	vm_class.cpp	/^void Vm::set_mem16_at(Address where, u16 data)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(Address where,u16 data)
+cakeplusplus::Vm::set_mem16_at	vm_class.hpp	/^	void set_mem16_at(Address where, u16 data);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(Address where,u16 data)
+cakeplusplus::Vm::set_mem32_at	vm_class.cpp	/^void Vm::set_mem32_at(Address where, u32 data)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(Address where,u32 data)
+cakeplusplus::Vm::set_mem32_at	vm_class.hpp	/^	void set_mem32_at(Address where, u32 data);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(Address where,u32 data)
+cakeplusplus::Vm::set_mem64_at	vm_class.cpp	/^void Vm::set_mem64_at(Address where, u64 data)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(Address where,u64 data)
+cakeplusplus::Vm::set_mem64_at	vm_class.hpp	/^	void set_mem64_at(Address where, u64 data);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(Address where,u64 data)
+cakeplusplus::Vm::set_mem8_at	vm_class.cpp	/^void Vm::set_mem8_at(Address where, u8 data)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(Address where,u8 data)
+cakeplusplus::Vm::set_mem8_at	vm_class.hpp	/^	void set_mem8_at(Address where, u8 data);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(Address where,u8 data)
+cakeplusplus::Vm::~Vm	vm_class.cpp	/^Vm::~Vm()$/;"	kind:f	class:cakeplusplus::Vm	signature:()
+cakeplusplus::Vm::~Vm	vm_class.hpp	/^	virtual ~Vm();$/;"	kind:p	class:cakeplusplus::Vm	access:public	signature:()
+cakeplusplus::Xor	vm_class.hpp	/^		Xor,$/;"	kind:e	enum:cakeplusplus::Vm::ArithLogOper	access:public
+cakeplusplus::Xor	vm_class.hpp	/^		Xor,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp0Oper	access:public
+cakeplusplus::Xori	vm_class.hpp	/^		Xori,$/;"	kind:e	enum:cakeplusplus::Vm::InstrGrp1Oper	access:public
+clamp_to_range	liborangepower_src/range_funcs.hpp	/^inline Type clamp_to_range(Type range_start_inclusive, $/;"	kind:f	namespace:liborangepower::range	typeref:typename:Type	signature:(Type range_start_inclusive,Type range_end_exclusive,Type to_clamp)
+clear_and_set_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void clear_and_set_bits(Type& to_change, size_t clear_mask,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_change,size_t clear_mask,size_t set_mask)
+clear_and_set_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void clear_and_set_bits(Type& to_change, size_t val,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_change,size_t val,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+clear_and_set_bits_with_range	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void clear_and_set_bits_with_range(Type& to_change, size_t val,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_change,size_t val,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+clear_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void clear_bits(Type& to_clear, size_t mask)$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_clear,size_t mask)
+clear_bits_with_range	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void clear_bits_with_range(Type& to_clear, size_t bit_pos_range_hi,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_clear,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+cmpeq_array	liborangepower_src/misc_utility_funcs.hpp	/^bool cmpeq_array(FirstType* first_arr, SecondType* second_arr, size_t size)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:bool	signature:(FirstType * first_arr,SecondType * second_arr,size_t size)
+containers	liborangepower_src/array_2d_helper_classes.hpp	/^namespace containers$/;"	kind:n	namespace:liborangepower
+containers	liborangepower_src/array_helper_classes.hpp	/^namespace containers$/;"	kind:n	namespace:liborangepower
+containers	liborangepower_src/prev_curr_pair_class.hpp	/^namespace containers$/;"	kind:n	namespace:liborangepower
+containers	liborangepower_src/vec2_classes.hpp	/^namespace containers$/;"	kind:n	namespace:liborangepower
+convert_bignum_to_str	liborangepower_src/gmp_stuff.hpp	/^inline std::string convert_bignum_to_str(const BigNum& in_bignum)$/;"	kind:f	namespace:liborangepower::bignum	typeref:typename:std::string	signature:(const BigNum & in_bignum)
+convert_str_to	liborangepower_src/string_conversion_stuff.hpp	/^inline Type convert_str_to(const std::string& to_convert)$/;"	kind:f	namespace:liborangepower::strings	typeref:typename:Type	signature:(const std::string & to_convert)
+count_leading_zeros	liborangepower_src/misc_bitwise_funcs.hpp	/^size_t count_leading_zeros(Type x)$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:size_t	signature:(Type x)
+curr	liborangepower_src/prev_curr_pair_class.hpp	/^	type prev, curr;$/;"	kind:m	class:liborangepower::containers::PrevCurrPair	typeref:typename:type	access:public
+custom_abs	liborangepower_src/misc_utility_funcs.hpp	/^inline Type custom_abs(const Type& val)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:Type	signature:(const Type & val)
+custom_abs	liborangepower_src/vec2_classes.hpp	/^inline Vec2<Type> custom_abs(const Vec2<Type>& val)$/;"	kind:f	namespace:liborangepower::containers	typeref:typename:Vec2<Type>	signature:(const Vec2<Type> & val)
+debug_print_json	liborangepower_src/json_stuff.cpp	/^void debug_print_json(const Json::Value& some_value, std::ostream& os, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(const Json::Value & some_value,std::ostream & os,size_t tabs_level)
+debug_print_json	liborangepower_src/json_stuff.hpp	/^inline void debug_print_json(Json::Value* iter, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(Json::Value * iter,std::ostream & os=std::cout,size_t tabs_level=0)
+debug_print_json	liborangepower_src/json_stuff.hpp	/^void debug_print_json(const Json::Value& some_value, $/;"	kind:p	namespace:liborangepower::json	typeref:typename:void	signature:(const Json::Value & some_value,std::ostream & os=std::cout,size_t tabs_level=0)
+dot_prod	liborangepower_src/vec2_classes.hpp	/^	inline Type dot_prod(const Vec2<OtherType>& to_dot) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Type	access:public	signature:(const Vec2<OtherType> & to_dot) const
+end_tp	liborangepower_src/time_stuff.hpp	/^	std::chrono::high_resolution_clock::time_point start_tp, end_tp;$/;"	kind:m	class:liborangepower::time::Profiler	typeref:typename:std::chrono::high_resolution_clock::time_point	access:protected
+err	liborangepower_src/json_stuff.hpp	/^void err(arg_types&&... args)$/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(arg_types &&...args)
+err	vm_class.hpp	/^	inline void err(ArgTypes&&... args) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(ArgTypes &&...args) const
+exec_arithlog_instr	vm_class.cpp	/^void Vm::exec_arithlog_instr(ArithLogOper oper, u64 arg_0, u64 arg_1)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(ArithLogOper oper,u64 arg_0,u64 arg_1)
+exec_arithlog_instr	vm_class.hpp	/^	void exec_arithlog_instr(ArithLogOper oper, u64 arg_0, u64 arg_1);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(ArithLogOper oper,u64 arg_0,u64 arg_1)
+exec_load_instr	vm_class.cpp	/^void Vm::exec_load_instr(LoadType load_type, u64 address)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(LoadType load_type,u64 address)
+exec_load_instr	vm_class.hpp	/^	void exec_load_instr(LoadType load_type, u64 address);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(LoadType load_type,u64 address)
+exec_store_instr	vm_class.cpp	/^void Vm::exec_store_instr(StoreType store_type, u64 address, u64 data)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(StoreType store_type,u64 address,u64 data)
+exec_store_instr	vm_class.hpp	/^	void exec_store_instr(StoreType store_type, u64 address, u64 data);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(StoreType store_type,u64 address,u64 data)
+exec_syscall	vm_class.hpp	/^	void exec_syscall(SystemCall system_call);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(SystemCall system_call)
+fprintout	liborangepower_src/misc_output_classes.hpp	/^inline std::ostream& fprintout(std::ostream& out_file, ArgTypes&&... args)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(std::ostream & out_file,ArgTypes &&...args)
+func	liborangepower_src/misc_output_classes.hpp	/^	static inline void func(std::ostream& os)$/;"	kind:f	class:liborangepower::printout_etc::AnyPrintoutBackend	typeref:typename:void	access:private	signature:(std::ostream & os)
+func	liborangepower_src/misc_output_classes.hpp	/^	static void func(std::ostream& os, const FirstType& first_val, $/;"	kind:f	class:liborangepower::printout_etc::AnyPrintoutBackend	typeref:typename:void	access:private	signature:(std::ostream & os,const FirstType & first_val,RemArgTypes &&...rem_args)
+gen_generic_getter_by_con_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_generic_getter_by_con_ref(/;"	kind:d	signature:(prefix,suffix)
+gen_generic_getter_by_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_generic_getter_by_ref(/;"	kind:d	signature:(prefix,suffix)
+gen_generic_getter_by_val	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_generic_getter_by_val(/;"	kind:d	signature:(prefix,suffix)
+gen_generic_setter_by_con_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_generic_setter_by_con_ref(/;"	kind:d	signature:(prefix,suffix)
+gen_generic_setter_by_rval_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_generic_setter_by_rval_ref(/;"	kind:d	signature:(prefix,suffix)
+gen_generic_setter_by_val	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_generic_setter_by_val(/;"	kind:d	signature:(prefix,suffix)
+gen_getter_and_setter_by_con_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_getter_and_setter_by_con_ref(/;"	kind:d	signature:(stuff)
+gen_getter_and_setter_by_val	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_getter_and_setter_by_val(/;"	kind:d	signature:(stuff)
+gen_getter_by_con_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_getter_by_con_ref(/;"	kind:d	signature:(suffix)
+gen_getter_by_con_ref	liborangepower_src/time_stuff.hpp	/^	gen_getter_by_con_ref(instance);$/;"	kind:p	class:liborangepower::time::Prng	access:public	signature:(instance)
+gen_getter_by_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_getter_by_ref(/;"	kind:d	signature:(suffix)
+gen_getter_by_val	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_getter_by_val(/;"	kind:d	signature:(suffix)
+gen_getter_by_val	liborangepower_src/time_stuff.hpp	/^	gen_getter_by_val(param_0);$/;"	kind:p	class:liborangepower::time::Prng	access:public	signature:(param_0)
+gen_getter_by_val	liborangepower_src/time_stuff.hpp	/^	gen_getter_by_val(param_1);$/;"	kind:p	class:liborangepower::time::Prng	access:public	signature:(param_1)
+gen_setter_by_con_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_setter_by_con_ref(/;"	kind:d	signature:(suffix)
+gen_setter_by_rval_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_setter_by_rval_ref(/;"	kind:d	signature:(suffix)
+gen_setter_by_val	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_setter_by_val(/;"	kind:d	signature:(suffix)
+gen_static_generic_getter_by_con_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_generic_getter_by_con_ref(/;"	kind:d	signature:(prefix,suffix)
+gen_static_generic_getter_by_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_generic_getter_by_ref(/;"	kind:d	signature:(prefix,suffix)
+gen_static_generic_getter_by_val	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_generic_getter_by_val(/;"	kind:d	signature:(prefix,suffix)
+gen_static_generic_setter_by_con_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_generic_setter_by_con_ref(/;"	kind:d	signature:(prefix,suffix)
+gen_static_generic_setter_by_rval_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_generic_setter_by_rval_ref(/;"	kind:d	signature:(prefix,suffix)
+gen_static_generic_setter_by_val	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_generic_setter_by_val(/;"	kind:d	signature:(prefix,suffix)
+gen_static_getter_by_con_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_getter_by_con_ref(/;"	kind:d	signature:(suffix)
+gen_static_getter_by_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_getter_by_ref(/;"	kind:d	signature:(suffix)
+gen_static_getter_by_val	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_getter_by_val(/;"	kind:d	signature:(suffix)
+gen_static_setter_by_con_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_setter_by_con_ref(/;"	kind:d	signature:(suffix)
+gen_static_setter_by_rval_ref	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_setter_by_rval_ref(/;"	kind:d	signature:(suffix)
+gen_static_setter_by_val	liborangepower_src/gen_getter_setter_defines.hpp	/^#define gen_static_setter_by_val(/;"	kind:d	signature:(suffix)
+generate_float_pt_vec2_extra_class_contents	liborangepower_src/vec2_classes.hpp	/^	generate_float_pt_vec2_extra_class_contents(double);$/;"	kind:p	class:liborangepower::containers::Vec2	access:private	signature:(double)
+generate_float_pt_vec2_extra_class_contents	liborangepower_src/vec2_classes.hpp	/^	generate_float_pt_vec2_extra_class_contents(float);$/;"	kind:p	class:liborangepower::containers::Vec2	access:private	signature:(float)
+generate_float_pt_vec2_extra_class_contents	liborangepower_src/vec2_classes.hpp	/^#define generate_float_pt_vec2_extra_class_contents(/;"	kind:d	signature:(specific_type)
+generate_specific_vec2_class_contents	liborangepower_src/vec2_classes.hpp	/^	generate_specific_vec2_class_contents(double);$/;"	kind:p	class:liborangepower::containers::Vec2	access:private	signature:(double)
+generate_specific_vec2_class_contents	liborangepower_src/vec2_classes.hpp	/^	generate_specific_vec2_class_contents(float);$/;"	kind:p	class:liborangepower::containers::Vec2	access:private	signature:(float)
+generate_specific_vec2_class_contents	liborangepower_src/vec2_classes.hpp	/^#define generate_specific_vec2_class_contents(/;"	kind:d	signature:(specific_type)
+get_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr Type get_bits(Type to_get_from, size_t mask, $/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:Type	signature:(Type to_get_from,size_t mask,size_t shift=0)
+get_bits_with_range	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr Type get_bits_with_range(Type to_get_from, $/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:Type	signature:(Type to_get_from,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+get_extended_mem_s16_at	vm_class.hpp	/^	inline s64 get_extended_mem_s16_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:(Address where) const
+get_extended_mem_s32_at	vm_class.hpp	/^	inline s64 get_extended_mem_s32_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:(Address where) const
+get_extended_mem_s8_at	vm_class.hpp	/^	inline s64 get_extended_mem_s8_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:(Address where) const
+get_extended_mem_u16_at	vm_class.hpp	/^	inline u64 get_extended_mem_u16_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:(Address where) const
+get_extended_mem_u32_at	vm_class.hpp	/^	inline u64 get_extended_mem_u32_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:(Address where) const
+get_extended_mem_u8_at	vm_class.hpp	/^	inline u64 get_extended_mem_u8_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:(Address where) const
+get_hrc_now	liborangepower_src/time_stuff.hpp	/^	static inline auto get_hrc_now()$/;"	kind:f	class:liborangepower::time::Profiler	typeref:typename:auto	access:public	signature:()
+get_hrc_now_time_t	liborangepower_src/time_stuff.hpp	/^	static inline auto get_hrc_now_time_t()$/;"	kind:f	class:liborangepower::time::Profiler	typeref:typename:auto	access:public	signature:()
+get_json_value_type_as_str	liborangepower_src/json_stuff.cpp	/^std::string get_json_value_type_as_str(const Json::Value& some_value)$/;"	kind:f	namespace:liborangepower::json	typeref:typename:std::string	signature:(const Json::Value & some_value)
+get_json_value_type_as_str	liborangepower_src/json_stuff.hpp	/^inline std::string get_json_value_type_as_str(Json::Value* iter)$/;"	kind:f	namespace:liborangepower::json	typeref:typename:std::string	signature:(Json::Value * iter)
+get_json_value_type_as_str	liborangepower_src/json_stuff.hpp	/^std::string get_json_value_type_as_str(const Json::Value& some_value);$/;"	kind:p	namespace:liborangepower::json	typeref:typename:std::string	signature:(const Json::Value & some_value)
+get_mem64_at	vm_class.cpp	/^u64 Vm::get_mem64_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	signature:(Address where) const
+get_mem64_at	vm_class.hpp	/^	u64 get_mem64_at(Address where) const;$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:(Address where) const
+get_raw_mem16_at	vm_class.cpp	/^u16 Vm::get_raw_mem16_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u16	signature:(Address where) const
+get_raw_mem16_at	vm_class.hpp	/^	u16 get_raw_mem16_at(Address where) const;$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:u16	access:private	signature:(Address where) const
+get_raw_mem32_at	vm_class.cpp	/^u32 Vm::get_raw_mem32_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u32	signature:(Address where) const
+get_raw_mem32_at	vm_class.hpp	/^	u32 get_raw_mem32_at(Address where) const;$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:u32	access:private	signature:(Address where) const
+get_raw_mem8_at	vm_class.cpp	/^u8 Vm::get_raw_mem8_at(Address where) const$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u8	signature:(Address where) const
+get_raw_mem8_at	vm_class.hpp	/^	u8 get_raw_mem8_at(Address where) const;$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:u8	access:private	signature:(Address where) const
+get_stdin_as_str	liborangepower_src/misc_input_classes.hpp	/^inline std::string get_stdin_as_str()$/;"	kind:f	namespace:liborangepower::misc_input	typeref:typename:std::string	signature:()
+handle_instr_from_group_0	vm_class.cpp	/^void Vm::handle_instr_from_group_0(u8 oper, u64 extended_arg)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(u8 oper,u64 extended_arg)
+handle_instr_from_group_0	vm_class.hpp	/^	void handle_instr_from_group_0(u8 oper, u64 extended_arg);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u8 oper,u64 extended_arg)
+handle_instr_from_group_1	vm_class.cpp	/^void Vm::handle_instr_from_group_1(u8 oper, u64 extended_arg)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(u8 oper,u64 extended_arg)
+handle_instr_from_group_1	vm_class.hpp	/^	void handle_instr_from_group_1(u8 oper, u64 extended_arg);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u8 oper,u64 extended_arg)
+handle_instr_from_group_2	vm_class.cpp	/^void Vm::handle_instr_from_group_2(u8 oper, u64 extended_arg)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(u8 oper,u64 extended_arg)
+handle_instr_from_group_2	vm_class.hpp	/^	void handle_instr_from_group_2(u8 oper, u64 extended_arg);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u8 oper,u64 extended_arg)
+handle_instr_from_group_3	vm_class.cpp	/^void Vm::handle_instr_from_group_3(u8 oper, u64 extended_arg)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(u8 oper,u64 extended_arg)
+handle_instr_from_group_3	vm_class.hpp	/^	void handle_instr_from_group_3(u8 oper, u64 extended_arg);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u8 oper,u64 extended_arg)
+handle_instr_from_group_4	vm_class.cpp	/^void Vm::handle_instr_from_group_4(u8 oper, u64 extended_arg)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(u8 oper,u64 extended_arg)
+handle_instr_from_group_4	vm_class.hpp	/^	void handle_instr_from_group_4(u8 oper, u64 extended_arg);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u8 oper,u64 extended_arg)
+has_changed	liborangepower_src/prev_curr_pair_class.hpp	/^	inline bool has_changed() const$/;"	kind:f	class:liborangepower::containers::PrevCurrPair	typeref:typename:bool	access:public	signature:() const
+height	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t height() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:size_t	access:public	signature:() const
+height	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t height() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:size_t	access:public	signature:() const
+in_range	liborangepower_src/range_funcs.hpp	/^inline bool in_range(Type range_start_inclusive, Type range_end_exclusive, $/;"	kind:f	namespace:liborangepower::range	typeref:typename:bool	signature:(Type range_start_inclusive,Type range_end_exclusive,Type to_check)
+in_range_inclusive	liborangepower_src/range_funcs.hpp	/^inline bool in_range_inclusive(Type range_start_inclusive, $/;"	kind:f	namespace:liborangepower::range	typeref:typename:bool	signature:(Type range_start_inclusive,Type range_end_inclusive,Type to_check)
+init	liborangepower_src/array_2d_helper_classes.hpp	/^	void init(Type* s___arr)$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:void	access:public	signature:(Type * s___arr)
+init	liborangepower_src/array_2d_helper_classes.hpp	/^	void init(Type* s___arr, const Vec2<size_t>& s_size_2d)$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:void	access:public	signature:(Type * s___arr,const Vec2<size_t> & s_size_2d)
+init	liborangepower_src/array_helper_classes.hpp	/^	void init(Type* s_the_array)$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	typeref:typename:void	access:public	signature:(Type * s_the_array)
+init	liborangepower_src/array_helper_classes.hpp	/^	void init(Type* s_the_array, size_t s_size)$/;"	kind:f	class:liborangepower::containers::ArrayHelper	typeref:typename:void	access:public	signature:(Type * s_the_array,size_t s_size)
+init_array	liborangepower_src/misc_utility_funcs.hpp	/^inline void init_array(Type* all_values_arr, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void	signature:(Type * all_values_arr,const AllTheTypes &...all_the_values)
+initial_seed	liborangepower_src/time_stuff.hpp	/^	inline SeedType initial_seed()$/;"	kind:f	class:liborangepower::time::Prng	typeref:typename:SeedType	access:protected	signature:()
+integer_types	liborangepower_src/misc_types.hpp	/^namespace integer_types$/;"	kind:n	namespace:liborangepower
+json	liborangepower_src/json_stuff.cpp	/^namespace json$/;"	kind:n	namespace:liborangepower	file:
+json	liborangepower_src/json_stuff.hpp	/^namespace json$/;"	kind:n	namespace:liborangepower
+ld64_and_inc_pc	vm_class.hpp	/^	inline u64 ld64_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:()
+ld_instr_header_and_inc_pc	vm_class.hpp	/^	inline InstrHeader ld_instr_header_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:InstrHeader	access:private	signature:()
+lds16_extended_and_inc_pc	vm_class.hpp	/^	inline s64 lds16_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:()
+lds32_extended_and_inc_pc	vm_class.hpp	/^	inline s64 lds32_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:()
+lds8_extended_and_inc_pc	vm_class.hpp	/^	inline s64 lds8_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:s64	access:private	signature:()
+ldu16_extended_and_inc_pc	vm_class.hpp	/^	inline u64 ldu16_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:()
+ldu32_extended_and_inc_pc	vm_class.hpp	/^	inline u64 ldu32_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:()
+ldu8_extended_and_inc_pc	vm_class.hpp	/^	inline u64 ldu8_extended_and_inc_pc()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:()
+liborangepower	liborangepower_src/array_2d_helper_classes.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/array_helper_classes.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/gmp_stuff.cpp	/^namespace liborangepower$/;"	kind:n	file:
+liborangepower	liborangepower_src/gmp_stuff.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/json_stuff.cpp	/^namespace liborangepower$/;"	kind:n	file:
+liborangepower	liborangepower_src/json_stuff.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/memwhatever_wrappers.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/misc_bitwise_funcs.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/misc_input_classes.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/misc_output_classes.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/misc_types.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/misc_utility_funcs.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/mpi_handler_class.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/prev_curr_pair_class.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/quoted_str_converter_stuff.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/range_funcs.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/string_conversion_stuff.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/time_stuff.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower	liborangepower_src/vec2_classes.hpp	/^namespace liborangepower$/;"	kind:n
+liborangepower::DidQuitWithMiscOutput	liborangepower_src/mpi_handler_class.hpp	/^		DidQuitWithMiscOutput,$/;"	kind:e	enum:liborangepower::mpi::MpiHandler::ErrorCode	access:public
+liborangepower::FakeError	liborangepower_src/mpi_handler_class.hpp	/^		FakeError,$/;"	kind:e	enum:liborangepower::mpi::MpiHandler::ErrorCode	access:public
+liborangepower::SizeTooBig	liborangepower_src/mpi_handler_class.hpp	/^		SizeTooBig,$/;"	kind:e	enum:liborangepower::mpi::MpiHandler::ErrorCode	access:public
+liborangepower::TooFewProcs	liborangepower_src/mpi_handler_class.hpp	/^		TooFewProcs,$/;"	kind:e	enum:liborangepower::mpi::MpiHandler::ErrorCode	access:public
+liborangepower::bignum	liborangepower_src/gmp_stuff.cpp	/^namespace bignum$/;"	kind:n	namespace:liborangepower	file:
+liborangepower::bignum	liborangepower_src/gmp_stuff.hpp	/^namespace bignum$/;"	kind:n	namespace:liborangepower
+liborangepower::bignum::BigNum	liborangepower_src/gmp_stuff.hpp	/^typedef mpz_class BigNum;$/;"	kind:t	namespace:liborangepower::bignum	typeref:typename:mpz_class
+liborangepower::bignum::convert_bignum_to_str	liborangepower_src/gmp_stuff.hpp	/^inline std::string convert_bignum_to_str(const BigNum& in_bignum)$/;"	kind:f	namespace:liborangepower::bignum	typeref:typename:std::string	signature:(const BigNum & in_bignum)
+liborangepower::bignum::str_is_integer_bignum	liborangepower_src/gmp_stuff.cpp	/^bool str_is_integer_bignum(const std::string& str, BigNum& ret)$/;"	kind:f	namespace:liborangepower::bignum	typeref:typename:bool	signature:(const std::string & str,BigNum & ret)
+liborangepower::bignum::str_is_integer_bignum	liborangepower_src/gmp_stuff.hpp	/^bool str_is_integer_bignum(const std::string& str, BigNum& ret);$/;"	kind:p	namespace:liborangepower::bignum	typeref:typename:bool	signature:(const std::string & str,BigNum & ret)
+liborangepower::bitwise	liborangepower_src/misc_bitwise_funcs.hpp	/^namespace bitwise$/;"	kind:n	namespace:liborangepower
+liborangepower::bitwise::bprange_is_all	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr bool bprange_is_all(const Type& to_check, $/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:bool	signature:(const Type & to_check,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+liborangepower::bitwise::bprange_is_all	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr bool bprange_is_all(size_t bit_pos_range_hi,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:bool	signature:(size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+liborangepower::bitwise::clear_and_set_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void clear_and_set_bits(Type& to_change, size_t clear_mask,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_change,size_t clear_mask,size_t set_mask)
+liborangepower::bitwise::clear_and_set_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void clear_and_set_bits(Type& to_change, size_t val,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_change,size_t val,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+liborangepower::bitwise::clear_and_set_bits_with_range	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void clear_and_set_bits_with_range(Type& to_change, size_t val,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_change,size_t val,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+liborangepower::bitwise::clear_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void clear_bits(Type& to_clear, size_t mask)$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_clear,size_t mask)
+liborangepower::bitwise::clear_bits_with_range	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void clear_bits_with_range(Type& to_clear, size_t bit_pos_range_hi,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_clear,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+liborangepower::bitwise::count_leading_zeros	liborangepower_src/misc_bitwise_funcs.hpp	/^size_t count_leading_zeros(Type x)$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:size_t	signature:(Type x)
+liborangepower::bitwise::get_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr Type get_bits(Type to_get_from, size_t mask, $/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:Type	signature:(Type to_get_from,size_t mask,size_t shift=0)
+liborangepower::bitwise::get_bits_with_range	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr Type get_bits_with_range(Type to_get_from, $/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:Type	signature:(Type to_get_from,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+liborangepower::bitwise::set_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void set_bits(Type& to_set, size_t mask)$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_set,size_t mask)
+liborangepower::bitwise::set_bits_with_range	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void set_bits_with_range(Type& to_set, size_t val,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_set,size_t val,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+liborangepower::bitwise::width_of_type	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr size_t width_of_type()$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:size_t	signature:()
+liborangepower::bitwise::width_of_type	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr size_t width_of_type(const Type& to_check)$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:size_t	signature:(const Type & to_check)
+liborangepower::containers	liborangepower_src/array_2d_helper_classes.hpp	/^namespace containers$/;"	kind:n	namespace:liborangepower
+liborangepower::containers	liborangepower_src/array_helper_classes.hpp	/^namespace containers$/;"	kind:n	namespace:liborangepower
+liborangepower::containers	liborangepower_src/prev_curr_pair_class.hpp	/^namespace containers$/;"	kind:n	namespace:liborangepower
+liborangepower::containers	liborangepower_src/vec2_classes.hpp	/^namespace containers$/;"	kind:n	namespace:liborangepower
+liborangepower::containers::Array2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^class Array2dHelper$/;"	kind:c	namespace:liborangepower::containers
+liborangepower::containers::Array2dHelper::Array2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline Array2dHelper()$/;"	kind:f	class:liborangepower::containers::Array2dHelper	access:public	signature:()
+liborangepower::containers::Array2dHelper::Array2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline Array2dHelper(Type* s___arr, $/;"	kind:f	class:liborangepower::containers::Array2dHelper	access:public	signature:(Type * s___arr,const Vec2<size_t> & s_size_2d)
+liborangepower::containers::Array2dHelper::Array2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline Array2dHelper(const Array2dHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::Array2dHelper	access:public	signature:(const Array2dHelper & to_copy)
+liborangepower::containers::Array2dHelper::__arr	liborangepower_src/array_2d_helper_classes.hpp	/^	Type* __arr = nullptr;$/;"	kind:m	class:liborangepower::containers::Array2dHelper	typeref:typename:Type *	access:protected
+liborangepower::containers::Array2dHelper::__size	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t __size = 0;$/;"	kind:m	class:liborangepower::containers::Array2dHelper	typeref:typename:size_t	access:protected
+liborangepower::containers::Array2dHelper::__size_2d	liborangepower_src/array_2d_helper_classes.hpp	/^	Vec2<size_t> __size_2d;$/;"	kind:m	class:liborangepower::containers::Array2dHelper	typeref:typename:Vec2<size_t>	access:protected
+liborangepower::containers::Array2dHelper::arr	liborangepower_src/array_2d_helper_classes.hpp	/^	Type* arr() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:Type *	access:public	signature:() const
+liborangepower::containers::Array2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(const Vec2<size_t>& offset_2d)$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:Type &	access:public	signature:(const Vec2<size_t> & offset_2d)
+liborangepower::containers::Array2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(const Vec2S32& offset_2d)$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:Type &	access:public	signature:(const Vec2S32 & offset_2d)
+liborangepower::containers::Array2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(size_t x, size_t y)$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:Type &	access:public	signature:(size_t x,size_t y)
+liborangepower::containers::Array2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(const Vec2<size_t>& offset_2d) const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:const Type &	access:public	signature:(const Vec2<size_t> & offset_2d) const
+liborangepower::containers::Array2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(const Vec2S32& offset_2d) const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:const Type &	access:public	signature:(const Vec2S32 & offset_2d) const
+liborangepower::containers::Array2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(size_t x, size_t y) const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:const Type &	access:public	signature:(size_t x,size_t y) const
+liborangepower::containers::Array2dHelper::height	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t height() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:size_t	access:public	signature:() const
+liborangepower::containers::Array2dHelper::init	liborangepower_src/array_2d_helper_classes.hpp	/^	void init(Type* s___arr, const Vec2<size_t>& s_size_2d)$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:void	access:public	signature:(Type * s___arr,const Vec2<size_t> & s_size_2d)
+liborangepower::containers::Array2dHelper::operator =	liborangepower_src/array_2d_helper_classes.hpp	/^	Array2dHelper& operator = (const Array2dHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::Array2dHelper	typeref:typename:Array2dHelper &	access:public	signature:(const Array2dHelper & to_copy)
+liborangepower::containers::Array2dHelper::size	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t size() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:size_t	access:public	signature:() const
+liborangepower::containers::Array2dHelper::size_2d	liborangepower_src/array_2d_helper_classes.hpp	/^	const Vec2<size_t>& size_2d() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:const Vec2<size_t> &	access:public	signature:() const
+liborangepower::containers::Array2dHelper::width	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t width() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:size_t	access:public	signature:() const
+liborangepower::containers::ArrayCsz2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^class ArrayCsz2dHelper$/;"	kind:c	namespace:liborangepower::containers
+liborangepower::containers::ArrayCsz2dHelper::ArrayCsz2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline ArrayCsz2dHelper()$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	access:public	signature:()
+liborangepower::containers::ArrayCsz2dHelper::ArrayCsz2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline ArrayCsz2dHelper(Type* s___arr)$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	access:public	signature:(Type * s___arr)
+liborangepower::containers::ArrayCsz2dHelper::ArrayCsz2dHelper	liborangepower_src/array_2d_helper_classes.hpp	/^	inline ArrayCsz2dHelper(const ArrayCsz2dHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::ArrayCsz2dHelper	access:public	signature:(const ArrayCsz2dHelper & to_copy)
+liborangepower::containers::ArrayCsz2dHelper::__arr	liborangepower_src/array_2d_helper_classes.hpp	/^	Type* __arr = nullptr;$/;"	kind:m	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:Type *	access:protected
+liborangepower::containers::ArrayCsz2dHelper::__size	liborangepower_src/array_2d_helper_classes.hpp	/^	static constexpr size_t __size = __size_2d.x * __size_2d.y;$/;"	kind:m	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:size_t	access:protected
+liborangepower::containers::ArrayCsz2dHelper::arr	liborangepower_src/array_2d_helper_classes.hpp	/^	Type* arr() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:Type *	access:public	signature:() const
+liborangepower::containers::ArrayCsz2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(const Vec2<size_t>& offset_2d)$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:Type &	access:public	signature:(const Vec2<size_t> & offset_2d)
+liborangepower::containers::ArrayCsz2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(const Vec2S32& offset_2d)$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:Type &	access:public	signature:(const Vec2S32 & offset_2d)
+liborangepower::containers::ArrayCsz2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	Type& at(size_t x, size_t y)$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:Type &	access:public	signature:(size_t x,size_t y)
+liborangepower::containers::ArrayCsz2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(const Vec2<size_t>& offset_2d) const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:const Type &	access:public	signature:(const Vec2<size_t> & offset_2d) const
+liborangepower::containers::ArrayCsz2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(const Vec2S32& offset_2d) const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:const Type &	access:public	signature:(const Vec2S32 & offset_2d) const
+liborangepower::containers::ArrayCsz2dHelper::at	liborangepower_src/array_2d_helper_classes.hpp	/^	const Type& at(size_t x, size_t y) const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:const Type &	access:public	signature:(size_t x,size_t y) const
+liborangepower::containers::ArrayCsz2dHelper::height	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t height() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:size_t	access:public	signature:() const
+liborangepower::containers::ArrayCsz2dHelper::init	liborangepower_src/array_2d_helper_classes.hpp	/^	void init(Type* s___arr)$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:void	access:public	signature:(Type * s___arr)
+liborangepower::containers::ArrayCsz2dHelper::operator =	liborangepower_src/array_2d_helper_classes.hpp	/^	ArrayCsz2dHelper& operator = (const ArrayCsz2dHelper& to_copy) $/;"	kind:p	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:ArrayCsz2dHelper &	access:public	signature:(const ArrayCsz2dHelper & to_copy)
+liborangepower::containers::ArrayCsz2dHelper::size	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t size() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:size_t	access:public	signature:() const
+liborangepower::containers::ArrayCsz2dHelper::size_2d	liborangepower_src/array_2d_helper_classes.hpp	/^	const Vec2<size_t>& size_2d() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:const Vec2<size_t> &	access:public	signature:() const
+liborangepower::containers::ArrayCsz2dHelper::width	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t width() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:size_t	access:public	signature:() const
+liborangepower::containers::ArrayCszHelper	liborangepower_src/array_helper_classes.hpp	/^class ArrayCszHelper$/;"	kind:c	namespace:liborangepower::containers
+liborangepower::containers::ArrayCszHelper::ArrayCszHelper	liborangepower_src/array_helper_classes.hpp	/^	ArrayCszHelper()$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	access:public	signature:()
+liborangepower::containers::ArrayCszHelper::ArrayCszHelper	liborangepower_src/array_helper_classes.hpp	/^	ArrayCszHelper(Type* s_the_array) : __arr(s_the_array)$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	access:public	signature:(Type * s_the_array)
+liborangepower::containers::ArrayCszHelper::ArrayCszHelper	liborangepower_src/array_helper_classes.hpp	/^	ArrayCszHelper(const ArrayCszHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::ArrayCszHelper	access:public	signature:(const ArrayCszHelper & to_copy)
+liborangepower::containers::ArrayCszHelper::__arr	liborangepower_src/array_helper_classes.hpp	/^	Type* __arr = nullptr;$/;"	kind:m	class:liborangepower::containers::ArrayCszHelper	typeref:typename:Type *	access:public
+liborangepower::containers::ArrayCszHelper::__size	liborangepower_src/array_helper_classes.hpp	/^	static constexpr size_t __size = _size;$/;"	kind:m	class:liborangepower::containers::ArrayCszHelper	typeref:typename:size_t	access:protected
+liborangepower::containers::ArrayCszHelper::arr	liborangepower_src/array_helper_classes.hpp	/^	const Type* arr() const$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	typeref:typename:const Type *	access:public	signature:() const
+liborangepower::containers::ArrayCszHelper::at	liborangepower_src/array_helper_classes.hpp	/^	Type& at(size_t offset)$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	typeref:typename:Type &	access:public	signature:(size_t offset)
+liborangepower::containers::ArrayCszHelper::at	liborangepower_src/array_helper_classes.hpp	/^	const Type& at(size_t offset) const$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	typeref:typename:const Type &	access:public	signature:(size_t offset) const
+liborangepower::containers::ArrayCszHelper::init	liborangepower_src/array_helper_classes.hpp	/^	void init(Type* s_the_array)$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	typeref:typename:void	access:public	signature:(Type * s_the_array)
+liborangepower::containers::ArrayCszHelper::operator =	liborangepower_src/array_helper_classes.hpp	/^	ArrayCszHelper& operator = (const ArrayCszHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::ArrayCszHelper	typeref:typename:ArrayCszHelper &	access:public	signature:(const ArrayCszHelper & to_copy)
+liborangepower::containers::ArrayCszHelper::size	liborangepower_src/array_helper_classes.hpp	/^	size_t size() const$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	typeref:typename:size_t	access:public	signature:() const
+liborangepower::containers::ArrayHelper	liborangepower_src/array_helper_classes.hpp	/^class ArrayHelper$/;"	kind:c	namespace:liborangepower::containers
+liborangepower::containers::ArrayHelper::ArrayHelper	liborangepower_src/array_helper_classes.hpp	/^	inline ArrayHelper()$/;"	kind:f	class:liborangepower::containers::ArrayHelper	access:public	signature:()
+liborangepower::containers::ArrayHelper::ArrayHelper	liborangepower_src/array_helper_classes.hpp	/^	inline ArrayHelper(Type* s_the_array, size_t s_size)$/;"	kind:f	class:liborangepower::containers::ArrayHelper	access:public	signature:(Type * s_the_array,size_t s_size)
+liborangepower::containers::ArrayHelper::ArrayHelper	liborangepower_src/array_helper_classes.hpp	/^	inline ArrayHelper(const ArrayHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::ArrayHelper	access:public	signature:(const ArrayHelper & to_copy)
+liborangepower::containers::ArrayHelper::__arr	liborangepower_src/array_helper_classes.hpp	/^	Type* __arr = nullptr;$/;"	kind:m	class:liborangepower::containers::ArrayHelper	typeref:typename:Type *	access:protected
+liborangepower::containers::ArrayHelper::__size	liborangepower_src/array_helper_classes.hpp	/^	size_t __size = 0;$/;"	kind:m	class:liborangepower::containers::ArrayHelper	typeref:typename:size_t	access:protected
+liborangepower::containers::ArrayHelper::arr	liborangepower_src/array_helper_classes.hpp	/^	const Type* arr() const$/;"	kind:f	class:liborangepower::containers::ArrayHelper	typeref:typename:const Type *	access:public	signature:() const
+liborangepower::containers::ArrayHelper::at	liborangepower_src/array_helper_classes.hpp	/^	Type& at(size_t offset)$/;"	kind:f	class:liborangepower::containers::ArrayHelper	typeref:typename:Type &	access:public	signature:(size_t offset)
+liborangepower::containers::ArrayHelper::at	liborangepower_src/array_helper_classes.hpp	/^	const Type& at(size_t offset) const$/;"	kind:f	class:liborangepower::containers::ArrayHelper	typeref:typename:const Type &	access:public	signature:(size_t offset) const
+liborangepower::containers::ArrayHelper::init	liborangepower_src/array_helper_classes.hpp	/^	void init(Type* s_the_array, size_t s_size)$/;"	kind:f	class:liborangepower::containers::ArrayHelper	typeref:typename:void	access:public	signature:(Type * s_the_array,size_t s_size)
+liborangepower::containers::ArrayHelper::operator =	liborangepower_src/array_helper_classes.hpp	/^	inline ArrayHelper& operator = (const ArrayHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::ArrayHelper	typeref:typename:ArrayHelper &	access:public	signature:(const ArrayHelper & to_copy)
+liborangepower::containers::ArrayHelper::size	liborangepower_src/array_helper_classes.hpp	/^	size_t size() const$/;"	kind:f	class:liborangepower::containers::ArrayHelper	typeref:typename:size_t	access:public	signature:() const
+liborangepower::containers::PrevCurrPair	liborangepower_src/prev_curr_pair_class.hpp	/^class PrevCurrPair$/;"	kind:c	namespace:liborangepower::containers
+liborangepower::containers::PrevCurrPair::back_up	liborangepower_src/prev_curr_pair_class.hpp	/^	inline void back_up()$/;"	kind:f	class:liborangepower::containers::PrevCurrPair	typeref:typename:void	access:public	signature:()
+liborangepower::containers::PrevCurrPair::back_up_and_update	liborangepower_src/prev_curr_pair_class.hpp	/^	inline void back_up_and_update(const type& n_curr)$/;"	kind:f	class:liborangepower::containers::PrevCurrPair	typeref:typename:void	access:public	signature:(const type & n_curr)
+liborangepower::containers::PrevCurrPair::back_up_and_update	liborangepower_src/prev_curr_pair_class.hpp	/^	inline void back_up_and_update(type&& n_curr)$/;"	kind:f	class:liborangepower::containers::PrevCurrPair	typeref:typename:void	access:public	signature:(type && n_curr)
+liborangepower::containers::PrevCurrPair::curr	liborangepower_src/prev_curr_pair_class.hpp	/^	type prev, curr;$/;"	kind:m	class:liborangepower::containers::PrevCurrPair	typeref:typename:type	access:public
+liborangepower::containers::PrevCurrPair::has_changed	liborangepower_src/prev_curr_pair_class.hpp	/^	inline bool has_changed() const$/;"	kind:f	class:liborangepower::containers::PrevCurrPair	typeref:typename:bool	access:public	signature:() const
+liborangepower::containers::PrevCurrPair::prev	liborangepower_src/prev_curr_pair_class.hpp	/^	type prev, curr;$/;"	kind:m	class:liborangepower::containers::PrevCurrPair	typeref:typename:type	access:public
+liborangepower::containers::SizeT2d	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<size_t> SizeT2d;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<size_t>
+liborangepower::containers::Vec2	liborangepower_src/vec2_classes.hpp	/^class Vec2$/;"	kind:c	namespace:liborangepower::containers
+liborangepower::containers::Vec2	liborangepower_src/vec2_classes.hpp	/^class Vec2<double>$/;"	kind:c	namespace:liborangepower::containers
+liborangepower::containers::Vec2	liborangepower_src/vec2_classes.hpp	/^class Vec2<float>$/;"	kind:c	namespace:liborangepower::containers
+liborangepower::containers::Vec2::Vec2	liborangepower_src/vec2_classes.hpp	/^	constexpr inline Vec2() : x(Type()), y(Type())$/;"	kind:f	class:liborangepower::containers::Vec2	access:public	signature:()
+liborangepower::containers::Vec2::Vec2	liborangepower_src/vec2_classes.hpp	/^	constexpr inline Vec2(Vec2<OtherType>&& to_move)$/;"	kind:f	class:liborangepower::containers::Vec2	access:public	signature:(Vec2<OtherType> && to_move)
+liborangepower::containers::Vec2::Vec2	liborangepower_src/vec2_classes.hpp	/^	constexpr inline Vec2(const Type1& s_x, const Type2& s_y)$/;"	kind:f	class:liborangepower::containers::Vec2	access:public	signature:(const Type1 & s_x,const Type2 & s_y)
+liborangepower::containers::Vec2::Vec2	liborangepower_src/vec2_classes.hpp	/^	constexpr inline Vec2(const Vec2<OtherType>& to_copy)$/;"	kind:f	class:liborangepower::containers::Vec2	access:public	signature:(const Vec2<OtherType> & to_copy)
+liborangepower::containers::Vec2::dot_prod	liborangepower_src/vec2_classes.hpp	/^	inline Type dot_prod(const Vec2<OtherType>& to_dot) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Type	access:public	signature:(const Vec2<OtherType> & to_dot) const
+liborangepower::containers::Vec2::generate_float_pt_vec2_extra_class_contents	liborangepower_src/vec2_classes.hpp	/^	generate_float_pt_vec2_extra_class_contents(double);$/;"	kind:p	class:liborangepower::containers::Vec2	access:private	signature:(double)
+liborangepower::containers::Vec2::generate_float_pt_vec2_extra_class_contents	liborangepower_src/vec2_classes.hpp	/^	generate_float_pt_vec2_extra_class_contents(float);$/;"	kind:p	class:liborangepower::containers::Vec2	access:private	signature:(float)
+liborangepower::containers::Vec2::generate_specific_vec2_class_contents	liborangepower_src/vec2_classes.hpp	/^	generate_specific_vec2_class_contents(double);$/;"	kind:p	class:liborangepower::containers::Vec2	access:private	signature:(double)
+liborangepower::containers::Vec2::generate_specific_vec2_class_contents	liborangepower_src/vec2_classes.hpp	/^	generate_specific_vec2_class_contents(float);$/;"	kind:p	class:liborangepower::containers::Vec2	access:private	signature:(float)
+liborangepower::containers::Vec2::operator !=	liborangepower_src/vec2_classes.hpp	/^	inline bool operator != (const Vec2<OtherType>& to_cmp) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:bool	access:public	signature:(const Vec2<OtherType> & to_cmp) const
+liborangepower::containers::Vec2::operator *	liborangepower_src/vec2_classes.hpp	/^	inline Vec2 operator * (const OtherType& scale) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2	access:public	signature:(const OtherType & scale) const
+liborangepower::containers::Vec2::operator *=	liborangepower_src/vec2_classes.hpp	/^	inline Vec2& operator *= (const OtherType& scale)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2 &	access:public	signature:(const OtherType & scale)
+liborangepower::containers::Vec2::operator +	liborangepower_src/vec2_classes.hpp	/^	inline Vec2 operator + (const Vec2<OtherType>& to_add) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2	access:public	signature:(const Vec2<OtherType> & to_add) const
+liborangepower::containers::Vec2::operator +=	liborangepower_src/vec2_classes.hpp	/^	inline Vec2& operator += (const Vec2<OtherType>& to_add)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2 &	access:public	signature:(const Vec2<OtherType> & to_add)
+liborangepower::containers::Vec2::operator -	liborangepower_src/vec2_classes.hpp	/^	inline Vec2 operator - (const Vec2<OtherType>& to_sub) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2	access:public	signature:(const Vec2<OtherType> & to_sub) const
+liborangepower::containers::Vec2::operator -=	liborangepower_src/vec2_classes.hpp	/^	inline Vec2& operator -= (const Vec2<OtherType>& to_sub)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2 &	access:public	signature:(const Vec2<OtherType> & to_sub)
+liborangepower::containers::Vec2::operator =	liborangepower_src/vec2_classes.hpp	/^	inline Vec2& operator = (Vec2<OtherType>&& to_move)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2 &	access:public	signature:(Vec2<OtherType> && to_move)
+liborangepower::containers::Vec2::operator =	liborangepower_src/vec2_classes.hpp	/^	inline Vec2& operator = (const Vec2<OtherType>& to_copy)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2 &	access:public	signature:(const Vec2<OtherType> & to_copy)
+liborangepower::containers::Vec2::operator ==	liborangepower_src/vec2_classes.hpp	/^	inline bool operator == (const Vec2<OtherType>& to_cmp) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:bool	access:public	signature:(const Vec2<OtherType> & to_cmp) const
+liborangepower::containers::Vec2::operator [] 	liborangepower_src/vec2_classes.hpp	/^	inline Type& operator [] (size_t index)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Type &	access:public	signature:(size_t index)
+liborangepower::containers::Vec2::operator [] 	liborangepower_src/vec2_classes.hpp	/^	inline const Type& operator [] (size_t index) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:const Type &	access:public	signature:(size_t index) const
+liborangepower::containers::Vec2::x	liborangepower_src/vec2_classes.hpp	/^	Type x, y;$/;"	kind:m	class:liborangepower::containers::Vec2	typeref:typename:Type	access:public
+liborangepower::containers::Vec2::y	liborangepower_src/vec2_classes.hpp	/^	Type x, y;$/;"	kind:m	class:liborangepower::containers::Vec2	typeref:typename:Type	access:public
+liborangepower::containers::Vec2::zcross_prod	liborangepower_src/vec2_classes.hpp	/^	inline Type zcross_prod(const Vec2<OtherType>& to_zcross) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Type	access:public	signature:(const Vec2<OtherType> & to_zcross) const
+liborangepower::containers::Vec2S16	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::s16> Vec2S16;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::s16>
+liborangepower::containers::Vec2S32	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::s32> Vec2S32;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::s32>
+liborangepower::containers::Vec2S64	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::s64> Vec2S64;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::s64>
+liborangepower::containers::Vec2U16	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::u16> Vec2U16;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::u16>
+liborangepower::containers::Vec2U32	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::u32> Vec2U32;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::u32>
+liborangepower::containers::Vec2U64	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<integer_types::u64> Vec2U64;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<integer_types::u64>
+liborangepower::containers::Vec2_dbl	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<double> Vec2_dbl;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<double>
+liborangepower::containers::Vec2_flt	liborangepower_src/vec2_classes.hpp	/^typedef Vec2<float> Vec2_flt;$/;"	kind:t	namespace:liborangepower::containers	typeref:typename:Vec2<float>
+liborangepower::containers::custom_abs	liborangepower_src/vec2_classes.hpp	/^inline Vec2<Type> custom_abs(const Vec2<Type>& val)$/;"	kind:f	namespace:liborangepower::containers	typeref:typename:Vec2<Type>	signature:(const Vec2<Type> & val)
+liborangepower::containers::operator *	liborangepower_src/vec2_classes.hpp	/^inline Vec2<Type> operator * (const Type& scale, $/;"	kind:f	namespace:liborangepower::containers	typeref:typename:Vec2<Type>	signature:(const Type & scale,const Vec2<Type> & vec2_to_mul)
+liborangepower::containers::vec2_index_for_x	liborangepower_src/vec2_classes.hpp	/^static constexpr size_t vec2_index_for_x = 0, vec2_index_for_y = 1;$/;"	kind:v	namespace:liborangepower::containers	typeref:typename:size_t
+liborangepower::containers::vec2_index_for_y	liborangepower_src/vec2_classes.hpp	/^static constexpr size_t vec2_index_for_x = 0, vec2_index_for_y = 1;$/;"	kind:v	namespace:liborangepower::containers	typeref:typename:size_t
+liborangepower::integer_types	liborangepower_src/misc_types.hpp	/^namespace integer_types$/;"	kind:n	namespace:liborangepower
+liborangepower::integer_types::s16	liborangepower_src/misc_types.hpp	/^typedef int16_t s16;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:int16_t
+liborangepower::integer_types::s32	liborangepower_src/misc_types.hpp	/^typedef int32_t s32;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:int32_t
+liborangepower::integer_types::s64	liborangepower_src/misc_types.hpp	/^typedef int64_t s64;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:int64_t
+liborangepower::integer_types::s8	liborangepower_src/misc_types.hpp	/^typedef int8_t s8;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:int8_t
+liborangepower::integer_types::u16	liborangepower_src/misc_types.hpp	/^typedef uint16_t u16;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:uint16_t
+liborangepower::integer_types::u32	liborangepower_src/misc_types.hpp	/^typedef uint32_t u32;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:uint32_t
+liborangepower::integer_types::u64	liborangepower_src/misc_types.hpp	/^typedef uint64_t u64;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:uint64_t
+liborangepower::integer_types::u8	liborangepower_src/misc_types.hpp	/^typedef uint8_t u8;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:uint8_t
+liborangepower::integer_types::uint	liborangepower_src/misc_types.hpp	/^typedef unsigned int uint;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:unsigned int
+liborangepower::json	liborangepower_src/json_stuff.cpp	/^namespace json$/;"	kind:n	namespace:liborangepower	file:
+liborangepower::json	liborangepower_src/json_stuff.hpp	/^namespace json$/;"	kind:n	namespace:liborangepower
+liborangepower::json::debug_print_json	liborangepower_src/json_stuff.cpp	/^void debug_print_json(const Json::Value& some_value, std::ostream& os, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(const Json::Value & some_value,std::ostream & os,size_t tabs_level)
+liborangepower::json::debug_print_json	liborangepower_src/json_stuff.hpp	/^inline void debug_print_json(Json::Value* iter, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(Json::Value * iter,std::ostream & os=std::cout,size_t tabs_level=0)
+liborangepower::json::debug_print_json	liborangepower_src/json_stuff.hpp	/^void debug_print_json(const Json::Value& some_value, $/;"	kind:p	namespace:liborangepower::json	typeref:typename:void	signature:(const Json::Value & some_value,std::ostream & os=std::cout,size_t tabs_level=0)
+liborangepower::json::err	liborangepower_src/json_stuff.hpp	/^void err(arg_types&&... args)$/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(arg_types &&...args)
+liborangepower::json::get_json_value_type_as_str	liborangepower_src/json_stuff.cpp	/^std::string get_json_value_type_as_str(const Json::Value& some_value)$/;"	kind:f	namespace:liborangepower::json	typeref:typename:std::string	signature:(const Json::Value & some_value)
+liborangepower::json::get_json_value_type_as_str	liborangepower_src/json_stuff.hpp	/^inline std::string get_json_value_type_as_str(Json::Value* iter)$/;"	kind:f	namespace:liborangepower::json	typeref:typename:std::string	signature:(Json::Value * iter)
+liborangepower::json::get_json_value_type_as_str	liborangepower_src/json_stuff.hpp	/^std::string get_json_value_type_as_str(const Json::Value& some_value);$/;"	kind:p	namespace:liborangepower::json	typeref:typename:std::string	signature:(const Json::Value & some_value)
+liborangepower::json::parse_json	liborangepower_src/json_stuff.cpp	/^bool parse_json(Json::CharReaderBuilder* rbuilder, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:bool	signature:(Json::CharReaderBuilder * rbuilder,const std::string & input_file_name,Json::Value * root,std::string * errs)
+liborangepower::json::parse_json	liborangepower_src/json_stuff.cpp	/^bool parse_json(Json::CharReaderBuilder* rbuilder, std::istream& is,$/;"	kind:f	namespace:liborangepower::json	typeref:typename:bool	signature:(Json::CharReaderBuilder * rbuilder,std::istream & is,Json::Value * root,std::string * errs)
+liborangepower::json::parse_json	liborangepower_src/json_stuff.hpp	/^bool parse_json(Json::CharReaderBuilder* rbuilder, $/;"	kind:p	namespace:liborangepower::json	typeref:typename:bool	signature:(Json::CharReaderBuilder * rbuilder,const std::string & input_file_name,Json::Value * root,std::string * errs)
+liborangepower::json::parse_json	liborangepower_src/json_stuff.hpp	/^bool parse_json(Json::CharReaderBuilder* rbuilder, std::istream& is,$/;"	kind:p	namespace:liborangepower::json	typeref:typename:bool	signature:(Json::CharReaderBuilder * rbuilder,std::istream & is,Json::Value * root,std::string * errs)
+liborangepower::json::parse_json	liborangepower_src/json_stuff.hpp	/^inline bool parse_json(const std::string& input_file_name, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:bool	signature:(const std::string & input_file_name,Json::Value * root,std::string * errs)
+liborangepower::json::parse_json	liborangepower_src/json_stuff.hpp	/^inline bool parse_json(std::istream& is, Json::Value* root, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:bool	signature:(std::istream & is,Json::Value * root,std::string * errs)
+liborangepower::json::print_json_value_type	liborangepower_src/json_stuff.hpp	/^inline void print_json_value_type(Json::Value* iter, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(Json::Value * iter,std::ostream & os=std::cout)
+liborangepower::json::print_json_value_type	liborangepower_src/json_stuff.hpp	/^inline void print_json_value_type(const Json::Value& some_value,$/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(const Json::Value & some_value,std::ostream & os=std::cout)
+liborangepower::json::write_json	liborangepower_src/json_stuff.cpp	/^void write_json(Json::StreamWriterBuilder* wbuilder, std::ostream& os, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(Json::StreamWriterBuilder * wbuilder,std::ostream & os,Json::Value * root)
+liborangepower::json::write_json	liborangepower_src/json_stuff.cpp	/^void write_json(Json::StreamWriterBuilder* wbuilder,$/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(Json::StreamWriterBuilder * wbuilder,const std::string & output_file_name,Json::Value * root)
+liborangepower::json::write_json	liborangepower_src/json_stuff.hpp	/^inline void write_json(const std::string& output_file_name, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(const std::string & output_file_name,Json::Value * root)
+liborangepower::json::write_json	liborangepower_src/json_stuff.hpp	/^inline void write_json(std::ostream& os, Json::Value* root)$/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(std::ostream & os,Json::Value * root)
+liborangepower::json::write_json	liborangepower_src/json_stuff.hpp	/^void write_json(Json::StreamWriterBuilder* wbuilder,$/;"	kind:p	namespace:liborangepower::json	typeref:typename:void	signature:(Json::StreamWriterBuilder * wbuilder,const std::string & output_file_name,Json::Value * root)
+liborangepower::json::write_json	liborangepower_src/json_stuff.hpp	/^void write_json(Json::StreamWriterBuilder* wbuilder,$/;"	kind:p	namespace:liborangepower::json	typeref:typename:void	signature:(Json::StreamWriterBuilder * wbuilder,std::ostream & os,Json::Value * root)
+liborangepower::misc_input	liborangepower_src/misc_input_classes.hpp	/^namespace misc_input$/;"	kind:n	namespace:liborangepower
+liborangepower::misc_input::get_stdin_as_str	liborangepower_src/misc_input_classes.hpp	/^inline std::string get_stdin_as_str()$/;"	kind:f	namespace:liborangepower::misc_input	typeref:typename:std::string	signature:()
+liborangepower::misc_util	liborangepower_src/memwhatever_wrappers.hpp	/^namespace misc_util$/;"	kind:n	namespace:liborangepower
+liborangepower::misc_util	liborangepower_src/misc_utility_funcs.hpp	/^namespace misc_util$/;"	kind:n	namespace:liborangepower
+liborangepower::misc_util::__init_array_backend	liborangepower_src/misc_utility_funcs.hpp	/^inline void __init_array_backend(Type* all_values_arr, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void	signature:(Type * all_values_arr,const Type & first_value,const RemainingTypes &...remaining_values)
+liborangepower::misc_util::__init_array_backend	liborangepower_src/misc_utility_funcs.hpp	/^inline void __init_array_backend(Type* all_values_arr, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void	signature:(Type * all_values_arr,const Type & to_copy)
+liborangepower::misc_util::anything_matches	liborangepower_src/misc_utility_funcs.hpp	/^bool anything_matches(const FirstType& first_val)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:bool	signature:(const FirstType & first_val)
+liborangepower::misc_util::anything_matches	liborangepower_src/misc_utility_funcs.hpp	/^bool anything_matches(const FirstType& first_val, const SecondType& next, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:bool	signature:(const FirstType & first_val,const SecondType & next,RemArgTypes &&...rem_args)
+liborangepower::misc_util::arr_memcpy	liborangepower_src/memwhatever_wrappers.hpp	/^inline void* arr_memcpy(Type* dst, const void* src, size_t num_elems)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void *	signature:(Type * dst,const void * src,size_t num_elems)
+liborangepower::misc_util::arr_memcpy	liborangepower_src/memwhatever_wrappers.hpp	/^inline void* arr_memcpy(std::array<Type, size>& dst, const void* src)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void *	signature:(std::array<Type,size> & dst,const void * src)
+liborangepower::misc_util::arr_memcpy	liborangepower_src/memwhatever_wrappers.hpp	/^inline void* arr_memcpy(std::array<dst_type, size>& dst, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void *	signature:(std::array<dst_type,size> & dst,std::array<src_type,size> & src)
+liborangepower::misc_util::arr_memset	liborangepower_src/memwhatever_wrappers.hpp	/^inline void* arr_memset(Type* dst, int c, size_t num_elems)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void *	signature:(Type * dst,int c,size_t num_elems)
+liborangepower::misc_util::arr_memset	liborangepower_src/memwhatever_wrappers.hpp	/^inline void* arr_memset(std::array<Type, size>& dst, size_t src)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void *	signature:(std::array<Type,size> & dst,size_t src)
+liborangepower::misc_util::cmpeq_array	liborangepower_src/misc_utility_funcs.hpp	/^bool cmpeq_array(FirstType* first_arr, SecondType* second_arr, size_t size)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:bool	signature:(FirstType * first_arr,SecondType * second_arr,size_t size)
+liborangepower::misc_util::custom_abs	liborangepower_src/misc_utility_funcs.hpp	/^inline Type custom_abs(const Type& val)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:Type	signature:(const Type & val)
+liborangepower::misc_util::init_array	liborangepower_src/misc_utility_funcs.hpp	/^inline void init_array(Type* all_values_arr, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:void	signature:(Type * all_values_arr,const AllTheTypes &...all_the_values)
+liborangepower::misc_util::max_va	liborangepower_src/misc_utility_funcs.hpp	/^FirstType max_va(const FirstType& arg_0, const SecondType& arg_1)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:FirstType	signature:(const FirstType & arg_0,const SecondType & arg_1)
+liborangepower::misc_util::max_va	liborangepower_src/misc_utility_funcs.hpp	/^inline FirstType max_va(const FirstType& arg_0, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:FirstType	signature:(const FirstType & arg_0,const SecondType & arg_1,RemainingTypes...remaining_args)
+liborangepower::misc_util::min_va	liborangepower_src/misc_utility_funcs.hpp	/^inline FirstType min_va(const FirstType& arg_0, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:FirstType	signature:(const FirstType & arg_0,const SecondType & arg_1)
+liborangepower::misc_util::min_va	liborangepower_src/misc_utility_funcs.hpp	/^inline FirstType min_va(const FirstType& arg_0, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:FirstType	signature:(const FirstType & arg_0,const SecondType & arg_1,RemainingTypes...remaining_args)
+liborangepower::misc_util::type_is_signed	liborangepower_src/misc_utility_funcs.hpp	/^constexpr inline bool type_is_signed()$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:bool	signature:()
+liborangepower::mpi	liborangepower_src/mpi_handler_class.hpp	/^namespace mpi$/;"	kind:n	namespace:liborangepower
+liborangepower::mpi::MpiHandler	liborangepower_src/mpi_handler_class.hpp	/^class MpiHandler$/;"	kind:c	namespace:liborangepower::mpi
+liborangepower::mpi::MpiHandler::ErrorCode	liborangepower_src/mpi_handler_class.hpp	/^	enum class ErrorCode : int$/;"	kind:g	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public
+liborangepower::mpi::MpiHandler::MpiHandler	liborangepower_src/mpi_handler_class.hpp	/^	inline MpiHandler(int& s_argc, char** s_argv,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	access:public	signature:(int & s_argc,char ** s_argv,size_t s_num_threads_per_proc=1,size_t s_min_world_size=1)
+liborangepower::mpi::MpiHandler::__argc_ptr	liborangepower_src/mpi_handler_class.hpp	/^	int* __argc_ptr;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:int *	access:protected
+liborangepower::mpi::MpiHandler::__argv_ptr	liborangepower_src/mpi_handler_class.hpp	/^	char*** __argv_ptr;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:char ***	access:protected
+liborangepower::mpi::MpiHandler::__min_world_size	liborangepower_src/mpi_handler_class.hpp	/^	size_t __num_threads_per_proc, __min_world_size;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:size_t	access:protected
+liborangepower::mpi::MpiHandler::__num_threads_per_proc	liborangepower_src/mpi_handler_class.hpp	/^	size_t __num_threads_per_proc, __min_world_size;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:size_t	access:protected
+liborangepower::mpi::MpiHandler::__world_rank	liborangepower_src/mpi_handler_class.hpp	/^	int __world_rank, __world_size;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected
+liborangepower::mpi::MpiHandler::__world_size	liborangepower_src/mpi_handler_class.hpp	/^	int __world_rank, __world_size;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected
+liborangepower::mpi::MpiHandler::argc	liborangepower_src/mpi_handler_class.hpp	/^	inline int argc() const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:() const
+liborangepower::mpi::MpiHandler::argv	liborangepower_src/mpi_handler_class.hpp	/^	inline char** argv() const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:char **	access:public	signature:() const
+liborangepower::mpi::MpiHandler::quit_with_misc_output	liborangepower_src/mpi_handler_class.hpp	/^	inline void quit_with_misc_output(arg_types&&... args) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:void	access:protected	signature:(arg_types &&...args) const
+liborangepower::mpi::MpiHandler::raw_abort	liborangepower_src/mpi_handler_class.hpp	/^	inline int raw_abort(MPI_Comm comm, int ec) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(MPI_Comm comm,int ec) const
+liborangepower::mpi::MpiHandler::raw_comm_rank	liborangepower_src/mpi_handler_class.hpp	/^	inline int raw_comm_rank(MPI_Comm comm) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(MPI_Comm comm) const
+liborangepower::mpi::MpiHandler::raw_comm_size	liborangepower_src/mpi_handler_class.hpp	/^	inline int raw_comm_size(MPI_Comm comm) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(MPI_Comm comm) const
+liborangepower::mpi::MpiHandler::raw_finalize	liborangepower_src/mpi_handler_class.hpp	/^	inline int raw_finalize() const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:() const
+liborangepower::mpi::MpiHandler::raw_init	liborangepower_src/mpi_handler_class.hpp	/^	inline int raw_init(int& argc, char**& argv) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(int & argc,char ** & argv) const
+liborangepower::mpi::MpiHandler::recv	liborangepower_src/mpi_handler_class.hpp	/^	inline int recv(ArrType& buf, int src,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(ArrType & buf,int src,int tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+liborangepower::mpi::MpiHandler::recv	liborangepower_src/mpi_handler_class.hpp	/^	inline int recv(Type* buf, int num_instances, int src, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(Type * buf,int num_instances,int src,int tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+liborangepower::mpi::MpiHandler::recv_single	liborangepower_src/mpi_handler_class.hpp	/^	inline int recv_single(Type& some_var, int src, int tag=MPI_ANY_TAG,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(Type & some_var,int src,int tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+liborangepower::mpi::MpiHandler::reduce	liborangepower_src/mpi_handler_class.hpp	/^	inline int reduce(const void* send_buf, void* recv_buf, int count, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const void * send_buf,void * recv_buf,int count,MPI_Datatype data_type,MPI_Op op,int root,MPI_Comm comm=MPI_COMM_WORLD) const
+liborangepower::mpi::MpiHandler::regular_abort	liborangepower_src/mpi_handler_class.hpp	/^	inline int regular_abort(const ErrorCode& ec) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(const ErrorCode & ec) const
+liborangepower::mpi::MpiHandler::root	liborangepower_src/mpi_handler_class.hpp	/^	static constexpr int root = 0;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public
+liborangepower::mpi::MpiHandler::send	liborangepower_src/mpi_handler_class.hpp	/^	inline int send(const ArrType& buf, int dst, int tag=0,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const ArrType & buf,int dst,int tag=0,MPI_Comm comm=MPI_COMM_WORLD) const
+liborangepower::mpi::MpiHandler::send	liborangepower_src/mpi_handler_class.hpp	/^	inline int send(const Type* buf, int num_instances, int dst, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const Type * buf,int num_instances,int dst,int tag=0,MPI_Comm comm=MPI_COMM_WORLD) const
+liborangepower::mpi::MpiHandler::send_recv	liborangepower_src/mpi_handler_class.hpp	/^	inline int send_recv(const Type* send_buf, int num_send_instances, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const Type * send_buf,int num_send_instances,int dst,Type * recv_buf,int num_recv_instances,int src,int send_tag=0,int recv_tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+liborangepower::mpi::MpiHandler::send_recv_single	liborangepower_src/mpi_handler_class.hpp	/^	inline int send_recv_single(const Type& to_send, Type& to_recv, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const Type & to_send,Type & to_recv,int partner,int send_tag=0,int recv_tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+liborangepower::mpi::MpiHandler::send_recv_single	liborangepower_src/mpi_handler_class.hpp	/^	inline int send_recv_single(const Type& to_send, int dst, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const Type & to_send,int dst,Type & to_recv,int src,int send_tag=0,int recv_tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+liborangepower::mpi::MpiHandler::send_single	liborangepower_src/mpi_handler_class.hpp	/^	inline int send_single(const Type& some_var, int dst, int tag=0,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const Type & some_var,int dst,int tag=0,MPI_Comm comm=MPI_COMM_WORLD) const
+liborangepower::mpi::MpiHandler::starting_thread_num	liborangepower_src/mpi_handler_class.hpp	/^	inline size_t starting_thread_num() const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:size_t	access:public	signature:() const
+liborangepower::mpi::MpiHandler::total_num_threads	liborangepower_src/mpi_handler_class.hpp	/^	inline size_t total_num_threads() const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:size_t	access:public	signature:() const
+liborangepower::mpi::MpiHandler::wrapped_recv	liborangepower_src/mpi_handler_class.hpp	/^	inline int wrapped_recv(Type* buf, int num_instances, int src,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(Type * buf,int num_instances,int src,int tag,MPI_Comm comm,MPI_Status * status) const
+liborangepower::mpi::MpiHandler::wrapped_send	liborangepower_src/mpi_handler_class.hpp	/^	inline int wrapped_send(const Type* buf, int num_instances, int dst, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(const Type * buf,int num_instances,int dst,int tag,MPI_Comm comm) const
+liborangepower::mpi::MpiHandler::wrapped_send_recv	liborangepower_src/mpi_handler_class.hpp	/^	inline int wrapped_send_recv(const Type* send_buf, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(const Type * send_buf,int num_send_instances,int dst,int send_tag,Type * recv_buf,int num_recv_instances,int src,int recv_tag,MPI_Comm comm,MPI_Status * status) const
+liborangepower::mpi::MpiHandler::~MpiHandler	liborangepower_src/mpi_handler_class.hpp	/^	virtual inline ~MpiHandler()$/;"	kind:f	class:liborangepower::mpi::MpiHandler	access:public	signature:()
+liborangepower::printout_etc	liborangepower_src/misc_output_classes.hpp	/^namespace printout_etc$/;"	kind:n	namespace:liborangepower
+liborangepower::printout_etc::AnyPrintoutBackend	liborangepower_src/misc_output_classes.hpp	/^class AnyPrintoutBackend$/;"	kind:c	namespace:liborangepower::printout_etc
+liborangepower::printout_etc::AnyPrintoutBackend::func	liborangepower_src/misc_output_classes.hpp	/^	static inline void func(std::ostream& os)$/;"	kind:f	class:liborangepower::printout_etc::AnyPrintoutBackend	typeref:typename:void	access:private	signature:(std::ostream & os)
+liborangepower::printout_etc::AnyPrintoutBackend::func	liborangepower_src/misc_output_classes.hpp	/^	static void func(std::ostream& os, const FirstType& first_val, $/;"	kind:f	class:liborangepower::printout_etc::AnyPrintoutBackend	typeref:typename:void	access:private	signature:(std::ostream & os,const FirstType & first_val,RemArgTypes &&...rem_args)
+liborangepower::printout_etc::AnyPrintoutBackend::osprintout	liborangepower_src/misc_output_classes.hpp	/^	friend std::ostream& osprintout(std::ostream& os, $/;"	kind:p	class:liborangepower::printout_etc::AnyPrintoutBackend	typeref:typename:std::ostream &	access:private	signature:(std::ostream & os,ArgTypes &&...args)
+liborangepower::printout_etc::fprintout	liborangepower_src/misc_output_classes.hpp	/^inline std::ostream& fprintout(std::ostream& out_file, ArgTypes&&... args)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(std::ostream & out_file,ArgTypes &&...args)
+liborangepower::printout_etc::osprint_arr	liborangepower_src/misc_output_classes.hpp	/^std::ostream& osprint_arr(std::ostream& os, ArrType* to_print, size_t size)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(std::ostream & os,ArrType * to_print,size_t size)
+liborangepower::printout_etc::osprintout	liborangepower_src/misc_output_classes.hpp	/^inline std::ostream& osprintout(std::ostream& os, ArgTypes&&... args)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(std::ostream & os,ArgTypes &&...args)
+liborangepower::printout_etc::osprintout	liborangepower_src/misc_output_classes.hpp	/^std::ostream& osprintout(std::ostream& os, ArgTypes&&... args);$/;"	kind:p	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(std::ostream & os,ArgTypes &&...args)
+liborangepower::printout_etc::printerr	liborangepower_src/misc_output_classes.hpp	/^inline std::ostream& printerr(ArgTypes&&... args)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(ArgTypes &&...args)
+liborangepower::printout_etc::printout	liborangepower_src/misc_output_classes.hpp	/^inline std::ostream& printout(ArgTypes&&... args)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(ArgTypes &&...args)
+liborangepower::printout_etc::sconcat	liborangepower_src/misc_output_classes.hpp	/^std::string sconcat(const FirstType& first_val, $/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:(const FirstType & first_val,RemArgTypes &&...rem_args)
+liborangepower::printout_etc::strappcom	liborangepower_src/misc_output_classes.hpp	/^inline std::string strappcom()$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:()
+liborangepower::printout_etc::strappcom	liborangepower_src/misc_output_classes.hpp	/^inline std::string strappcom(const FirstType& first_val,$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:(const FirstType & first_val,RemArgTypes &&...rem_args)
+liborangepower::printout_etc::strappcom	liborangepower_src/misc_output_classes.hpp	/^inline std::string strappcom(const Type& to_concat)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:(const Type & to_concat)
+liborangepower::printout_etc::strappcom2	liborangepower_src/misc_output_classes.hpp	/^inline std::string strappcom2(const FirstType& first_val,$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:(const FirstType & first_val,RemArgTypes &&...rem_args)
+liborangepower::range	liborangepower_src/range_funcs.hpp	/^namespace range$/;"	kind:n	namespace:liborangepower
+liborangepower::range::clamp_to_range	liborangepower_src/range_funcs.hpp	/^inline Type clamp_to_range(Type range_start_inclusive, $/;"	kind:f	namespace:liborangepower::range	typeref:typename:Type	signature:(Type range_start_inclusive,Type range_end_exclusive,Type to_clamp)
+liborangepower::range::in_range	liborangepower_src/range_funcs.hpp	/^inline bool in_range(Type range_start_inclusive, Type range_end_exclusive, $/;"	kind:f	namespace:liborangepower::range	typeref:typename:bool	signature:(Type range_start_inclusive,Type range_end_exclusive,Type to_check)
+liborangepower::range::in_range_inclusive	liborangepower_src/range_funcs.hpp	/^inline bool in_range_inclusive(Type range_start_inclusive, $/;"	kind:f	namespace:liborangepower::range	typeref:typename:bool	signature:(Type range_start_inclusive,Type range_end_inclusive,Type to_check)
+liborangepower::range::vec2_in_range	liborangepower_src/range_funcs.hpp	/^inline bool vec2_in_range(containers::Vec2<Type> range_start_inclusive, $/;"	kind:f	namespace:liborangepower::range	typeref:typename:bool	signature:(containers::Vec2<Type> range_start_inclusive,containers::Vec2<Type> range_end_exclusive,containers::Vec2<Type> to_check)
+liborangepower::strings	liborangepower_src/string_conversion_stuff.hpp	/^namespace strings$/;"	kind:n	namespace:liborangepower
+liborangepower::strings::convert_str_to	liborangepower_src/string_conversion_stuff.hpp	/^inline Type convert_str_to(const std::string& to_convert)$/;"	kind:f	namespace:liborangepower::strings	typeref:typename:Type	signature:(const std::string & to_convert)
+liborangepower::time	liborangepower_src/time_stuff.hpp	/^namespace time$/;"	kind:n	namespace:liborangepower
+liborangepower::time::Prng	liborangepower_src/time_stuff.hpp	/^class Prng$/;"	kind:c	namespace:liborangepower::time
+liborangepower::time::Prng::InstanceType	liborangepower_src/time_stuff.hpp	/^	typedef std::mt19937_64 InstanceType;$/;"	kind:t	class:liborangepower::time::Prng	typeref:typename:std::mt19937_64	access:public
+liborangepower::time::Prng::Prng	liborangepower_src/time_stuff.hpp	/^	inline Prng(int s_param_0=0, int s_param_1=0) $/;"	kind:f	class:liborangepower::time::Prng	access:public	signature:(int s_param_0=0,int s_param_1=0)
+liborangepower::time::Prng::SeedType	liborangepower_src/time_stuff.hpp	/^		.time_since_epoch().count()) SeedType;$/;"	kind:t	class:liborangepower::time::Prng	access:public
+liborangepower::time::Prng::__instance	liborangepower_src/time_stuff.hpp	/^	InstanceType __instance;$/;"	kind:m	class:liborangepower::time::Prng	typeref:typename:InstanceType	access:protected
+liborangepower::time::Prng::__param_0	liborangepower_src/time_stuff.hpp	/^	int __param_0, __param_1;$/;"	kind:m	class:liborangepower::time::Prng	typeref:typename:int	access:protected
+liborangepower::time::Prng::__param_1	liborangepower_src/time_stuff.hpp	/^	int __param_0, __param_1;$/;"	kind:m	class:liborangepower::time::Prng	typeref:typename:int	access:protected
+liborangepower::time::Prng::gen_getter_by_con_ref	liborangepower_src/time_stuff.hpp	/^	gen_getter_by_con_ref(instance);$/;"	kind:p	class:liborangepower::time::Prng	access:public	signature:(instance)
+liborangepower::time::Prng::gen_getter_by_val	liborangepower_src/time_stuff.hpp	/^	gen_getter_by_val(param_0);$/;"	kind:p	class:liborangepower::time::Prng	access:public	signature:(param_0)
+liborangepower::time::Prng::gen_getter_by_val	liborangepower_src/time_stuff.hpp	/^	gen_getter_by_val(param_1);$/;"	kind:p	class:liborangepower::time::Prng	access:public	signature:(param_1)
+liborangepower::time::Prng::initial_seed	liborangepower_src/time_stuff.hpp	/^	inline SeedType initial_seed()$/;"	kind:f	class:liborangepower::time::Prng	typeref:typename:SeedType	access:protected	signature:()
+liborangepower::time::Prng::operator () 	liborangepower_src/time_stuff.hpp	/^	inline auto operator () ()$/;"	kind:f	class:liborangepower::time::Prng	typeref:typename:auto	access:public	signature:()
+liborangepower::time::Prng::operator () 	liborangepower_src/time_stuff.hpp	/^	inline auto operator () (integer_types::u64 max_val, $/;"	kind:f	class:liborangepower::time::Prng	typeref:typename:auto	access:public	signature:(integer_types::u64 max_val,const bool saturate=false)
+liborangepower::time::Prng::run	liborangepower_src/time_stuff.hpp	/^	inline auto run()$/;"	kind:f	class:liborangepower::time::Prng	typeref:typename:auto	access:public	signature:()
+liborangepower::time::Profiler	liborangepower_src/time_stuff.hpp	/^class Profiler$/;"	kind:c	namespace:liborangepower::time
+liborangepower::time::Profiler::end_tp	liborangepower_src/time_stuff.hpp	/^	std::chrono::high_resolution_clock::time_point start_tp, end_tp;$/;"	kind:m	class:liborangepower::time::Profiler	typeref:typename:std::chrono::high_resolution_clock::time_point	access:protected
+liborangepower::time::Profiler::get_hrc_now	liborangepower_src/time_stuff.hpp	/^	static inline auto get_hrc_now()$/;"	kind:f	class:liborangepower::time::Profiler	typeref:typename:auto	access:public	signature:()
+liborangepower::time::Profiler::get_hrc_now_time_t	liborangepower_src/time_stuff.hpp	/^	static inline auto get_hrc_now_time_t()$/;"	kind:f	class:liborangepower::time::Profiler	typeref:typename:auto	access:public	signature:()
+liborangepower::time::Profiler::start	liborangepower_src/time_stuff.hpp	/^	inline void start()$/;"	kind:f	class:liborangepower::time::Profiler	typeref:typename:void	access:public	signature:()
+liborangepower::time::Profiler::start_tp	liborangepower_src/time_stuff.hpp	/^	std::chrono::high_resolution_clock::time_point start_tp, end_tp;$/;"	kind:m	class:liborangepower::time::Profiler	typeref:typename:std::chrono::high_resolution_clock::time_point	access:protected
+liborangepower::time::Profiler::stop	liborangepower_src/time_stuff.hpp	/^	inline auto stop()$/;"	kind:f	class:liborangepower::time::Profiler	typeref:typename:auto	access:public	signature:()
+liborangepower::time::now_as_gmtime	liborangepower_src/time_stuff.hpp	/^inline std::tm* now_as_gmtime()$/;"	kind:f	namespace:liborangepower::time	typeref:typename:std::tm *	signature:()
+liborangepower::time::now_as_localtime	liborangepower_src/time_stuff.hpp	/^inline std::tm* now_as_localtime()$/;"	kind:f	namespace:liborangepower::time	typeref:typename:std::tm *	signature:()
+liborangepower::time::now_as_time_t	liborangepower_src/time_stuff.hpp	/^inline std::time_t now_as_time_t()$/;"	kind:f	namespace:liborangepower::time	typeref:typename:std::time_t	signature:()
+liborangepower::time::put_now_as_gmtime	liborangepower_src/time_stuff.hpp	/^inline auto put_now_as_gmtime()$/;"	kind:f	namespace:liborangepower::time	typeref:typename:auto	signature:()
+liborangepower::time::put_now_as_localtime	liborangepower_src/time_stuff.hpp	/^inline auto put_now_as_localtime()$/;"	kind:f	namespace:liborangepower::time	typeref:typename:auto	signature:()
+liborangepower_array_2d_helper_classes_hpp	liborangepower_src/array_2d_helper_classes.hpp	/^#define liborangepower_array_2d_helper_classes_hpp$/;"	kind:d
+liborangepower_array_helper_classes_hpp	liborangepower_src/array_helper_classes.hpp	/^#define liborangepower_array_helper_classes_hpp$/;"	kind:d
+liborangepower_gen_getter_setter_defines_hpp	liborangepower_src/gen_getter_setter_defines.hpp	/^#define liborangepower_gen_getter_setter_defines_hpp$/;"	kind:d
+liborangepower_gmp_stuff_hpp	liborangepower_src/gmp_stuff.hpp	/^#define liborangepower_gmp_stuff_hpp$/;"	kind:d
+liborangepower_json_stuff_hpp	liborangepower_src/json_stuff.hpp	/^#define liborangepower_json_stuff_hpp$/;"	kind:d
+liborangepower_lexer_classes_hpp	liborangepower_src/quoted_str_converter_stuff.hpp	/^#define liborangepower_lexer_classes_hpp$/;"	kind:d
+liborangepower_memwhatever_wrappers_hpp	liborangepower_src/memwhatever_wrappers.hpp	/^#define liborangepower_memwhatever_wrappers_hpp$/;"	kind:d
+liborangepower_misc_bitwise_funcs_hpp	liborangepower_src/misc_bitwise_funcs.hpp	/^#define liborangepower_misc_bitwise_funcs_hpp$/;"	kind:d
+liborangepower_misc_defines_hpp	liborangepower_src/misc_defines.hpp	/^#define liborangepower_misc_defines_hpp$/;"	kind:d
+liborangepower_misc_includes_hpp	liborangepower_src/misc_includes.hpp	/^#define liborangepower_misc_includes_hpp$/;"	kind:d
+liborangepower_misc_input_classes_hpp	liborangepower_src/misc_input_classes.hpp	/^#define liborangepower_misc_input_classes_hpp$/;"	kind:d
+liborangepower_misc_output_classes_hpp	liborangepower_src/misc_output_classes.hpp	/^#define liborangepower_misc_output_classes_hpp$/;"	kind:d
+liborangepower_misc_types_hpp	liborangepower_src/misc_types.hpp	/^#define liborangepower_misc_types_hpp$/;"	kind:d
+liborangepower_misc_utility_funcs_hpp	liborangepower_src/misc_utility_funcs.hpp	/^#define liborangepower_misc_utility_funcs_hpp$/;"	kind:d
+liborangepower_mpi_handler_class_hpp	liborangepower_src/mpi_handler_class.hpp	/^#define liborangepower_mpi_handler_class_hpp$/;"	kind:d
+liborangepower_prev_curr_pair_class_hpp	liborangepower_src/prev_curr_pair_class.hpp	/^#define liborangepower_prev_curr_pair_class_hpp$/;"	kind:d
+liborangepower_range_funcs_hpp	liborangepower_src/range_funcs.hpp	/^#define liborangepower_range_funcs_hpp$/;"	kind:d
+liborangepower_str_split_helper_classes_hpp	liborangepower_src/deprecated/str_split_helper_classes.hpp	/^#define liborangepower_str_split_helper_classes_hpp$/;"	kind:d
+liborangepower_string_conversion_stuff_hpp	liborangepower_src/string_conversion_stuff.hpp	/^#define liborangepower_string_conversion_stuff_hpp$/;"	kind:d
+liborangepower_time_stuff_hpp	liborangepower_src/time_stuff.hpp	/^#define liborangepower_time_stuff_hpp$/;"	kind:d
+liborangepower_vec2_classes_hpp	liborangepower_src/vec2_classes.hpp	/^#define liborangepower_vec2_classes_hpp$/;"	kind:d
+main	main.cpp	/^int main(int argc, char** argv)$/;"	kind:f	typeref:typename:int	signature:(int argc,char ** argv)
+max_mem_amount	vm_class.hpp	/^	static constexpr size_t max_mem_amount = 0x100000000;$/;"	kind:m	class:cakeplusplus::Vm	typeref:typename:size_t	access:public
+max_va	liborangepower_src/misc_utility_funcs.hpp	/^FirstType max_va(const FirstType& arg_0, const SecondType& arg_1)$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:FirstType	signature:(const FirstType & arg_0,const SecondType & arg_1)
+max_va	liborangepower_src/misc_utility_funcs.hpp	/^inline FirstType max_va(const FirstType& arg_0, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:FirstType	signature:(const FirstType & arg_0,const SecondType & arg_1,RemainingTypes...remaining_args)
+min_va	liborangepower_src/misc_utility_funcs.hpp	/^inline FirstType min_va(const FirstType& arg_0, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:FirstType	signature:(const FirstType & arg_0,const SecondType & arg_1)
+min_va	liborangepower_src/misc_utility_funcs.hpp	/^inline FirstType min_va(const FirstType& arg_0, $/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:FirstType	signature:(const FirstType & arg_0,const SecondType & arg_1,RemainingTypes...remaining_args)
+misc_input	liborangepower_src/misc_input_classes.hpp	/^namespace misc_input$/;"	kind:n	namespace:liborangepower
+misc_util	liborangepower_src/memwhatever_wrappers.hpp	/^namespace misc_util$/;"	kind:n	namespace:liborangepower
+misc_util	liborangepower_src/misc_utility_funcs.hpp	/^namespace misc_util$/;"	kind:n	namespace:liborangepower
+mpi	liborangepower_src/mpi_handler_class.hpp	/^namespace mpi$/;"	kind:n	namespace:liborangepower
+now_as_gmtime	liborangepower_src/time_stuff.hpp	/^inline std::tm* now_as_gmtime()$/;"	kind:f	namespace:liborangepower::time	typeref:typename:std::tm *	signature:()
+now_as_localtime	liborangepower_src/time_stuff.hpp	/^inline std::tm* now_as_localtime()$/;"	kind:f	namespace:liborangepower::time	typeref:typename:std::tm *	signature:()
+now_as_time_t	liborangepower_src/time_stuff.hpp	/^inline std::time_t now_as_time_t()$/;"	kind:f	namespace:liborangepower::time	typeref:typename:std::time_t	signature:()
+num_arg_bytes	vm_class.cpp	/^size_t Vm::InstrHeader::num_arg_bytes() const$/;"	kind:f	class:cakeplusplus::Vm::InstrHeader	typeref:typename:size_t	signature:() const
+num_arg_bytes	vm_class.hpp	/^		size_t num_arg_bytes() const;$/;"	kind:p	class:cakeplusplus::Vm::InstrHeader	typeref:typename:size_t	access:public	signature:() const
+operator !=	liborangepower_src/vec2_classes.hpp	/^	inline bool operator != (const Vec2<OtherType>& to_cmp) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:bool	access:public	signature:(const Vec2<OtherType> & to_cmp) const
+operator () 	liborangepower_src/time_stuff.hpp	/^	inline auto operator () ()$/;"	kind:f	class:liborangepower::time::Prng	typeref:typename:auto	access:public	signature:()
+operator () 	liborangepower_src/time_stuff.hpp	/^	inline auto operator () (integer_types::u64 max_val, $/;"	kind:f	class:liborangepower::time::Prng	typeref:typename:auto	access:public	signature:(integer_types::u64 max_val,const bool saturate=false)
+operator *	liborangepower_src/vec2_classes.hpp	/^	inline Vec2 operator * (const OtherType& scale) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2	access:public	signature:(const OtherType & scale) const
+operator *	liborangepower_src/vec2_classes.hpp	/^inline Vec2<Type> operator * (const Type& scale, $/;"	kind:f	namespace:liborangepower::containers	typeref:typename:Vec2<Type>	signature:(const Type & scale,const Vec2<Type> & vec2_to_mul)
+operator *=	liborangepower_src/vec2_classes.hpp	/^	inline Vec2& operator *= (const OtherType& scale)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2 &	access:public	signature:(const OtherType & scale)
+operator +	liborangepower_src/vec2_classes.hpp	/^	inline Vec2 operator + (const Vec2<OtherType>& to_add) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2	access:public	signature:(const Vec2<OtherType> & to_add) const
+operator +=	liborangepower_src/vec2_classes.hpp	/^	inline Vec2& operator += (const Vec2<OtherType>& to_add)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2 &	access:public	signature:(const Vec2<OtherType> & to_add)
+operator -	liborangepower_src/vec2_classes.hpp	/^	inline Vec2 operator - (const Vec2<OtherType>& to_sub) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2	access:public	signature:(const Vec2<OtherType> & to_sub) const
+operator -=	liborangepower_src/vec2_classes.hpp	/^	inline Vec2& operator -= (const Vec2<OtherType>& to_sub)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2 &	access:public	signature:(const Vec2<OtherType> & to_sub)
+operator =	liborangepower_src/array_2d_helper_classes.hpp	/^	Array2dHelper& operator = (const Array2dHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::Array2dHelper	typeref:typename:Array2dHelper &	access:public	signature:(const Array2dHelper & to_copy)
+operator =	liborangepower_src/array_2d_helper_classes.hpp	/^	ArrayCsz2dHelper& operator = (const ArrayCsz2dHelper& to_copy) $/;"	kind:p	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:ArrayCsz2dHelper &	access:public	signature:(const ArrayCsz2dHelper & to_copy)
+operator =	liborangepower_src/array_helper_classes.hpp	/^	ArrayCszHelper& operator = (const ArrayCszHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::ArrayCszHelper	typeref:typename:ArrayCszHelper &	access:public	signature:(const ArrayCszHelper & to_copy)
+operator =	liborangepower_src/array_helper_classes.hpp	/^	inline ArrayHelper& operator = (const ArrayHelper& to_copy) = default;$/;"	kind:p	class:liborangepower::containers::ArrayHelper	typeref:typename:ArrayHelper &	access:public	signature:(const ArrayHelper & to_copy)
+operator =	liborangepower_src/vec2_classes.hpp	/^	inline Vec2& operator = (Vec2<OtherType>&& to_move)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2 &	access:public	signature:(Vec2<OtherType> && to_move)
+operator =	liborangepower_src/vec2_classes.hpp	/^	inline Vec2& operator = (const Vec2<OtherType>& to_copy)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Vec2 &	access:public	signature:(const Vec2<OtherType> & to_copy)
+operator =	vm_class.hpp	/^		inline InstrHeader& operator = (const InstrHeader& to_copy)$/;"	kind:p	class:cakeplusplus::Vm::InstrHeader	typeref:typename:InstrHeader &	access:public	signature:(const InstrHeader & to_copy)
+operator =	vm_class.hpp	/^		inline InstrHeader& operator = (u16 to_copy)$/;"	kind:f	class:cakeplusplus::Vm::InstrHeader	typeref:typename:InstrHeader &	access:public	signature:(u16 to_copy)
+operator ==	liborangepower_src/vec2_classes.hpp	/^	inline bool operator == (const Vec2<OtherType>& to_cmp) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:bool	access:public	signature:(const Vec2<OtherType> & to_cmp) const
+operator [] 	liborangepower_src/vec2_classes.hpp	/^	inline Type& operator [] (size_t index)$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Type &	access:public	signature:(size_t index)
+operator [] 	liborangepower_src/vec2_classes.hpp	/^	inline const Type& operator [] (size_t index) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:const Type &	access:public	signature:(size_t index) const
+osprint_arr	liborangepower_src/misc_output_classes.hpp	/^std::ostream& osprint_arr(std::ostream& os, ArrType* to_print, size_t size)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(std::ostream & os,ArrType * to_print,size_t size)
+osprintout	liborangepower_src/misc_output_classes.hpp	/^	friend std::ostream& osprintout(std::ostream& os, $/;"	kind:p	class:liborangepower::printout_etc::AnyPrintoutBackend	typeref:typename:std::ostream &	access:private	signature:(std::ostream & os,ArgTypes &&...args)
+osprintout	liborangepower_src/misc_output_classes.hpp	/^inline std::ostream& osprintout(std::ostream& os, ArgTypes&&... args)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(std::ostream & os,ArgTypes &&...args)
+osprintout	liborangepower_src/misc_output_classes.hpp	/^std::ostream& osprintout(std::ostream& os, ArgTypes&&... args);$/;"	kind:p	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(std::ostream & os,ArgTypes &&...args)
+parse_json	liborangepower_src/json_stuff.cpp	/^bool parse_json(Json::CharReaderBuilder* rbuilder, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:bool	signature:(Json::CharReaderBuilder * rbuilder,const std::string & input_file_name,Json::Value * root,std::string * errs)
+parse_json	liborangepower_src/json_stuff.cpp	/^bool parse_json(Json::CharReaderBuilder* rbuilder, std::istream& is,$/;"	kind:f	namespace:liborangepower::json	typeref:typename:bool	signature:(Json::CharReaderBuilder * rbuilder,std::istream & is,Json::Value * root,std::string * errs)
+parse_json	liborangepower_src/json_stuff.hpp	/^bool parse_json(Json::CharReaderBuilder* rbuilder, $/;"	kind:p	namespace:liborangepower::json	typeref:typename:bool	signature:(Json::CharReaderBuilder * rbuilder,const std::string & input_file_name,Json::Value * root,std::string * errs)
+parse_json	liborangepower_src/json_stuff.hpp	/^bool parse_json(Json::CharReaderBuilder* rbuilder, std::istream& is,$/;"	kind:p	namespace:liborangepower::json	typeref:typename:bool	signature:(Json::CharReaderBuilder * rbuilder,std::istream & is,Json::Value * root,std::string * errs)
+parse_json	liborangepower_src/json_stuff.hpp	/^inline bool parse_json(const std::string& input_file_name, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:bool	signature:(const std::string & input_file_name,Json::Value * root,std::string * errs)
+parse_json	liborangepower_src/json_stuff.hpp	/^inline bool parse_json(std::istream& is, Json::Value* root, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:bool	signature:(std::istream & is,Json::Value * root,std::string * errs)
+pop	vm_class.hpp	/^	inline u64 pop()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:u64	access:private	signature:()
+prev	liborangepower_src/prev_curr_pair_class.hpp	/^	type prev, curr;$/;"	kind:m	class:liborangepower::containers::PrevCurrPair	typeref:typename:type	access:public
+print_json_value_type	liborangepower_src/json_stuff.hpp	/^inline void print_json_value_type(Json::Value* iter, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(Json::Value * iter,std::ostream & os=std::cout)
+print_json_value_type	liborangepower_src/json_stuff.hpp	/^inline void print_json_value_type(const Json::Value& some_value,$/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(const Json::Value & some_value,std::ostream & os=std::cout)
+printerr	liborangepower_src/misc_output_classes.hpp	/^inline std::ostream& printerr(ArgTypes&&... args)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(ArgTypes &&...args)
+printout	liborangepower_src/misc_output_classes.hpp	/^inline std::ostream& printout(ArgTypes&&... args)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::ostream &	signature:(ArgTypes &&...args)
+printout_etc	liborangepower_src/misc_output_classes.hpp	/^namespace printout_etc$/;"	kind:n	namespace:liborangepower
+push	vm_class.hpp	/^	inline void push(u64 to_push)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(u64 to_push)
+put_now_as_gmtime	liborangepower_src/time_stuff.hpp	/^inline auto put_now_as_gmtime()$/;"	kind:f	namespace:liborangepower::time	typeref:typename:auto	signature:()
+put_now_as_localtime	liborangepower_src/time_stuff.hpp	/^inline auto put_now_as_localtime()$/;"	kind:f	namespace:liborangepower::time	typeref:typename:auto	signature:()
+quit_with_misc_output	liborangepower_src/mpi_handler_class.hpp	/^	inline void quit_with_misc_output(arg_types&&... args) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:void	access:protected	signature:(arg_types &&...args) const
+range	liborangepower_src/range_funcs.hpp	/^namespace range$/;"	kind:n	namespace:liborangepower
+raw_abort	liborangepower_src/mpi_handler_class.hpp	/^	inline int raw_abort(MPI_Comm comm, int ec) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(MPI_Comm comm,int ec) const
+raw_comm_rank	liborangepower_src/mpi_handler_class.hpp	/^	inline int raw_comm_rank(MPI_Comm comm) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(MPI_Comm comm) const
+raw_comm_size	liborangepower_src/mpi_handler_class.hpp	/^	inline int raw_comm_size(MPI_Comm comm) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(MPI_Comm comm) const
+raw_finalize	liborangepower_src/mpi_handler_class.hpp	/^	inline int raw_finalize() const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:() const
+raw_init	liborangepower_src/mpi_handler_class.hpp	/^	inline int raw_init(int& argc, char**& argv) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(int & argc,char ** & argv) const
+recv	liborangepower_src/mpi_handler_class.hpp	/^	inline int recv(ArrType& buf, int src,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(ArrType & buf,int src,int tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+recv	liborangepower_src/mpi_handler_class.hpp	/^	inline int recv(Type* buf, int num_instances, int src, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(Type * buf,int num_instances,int src,int tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+recv_single	liborangepower_src/mpi_handler_class.hpp	/^	inline int recv_single(Type& some_var, int src, int tag=MPI_ANY_TAG,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(Type & some_var,int src,int tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+reduce	liborangepower_src/mpi_handler_class.hpp	/^	inline int reduce(const void* send_buf, void* recv_buf, int count, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const void * send_buf,void * recv_buf,int count,MPI_Datatype data_type,MPI_Op op,int root,MPI_Comm comm=MPI_COMM_WORLD) const
+regular_abort	liborangepower_src/mpi_handler_class.hpp	/^	inline int regular_abort(const ErrorCode& ec) const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(const ErrorCode & ec) const
+root	liborangepower_src/mpi_handler_class.hpp	/^	static constexpr int root = 0;$/;"	kind:m	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public
+run	liborangepower_src/time_stuff.hpp	/^	inline auto run()$/;"	kind:f	class:liborangepower::time::Prng	typeref:typename:auto	access:public	signature:()
+run	vm_class.cpp	/^int Vm::run()$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:int	signature:()
+run	vm_class.hpp	/^	int run();$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:int	access:public	signature:()
+s16	liborangepower_src/misc_types.hpp	/^typedef int16_t s16;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:int16_t
+s32	liborangepower_src/misc_types.hpp	/^typedef int32_t s32;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:int32_t
+s64	liborangepower_src/misc_types.hpp	/^typedef int64_t s64;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:int64_t
+s8	liborangepower_src/misc_types.hpp	/^typedef int8_t s8;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:int8_t
+sconcat	liborangepower_src/misc_output_classes.hpp	/^std::string sconcat(const FirstType& first_val, $/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:(const FirstType & first_val,RemArgTypes &&...rem_args)
+send	liborangepower_src/mpi_handler_class.hpp	/^	inline int send(const ArrType& buf, int dst, int tag=0,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const ArrType & buf,int dst,int tag=0,MPI_Comm comm=MPI_COMM_WORLD) const
+send	liborangepower_src/mpi_handler_class.hpp	/^	inline int send(const Type* buf, int num_instances, int dst, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const Type * buf,int num_instances,int dst,int tag=0,MPI_Comm comm=MPI_COMM_WORLD) const
+send_recv	liborangepower_src/mpi_handler_class.hpp	/^	inline int send_recv(const Type* send_buf, int num_send_instances, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const Type * send_buf,int num_send_instances,int dst,Type * recv_buf,int num_recv_instances,int src,int send_tag=0,int recv_tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+send_recv_single	liborangepower_src/mpi_handler_class.hpp	/^	inline int send_recv_single(const Type& to_send, Type& to_recv, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const Type & to_send,Type & to_recv,int partner,int send_tag=0,int recv_tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+send_recv_single	liborangepower_src/mpi_handler_class.hpp	/^	inline int send_recv_single(const Type& to_send, int dst, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const Type & to_send,int dst,Type & to_recv,int src,int send_tag=0,int recv_tag=MPI_ANY_TAG,MPI_Comm comm=MPI_COMM_WORLD,MPI_Status * status=MPI_STATUS_IGNORE) const
+send_single	liborangepower_src/mpi_handler_class.hpp	/^	inline int send_single(const Type& some_var, int dst, int tag=0,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:public	signature:(const Type & some_var,int dst,int tag=0,MPI_Comm comm=MPI_COMM_WORLD) const
+set_bits	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void set_bits(Type& to_set, size_t mask)$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_set,size_t mask)
+set_bits_with_range	liborangepower_src/misc_bitwise_funcs.hpp	/^inline void set_bits_with_range(Type& to_set, size_t val,$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:void	signature:(Type & to_set,size_t val,size_t bit_pos_range_hi,size_t bit_pos_range_lo)
+set_mem16_at	vm_class.cpp	/^void Vm::set_mem16_at(Address where, u16 data)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(Address where,u16 data)
+set_mem16_at	vm_class.hpp	/^	void set_mem16_at(Address where, u16 data);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(Address where,u16 data)
+set_mem32_at	vm_class.cpp	/^void Vm::set_mem32_at(Address where, u32 data)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(Address where,u32 data)
+set_mem32_at	vm_class.hpp	/^	void set_mem32_at(Address where, u32 data);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(Address where,u32 data)
+set_mem64_at	vm_class.cpp	/^void Vm::set_mem64_at(Address where, u64 data)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(Address where,u64 data)
+set_mem64_at	vm_class.hpp	/^	void set_mem64_at(Address where, u64 data);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(Address where,u64 data)
+set_mem8_at	vm_class.cpp	/^void Vm::set_mem8_at(Address where, u8 data)$/;"	kind:f	class:cakeplusplus::Vm	typeref:typename:void	signature:(Address where,u8 data)
+set_mem8_at	vm_class.hpp	/^	void set_mem8_at(Address where, u8 data);$/;"	kind:p	class:cakeplusplus::Vm	typeref:typename:void	access:private	signature:(Address where,u8 data)
+size	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t size() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:size_t	access:public	signature:() const
+size	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t size() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:size_t	access:public	signature:() const
+size	liborangepower_src/array_helper_classes.hpp	/^	size_t size() const$/;"	kind:f	class:liborangepower::containers::ArrayCszHelper	typeref:typename:size_t	access:public	signature:() const
+size	liborangepower_src/array_helper_classes.hpp	/^	size_t size() const$/;"	kind:f	class:liborangepower::containers::ArrayHelper	typeref:typename:size_t	access:public	signature:() const
+size_2d	liborangepower_src/array_2d_helper_classes.hpp	/^	const Vec2<size_t>& size_2d() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:const Vec2<size_t> &	access:public	signature:() const
+size_2d	liborangepower_src/array_2d_helper_classes.hpp	/^	const Vec2<size_t>& size_2d() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:const Vec2<size_t> &	access:public	signature:() const
+src__slash__misc_includes_hpp	misc_includes.hpp	/^#define src__slash__misc_includes_hpp$/;"	kind:d
+src__slash__vm_class_hpp	vm_class.hpp	/^#define src__slash__vm_class_hpp$/;"	kind:d
+start	liborangepower_src/time_stuff.hpp	/^	inline void start()$/;"	kind:f	class:liborangepower::time::Profiler	typeref:typename:void	access:public	signature:()
+start_tp	liborangepower_src/time_stuff.hpp	/^	std::chrono::high_resolution_clock::time_point start_tp, end_tp;$/;"	kind:m	class:liborangepower::time::Profiler	typeref:typename:std::chrono::high_resolution_clock::time_point	access:protected
+starting_thread_num	liborangepower_src/mpi_handler_class.hpp	/^	inline size_t starting_thread_num() const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:size_t	access:public	signature:() const
+stop	liborangepower_src/time_stuff.hpp	/^	inline auto stop()$/;"	kind:f	class:liborangepower::time::Profiler	typeref:typename:auto	access:public	signature:()
+str_is_integer_bignum	liborangepower_src/gmp_stuff.cpp	/^bool str_is_integer_bignum(const std::string& str, BigNum& ret)$/;"	kind:f	namespace:liborangepower::bignum	typeref:typename:bool	signature:(const std::string & str,BigNum & ret)
+str_is_integer_bignum	liborangepower_src/gmp_stuff.hpp	/^bool str_is_integer_bignum(const std::string& str, BigNum& ret);$/;"	kind:p	namespace:liborangepower::bignum	typeref:typename:bool	signature:(const std::string & str,BigNum & ret)
+strappcom	liborangepower_src/misc_output_classes.hpp	/^inline std::string strappcom()$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:()
+strappcom	liborangepower_src/misc_output_classes.hpp	/^inline std::string strappcom(const FirstType& first_val,$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:(const FirstType & first_val,RemArgTypes &&...rem_args)
+strappcom	liborangepower_src/misc_output_classes.hpp	/^inline std::string strappcom(const Type& to_concat)$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:(const Type & to_concat)
+strappcom2	liborangepower_src/misc_output_classes.hpp	/^inline std::string strappcom2(const FirstType& first_val,$/;"	kind:f	namespace:liborangepower::printout_etc	typeref:typename:std::string	signature:(const FirstType & first_val,RemArgTypes &&...rem_args)
+strings	liborangepower_src/string_conversion_stuff.hpp	/^namespace strings$/;"	kind:n	namespace:liborangepower
+time	liborangepower_src/time_stuff.hpp	/^namespace time$/;"	kind:n	namespace:liborangepower
+total_num_threads	liborangepower_src/mpi_handler_class.hpp	/^	inline size_t total_num_threads() const$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:size_t	access:public	signature:() const
+type_is_signed	liborangepower_src/misc_utility_funcs.hpp	/^constexpr inline bool type_is_signed()$/;"	kind:f	namespace:liborangepower::misc_util	typeref:typename:bool	signature:()
+u16	liborangepower_src/misc_types.hpp	/^typedef uint16_t u16;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:uint16_t
+u32	liborangepower_src/misc_types.hpp	/^typedef uint32_t u32;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:uint32_t
+u64	liborangepower_src/misc_types.hpp	/^typedef uint64_t u64;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:uint64_t
+u8	liborangepower_src/misc_types.hpp	/^typedef uint8_t u8;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:uint8_t
+uint	liborangepower_src/misc_types.hpp	/^typedef unsigned int uint;$/;"	kind:t	namespace:liborangepower::integer_types	typeref:typename:unsigned int
+valid	vm_class.cpp	/^bool Vm::InstrHeader::valid() const$/;"	kind:f	class:cakeplusplus::Vm::InstrHeader	typeref:typename:bool	signature:() const
+valid	vm_class.hpp	/^		bool valid() const;$/;"	kind:p	class:cakeplusplus::Vm::InstrHeader	typeref:typename:bool	access:public	signature:() const
+vec2_in_range	liborangepower_src/range_funcs.hpp	/^inline bool vec2_in_range(containers::Vec2<Type> range_start_inclusive, $/;"	kind:f	namespace:liborangepower::range	typeref:typename:bool	signature:(containers::Vec2<Type> range_start_inclusive,containers::Vec2<Type> range_end_exclusive,containers::Vec2<Type> to_check)
+vec2_index_for_x	liborangepower_src/vec2_classes.hpp	/^static constexpr size_t vec2_index_for_x = 0, vec2_index_for_y = 1;$/;"	kind:v	namespace:liborangepower::containers	typeref:typename:size_t
+vec2_index_for_y	liborangepower_src/vec2_classes.hpp	/^static constexpr size_t vec2_index_for_x = 0, vec2_index_for_y = 1;$/;"	kind:v	namespace:liborangepower::containers	typeref:typename:size_t
+width	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t width() const$/;"	kind:f	class:liborangepower::containers::Array2dHelper	typeref:typename:size_t	access:public	signature:() const
+width	liborangepower_src/array_2d_helper_classes.hpp	/^	size_t width() const$/;"	kind:f	class:liborangepower::containers::ArrayCsz2dHelper	typeref:typename:size_t	access:public	signature:() const
+width_of_type	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr size_t width_of_type()$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:size_t	signature:()
+width_of_type	liborangepower_src/misc_bitwise_funcs.hpp	/^inline constexpr size_t width_of_type(const Type& to_check)$/;"	kind:f	namespace:liborangepower::bitwise	typeref:typename:size_t	signature:(const Type & to_check)
+width_to_msb_pos	liborangepower_src/misc_defines.hpp	/^#define width_to_msb_pos(/;"	kind:d	signature:(some_width)
+wrapped_recv	liborangepower_src/mpi_handler_class.hpp	/^	inline int wrapped_recv(Type* buf, int num_instances, int src,$/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(Type * buf,int num_instances,int src,int tag,MPI_Comm comm,MPI_Status * status) const
+wrapped_send	liborangepower_src/mpi_handler_class.hpp	/^	inline int wrapped_send(const Type* buf, int num_instances, int dst, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(const Type * buf,int num_instances,int dst,int tag,MPI_Comm comm) const
+wrapped_send_recv	liborangepower_src/mpi_handler_class.hpp	/^	inline int wrapped_send_recv(const Type* send_buf, $/;"	kind:f	class:liborangepower::mpi::MpiHandler	typeref:typename:int	access:protected	signature:(const Type * send_buf,int num_send_instances,int dst,int send_tag,Type * recv_buf,int num_recv_instances,int src,int recv_tag,MPI_Comm comm,MPI_Status * status) const
+write_json	liborangepower_src/json_stuff.cpp	/^void write_json(Json::StreamWriterBuilder* wbuilder, std::ostream& os, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(Json::StreamWriterBuilder * wbuilder,std::ostream & os,Json::Value * root)
+write_json	liborangepower_src/json_stuff.cpp	/^void write_json(Json::StreamWriterBuilder* wbuilder,$/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(Json::StreamWriterBuilder * wbuilder,const std::string & output_file_name,Json::Value * root)
+write_json	liborangepower_src/json_stuff.hpp	/^inline void write_json(const std::string& output_file_name, $/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(const std::string & output_file_name,Json::Value * root)
+write_json	liborangepower_src/json_stuff.hpp	/^inline void write_json(std::ostream& os, Json::Value* root)$/;"	kind:f	namespace:liborangepower::json	typeref:typename:void	signature:(std::ostream & os,Json::Value * root)
+write_json	liborangepower_src/json_stuff.hpp	/^void write_json(Json::StreamWriterBuilder* wbuilder,$/;"	kind:p	namespace:liborangepower::json	typeref:typename:void	signature:(Json::StreamWriterBuilder * wbuilder,const std::string & output_file_name,Json::Value * root)
+write_json	liborangepower_src/json_stuff.hpp	/^void write_json(Json::StreamWriterBuilder* wbuilder,$/;"	kind:p	namespace:liborangepower::json	typeref:typename:void	signature:(Json::StreamWriterBuilder * wbuilder,std::ostream & os,Json::Value * root)
+x	liborangepower_src/vec2_classes.hpp	/^	Type x, y;$/;"	kind:m	class:liborangepower::containers::Vec2	typeref:typename:Type	access:public
+y	liborangepower_src/vec2_classes.hpp	/^	Type x, y;$/;"	kind:m	class:liborangepower::containers::Vec2	typeref:typename:Type	access:public
+zcross_prod	liborangepower_src/vec2_classes.hpp	/^	inline Type zcross_prod(const Vec2<OtherType>& to_zcross) const$/;"	kind:f	class:liborangepower::containers::Vec2	typeref:typename:Type	access:public	signature:(const Vec2<OtherType> & to_zcross) const
+~MpiHandler	liborangepower_src/mpi_handler_class.hpp	/^	virtual inline ~MpiHandler()$/;"	kind:f	class:liborangepower::mpi::MpiHandler	access:public	signature:()
+~Vm	vm_class.cpp	/^Vm::~Vm()$/;"	kind:f	class:cakeplusplus::Vm	signature:()
+~Vm	vm_class.hpp	/^	virtual ~Vm();$/;"	kind:p	class:cakeplusplus::Vm	access:public	signature:()
