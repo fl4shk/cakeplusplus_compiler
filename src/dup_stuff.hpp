@@ -7,8 +7,9 @@
 
 namespace cake_plus_plus
 {
+typedef std::string* StrPtr;
 
-std::string* cstm_strdup(const std::string& to_dup);
+StrPtr cstm_strdup(const std::string& to_dup);
 
 } // end namespace cake_plus_plus
 

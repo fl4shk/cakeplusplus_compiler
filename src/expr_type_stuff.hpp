@@ -24,7 +24,7 @@ enum class ExprType
 	//Float32,
 	//Float64,
 
-	// Custom types
+	// Custom types such as classes and (probably) typedefs
 	Custom,
 };
 

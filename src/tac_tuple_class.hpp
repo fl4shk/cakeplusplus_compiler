@@ -7,6 +7,7 @@
 #include "misc_helper_defines.hpp"
 #include "expr_type_stuff.hpp"
 #include "symbol_table_class.hpp"
+#include "dup_stuff.hpp"
 
 namespace cake_plus_plus
 {
@@ -16,78 +17,71 @@ class TacTuple
 {
 public:		// constants
 
-	// Nope, I'm not using std::initializer_list.  You can't make me.
-	static inline const std::string TUP_TYPES_ARR[]
+	static inline const std::vector<StrPtr> TUP_TYPES_VEC
 	= {
-		"Const",
-		"Unop",
-		"Binop",
-		"LdSt",
-		"UncondJump",
-		"CondJump",
-		"Call",
-		"Ret",
-		"Label",
+		cstm_strdup("Const"),
+		cstm_strdup("Unop"),
+		cstm_strdup("Binop"),
+		cstm_strdup("LdSt"),
+		cstm_strdup("UncondJump"),
+		cstm_strdup("CondJump"),
+		cstm_strdup("Call"),
+		cstm_strdup("Ret"),
+		cstm_strdup("Label"),
 	};
-	static inline const size_t NUM_TUP_TYPES
-		= CONST_ARR_SIZE(TUP_TYPES_ARR);
 
-	static inline const std::string UNOPS_ARR[]
+	static inline const std::vector<StrPtr> UNOPS_VEC
 	= {
 		// Logical
-		"LogNot",
+		cstm_strdup("LogNot"),
 
 		// Bitwise
-		"BitNot",
+		cstm_strdup("BitNot"),
 	};
-	static inline const size_t NUM_UNOPS
-		= CONST_ARR_SIZE(UNOPS_ARR);
 
 
-	static inline const std::string BINOPS_ARR[]
+	static inline const std::vector<StrPtr> BINOPS_VEC
 	= {
 		// Arithmetic
-		"Add",
-		"Sub",
-		"Mul",
-		"UDiv",
-		"SDiv",
-		"UMod",
-		"SMod",
+		cstm_strdup("Add"),
+		cstm_strdup("Sub"),
+		cstm_strdup("Mul"),
+		cstm_strdup("UDiv"),
+		cstm_strdup("SDiv"),
+		cstm_strdup("UMod"),
+		cstm_strdup("SMod"),
 
 		// Compares
-		"CmpEq",
-		"CmpNe",
-		"CmpLtu",
-		"CmpGeu",
-		"CmpLeu",
-		"CmpGtu",
-		"CmpLts",
-		"CmpGes",
-		"CmpLes",
-		"CmpGts",
+		cstm_strdup("CmpEq"),
+		cstm_strdup("CmpNe"),
+		cstm_strdup("CmpLtu"),
+		cstm_strdup("CmpGeu"),
+		cstm_strdup("CmpLeu"),
+		cstm_strdup("CmpGtu"),
+		cstm_strdup("CmpLts"),
+		cstm_strdup("CmpGes"),
+		cstm_strdup("CmpLes"),
+		cstm_strdup("CmpGts"),
 
 		// Logical
-		"LogAnd",
-		"LogOr",
+		cstm_strdup("LogAnd"),
+		cstm_strdup("LogOr"),
 
 		// Bitwise
-		"BitAnd",
-		"BitOr",
-		"BitXor",
-		"BitLsl",
-		"BitLsr",
-		"BitAsr",
+		cstm_strdup("BitAnd"),
+		cstm_strdup("BitOr"),
+		cstm_strdup("BitXor"),
+		cstm_strdup("BitLsl"),
+		cstm_strdup("BitLsr"),
+		cstm_strdup("BitAsr"),
 	};
-
-	static inline const size_t NUM_BINOPS
-		= CONST_ARR_SIZE(BINOPS_ARR);
 
 private:		// variables
 
-	std::string* _tup_type;
-	std::string* _unop;
-	std::string* _binop;
+	StrPtr _tup_type;
+	StrPtr _unop;
+	StrPtr _binop;
+	size_t _num_args;
 
 
 public:		// functions
