@@ -7,7 +7,7 @@
 #include "misc_helper_defines.hpp"
 #include "expr_type_stuff.hpp"
 #include "symbol_table_class.hpp"
-#include "dup_stuff.hpp"
+#include "alloc_stuff.hpp"
 
 namespace cake_plus_plus
 {
@@ -79,6 +79,7 @@ public:		// constants
 private:		// variables
 
 	StrPtr _tup_type;
+	ExprType _expr_type;
 	StrPtr _unop;
 	StrPtr _binop;
 	size_t _num_args;
