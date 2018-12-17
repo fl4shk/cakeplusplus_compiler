@@ -17,71 +17,71 @@ class TacTuple
 {
 public:		// constants
 
-	static inline const std::vector<StrPtr> TUP_TYPES_VEC
+	static inline const std::vector<ConstStrPtr> TUP_TYPES_VEC
 	= {
-		cstm_strdup("Const"),
-		cstm_strdup("Unop"),
-		cstm_strdup("Binop"),
-		cstm_strdup("LdSt"),
-		cstm_strdup("UncondJump"),
-		cstm_strdup("CondJump"),
-		cstm_strdup("Call"),
-		cstm_strdup("Ret"),
-		cstm_strdup("Label"),
+		ensure_unique("Const"),
+		ensure_unique("Unop"),
+		ensure_unique("Binop"),
+		ensure_unique("LdSt"),
+		ensure_unique("UncondJump"),
+		ensure_unique("CondJump"),
+		ensure_unique("Call"),
+		ensure_unique("Ret"),
+		ensure_unique("Label"),
 	};
 
-	static inline const std::vector<StrPtr> UNOPS_VEC
+	static inline const std::vector<ConstStrPtr> UNOPS_VEC
 	= {
 		// Logical
-		cstm_strdup("LogNot"),
+		ensure_unique("LogNot"),
 
 		// Bitwise
-		cstm_strdup("BitNot"),
+		ensure_unique("BitNot"),
 	};
 
 
-	static inline const std::vector<StrPtr> BINOPS_VEC
+	static inline const std::vector<ConstStrPtr> BINOPS_VEC
 	= {
 		// Arithmetic
-		cstm_strdup("Add"),
-		cstm_strdup("Sub"),
-		cstm_strdup("Mul"),
-		cstm_strdup("UDiv"),
-		cstm_strdup("SDiv"),
-		cstm_strdup("UMod"),
-		cstm_strdup("SMod"),
+		ensure_unique("Add"),
+		ensure_unique("Sub"),
+		ensure_unique("Mul"),
+		ensure_unique("UDiv"),
+		ensure_unique("SDiv"),
+		ensure_unique("UMod"),
+		ensure_unique("SMod"),
 
 		// Compares
-		cstm_strdup("CmpEq"),
-		cstm_strdup("CmpNe"),
-		cstm_strdup("CmpLtu"),
-		cstm_strdup("CmpGeu"),
-		cstm_strdup("CmpLeu"),
-		cstm_strdup("CmpGtu"),
-		cstm_strdup("CmpLts"),
-		cstm_strdup("CmpGes"),
-		cstm_strdup("CmpLes"),
-		cstm_strdup("CmpGts"),
+		ensure_unique("CmpEq"),
+		ensure_unique("CmpNe"),
+		ensure_unique("CmpLtu"),
+		ensure_unique("CmpGeu"),
+		ensure_unique("CmpLeu"),
+		ensure_unique("CmpGtu"),
+		ensure_unique("CmpLts"),
+		ensure_unique("CmpGes"),
+		ensure_unique("CmpLes"),
+		ensure_unique("CmpGts"),
 
 		// Logical
-		cstm_strdup("LogAnd"),
-		cstm_strdup("LogOr"),
+		ensure_unique("LogAnd"),
+		ensure_unique("LogOr"),
 
 		// Bitwise
-		cstm_strdup("BitAnd"),
-		cstm_strdup("BitOr"),
-		cstm_strdup("BitXor"),
-		cstm_strdup("BitLsl"),
-		cstm_strdup("BitLsr"),
-		cstm_strdup("BitAsr"),
+		ensure_unique("BitAnd"),
+		ensure_unique("BitOr"),
+		ensure_unique("BitXor"),
+		ensure_unique("BitLsl"),
+		ensure_unique("BitLsr"),
+		ensure_unique("BitAsr"),
 	};
 
 private:		// variables
 
-	StrPtr _tup_type;
+	ConstStrPtr _tup_type;
 	ExprType _expr_type;
-	StrPtr _unop;
-	StrPtr _binop;
+	ConstStrPtr _unop;
+	ConstStrPtr _binop;
 	size_t _num_args;
 
 
