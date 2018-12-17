@@ -6,9 +6,9 @@ namespace cake_plus_plus
 void SourceFileChunk::increment()
 {
 	++_total_pos;
-
 	++_in_line_pos;
-	if (_source_file_contents->at(total_pos()) == '\n')
+
+	if (curr_char() == '\n')
 	{
 		++_line_num;
 		_in_line_pos = 0;

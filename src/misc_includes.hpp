@@ -13,12 +13,14 @@
 #include "liborangepower_src/misc_defines.hpp"
 #include "liborangepower_src/gen_getter_setter_defines.hpp"
 #include "liborangepower_src/string_conversion_stuff.hpp"
+#include "liborangepower_src/range_funcs.hpp"
 
 using namespace liborangepower::printout_etc;
 using namespace liborangepower::integer_types;
 using namespace liborangepower::misc_util;
 using namespace liborangepower::bitwise;
 using namespace liborangepower::strings;
+using namespace liborangepower::range;
 
 #include <vector>
 #include <deque>

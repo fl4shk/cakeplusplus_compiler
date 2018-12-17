@@ -13,7 +13,13 @@ class Lexer
 public:		// enums
 	enum class Token
 	{
-		//MiscAuto,
+		Bad,
+		EndingWhitespace,
+
+		MiscIdent,
+		MiscNum,
+
+		MiscAuto,
 		MiscFunc,
 
 		// Punctuation
@@ -98,12 +104,53 @@ public:		// enums
 		AssignBitAsr,
 	};
 
-private:		// variables
-	
+public:		// classes
+	class Result
+	{
+	private:		// variables
+		Token _tok = Token::Bad;
+		ConstStrPtr _str = nullptr;
+		u64 _num = 0;
+
+		SourceFileChunk _chunk;
+
+	public:		// functions
+		inline Result()
+		{
+		}
+		//inline Result(Token s_tok, ConstStrPtr s_str, u64 s_num,
+		//	const SourceFileChunk& s_chunk)
+		//	: _tok(s_tok), _str(s_str), _num(s_num), _chunk(s_chunk)
+		//{
+		//}
+		inline Result(const SourceFileChunk& s_chunk)
+			: _chunk(s_chunk)
+		{
+		}
+
+		inline Result(const Result& to_copy) = default;
+
+		virtual inline ~Result()
+		{
+		}
+
+		inline Result& operator = (const Result& to_copy) = default;
+
+		GEN_GETTER_AND_SETTER_BY_VAL(tok)
+		GEN_GETTER_AND_SETTER_BY_VAL(str)
+		GEN_GETTER_AND_SETTER_BY_VAL(num)
+		GEN_GETTER_BY_REF(chunk)
+	};
+
+private:		// functions
+	void _eat_whitespace(Result& result) const;
+	//bool _attempt_handle_keyword(Result& result) const;
+
+
 
 public:		// functions
 	// Run the lexer
-	Token operator () ();
+	Result operator () (const SourceFileChunk& input_chunk) const;
 
 };
 
