@@ -22,6 +22,7 @@ private:		// functions
 public:		// constants
 	static inline const std::map<ConstStrPtr, ConstStrPtr> TOKENS_MAP
 	= {
+		// Built-in Types
 		_make_token_map_entry("u8", "BuiltinTypeU8"),
 		_make_token_map_entry("s8", "BuiltinTypeS8"),
 		_make_token_map_entry("u16", "BuiltinTypeU16"),
@@ -30,6 +31,43 @@ public:		// constants
 		_make_token_map_entry("s32", "BuiltinTypeS32"),
 		_make_token_map_entry("u64", "BuiltinTypeU64"),
 		_make_token_map_entry("s64", "BuiltinTypeS64"),
+
+		//_make_token_map_entry("float32", "BuiltinTypeFloat32"),
+		//_make_token_map_entry("float64", "BuiltinTypeFloat64"),
+
+
+		//_make_token_map_entry("auto", "Auto"),
+
+		_make_token_map_entry("func", "Func"),
+
+		_make_token_map_entry("//", "LineComment"),
+
+		// Arithmetic
+		_make_token_map_entry("+", "OpPlus"),
+		_make_token_map_entry("-", "OpMinus"),
+		_make_token_map_entry("*", "OpAsterisk"),
+		_make_token_map_entry("/", "OpDiv"),
+		_make_token_map_entry("%", "OpModulo"),
+
+
+		// Logical Unops
+		_make_token_map_entry("!", "OpLogNot"),
+
+		// Logical Binops
+		_make_token_map_entry("&&", "OpLogAnd"),
+		_make_token_map_entry("||", "OpLogOr"),
+
+
+		// Bitwise Unops
+		_make_token_map_entry("~", "OpBitNot"),
+
+		// Bitwise Binops
+		_make_token_map_entry("&", "OpBitAnd"),
+		_make_token_map_entry("|", "OpBitOr"),
+		_make_token_map_entry("^", "OpBitXor"),
+		_make_token_map_entry("<<", "OpBitLsl"),
+		_make_token_map_entry(">>", "OpBitLsr"),
+		_make_token_map_entry(">>>", "OpBitAsr"),
 	};
 
 public:		// functions
