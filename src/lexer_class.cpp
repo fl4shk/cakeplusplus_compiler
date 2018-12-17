@@ -85,6 +85,72 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 
 
 
+	// Constant strings
+	if (curr_char() == '\"')
+	{
+		next_char();
+
+		char c = '\0';
+
+		bool bad = false;
+
+		while (has_curr_char() && (!bad))
+		{
+			c = next_char();
+
+			if (c == '\\')
+			{
+				c = next_char();
+
+				switch (c)
+				{
+				case '"':
+					temp_str += "\"";
+					break;
+
+				case 't':
+					temp_str += "\t";
+					break;
+
+				case 'n':
+					temp_str += "\n";
+					break;
+
+				case 'r':
+					temp_str += "\r";
+					break;
+
+				case '\\':
+					temp_str += "\\";
+					break;
+
+				default:
+					bad = true;
+					break;
+				}
+			}
+			else if (c != '\"')
+			{
+				temp_str += c;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		if ((c != '\"') || bad)
+		{
+			tok.set_type(TokType::InvalidBadStr);
+		}
+		else
+		{
+			tok.set_type(TokType::MiscStr);
+		}
+
+		update_input_chunk_pos();
+		return;
+	}
 
 	// Keywords and idents
 	if (in_range_inclusive(curr_char(), 'A', 'Z')

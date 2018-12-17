@@ -13,6 +13,7 @@ enum class TokType
 	InvalidNone,
 	InvalidBadHexNum,
 	InvalidBadBinNum,
+	InvalidBadStr,
 
 	// End of tokens
 	End,
