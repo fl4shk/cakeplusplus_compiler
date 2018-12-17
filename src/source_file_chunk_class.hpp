@@ -92,7 +92,7 @@ public:		// functions
 	void get_pos_2d(SourceFilePos2d& ret) const;
 
 	GEN_GETTER_BY_VAL(source_file_contents)
-	GEN_GETTER_BY_VAL(pos)
+	GEN_GETTER_AND_SETTER_BY_VAL(pos)
 };
 
 } // end namespace cake_plus_plus
