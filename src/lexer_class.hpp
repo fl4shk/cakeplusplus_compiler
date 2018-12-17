@@ -7,150 +7,176 @@
 
 namespace cake_plus_plus
 {
+enum class TokType
+{
+	Bad,
+	End,
+
+	MiscIdent,
+	MiscNum,
+
+	MiscAuto,
+	MiscFunc,
+
+	// Punctuation
+	PunctLineComment,
+
+	PunctLParen,
+	PunctRParen,
+	PunctLBracket,
+	PunctRBracket,
+	PunctLBrace,
+	PunctRBrace,
+
+	PunctSemicolon,
+	PunctComma,
+
+
+	// Built-in Types
+	BuiltinTypeU8,
+	BuiltinTypeS8,
+	BuiltinTypeU16,
+	BuiltinTypeS16,
+	BuiltinTypeU32,
+	BuiltinTypeS32,
+	BuiltinTypeU64,
+	BuiltinTypeS64,
+
+	//BuiltinTypeFloat32,
+	//BuiltinTypeFloat64,
+
+
+
+
+	// Arithmetic
+	OpPlus,
+	OpMinus,
+	OpMul,
+	OpDiv,
+	OpModulo,
+
+
+	// Logical Unops
+	OpLogNot,
+
+	// Logical Binops
+	OpLogAnd,
+	OpLogOr,
+
+
+	// Bitwise Unops
+	OpBitNot,
+
+	// Bitwise Binops
+	OpBitAnd,
+	OpBitOr,
+	OpBitXor,
+	OpBitLsl,
+	OpBitLsr,
+	OpBitAsr,
+
+
+	// Comparisons
+	CmpEq,
+	CmpNe,
+	CmpLt,
+	CmpGe,
+	CmpLe,
+	CmpGt,
+
+	// Assignments
+	AssignRegular,
+	AssignPlus,
+	AssignMinus,
+	AssignMul,
+	AssignDiv,
+	AssignModulo,
+
+	AssignBitAnd,
+	AssignBitOr,
+	AssignBitXor,
+	AssignBitLsl,
+	AssignBitLsr,
+	AssignBitAsr,
+};
+class Lexer;
+
+class Token
+{
+	friend class Lexer;
+
+private:		// variables
+	TokType _tok_type = TokType::Bad;
+	size_t _line_num = 0, _pos_in_line = 0;
+
+	ConstStrPtr _str = nullptr;
+	u64 _num = 0;
+
+	SourceFilePos2d _pos_2d;
+
+	SourceFileChunk _chunk;
+
+public:		// functions
+	inline Token()
+	{
+	}
+	inline Token(const SourceFileChunk& s_chunk)
+	{
+		init(s_chunk);
+	}
+
+	inline Token(const Token& to_copy) = default;
+
+	virtual inline ~Token()
+	{
+	}
+
+	inline void init(const SourceFileChunk& s_chunk)
+	{
+		_chunk = s_chunk;
+		_chunk.get_pos_2d(_pos_2d);
+	}
+
+	inline Token& operator = (const Token& to_copy) = default;
+
+	inline auto curr_char() const
+	{
+		return _chunk.curr_char();
+	}
+	inline bool has_curr_char() const
+	{
+		return _chunk.has_curr_char();
+	}
+
+	inline auto next_char()
+	{
+		const auto ret = _chunk.next_char();
+		_pos_2d.next(ret);
+		return ret;
+	}
+
+	void eat_whitespace();
+
+	GEN_GETTER_AND_SETTER_BY_VAL(tok_type)
+	GEN_GETTER_AND_SETTER_BY_VAL(str)
+	GEN_GETTER_AND_SETTER_BY_VAL(num)
+
+	GEN_GETTER_BY_CON_REF(pos_2d)
+	GEN_GETTER_BY_CON_REF(chunk)
+};
 
 class Lexer
 {
 public:		// enums
-	enum class Token
-	{
-		Bad,
-		EndingWhitespace,
-
-		MiscIdent,
-		MiscNum,
-
-		MiscAuto,
-		MiscFunc,
-
-		// Punctuation
-		PunctLineComment,
-
-		PunctLParen,
-		PunctRParen,
-		PunctLBracket,
-		PunctRBracket,
-		PunctLBrace,
-		PunctRBrace,
-
-		PunctSemicolon,
-		PunctComma,
-
-
-		// Built-in Types
-		BuiltinTypeU8,
-		BuiltinTypeS8,
-		BuiltinTypeU16,
-		BuiltinTypeS16,
-		BuiltinTypeU32,
-		BuiltinTypeS32,
-		BuiltinTypeU64,
-		BuiltinTypeS64,
-
-		//BuiltinTypeFloat32,
-		//BuiltinTypeFloat64,
-
-
-
-
-		// Arithmetic
-		OpPlus,
-		OpMinus,
-		OpMul,
-		OpDiv,
-		OpModulo,
-
-
-		// Logical Unops
-		OpLogNot,
-
-		// Logical Binops
-		OpLogAnd,
-		OpLogOr,
-
-
-		// Bitwise Unops
-		OpBitNot,
-
-		// Bitwise Binops
-		OpBitAnd,
-		OpBitOr,
-		OpBitXor,
-		OpBitLsl,
-		OpBitLsr,
-		OpBitAsr,
-
-
-		// Comparisons
-		CmpEq,
-		CmpNe,
-		CmpLt,
-		CmpGe,
-		CmpLe,
-		CmpGt,
-
-		// Assignments
-		AssignRegular,
-		AssignPlus,
-		AssignMinus,
-		AssignMul,
-		AssignDiv,
-		AssignModulo,
-
-		AssignBitAnd,
-		AssignBitOr,
-		AssignBitXor,
-		AssignBitLsl,
-		AssignBitLsr,
-		AssignBitAsr,
-	};
 
 public:		// classes
-	class Result
-	{
-	private:		// variables
-		Token _tok = Token::Bad;
-		ConstStrPtr _str = nullptr;
-		u64 _num = 0;
-
-		SourceFileChunk _chunk;
-
-	public:		// functions
-		inline Result()
-		{
-		}
-		//inline Result(Token s_tok, ConstStrPtr s_str, u64 s_num,
-		//	const SourceFileChunk& s_chunk)
-		//	: _tok(s_tok), _str(s_str), _num(s_num), _chunk(s_chunk)
-		//{
-		//}
-		inline Result(const SourceFileChunk& s_chunk)
-			: _chunk(s_chunk)
-		{
-		}
-
-		inline Result(const Result& to_copy) = default;
-
-		virtual inline ~Result()
-		{
-		}
-
-		inline Result& operator = (const Result& to_copy) = default;
-
-		GEN_GETTER_AND_SETTER_BY_VAL(tok)
-		GEN_GETTER_AND_SETTER_BY_VAL(str)
-		GEN_GETTER_AND_SETTER_BY_VAL(num)
-		GEN_GETTER_BY_REF(chunk)
-	};
 
 private:		// functions
-	void _eat_whitespace(Result& result) const;
-	//bool _attempt_handle_keyword(Result& result) const;
-
 
 
 public:		// functions
 	// Run the lexer
-	Result operator () (const SourceFileChunk& input_chunk) const;
+	Token operator () (const SourceFileChunk& input_chunk) const;
 
 };
 

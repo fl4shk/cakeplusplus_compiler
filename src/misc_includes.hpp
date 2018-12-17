@@ -28,6 +28,7 @@ using namespace liborangepower::range;
 #include <stack>
 #include <map>
 #include <memory>
+#include <variant>
 
 
 #endif		// src_misc_includes_hpp
