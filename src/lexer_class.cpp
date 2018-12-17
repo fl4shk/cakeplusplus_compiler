@@ -277,7 +277,9 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 			TokType::AssignModulo)
 		|| one_or_two_lex('!', '=', TokType::OpLogNot, TokType::CmpNe)
 		|| one_or_two_lex('=', '=', TokType::AssignRegular,
-			TokType::CmpEq))
+			TokType::CmpEq)
+		|| one_or_two_lex('^', '=', TokType::OpBitXor,
+			TokType::AssignBitXor))
 	{
 		return;
 	}
@@ -309,7 +311,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 	{
 		next_char();
 
-		// << or <<=
+		// "<<" or "<<="
 		if (has_curr_char() && (curr_char() == '<'))
 		{
 			next_char();
@@ -324,13 +326,13 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 				tok.set_type(TokType::OpBitLsl);
 			}
 		}
-		// <=
+		// "<="
 		else if (has_curr_char() && (curr_char() == '='))
 		{
 			next_char();
 			tok.set_type(TokType::CmpLe);
 		}
-		// <
+		// "<"
 		else
 		{
 			tok.set_type(TokType::CmpLt);
@@ -388,6 +390,62 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 		else
 		{
 			tok.set_type(TokType::CmpGt);
+		}
+
+		update_input_chunk_pos();
+		return;
+	}
+
+	if (curr_char() == '&')
+	{
+		next_char();
+
+		// "&&"
+		if (has_curr_char() && (curr_char() == '&'))
+		{
+			next_char();
+			tok.set_type(TokType::OpLogAnd);
+		}
+
+		// "&="
+		else if (has_curr_char() == (curr_char() == '='))
+		{
+			next_char();
+			tok.set_type(TokType::AssignBitAnd);
+		}
+
+		// "&"
+		else
+		{
+			tok.set_type(TokType::OpBitAnd);
+		}
+
+		update_input_chunk_pos();
+		return;
+	}
+
+	if (curr_char() == '|')
+	{
+		next_char();
+
+		// "||"
+		if (has_curr_char() || (curr_char() == '|'))
+		{
+			next_char();
+			tok.set_type(TokType::OpLogOr);
+		}
+
+		// "|="
+		else if (has_curr_char() == (curr_char() == '='))
+		{
+			next_char();
+			tok.set_type(TokType::AssignBitOr);
+		}
+
+		// "|"
+		else
+		{
+			tok.set_type(TokType::OpBitOr);
 		}
 
 		update_input_chunk_pos();
