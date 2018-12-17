@@ -9,11 +9,18 @@ namespace cake_plus_plus
 {
 enum class TokType
 {
-	Bad,
+	InvalidNone,
+	InvalidBadHexNum,
+	InvalidBadBinNum,
+
+	// End of tokens
 	End,
 
 	MiscIdent,
-	MiscNum,
+	MiscIntNum,
+	//MiscFloatNum,
+
+	MiscStr,
 
 	MiscAuto,
 	MiscFunc,
@@ -30,6 +37,7 @@ enum class TokType
 
 	PunctSemicolon,
 	PunctComma,
+	PunctPeriod,
 
 
 	// Built-in Types
@@ -107,14 +115,14 @@ class Token
 	friend class Lexer;
 
 private:		// variables
-	TokType _type = TokType::Bad;
+	TokType _type = TokType::InvalidNone;
 
 	ConstStrPtr _str = nullptr;
 	u64 _num = 0;
 
-	SourceFilePos2d _pos_2d;
 
 	SourceFileChunk _chunk;
+	SourceFilePos2d _pos_2d;
 
 public:		// functions
 	inline Token()
@@ -137,8 +145,8 @@ public:		// functions
 	GEN_GETTER_BY_VAL(type)
 	GEN_GETTER_BY_VAL(str)
 	GEN_GETTER_BY_VAL(num)
-	GEN_GETTER_BY_CON_REF(pos_2d)
 	GEN_GETTER_BY_CON_REF(chunk)
+	GEN_GETTER_BY_CON_REF(pos_2d)
 
 protected:		// functions
 	inline void _init(const SourceFileChunk& s_chunk)
@@ -168,23 +176,36 @@ protected:		// functions
 	GEN_SETTER_BY_VAL(type)
 	GEN_SETTER_BY_VAL(str)
 	GEN_SETTER_BY_VAL(num)
-	GEN_GETTER_BY_REF(pos_2d)
 	GEN_GETTER_BY_REF(chunk)
+	GEN_GETTER_BY_REF(pos_2d)
 
 };
 
 class Lexer
 {
-public:		// enums
-
-public:		// classes
-
-private:		// functions
+protected:		// variables
+	Token* _tok = nullptr;
 
 
 public:		// functions
 	// Run the lexer, returning an output token (passed in by reference)
-	void operator () (Token& tok, SourceFileChunk& input_chunk) const;
+	void operator () (Token& tok, SourceFileChunk& input_chunk);
+
+protected:		// functions
+	inline auto curr_char()
+	{
+		return _tok->_curr_char();
+	}
+	inline auto has_curr_char()
+	{
+		return _tok->_has_curr_char();
+	}
+	inline auto next_char()
+	{
+		return _tok->_next_char();
+	}
+	
+	GEN_SETTER_BY_VAL(tok)
 
 };
 

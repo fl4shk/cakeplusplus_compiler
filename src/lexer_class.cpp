@@ -12,8 +12,10 @@ void Token::_eat_whitespace()
 }
 
 
-void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk) const
+void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 {
+	set_tok(&tok);
+
 	tok._init(input_chunk);
 
 	tok._eat_whitespace();
@@ -27,63 +29,104 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk) const
 
 	auto& chunk = tok.chunk();
 
+	auto update_input_chunk_pos = [&]() -> void
+	{
+		input_chunk.set_pos(chunk.pos());
+	};
+
+	auto basic_lex = [&](char c, TokType tok_type) -> bool
+	{
+		if (curr_char() == c)
+		{
+			next_char();
+			tok.set_type(tok_type);
+			update_input_chunk_pos();
+			return true;
+		}
+		return false;
+	};
+
+	auto one_or_two_lex = [&](char c_one, char c_two, TokType tok_type_one,
+		TokType tok_type_two) -> bool
+	{
+		if (curr_char() == c_one)
+		{
+			next_char();
+
+			if (has_curr_char() && (curr_char() == c_two))
+			{
+				next_char();
+				tok.set_type(tok_type_two);
+			}
+			else
+			{
+				tok.set_type(tok_type_one);
+			}
+
+			update_input_chunk_pos();
+			return true;
+		}
+		return false;
+	};
+
+
+
+	std::string temp_str;
 
 	// Keywords and idents
-	if (in_range_inclusive(tok._curr_char(), 'A', 'Z')
-		|| in_range_inclusive(tok._curr_char(), 'a', 'z')
-		|| (tok._curr_char() == '_'))
+	if (in_range_inclusive(curr_char(), 'A', 'Z')
+		|| in_range_inclusive(curr_char(), 'a', 'z')
+		|| (curr_char() == '_'))
 	{
-		std::string ident_str;
+		temp_str += next_char();
 
-		ident_str += tok._next_char();
-
-		while (tok._has_curr_char()
-			|| in_range_inclusive(tok._curr_char(), 'A', 'Z')
-			|| in_range_inclusive(tok._curr_char(), 'a', 'z')
-			|| in_range_inclusive(tok._curr_char(), '0', '9')
-			|| (tok._curr_char() == '_'))
+		while (has_curr_char()
+			&& (in_range_inclusive(curr_char(), 'A', 'Z')
+			|| in_range_inclusive(curr_char(), 'a', 'z')
+			|| in_range_inclusive(curr_char(), '0', '9')
+			|| (curr_char() == '_')))
 		{
-			ident_str += tok._next_char();
+			temp_str += next_char();
 		}
 
 		// Handle keywords
-		if (ident_str == "auto")
+		if (temp_str == "auto")
 		{
 			tok.set_type(TokType::MiscAuto);
 		}
-		else if (ident_str == "func")
+		else if (temp_str == "func")
 		{
 			tok.set_type(TokType::MiscFunc);
 		}
-		else if (ident_str == "u8")
+		else if (temp_str == "u8")
 		{
 			tok.set_type(TokType::BuiltinTypeU8);
 		}
-		else if (ident_str == "s8")
+		else if (temp_str == "s8")
 		{
 			tok.set_type(TokType::BuiltinTypeS8);
 		}
-		else if (ident_str == "u16")
+		else if (temp_str == "u16")
 		{
 			tok.set_type(TokType::BuiltinTypeU16);
 		}
-		else if (ident_str == "s16")
+		else if (temp_str == "s16")
 		{
 			tok.set_type(TokType::BuiltinTypeS16);
 		}
-		else if (ident_str == "u32")
+		else if (temp_str == "u32")
 		{
 			tok.set_type(TokType::BuiltinTypeU32);
 		}
-		else if (ident_str == "s32")
+		else if (temp_str == "s32")
 		{
 			tok.set_type(TokType::BuiltinTypeS32);
 		}
-		else if (ident_str == "u64")
+		else if (temp_str == "u64")
 		{
 			tok.set_type(TokType::BuiltinTypeU64);
 		}
-		else if (ident_str == "s64")
+		else if (temp_str == "s64")
 		{
 			tok.set_type(TokType::BuiltinTypeS64);
 		}
@@ -96,14 +139,264 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk) const
 			tok.set_type(TokType::MiscIdent);
 		}
 
-		tok.set_str(unique_dup(ident_str));
-		input_chunk.set_pos(chunk.pos());
+		tok.set_str(unique_dup(temp_str));
+		update_input_chunk_pos();
+		return;
+	}
+
+	// Handle decimal numbers
+	if (in_range_inclusive(curr_char(), '1', '9'))
+	{
+		temp_str += next_char();
+
+		while (has_curr_char()
+			&& in_range_inclusive(curr_char(), '0', '9'))
+		{
+			temp_str += next_char();
+		}
+
+		tok.set_num(0);
+		for (auto iter : temp_str)
+		{
+			tok.set_num((tok.num() * 10) + (iter - '0'));
+		}
+
+		tok.set_type(TokType::MiscIntNum);
+		update_input_chunk_pos();
+		return;
+	}
+
+	// Handle 0, hexadecimal, and binary numbers
+	if (curr_char() == '0')
+	{
+		next_char();
+
+		tok.set_num(0);
+		tok.set_type(TokType::MiscIntNum);
+
+		if (!has_curr_char())
+		{
+			update_input_chunk_pos();
+			return;
+		}
+
+		if (curr_char() == 'x')
+		{
+			next_char();
+
+			bool found = false;
+
+			while (has_curr_char()
+				&& (in_range_inclusive(curr_char(), '0', '9')
+				|| in_range_inclusive(curr_char(), 'a', 'f')
+				|| in_range_inclusive(curr_char(), 'A', 'F')))
+			{
+				found = true;
+				temp_str += next_char();
+			}
+
+			if (!found)
+			{
+				tok.set_type(TokType::InvalidBadHexNum);
+			}
+			else // if (found)
+			{
+				for (auto iter : temp_str)
+				{
+					if (in_range_inclusive(iter, '0', '9'))
+					{
+						tok.set_num((tok.num() * 16) + (iter - '0' + 0x0));
+					}
+					else if (in_range_inclusive(iter, 'a', 'f'))
+					{
+						tok.set_num((tok.num() * 16) + (iter - 'a' + 0xa));
+					}
+					else // if (in_range_inclusive(iter, 'A', 'F')
+					{
+						tok.set_num((tok.num() * 16) + (iter - 'A' + 0xA));
+					}
+				}
+			}
+			update_input_chunk_pos();
+			return;
+		}
+		else if (curr_char() == 'b')
+		{
+			next_char();
+
+			bool found = false;
+
+			while (has_curr_char()
+				&& in_range(curr_char(), '0', '1'))
+			{
+				found = true;
+				temp_str += next_char();
+			}
+
+			if (!found)
+			{
+				tok.set_type(TokType::InvalidBadBinNum);
+			}
+			else // if (found)
+			{
+				for (auto iter : temp_str)
+				{
+					tok.set_num((tok.num() * 2) + (iter - '0' + 0b0));
+				}
+			}
+
+			update_input_chunk_pos();
+			return;
+		}
+
+		update_input_chunk_pos();
+		return;
+	}
+
+	// Handle punctuation, operators, etc.
+
+	if (basic_lex('(', TokType::PunctLParen)
+		|| basic_lex(')', TokType::PunctRParen)
+		|| basic_lex('[', TokType::PunctLBracket)
+		|| basic_lex(']', TokType::PunctRBracket)
+		|| basic_lex('{', TokType::PunctLBrace)
+		|| basic_lex('}', TokType::PunctRBrace)
+		|| basic_lex(';', TokType::PunctSemicolon)
+		|| basic_lex(',', TokType::PunctComma)
+		|| basic_lex('.', TokType::PunctPeriod)
+		|| basic_lex('~', TokType::OpBitNot))
+	{
+		return;
+	}
+
+	if (one_or_two_lex('+', '=', TokType::OpPlus, TokType::AssignPlus)
+		|| one_or_two_lex('-', '=', TokType::OpMinus,
+			TokType::AssignMinus)
+		|| one_or_two_lex('*', '=', TokType::OpMul, TokType::AssignMul)
+		|| one_or_two_lex('%', '=', TokType::OpModulo,
+			TokType::AssignModulo)
+		|| one_or_two_lex('!', '=', TokType::OpLogNot, TokType::CmpNe)
+		|| one_or_two_lex('=', '=', TokType::AssignRegular,
+			TokType::CmpEq))
+	{
+		return;
+	}
+
+	if (curr_char() == '/')
+	{
+		next_char();
+		if (has_curr_char() && (curr_char() == '/'))
+		{
+			next_char();
+			tok.set_type(TokType::PunctLineComment);
+		}
+		else if (has_curr_char() && (curr_char() == '='))
+		{
+			next_char();
+			tok.set_type(TokType::AssignDiv);
+		}
+		else
+		{
+			tok.set_type(TokType::OpDiv);
+		}
+
+		update_input_chunk_pos();
 		return;
 	}
 
 
-	tok.set_type(TokType::Bad);
-	input_chunk.set_pos(chunk.pos());
+	if (curr_char() == '<')
+	{
+		next_char();
+
+		// << or <<=
+		if (has_curr_char() && (curr_char() == '<'))
+		{
+			next_char();
+
+			if (has_curr_char() && (curr_char() == '='))
+			{
+				next_char();
+				tok.set_type(TokType::AssignBitLsl);
+			}
+			else
+			{
+				tok.set_type(TokType::OpBitLsl);
+			}
+		}
+		// <=
+		else if (has_curr_char() && (curr_char() == '='))
+		{
+			next_char();
+			tok.set_type(TokType::CmpLe);
+		}
+		// <
+		else
+		{
+			tok.set_type(TokType::CmpLt);
+		}
+
+		update_input_chunk_pos();
+		return;
+	}
+
+	if (curr_char() == '>')
+	{
+		next_char();
+
+		// ">>", ">>>", ">>=", or ">>>="
+		if (has_curr_char() && (curr_char() == '>'))
+		{
+			next_char();
+
+			// ">>>" or ">>>="
+			if (has_curr_char() && (curr_char() == '>'))
+			{
+				next_char();
+
+				// ">>>="
+				if (has_curr_char() && (curr_char() == '='))
+				{
+					next_char();
+					tok.set_type(TokType::AssignBitAsr);
+				}
+				// ">>>"
+				else
+				{
+					tok.set_type(TokType::OpBitAsr);
+				}
+			}
+			// ">>="
+			else if (has_curr_char() && (curr_char() == '='))
+			{
+				next_char();
+				tok.set_type(TokType::AssignBitLsr);
+			}
+			// ">>"
+			else
+			{
+				tok.set_type(TokType::OpBitLsr);
+			}
+		}
+		// ">="
+		else if (has_curr_char() && (curr_char() == '='))
+		{
+			next_char();
+			tok.set_type(TokType::CmpGe);
+		}
+		// ">"
+		else
+		{
+			tok.set_type(TokType::CmpGt);
+		}
+
+		update_input_chunk_pos();
+		return;
+	}
+
+
+	tok.set_type(TokType::InvalidNone);
+	update_input_chunk_pos();
 	return;
 }
 
