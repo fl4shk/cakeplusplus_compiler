@@ -11,7 +11,7 @@ namespace cake_plus_plus
 // compiler spitting out an error if the "const" is ever forgotten.
 typedef const std::string* ConstStrPtr;
 
-ConstStrPtr ensure_unique(const std::string& to_dup);
+ConstStrPtr unique_dup(const std::string& to_dup);
 
 } // end namespace cake_plus_plus
 

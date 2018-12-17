@@ -19,67 +19,67 @@ public:		// constants
 
 	static inline const std::vector<ConstStrPtr> TUP_TYPES_VEC
 	= {
-		ensure_unique("Const"),
-		ensure_unique("Unop"),
-		ensure_unique("Binop"),
-		ensure_unique("LdSt"),
-		ensure_unique("UncondJump"),
-		ensure_unique("CondJump"),
-		ensure_unique("Call"),
-		ensure_unique("Ret"),
-		ensure_unique("Label"),
+		unique_dup("Const"),
+		unique_dup("Unop"),
+		unique_dup("Binop"),
+		unique_dup("LdSt"),
+		unique_dup("UncondJump"),
+		unique_dup("CondJump"),
+		unique_dup("Call"),
+		unique_dup("Ret"),
+		unique_dup("Label"),
 	};
 
 	static inline const std::vector<ConstStrPtr> UNOPS_VEC
 	= {
 		// Logical
-		ensure_unique("LogNot"),
+		unique_dup("LogNot"),
 
 		// Bitwise
-		ensure_unique("BitNot"),
+		unique_dup("BitNot"),
 	};
 
 
 	static inline const std::vector<ConstStrPtr> BINOPS_VEC
 	= {
 		// Arithmetic
-		ensure_unique("Add"),
-		ensure_unique("Sub"),
-		ensure_unique("Mul"),
-		ensure_unique("UDiv"),
-		ensure_unique("SDiv"),
-		ensure_unique("UMod"),
-		ensure_unique("SMod"),
+		unique_dup("Add"),
+		unique_dup("Sub"),
+		unique_dup("Mul"),
+		unique_dup("UDiv"),
+		unique_dup("SDiv"),
+		unique_dup("UMod"),
+		unique_dup("SMod"),
 
 		// Compares
-		ensure_unique("CmpEq"),
-		ensure_unique("CmpNe"),
-		ensure_unique("CmpLtu"),
-		ensure_unique("CmpGeu"),
-		ensure_unique("CmpLeu"),
-		ensure_unique("CmpGtu"),
-		ensure_unique("CmpLts"),
-		ensure_unique("CmpGes"),
-		ensure_unique("CmpLes"),
-		ensure_unique("CmpGts"),
+		unique_dup("CmpEq"),
+		unique_dup("CmpNe"),
+		unique_dup("CmpLtu"),
+		unique_dup("CmpGeu"),
+		unique_dup("CmpLeu"),
+		unique_dup("CmpGtu"),
+		unique_dup("CmpLts"),
+		unique_dup("CmpGes"),
+		unique_dup("CmpLes"),
+		unique_dup("CmpGts"),
 
 		// Logical
-		ensure_unique("LogAnd"),
-		ensure_unique("LogOr"),
+		unique_dup("LogAnd"),
+		unique_dup("LogOr"),
 
 		// Bitwise
-		ensure_unique("BitAnd"),
-		ensure_unique("BitOr"),
-		ensure_unique("BitXor"),
-		ensure_unique("BitLsl"),
-		ensure_unique("BitLsr"),
-		ensure_unique("BitAsr"),
+		unique_dup("BitAnd"),
+		unique_dup("BitOr"),
+		unique_dup("BitXor"),
+		unique_dup("BitLsl"),
+		unique_dup("BitLsr"),
+		unique_dup("BitAsr"),
 	};
 
 private:		// variables
 
 	ConstStrPtr _tup_type;
-	ExprType _expr_type;
+	//ExprType _expr_type;
 	ConstStrPtr _unop;
 	ConstStrPtr _binop;
 	size_t _num_args;
