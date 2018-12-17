@@ -7,10 +7,10 @@ void Lexer::_eat_whitespace(Lexer::Result& result) const
 {
 	auto& chunk = result.chunk();
 
-	while (chunk().has_curr_char()
-		&& isspace(chunk().curr_char()))
+	while (chunk.has_curr_char()
+		&& isspace(chunk.curr_char()))
 	{
-		chunk().increment();
+		chunk.increment();
 	}
 }
 
