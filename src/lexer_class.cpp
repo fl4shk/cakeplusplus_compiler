@@ -18,6 +18,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 
 	tok._init(input_chunk);
 
+	// Om nom nom
 	tok._eat_whitespace();
 
 	if (!tok._has_curr_char())
@@ -29,6 +30,9 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 
 	auto& chunk = tok.chunk();
 
+	std::string temp_str;
+
+	// Shortcuts
 	auto update_input_chunk_pos = [&]() -> void
 	{
 		input_chunk.set_pos(chunk.pos());
@@ -69,9 +73,18 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 		return false;
 	};
 
+	auto keyword_lex = [&](const std::string& s, TokType tok_type) -> bool
+	{
+		if (temp_str == s)
+		{
+			tok.set_type(tok_type);
+			return true;
+		}
+		return false;
+	};
 
 
-	std::string temp_str;
+
 
 	// Keywords and idents
 	if (in_range_inclusive(curr_char(), 'A', 'Z')
@@ -89,46 +102,17 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 			temp_str += next_char();
 		}
 
-		// Handle keywords
-		if (temp_str == "auto")
+		if (keyword_lex("auto", TokType::MiscAuto)
+			|| keyword_lex("func", TokType::MiscFunc)
+			|| keyword_lex("u8", TokType::BuiltinTypeU8)
+			|| keyword_lex("s8", TokType::BuiltinTypeS8)
+			|| keyword_lex("u16", TokType::BuiltinTypeU16)
+			|| keyword_lex("s16", TokType::BuiltinTypeS16)
+			|| keyword_lex("u32", TokType::BuiltinTypeU32)
+			|| keyword_lex("s32", TokType::BuiltinTypeS32)
+			|| keyword_lex("u64", TokType::BuiltinTypeU64)
+			|| keyword_lex("s64", TokType::BuiltinTypeS64))
 		{
-			tok.set_type(TokType::MiscAuto);
-		}
-		else if (temp_str == "func")
-		{
-			tok.set_type(TokType::MiscFunc);
-		}
-		else if (temp_str == "u8")
-		{
-			tok.set_type(TokType::BuiltinTypeU8);
-		}
-		else if (temp_str == "s8")
-		{
-			tok.set_type(TokType::BuiltinTypeS8);
-		}
-		else if (temp_str == "u16")
-		{
-			tok.set_type(TokType::BuiltinTypeU16);
-		}
-		else if (temp_str == "s16")
-		{
-			tok.set_type(TokType::BuiltinTypeS16);
-		}
-		else if (temp_str == "u32")
-		{
-			tok.set_type(TokType::BuiltinTypeU32);
-		}
-		else if (temp_str == "s32")
-		{
-			tok.set_type(TokType::BuiltinTypeS32);
-		}
-		else if (temp_str == "u64")
-		{
-			tok.set_type(TokType::BuiltinTypeU64);
-		}
-		else if (temp_str == "s64")
-		{
-			tok.set_type(TokType::BuiltinTypeS64);
 		}
 
 		// No keywords found... this is an identifier of some variety.

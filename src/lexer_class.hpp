@@ -7,6 +7,7 @@
 
 namespace cake_plus_plus
 {
+
 enum class TokType
 {
 	InvalidNone,
@@ -180,6 +181,7 @@ protected:		// functions
 	GEN_GETTER_BY_REF(pos_2d)
 
 };
+
 
 class Lexer
 {
