@@ -1,45 +1,125 @@
 grammar CompilerGrammar;
 
 program:
-	(listFunctions*)
+	(listFunctions?)
 	;
 
 listFunctions:
 	function
-	(listFunctions*)
+	(listFunctions?)
 	;
 
 function:
-	TokIdent TokIdent '(' (listFunctionArgs*) ')'
+	TokIdent TokIdent '(' (listFunctionArgs?) ')'
 	'{'
-		(listFunctionStatements*)
+		(listStatements?)
 	'}'
 
 listFunctionArgs:
 	functionArg
-	(',' listFunctionArgs*)
+	(',' (listFunctionArgs?))
 	;
 
-listFunctionStatements:
-	functionStatement
-	(listFunctionStatements*)
+listStatements:
+	statement
+	(listStatements?)
 	;
 
 
 functionArg:
-	TokIdent TokIdent
+	TokIdent TokIdent (('[' ']')*)
 	;
 
 
-functionStatement:
-	(stmtDeclVars
+statement:
+	(stmtDeclVars ';')
+	| (exprCall ';')
+	| (stmtAssign ';')
 	| stmtIf
 	| stmtWhile
-	| stmtCall
-	| stmtAssign)
-	';'
+	| '{'
+		(listStatements?)
+	'}'
 	;
 
 stmtDeclVars:
-	TokIdent TokIdent (('[' TokNum ']')*)
+	TokIdent identExpr
+	((',' identExpr)*)
+	;
+
+stmtAssign:
+	identExpr TokOpAssign expr
+	;
+
+
+stmtIf:
+	'if' '(' expr ')'
+	'{'
+		(listStatements?)
+	'}'
+	(stmtElse?)
+	;
+
+stmtElse:
+	'else'
+	(stmtIf
+	| '{'
+		(listStatements?)
+	'}')
+	;
+
+stmtWhile:
+	'while' '(' expr ')'
+	'{'
+		(listStatements?)
+	'}'
+	;
+
+// Expressions
+expr:
+	exprLogical
+	| expr TokOpLogical exprLogical
+	;
+
+exprLogical:
+	exprCompare
+	| exprLogical TokOpCompare exprCompare
+	;
+
+exprCompare:
+	exprAddSub
+	| exprCompare TokPlusMinus exprAddSub
+	;
+
+exprAddSub:
+	exprMulDivModEtc
+	| exprAddSub TokOpMulDivMod exprMulDivModEtc
+	| exprAddSub TokOpBitwise exprMulDivModEtc
+	;
+
+exprMulDivModEtc:
+	exprUnary
+	| TokNum
+	| identExpr
+	| exprCall
+	| '(' expr ')'
+	;
+
+exprUnary:
+	exprBitInvert
+	| exprNegate
+	| exprLogNot
+	;
+
+exprCall:
+	TokIdent '(' (listExpr?) ')'
+	;
+
+listExpr:
+	expr
+	(',' (listExpr?))
+	;
+
+identExpr:
+	TokIdent (('[' expr ']')*)
 	;

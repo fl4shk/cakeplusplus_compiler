@@ -6,15 +6,19 @@ namespace cake_plus_plus
 void Token::_eat_whitespace_and_line_comments()
 {
 	bool done = false;
+
 	while (!done)
 	{
 		done = true;
+
+		// Eat whitespace
 		while (_has_curr_char() && isspace(_curr_char()))
 		{
 			done = false;
 			_go_to_next_char();
 		}
 
+		// Eat line comments
 		if (_has_curr_char() && _has_next_char()
 			&& (_curr_char() == '/') && (_next_char() == '/'))
 		{
@@ -43,15 +47,15 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 
 	// Om nom nom
 	tok._eat_whitespace_and_line_comments();
+	auto& chunk = tok.chunk();
 
-	if (!tok._has_curr_char())
+	if (!has_curr_char())
 	{
 		tok.set_type(TokType::End);
-		input_chunk.set_pos(tok.chunk().pos());
+		input_chunk.set_pos(chunk.pos());
 		return;
 	}
 
-	auto& chunk = tok.chunk();
 
 	std::string temp_str;
 
@@ -100,6 +104,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 	{
 		if (temp_str == s)
 		{
+			tok.set_str(unique_dup(temp_str));
 			tok.set_type(tok_type);
 			update_input_chunk_pos();
 			return true;
@@ -193,7 +198,10 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 		}
 
 
-		if (keyword_lex("auto", TokType::MiscAuto))
+		if (keyword_lex("auto", TokType::KwAuto)
+			|| keyword_lex("if", TokType::KwIf)
+			|| keyword_lex("else", TokType::KwElse)
+			|| keyword_lex("while", TokType::KwWhile))
 		{
 			return;
 		}
@@ -348,29 +356,6 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 	{
 		return;
 	}
-
-	//if (curr_char() == '/')
-	//{
-	//	go_to_next_char();
-	//	if (has_curr_char() && (curr_char() == '/'))
-	//	{
-	//		go_to_next_char();
-	//		tok.set_type(TokType::PunctLineComment);
-	//	}
-	//	else if (has_curr_char() && (curr_char() == '='))
-	//	{
-	//		go_to_next_char();
-	//		tok.set_type(TokType::AssignDiv);
-	//	}
-	//	else
-	//	{
-	//		tok.set_type(TokType::OpDiv);
-	//	}
-
-	//	update_input_chunk_pos();
-	//	return;
-	//}
-
 
 	if (curr_char() == '<')
 	{

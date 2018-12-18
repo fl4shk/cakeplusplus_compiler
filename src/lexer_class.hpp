@@ -24,8 +24,11 @@ enum class TokType
 
 	MiscStr,
 
-	MiscAuto,
-	//MiscFunc,
+	// Keywords
+	KwAuto,
+	KwIf,
+	KwElse,
+	KwWhile,
 
 	// Punctuation
 	//PunctLineComment,
