@@ -25,10 +25,10 @@ enum class TokType
 	MiscStr,
 
 	MiscAuto,
-	MiscFunc,
+	//MiscFunc,
 
 	// Punctuation
-	PunctLineComment,
+	//PunctLineComment,
 
 	PunctLParen,
 	PunctRParen,
@@ -42,18 +42,18 @@ enum class TokType
 	PunctPeriod,
 
 
-	// Built-in Types
-	BuiltinTypeU8,
-	BuiltinTypeS8,
-	BuiltinTypeU16,
-	BuiltinTypeS16,
-	BuiltinTypeU32,
-	BuiltinTypeS32,
-	BuiltinTypeU64,
-	BuiltinTypeS64,
+	//// Built-in Types
+	//BuiltinTypeU8,
+	//BuiltinTypeS8,
+	//BuiltinTypeU16,
+	//BuiltinTypeS16,
+	//BuiltinTypeU32,
+	//BuiltinTypeS32,
+	//BuiltinTypeU64,
+	//BuiltinTypeS64,
 
-	//BuiltinTypeFloat32,
-	//BuiltinTypeFloat64,
+	////BuiltinTypeFloat32,
+	////BuiltinTypeFloat64,
 
 
 
@@ -165,15 +165,23 @@ protected:		// functions
 	{
 		return _chunk.has_curr_char();
 	}
-
-	inline auto _next_char()
+	inline auto _next_char() const
 	{
-		const auto ret = _chunk.next_char();
+		return _chunk.next_char();
+	}
+	inline bool _has_next_char() const
+	{
+		return _chunk.has_next_char();
+	}
+
+	inline auto _go_to_next_char()
+	{
+		const auto ret = _chunk.go_to_next_char();
 		_pos_2d.next(ret);
 		return ret;
 	}
 
-	void _eat_whitespace();
+	void _eat_whitespace_and_line_comments();
 
 	GEN_SETTER_BY_VAL(type)
 	GEN_SETTER_BY_VAL(str)
@@ -206,6 +214,14 @@ protected:		// functions
 	inline auto next_char()
 	{
 		return _tok->_next_char();
+	}
+	inline auto has_next_char()
+	{
+		return _tok->_has_next_char();
+	}
+	inline auto go_to_next_char()
+	{
+		return _tok->_go_to_next_char();
 	}
 	
 	GEN_SETTER_BY_VAL(tok)

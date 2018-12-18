@@ -3,11 +3,34 @@
 namespace cake_plus_plus
 {
 
-void Token::_eat_whitespace()
+void Token::_eat_whitespace_and_line_comments()
 {
-	while (_has_curr_char() && isspace(_curr_char()))
+	bool done = false;
+	while (!done)
 	{
-		_next_char();
+		done = true;
+		while (_has_curr_char() && isspace(_curr_char()))
+		{
+			done = false;
+			_go_to_next_char();
+		}
+
+		if (_has_curr_char() && _has_next_char()
+			&& (_curr_char() == '/') && (_next_char() == '/'))
+		{
+			done = false;
+			_go_to_next_char();
+
+			while (_has_curr_char() && (_curr_char() != '\n'))
+			{
+				_go_to_next_char();
+			}
+
+			if (!_has_curr_char())
+			{
+				done = true;
+			}
+		}
 	}
 }
 
@@ -19,7 +42,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 	tok._init(input_chunk);
 
 	// Om nom nom
-	tok._eat_whitespace();
+	tok._eat_whitespace_and_line_comments();
 
 	if (!tok._has_curr_char())
 	{
@@ -42,7 +65,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 	{
 		if (curr_char() == c)
 		{
-			next_char();
+			go_to_next_char();
 			tok.set_type(tok_type);
 			update_input_chunk_pos();
 			return true;
@@ -55,11 +78,11 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 	{
 		if (curr_char() == c_one)
 		{
-			next_char();
+			go_to_next_char();
 
 			if (has_curr_char() && (curr_char() == c_two))
 			{
-				next_char();
+				go_to_next_char();
 				tok.set_type(tok_type_two);
 			}
 			else
@@ -78,6 +101,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 		if (temp_str == s)
 		{
 			tok.set_type(tok_type);
+			update_input_chunk_pos();
 			return true;
 		}
 		return false;
@@ -88,7 +112,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 	// Constant strings
 	if (curr_char() == '\"')
 	{
-		next_char();
+		go_to_next_char();
 
 		char c = '\0';
 
@@ -96,11 +120,11 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 
 		while (has_curr_char() && (!bad))
 		{
-			c = next_char();
+			c = go_to_next_char();
 
 			if (c == '\\')
 			{
-				c = next_char();
+				c = go_to_next_char();
 
 				switch (c)
 				{
@@ -157,7 +181,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 		|| in_range_inclusive(curr_char(), 'a', 'z')
 		|| (curr_char() == '_'))
 	{
-		temp_str += next_char();
+		temp_str += go_to_next_char();
 
 		while (has_curr_char()
 			&& (in_range_inclusive(curr_char(), 'A', 'Z')
@@ -165,29 +189,19 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 			|| in_range_inclusive(curr_char(), '0', '9')
 			|| (curr_char() == '_')))
 		{
-			temp_str += next_char();
+			temp_str += go_to_next_char();
 		}
 
-		if (keyword_lex("auto", TokType::MiscAuto)
-			|| keyword_lex("func", TokType::MiscFunc)
-			|| keyword_lex("u8", TokType::BuiltinTypeU8)
-			|| keyword_lex("s8", TokType::BuiltinTypeS8)
-			|| keyword_lex("u16", TokType::BuiltinTypeU16)
-			|| keyword_lex("s16", TokType::BuiltinTypeS16)
-			|| keyword_lex("u32", TokType::BuiltinTypeU32)
-			|| keyword_lex("s32", TokType::BuiltinTypeS32)
-			|| keyword_lex("u64", TokType::BuiltinTypeU64)
-			|| keyword_lex("s64", TokType::BuiltinTypeS64))
+
+		if (keyword_lex("auto", TokType::MiscAuto))
 		{
+			return;
 		}
 
 		// No keywords found... this is an identifier of some variety.
 		// Could be a custom type, could be a variable name....  At this
 		// stage, we don't know.
-		else
-		{
-			tok.set_type(TokType::MiscIdent);
-		}
+		tok.set_type(TokType::MiscIdent);
 
 		tok.set_str(unique_dup(temp_str));
 		update_input_chunk_pos();
@@ -197,12 +211,12 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 	// Handle decimal numbers
 	if (in_range_inclusive(curr_char(), '1', '9'))
 	{
-		temp_str += next_char();
+		temp_str += go_to_next_char();
 
 		while (has_curr_char()
 			&& in_range_inclusive(curr_char(), '0', '9'))
 		{
-			temp_str += next_char();
+			temp_str += go_to_next_char();
 		}
 
 		tok.set_num(0);
@@ -219,7 +233,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 	// Handle 0, hexadecimal, and binary numbers
 	if (curr_char() == '0')
 	{
-		next_char();
+		go_to_next_char();
 
 		tok.set_num(0);
 		tok.set_type(TokType::MiscIntNum);
@@ -232,7 +246,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 
 		if (curr_char() == 'x')
 		{
-			next_char();
+			go_to_next_char();
 
 			bool found = false;
 
@@ -242,7 +256,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 				|| in_range_inclusive(curr_char(), 'A', 'F')))
 			{
 				found = true;
-				temp_str += next_char();
+				temp_str += go_to_next_char();
 			}
 
 			if (!found)
@@ -272,7 +286,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 		}
 		else if (curr_char() == 'b')
 		{
-			next_char();
+			go_to_next_char();
 
 			bool found = false;
 
@@ -280,7 +294,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 				&& in_range(curr_char(), '0', '1'))
 			{
 				found = true;
-				temp_str += next_char();
+				temp_str += go_to_next_char();
 			}
 
 			if (!found)
@@ -323,6 +337,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 		|| one_or_two_lex('-', '=', TokType::OpMinus,
 			TokType::AssignMinus)
 		|| one_or_two_lex('*', '=', TokType::OpMul, TokType::AssignMul)
+		|| one_or_two_lex('/', '=', TokType::OpDiv, TokType::AssignDiv)
 		|| one_or_two_lex('%', '=', TokType::OpModulo,
 			TokType::AssignModulo)
 		|| one_or_two_lex('!', '=', TokType::OpLogNot, TokType::CmpNe)
@@ -334,41 +349,41 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 		return;
 	}
 
-	if (curr_char() == '/')
-	{
-		next_char();
-		if (has_curr_char() && (curr_char() == '/'))
-		{
-			next_char();
-			tok.set_type(TokType::PunctLineComment);
-		}
-		else if (has_curr_char() && (curr_char() == '='))
-		{
-			next_char();
-			tok.set_type(TokType::AssignDiv);
-		}
-		else
-		{
-			tok.set_type(TokType::OpDiv);
-		}
+	//if (curr_char() == '/')
+	//{
+	//	go_to_next_char();
+	//	if (has_curr_char() && (curr_char() == '/'))
+	//	{
+	//		go_to_next_char();
+	//		tok.set_type(TokType::PunctLineComment);
+	//	}
+	//	else if (has_curr_char() && (curr_char() == '='))
+	//	{
+	//		go_to_next_char();
+	//		tok.set_type(TokType::AssignDiv);
+	//	}
+	//	else
+	//	{
+	//		tok.set_type(TokType::OpDiv);
+	//	}
 
-		update_input_chunk_pos();
-		return;
-	}
+	//	update_input_chunk_pos();
+	//	return;
+	//}
 
 
 	if (curr_char() == '<')
 	{
-		next_char();
+		go_to_next_char();
 
 		// "<<" or "<<="
 		if (has_curr_char() && (curr_char() == '<'))
 		{
-			next_char();
+			go_to_next_char();
 
 			if (has_curr_char() && (curr_char() == '='))
 			{
-				next_char();
+				go_to_next_char();
 				tok.set_type(TokType::AssignBitLsl);
 			}
 			else
@@ -379,7 +394,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 		// "<="
 		else if (has_curr_char() && (curr_char() == '='))
 		{
-			next_char();
+			go_to_next_char();
 			tok.set_type(TokType::CmpLe);
 		}
 		// "<"
@@ -394,22 +409,22 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 
 	if (curr_char() == '>')
 	{
-		next_char();
+		go_to_next_char();
 
 		// ">>", ">>>", ">>=", or ">>>="
 		if (has_curr_char() && (curr_char() == '>'))
 		{
-			next_char();
+			go_to_next_char();
 
 			// ">>>" or ">>>="
 			if (has_curr_char() && (curr_char() == '>'))
 			{
-				next_char();
+				go_to_next_char();
 
 				// ">>>="
 				if (has_curr_char() && (curr_char() == '='))
 				{
-					next_char();
+					go_to_next_char();
 					tok.set_type(TokType::AssignBitAsr);
 				}
 				// ">>>"
@@ -421,7 +436,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 			// ">>="
 			else if (has_curr_char() && (curr_char() == '='))
 			{
-				next_char();
+				go_to_next_char();
 				tok.set_type(TokType::AssignBitLsr);
 			}
 			// ">>"
@@ -433,7 +448,7 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 		// ">="
 		else if (has_curr_char() && (curr_char() == '='))
 		{
-			next_char();
+			go_to_next_char();
 			tok.set_type(TokType::CmpGe);
 		}
 		// ">"
@@ -448,19 +463,19 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 
 	if (curr_char() == '&')
 	{
-		next_char();
+		go_to_next_char();
 
 		// "&&"
 		if (has_curr_char() && (curr_char() == '&'))
 		{
-			next_char();
+			go_to_next_char();
 			tok.set_type(TokType::OpLogAnd);
 		}
 
 		// "&="
 		else if (has_curr_char() == (curr_char() == '='))
 		{
-			next_char();
+			go_to_next_char();
 			tok.set_type(TokType::AssignBitAnd);
 		}
 
@@ -476,19 +491,19 @@ void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
 
 	if (curr_char() == '|')
 	{
-		next_char();
+		go_to_next_char();
 
 		// "||"
 		if (has_curr_char() || (curr_char() == '|'))
 		{
-			next_char();
+			go_to_next_char();
 			tok.set_type(TokType::OpLogOr);
 		}
 
 		// "|="
 		else if (has_curr_char() == (curr_char() == '='))
 		{
-			next_char();
+			go_to_next_char();
 			tok.set_type(TokType::AssignBitOr);
 		}
 

@@ -82,7 +82,16 @@ public:		// functions
 	{
 		return (pos() < source_file_contents()->size());
 	}
-	inline auto next_char()
+	inline auto next_char() const
+	{
+		return source_file_contents()->at(pos() + 1);
+	}
+	inline bool has_next_char() const
+	{
+		return ((pos() + 1) < source_file_contents()->size());
+	}
+
+	inline auto go_to_next_char()
 	{
 		const auto ret = curr_char();
 		++_pos;
