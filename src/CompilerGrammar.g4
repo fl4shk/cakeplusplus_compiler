@@ -12,9 +12,7 @@ listFunctions:
 function:
 	MiscIdent MiscIdent
 	PunctLParen listFunctionArgs PunctRParen
-	PunctLBrace
-		listStatements
-	PunctRBrace
+	scopedStatements
 	;
 
 listFunctionArgs:
@@ -137,7 +135,7 @@ numExpr:
 	;
 
 identExpr:
-	MiscIdent ((PunctLBrace expr PunctRBrace)*)
+	MiscIdent ((PunctLBracket expr PunctRBracket)*)
 	;
 
 
