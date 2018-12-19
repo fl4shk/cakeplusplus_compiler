@@ -39,9 +39,9 @@ void Token::_eat_whitespace_and_line_comments()
 }
 
 
-void Lexer::operator () (Token& tok, SourceFileChunk& input_chunk)
+void Lexer::run(Token& tok, SourceFileChunk& input_chunk)
 {
-	set_tok(&tok);
+	set_curr_tok(&tok);
 
 	tok._init(input_chunk);
 

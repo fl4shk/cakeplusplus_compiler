@@ -198,36 +198,44 @@ protected:		// functions
 class Lexer
 {
 protected:		// variables
-	Token* _tok = nullptr;
+	Token* _curr_tok = nullptr;
 
 
 public:		// functions
+	inline Lexer()
+	{
+	}
+	virtual inline ~Lexer()
+	{
+	}
+
 	// Run the lexer, returning an output token (passed in by reference)
-	void operator () (Token& tok, SourceFileChunk& input_chunk);
+	void run(Token& tok, SourceFileChunk& input_chunk);
+
 
 protected:		// functions
 	inline auto curr_char()
 	{
-		return _tok->_curr_char();
+		return _curr_tok->_curr_char();
 	}
 	inline auto has_curr_char()
 	{
-		return _tok->_has_curr_char();
+		return _curr_tok->_has_curr_char();
 	}
 	inline auto next_char()
 	{
-		return _tok->_next_char();
+		return _curr_tok->_next_char();
 	}
 	inline auto has_next_char()
 	{
-		return _tok->_has_next_char();
+		return _curr_tok->_has_next_char();
 	}
 	inline auto go_to_next_char()
 	{
-		return _tok->_go_to_next_char();
+		return _curr_tok->_go_to_next_char();
 	}
 	
-	GEN_SETTER_BY_VAL(tok)
+	GEN_SETTER_BY_VAL(curr_tok)
 
 };
 
