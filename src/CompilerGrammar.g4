@@ -15,20 +15,20 @@ function:
 	scopedStatements
 	;
 
+// Function args
 listFunctionArgs:
 	(functionArg ((PunctComma functionArg)*))?
 	;
-
-listStatements:
-	statement*
-	;
-
 
 functionArg:
 	MiscIdent MiscIdent ((PunctLBracket PunctRBracket)*)
 	;
 
 
+// Statements
+listStatements:
+	statement*
+	;
 statement:
 	(stmtDeclVars PunctSemicolon)
 	| (exprCall PunctSemicolon)

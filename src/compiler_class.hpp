@@ -4,7 +4,7 @@
 // src/compiler_class.hpp
 
 #include "misc_includes.hpp"
-#include "ANTLRErrorListener.hpp"
+#include "ANTLRErrorListener.h"
 #include "gen_src/CompilerGrammarLexer.h"
 #include "gen_src/CompilerGrammarParser.h"
 #include "gen_src/CompilerGrammarVisitor.h"
@@ -17,8 +17,17 @@ class Compiler : public CompilerGrammarVisitor
 public:		// typedefs
 	typedef antlr4::ParserRuleContext ParserRuleContext;
 
-protected:		// error/warning functions
-	inline void err(ParserRuleContext* ctx, const std::string& msg)
+private:		// variables
+	CompilerGrammarParser::ProgramContext* _program_ctx;
+
+
+public:		// functions
+	Compiler(CompilerGrammarParser& parser);
+
+	int run();
+
+private:		// error/warning functions
+	inline void _err(ParserRuleContext* ctx, const std::string& msg)
 	{
 		if (ctx == nullptr)
 		{
@@ -36,17 +45,15 @@ protected:		// error/warning functions
 		}
 		exit(1);
 	}
-	inline void err(const std::string& msg)
+	inline void _err(const std::string& msg)
 	{
 		//printerr("Error in file \"", *__file_name, "\":  ", msg, "\n");
 		printerr("Error:  ", msg, "\n");
 		exit(1);
 	}
-	//u32 convert_hex_string(ParserRuleContext* ctx, const std::string& str,
-	//	u32& num_good_chars) const;
 
 
-	inline void warn(ParserRuleContext* ctx, const std::string& msg)
+	inline void _warn(ParserRuleContext* ctx, const std::string& msg)
 	{
 		if (ctx == nullptr)
 		{
@@ -63,10 +70,74 @@ protected:		// error/warning functions
 				":  ", msg, "\n");
 		}
 	}
-	inline void warn(const std::string& msg)
+	inline void _warn(const std::string& msg)
 	{
 		printerr("Warning:  ", msg, "\n");
 	}
+
+private:		// visitor functions
+	antlrcpp::Any visitProgram
+		(CompilerGrammarParser::ProgramContext *ctx);
+	antlrcpp::Any visitListFunctions
+		(CompilerGrammarParser::ListFunctionsContext *ctx);
+	antlrcpp::Any visitFunction
+		(CompilerGrammarParser::FunctionContext *ctx);
+
+
+	// Function args
+	antlrcpp::Any visitListFunctionArgs
+		(CompilerGrammarParser::ListFunctionArgsContext *ctx);
+	antlrcpp::Any visitFunctionArg
+		(CompilerGrammarParser::FunctionArgContext *ctx);
+
+	// Statements
+	antlrcpp::Any visitListStatements
+		(CompilerGrammarParser::ListStatementsContext *ctx);
+	antlrcpp::Any visitStatement
+		(CompilerGrammarParser::StatementContext *ctx);
+	antlrcpp::Any visitScopedStatements
+		(CompilerGrammarParser::ScopedStatementsContext *ctx);
+	antlrcpp::Any visitStmtDeclVars
+		(CompilerGrammarParser::StmtDeclVarsContext *ctx);
+	antlrcpp::Any visitStmtAssign
+		(CompilerGrammarParser::StmtAssignContext *ctx);
+	antlrcpp::Any visitStmtIf
+		(CompilerGrammarParser::StmtIfContext *ctx);
+	antlrcpp::Any visitStmtElse
+		(CompilerGrammarParser::StmtElseContext *ctx);
+	antlrcpp::Any visitStmtWhile
+		(CompilerGrammarParser::StmtWhileContext *ctx);
+
+	// Expressions
+	antlrcpp::Any visitExpr
+		(CompilerGrammarParser::ExprContext *ctx);
+	antlrcpp::Any visitExprLogical
+		(CompilerGrammarParser::ExprLogicalContext *ctx);
+	antlrcpp::Any visitExprCompare
+		(CompilerGrammarParser::ExprCompareContext *ctx);
+	antlrcpp::Any visitExprAddSub
+		(CompilerGrammarParser::ExprAddSubContext *ctx);
+	antlrcpp::Any visitExprMulDivModEtc
+		(CompilerGrammarParser::ExprMulDivModEtcContext *ctx);
+	antlrcpp::Any visitExprUnary
+		(CompilerGrammarParser::ExprUnaryContext *ctx);
+	antlrcpp::Any visitExprCall
+		(CompilerGrammarParser::ExprCallContext *ctx);
+	antlrcpp::Any visitExprBitNot
+		(CompilerGrammarParser::ExprBitNotContext *ctx);
+	antlrcpp::Any visitExprLogNot
+		(CompilerGrammarParser::ExprLogNotContext *ctx);
+	antlrcpp::Any visitExprNegate
+		(CompilerGrammarParser::ExprNegateContext *ctx);
+	antlrcpp::Any visitListExpr
+		(CompilerGrammarParser::ListExprContext *ctx);
+	antlrcpp::Any visitNumExpr
+		(CompilerGrammarParser::NumExprContext *ctx);
+	antlrcpp::Any visitIdentExpr
+		(CompilerGrammarParser::IdentExprContext *ctx);
+
+private:		// functions
+
 };
 
 
