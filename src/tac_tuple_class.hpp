@@ -17,7 +17,7 @@ class TacTuple
 {
 public:		// constants
 
-	static inline const std::vector<ConstStrPtr> TUP_TYPES_VEC
+	static inline const std::vector<PtrConstStr> TUP_TYPES_VEC
 	= {
 		unique_dup("Const"),
 		unique_dup("Unop"),
@@ -30,7 +30,7 @@ public:		// constants
 		unique_dup("Label"),
 	};
 
-	static inline const std::vector<ConstStrPtr> UNOPS_VEC
+	static inline const std::vector<PtrConstStr> UNOPS_VEC
 	= {
 		// Logical
 		unique_dup("LogNot"),
@@ -40,7 +40,7 @@ public:		// constants
 	};
 
 
-	static inline const std::vector<ConstStrPtr> BINOPS_VEC
+	static inline const std::vector<PtrConstStr> BINOPS_VEC
 	= {
 		// Arithmetic
 		unique_dup("Add"),
@@ -78,10 +78,10 @@ public:		// constants
 
 private:		// variables
 
-	ConstStrPtr _tup_type;
+	PtrConstStr _tup_type;
 	//ExprType _expr_type;
-	ConstStrPtr _unop;
-	ConstStrPtr _binop;
+	PtrConstStr _unop;
+	PtrConstStr _binop;
 	size_t _num_args;
 
 

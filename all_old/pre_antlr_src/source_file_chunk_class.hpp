@@ -53,13 +53,13 @@ class SourceFileChunk
 	friend class Token;
 
 protected:		// variables
-	//ConstStrPtr _file_name = nullptr;
-	ConstStrPtr _source_file_contents = nullptr;
+	//PtrConstStr _file_name = nullptr;
+	PtrConstStr _source_file_contents = nullptr;
 	size_t _pos = 0;
 
 public:		// functions
 
-	inline SourceFileChunk(ConstStrPtr s_source_file_contents=nullptr,
+	inline SourceFileChunk(PtrConstStr s_source_file_contents=nullptr,
 		size_t s_pos=0)
 		: _source_file_contents(s_source_file_contents), _pos(s_pos)
 	{

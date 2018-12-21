@@ -122,7 +122,7 @@ class Token
 private:		// variables
 	TokType _type = TokType::InvalidNone;
 
-	ConstStrPtr _str = nullptr;
+	PtrConstStr _str = nullptr;
 	u64 _num = 0;
 
 

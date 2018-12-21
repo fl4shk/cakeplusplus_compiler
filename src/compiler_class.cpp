@@ -1,5 +1,4 @@
 #include "compiler_class.hpp"
-#include "alloc_stuff.hpp"
 
 #include <sstream>
 
@@ -17,13 +16,20 @@
 #define ANY_PUSH_TOK_IF(arg) \
 	if (arg) \
 	{ \
-		push_str(unique_dup(arg->toString())); \
+		_push_str(unique_dup(arg->toString())); \
 	}
 
 
 
 namespace cake_plus_plus
 {
+Compiler::ParsePass operator + (Compiler::ParsePass some_parse_pass,
+	size_t amount)
+{
+	size_t temp = static_cast<size_t>(some_parse_pass);
+	temp += amount;
+	return static_cast<Compiler::ParsePass>(temp);
+}
 
 Compiler::Compiler(CompilerGrammarParser& parser)
 {
@@ -32,17 +38,31 @@ Compiler::Compiler(CompilerGrammarParser& parser)
 
 int Compiler::run()
 {
+	for (_parse_pass=static_cast<ParsePass>(0);
+		_parse_pass<ParsePass::Lim;
+		_parse_pass=_parse_pass+1)
+	{
+	}
 	return 0;
 }
 
 antlrcpp::Any Compiler::visitProgram
 	(CompilerGrammarParser::ProgramContext *ctx)
 {
+	ctx->listFunctions()->accept(this);
+
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitListFunctions
 	(CompilerGrammarParser::ListFunctionsContext *ctx)
 {
+	auto&& function = ctx->function();
+
+	for (auto func : function)
+	{
+		func->accept(this);
+	}
+
 	return nullptr;
 }
 antlrcpp::Any Compiler::visitFunction

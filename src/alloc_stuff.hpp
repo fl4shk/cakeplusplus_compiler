@@ -9,9 +9,9 @@ namespace cake_plus_plus
 {
 // typedefs are used here to help ensure consistency... and to avoid the
 // compiler spitting out an error if the "const" is ever forgotten.
-typedef const std::string* ConstStrPtr;
+typedef const std::string* PtrConstStr;
 
-ConstStrPtr unique_dup(const std::string& to_dup);
+PtrConstStr unique_dup(const std::string& to_dup);
 
 } // end namespace cake_plus_plus
 

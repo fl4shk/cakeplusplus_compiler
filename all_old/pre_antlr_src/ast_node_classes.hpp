@@ -45,7 +45,7 @@ public:		// functions
 class AstNodeFunction : public AstNodeBase
 {
 public:		// variables
-	ConstStrPtr type = nullptr, ident = nullptr;
+	PtrConstStr type = nullptr, ident = nullptr;
 	AstNodeBase* list_function_args = nullptr;
 	AstNodeBase* list_statements = nullptr;
 
